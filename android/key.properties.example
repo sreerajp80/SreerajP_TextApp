@@ -1,0 +1,17 @@
+# Release signing template — COPY this file to `android/key.properties` and fill
+# in your real values. The real key.properties and the .jks keystore are SECRETS
+# and are gitignored (android/.gitignore). NEVER commit them.
+#
+# See docs/release-signing.md for how to generate the keystore.
+
+# Path to the keystore, relative to the android/ folder (or an absolute path).
+storeFile=upload-keystore.jks
+
+# Password for the keystore file.
+storePassword=CHANGE_ME
+
+# The key alias inside the keystore (must match the -alias used with keytool).
+keyAlias=upload
+
+# Password for that key (often the same as storePassword).
+keyPassword=CHANGE_ME

@@ -1,0 +1,128 @@
+name: text_data
+description: "TextData — open, read, edit, and update TXT, Markdown, JSON, CSV, and XML files, with offline LAN peer-to-peer sync."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.5.0+6
+
+environment:
+  sdk: ^3.11.5
+  flutter: ">=3.41.9"
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+  # Phase 13 — localization (Flutter's own gen-l10n; no third-party package).
+  flutter_localizations:
+    sdk: flutter
+  intl: any # version pinned by flutter_localizations.
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  flutter_riverpod: ^3.3.2
+  flutter_secure_storage: ^10.3.1
+  shared_preferences: ^2.5.5
+  sqflite: ^2.4.2+1
+  crypto: ^3.0.7
+  package_info_plus: ^10.2.0
+  system_info2: ^4.1.0
+  path_provider: ^2.1.5
+  re_editor: ^0.10.0
+  url_launcher: ^6.3.2
+  markdown: ^7.3.0
+  flutter_math_fork: ^0.7.4
+  share_plus: ^13.2.0
+  archive: ^4.0.2
+  pdf: ^3.11.1
+  printing: ^5.13.4
+  flutter_tts: ^4.2.0
+  csv: ^8.0.0
+  two_dimensional_scrollables: ^0.5.3
+  fl_chart: ^1.2.0
+  xml: ^6.5.0
+  # Phase 12 — P2P LAN sync (all open source: CLAUDE.md §3.1).
+  qr_flutter: ^4.1.0 # BSD-3 — render the pairing QR on the host.
+  mobile_scanner: ^7.2.0 # BSD-3 — scan the pairing QR on the client.
+  encrypt: ^5.0.3 # BSD-3 — AES-256-GCM wire sealing.
+  pointycastle: ^3.9.1 # MIT — PBKDF2-HMAC-SHA256 key derivation (aligned with encrypt).
+  # Phase 13 — app-lock biometric unlock (open source: CLAUDE.md §3.1).
+  local_auth: ^2.3.0 # BSD-3 — fingerprint / face unlock (PIN stays the fallback).
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^6.0.0
+  sqflite_common_ffi: ^2.4.0+3
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # Phase 13 — generate the localization delegate (AppLocalizations) from the
+  # .arb files in lib/l10n (see l10n.yaml).
+  generate: true
+
+  # App config (About screen values) — loaded via rootBundle in Phase 1.
+  assets:
+    - assets/config/
+
+  # Bundled open-source fonts (all OFL / OFL+GPL — CLAUDE.md §3.1). English:
+  # Inter, Lora, JetBrains Mono. Malayalam: Manjari, Rachana, Noto Sans Malayalam.
+  # The *-Variable.ttf files carry a weight axis, so one file covers all weights.
+  # Licences and sources are documented in fonts/README.md and fonts/licenses/.
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: fonts/Inter-Variable.ttf
+    - family: Lora
+      fonts:
+        - asset: fonts/Lora-Variable.ttf
+    - family: JetBrains Mono
+      fonts:
+        - asset: fonts/JetBrainsMono-Variable.ttf
+    - family: Manjari
+      fonts:
+        - asset: fonts/Manjari-Regular.ttf
+        - asset: fonts/Manjari-Bold.ttf
+          weight: 700
+    - family: Rachana
+      fonts:
+        - asset: fonts/Rachana-Regular.ttf
+        - asset: fonts/Rachana-Bold.ttf
+          weight: 700
+    - family: Noto Sans Malayalam
+      fonts:
+        - asset: fonts/NotoSansMalayalam-Variable.ttf
