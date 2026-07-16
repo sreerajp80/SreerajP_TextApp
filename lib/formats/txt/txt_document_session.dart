@@ -105,6 +105,7 @@ class TxtDocumentSession extends ChangeNotifier {
   DraftStore? _draftStore;
   AutoSaver? _autoSaver;
   bool _disposed = false;
+  bool _positionRestored = false;
 
   TxtLoadStatus get status => _status;
   String? get errorMessage => _errorMessage;
@@ -190,7 +191,6 @@ class TxtDocumentSession extends ChangeNotifier {
     _draftStore = await _draftStoreFuture;
     _draftAvailable = await _draftStore!.hasDraft(tab.fingerprint);
 
-    _restorePosition();
     _startAutoSave();
 
     if (_disposed) return;
@@ -375,7 +375,14 @@ class TxtDocumentSession extends ChangeNotifier {
 
   // --- position persistence ------------------------------------------------
 
-  void _restorePosition() {
+  /// Scrolls the editor to the remembered reading position, once. The editor
+  /// surface calls this after its first frame: the `re_editor` render object
+  /// must be attached for the scroll to take effect, which is not yet the case
+  /// during [load]. Safe to call again; only the first call moves the view.
+  void restorePositionIntoView() {
+    if (_positionRestored) return;
+    _positionRestored = true;
+    if (_code == null) return;
     final saved = _store.getInt(_positionKey);
     if (saved != null && saved > 0) {
       jumpToLine(saved);

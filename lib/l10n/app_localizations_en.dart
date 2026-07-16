@@ -90,6 +90,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionSaveAsCopy => 'Save as a copy';
 
   @override
+  String get actionSaveAs => 'Save as…';
+
+  @override
   String get actionRestore => 'Restore';
 
   @override

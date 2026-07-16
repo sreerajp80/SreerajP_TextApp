@@ -7,10 +7,29 @@ import '../../l10n/app_localizations.dart';
 import '../txt/txt_encoding_labels.dart';
 import 'json_document_session.dart';
 
+/// Runs a plain Save: overwrite the file, preserving its indentation, encoding +
+/// line ending, and report the outcome with a snackbar. A read-only file falls
+/// back to "Save as a copy". This is what the toolbar Save button uses, so an
+/// ordinary save does not ask any questions; the indentation/encoding/line-ending
+/// options and reformat live under the "Save as…" menu.
+Future<void> saveJsonDirect(
+  BuildContext context,
+  JsonDocumentSession session,
+) async {
+  final messenger = ScaffoldMessenger.of(context);
+  final l10n = AppLocalizations.of(context);
+  if (!await confirmOverwriteIfNeeded(context)) return;
+  var result = await session.save();
+  if (result.outcome == SaveOutcome.readOnlyNeedsCopy) {
+    result = await session.saveAsCopy();
+  }
+  _reportSaveResult(messenger, l10n, result);
+}
+
 /// Runs Save or Save-as-a-copy with a chance to pick the indentation, output
-/// encoding, and line ending first (task 8.5). Defaults preserve what the file
-/// was opened as. The pre-save gate blocks a broken overwrite; a read-only file
-/// is offered "Save as a copy".
+/// encoding, and line ending first (task 8.5). Reached from the "Save as…" menu.
+/// Defaults preserve what the file was opened as. The pre-save gate blocks a
+/// broken overwrite; a read-only file is offered "Save as a copy".
 Future<void> showJsonSaveOptionsSheet(
   BuildContext context,
   JsonDocumentSession session,
@@ -42,6 +61,16 @@ Future<void> showJsonSaveOptionsSheet(
       break;
   }
 
+  _reportSaveResult(messenger, l10n, result);
+}
+
+/// Shows the right snackbar for a [SaveResult] (shared by the direct save and
+/// the options sheet so the messages stay identical).
+void _reportSaveResult(
+  ScaffoldMessengerState messenger,
+  AppLocalizations l10n,
+  SaveResult result,
+) {
   final message = switch (result.outcome) {
     SaveOutcome.saved => l10n.saveDone,
     SaveOutcome.savedAsCopy =>

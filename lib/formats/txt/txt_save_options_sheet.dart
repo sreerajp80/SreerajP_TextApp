@@ -7,8 +7,29 @@ import '../../l10n/app_localizations.dart';
 import 'txt_document_session.dart';
 import 'txt_encoding_labels.dart';
 
+/// Runs a plain Save: overwrite the file, preserving its encoding + line ending
+/// (arch §6, CLAUDE.md §3.5), and report the outcome with a snackbar. A
+/// read-only file that cannot be overwritten falls back to "Save as a copy".
+///
+/// This is what the toolbar Save button uses, so an ordinary save does not ask
+/// any questions. To change the encoding or line ending, or to save a copy, the
+/// user opens [showSaveOptionsSheet] via the "Save as…" menu.
+Future<void> saveTxtDirect(
+  BuildContext context,
+  TxtDocumentSession session,
+) async {
+  final messenger = ScaffoldMessenger.of(context);
+  final l10n = AppLocalizations.of(context);
+  if (!await confirmOverwriteIfNeeded(context)) return;
+  var result = await session.save();
+  if (result.outcome == SaveOutcome.readOnlyNeedsCopy) {
+    result = await session.saveAsCopy();
+  }
+  _reportSaveResult(messenger, l10n, result);
+}
+
 /// Runs Save or Save-as-a-copy with a chance to pick the output encoding and
-/// line ending first (task 4.2).
+/// line ending first (task 4.2). Reached from the "Save as…" menu.
 ///
 /// Defaults preserve what the file was opened as (arch §6). The result is
 /// reported with a snackbar; a read-only file that cannot be overwritten is
@@ -42,6 +63,16 @@ Future<void> showSaveOptionsSheet(
       break;
   }
 
+  _reportSaveResult(messenger, l10n, result);
+}
+
+/// Shows the right snackbar for a [SaveResult] (shared by the direct save and
+/// the options sheet so the messages stay identical).
+void _reportSaveResult(
+  ScaffoldMessengerState messenger,
+  AppLocalizations l10n,
+  SaveResult result,
+) {
   final message = switch (result.outcome) {
     SaveOutcome.saved => l10n.saveDone,
     SaveOutcome.savedAsCopy =>

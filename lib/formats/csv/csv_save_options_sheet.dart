@@ -8,9 +8,29 @@ import '../txt/txt_encoding_labels.dart';
 import 'csv_dialect.dart';
 import 'csv_document_session.dart';
 
+/// Runs a plain Save: overwrite the file, preserving its delimiter, encoding +
+/// line ending, and report the outcome with a snackbar. A read-only file falls
+/// back to "Save as a copy". This is what the toolbar Save button uses, so an
+/// ordinary save does not ask any questions; the delimiter/encoding/line-ending
+/// options live under the "Save as…" menu.
+Future<void> saveCsvDirect(
+  BuildContext context,
+  CsvDocumentSession session,
+) async {
+  final messenger = ScaffoldMessenger.of(context);
+  final l10n = AppLocalizations.of(context);
+  if (!await confirmOverwriteIfNeeded(context)) return;
+  var result = await session.save();
+  if (result.outcome == SaveOutcome.readOnlyNeedsCopy) {
+    result = await session.saveAsCopy();
+  }
+  _reportSaveResult(messenger, l10n, result);
+}
+
 /// Runs Save or Save-as-a-copy with a chance to pick the delimiter, encoding,
-/// and line ending first (task 7.5). Defaults preserve what the file was opened
-/// as. A read-only file that cannot be overwritten is offered "Save as a copy".
+/// and line ending first (task 7.5). Reached from the "Save as…" menu. Defaults
+/// preserve what the file was opened as. A read-only file that cannot be
+/// overwritten is offered "Save as a copy".
 Future<void> showCsvSaveOptionsSheet(
   BuildContext context,
   CsvDocumentSession session,
@@ -40,6 +60,16 @@ Future<void> showCsvSaveOptionsSheet(
       break;
   }
 
+  _reportSaveResult(messenger, l10n, result);
+}
+
+/// Shows the right snackbar for a [SaveResult] (shared by the direct save and
+/// the options sheet so the messages stay identical).
+void _reportSaveResult(
+  ScaffoldMessengerState messenger,
+  AppLocalizations l10n,
+  SaveResult result,
+) {
   final message = switch (result.outcome) {
     SaveOutcome.saved => l10n.saveDone,
     SaveOutcome.savedAsCopy =>

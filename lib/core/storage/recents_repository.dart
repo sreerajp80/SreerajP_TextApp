@@ -52,6 +52,18 @@ class RecentsRepository {
     await _db.delete('recents', where: 'fingerprint = ?', whereArgs: [fingerprint]);
   }
 
+  /// Removes any rows that point at the same [uri] but carry a different
+  /// fingerprint. Used when re-opening a file whose content changed (its
+  /// fingerprint changed) so the Recent list keeps one entry per file location
+  /// instead of a new row for every edit.
+  Future<void> removeOtherUris(String uri, String keepFingerprint) async {
+    await _db.delete(
+      'recents',
+      where: 'uri = ? AND fingerprint != ?',
+      whereArgs: [uri, keepFingerprint],
+    );
+  }
+
   Future<void> clear() async {
     await _db.delete('recents');
   }

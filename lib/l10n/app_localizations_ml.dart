@@ -90,6 +90,9 @@ class AppLocalizationsMl extends AppLocalizations {
   String get actionSaveAsCopy => 'ഒരു പകർപ്പായി സംരക്ഷിക്കുക';
 
   @override
+  String get actionSaveAs => 'ഇങ്ങനെ സംരക്ഷിക്കുക…';
+
+  @override
   String get actionRestore => 'പുനഃസ്ഥാപിക്കുക';
 
   @override

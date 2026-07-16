@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.5.0+6
+version: 1.6.2+9
 
 environment:
   sdk: ^3.11.5
@@ -79,6 +79,14 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   sqflite_common_ffi: ^2.4.0+3
+
+# Use a locally vendored, one-line-patched copy of re_editor. The patch sets
+# enableSuggestions: false so the Android keyboard does not duplicate a line on
+# the first Enter after a document is opened for editing (flutter/flutter#31512).
+# See third_party/re_editor/PATCH_NOTES.md.
+dependency_overrides:
+  re_editor:
+    path: third_party/re_editor
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

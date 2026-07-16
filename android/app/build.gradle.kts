@@ -45,6 +45,19 @@ android {
         versionName = flutter.versionName
     }
 
+    flavorDimensions += "environment"
+    productFlavors {
+        create("prod") {
+            dimension = "environment"
+            // Keep the published production application ID from defaultConfig.
+        }
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+        }
+    }
+
     signingConfigs {
         // Only define the release signing config when the secret properties file
         // is present. `storeFile` is resolved relative to the android/ folder.

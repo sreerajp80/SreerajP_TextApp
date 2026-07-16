@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:re_editor/re_editor.dart';
 
+import '../../core/editor/editor_selection_toolbar.dart';
 import '../../core/theme/app_fonts.dart';
 import '../../core/theme/theme_controller.dart';
 import 'md_document_session.dart';
@@ -15,7 +16,7 @@ import 'md_find_panel.dart';
 /// The same widget serves both modes; [readOnly] decides whether typing is
 /// allowed. Its controllers live on the [MdDocumentSession], so editor state
 /// survives switching tabs.
-class MdEditorSurface extends ConsumerWidget {
+class MdEditorSurface extends ConsumerStatefulWidget {
   final MdDocumentSession session;
   final bool readOnly;
 
@@ -25,10 +26,48 @@ class MdEditorSurface extends ConsumerWidget {
     required this.readOnly,
   });
 
+  @override
+  ConsumerState<MdEditorSurface> createState() => _MdEditorSurfaceState();
+}
+
+class _MdEditorSurfaceState extends ConsumerState<MdEditorSurface>
+    with WidgetsBindingObserver {
   static const double _baseFontSize = 15;
 
+  late final SelectionToolbarController _toolbar =
+      createEditorSelectionToolbar(() => widget.readOnly);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // Restore the saved reading position only after the editor has laid out, so
+    // its render object exists and the scroll actually takes effect.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) widget.session.restorePositionIntoView();
+    });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Save the position when the app leaves the foreground, so a later kill by
+    // the OS does not lose it (dispose alone would not run in that case).
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden) {
+      widget.session.persistPosition();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final session = widget.session;
     final code = session.code;
     if (code == null) return const SizedBox.shrink();
 
@@ -40,7 +79,8 @@ class MdEditorSurface extends ConsumerWidget {
       controller: code,
       scrollController: session.scroll,
       findController: session.find,
-      readOnly: readOnly,
+      toolbarController: _toolbar,
+      readOnly: widget.readOnly,
       wordWrap: true,
       autofocus: false,
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

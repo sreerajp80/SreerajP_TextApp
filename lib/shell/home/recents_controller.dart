@@ -53,6 +53,10 @@ class RecentsController extends AsyncNotifier<List<RecentEntry>> {
   /// top of the list.
   Future<void> recordOpen(SafFile file, String fingerprint) async {
     final repo = await _repository();
+    // Drop any older rows for the same file location (its content, and so its
+    // fingerprint, may have changed since it was last opened) so the list keeps
+    // one entry per file instead of a new one per edit.
+    await repo.removeOtherUris(file.uri, fingerprint);
     await repo.upsert(RecentFile(
       fingerprint: fingerprint,
       uri: file.uri,

@@ -194,6 +194,7 @@ class CsvDocumentSession extends ChangeNotifier {
   void clearPendingJump() => _pendingJumpRow = null;
 
   String get _positionKey => 'csv.pos.${tab.fingerprint}';
+  String get _sortDirKey => 'csv.dir.${tab.fingerprint}';
 
   // --- loading -------------------------------------------------------------
 
@@ -237,11 +238,32 @@ class CsvDocumentSession extends ChangeNotifier {
     _draftStore = await _draftStoreFuture;
     _draftAvailable = await _draftStore!.hasDraft(tab.fingerprint);
 
+    _restoreSort();
     _startAutoSave();
 
     if (_disposed) return;
     _status = CsvLoadStatus.ready;
     _safeNotify();
+  }
+
+  /// Re-applies the sort (column + direction) the file was last left with. Only
+  /// applies it when the saved column still fits the parsed table and the saved
+  /// direction is a real sort; otherwise the table opens unsorted. No render
+  /// timing to worry about — sorting is a data operation the grid reads on its
+  /// first build.
+  void _restoreSort() {
+    final column = _store.getInt(_positionKey);
+    if (column == null || column < 0 || column >= _table.columnCount) return;
+    final dirIndex = _store.getInt(_sortDirKey);
+    if (dirIndex == null ||
+        dirIndex < 0 ||
+        dirIndex >= SortDirection.values.length) {
+      return;
+    }
+    final direction = SortDirection.values[dirIndex];
+    if (direction == SortDirection.none) return;
+    _sortColumn = column;
+    _sortDirection = direction;
   }
 
   void _fail(String message) {
@@ -541,6 +563,7 @@ class CsvDocumentSession extends ChangeNotifier {
 
   void persistPosition() {
     _store.setInt(_positionKey, _sortColumn ?? -1);
+    _store.setInt(_sortDirKey, _sortDirection.index);
   }
 
   // --- internals -----------------------------------------------------------

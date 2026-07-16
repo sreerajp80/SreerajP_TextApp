@@ -127,6 +127,7 @@ class XmlDocumentSession extends ChangeNotifier {
   DraftStore? _draftStore;
   AutoSaver? _autoSaver;
   bool _disposed = false;
+  bool _positionRestored = false;
 
   // Parse cache, refreshed when the source text changes.
   String? _parsedFor;
@@ -244,7 +245,6 @@ class XmlDocumentSession extends ChangeNotifier {
     _draftStore = await _draftStoreFuture;
     _draftAvailable = await _draftStore!.hasDraft(tab.fingerprint);
 
-    _restorePosition();
     _startAutoSave();
 
     if (_disposed) return;
@@ -462,12 +462,21 @@ class XmlDocumentSession extends ChangeNotifier {
 
   // --- position persistence ------------------------------------------------
 
-  void _restorePosition() {
-    final saved = _store.getInt(_positionKey);
+  /// Scrolls the editor to the remembered reading position, once. The editor
+  /// surface calls this after its first frame: the `re_editor` render object
+  /// must be attached for the scroll to take effect, which is not yet the case
+  /// during [load]. Safe to call again; only the first call moves the view.
+  void restorePositionIntoView() {
+    if (_positionRestored) return;
+    _positionRestored = true;
     final code = _code;
-    if (saved != null && saved > 0 && code != null) {
+    if (code == null) return;
+    final saved = _store.getInt(_positionKey);
+    if (saved != null && saved > 0) {
       final line = saved.clamp(0, code.lineCount - 1);
-      code.selection = CodeLineSelection.collapsed(index: line, offset: 0);
+      final selection = CodeLineSelection.collapsed(index: line, offset: 0);
+      code.selection = selection;
+      code.makePositionCenterIfInvisible(selection.base);
     }
   }
 

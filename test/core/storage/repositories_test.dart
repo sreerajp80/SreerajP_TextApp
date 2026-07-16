@@ -72,6 +72,40 @@ void main() {
       expect(all.length, 1);
       expect(all.first.displayName, 'a-renamed.txt');
     });
+
+    test('removeOtherUris drops same-uri rows with a different fingerprint',
+        () async {
+      final repo = RecentsRepository(database.db);
+      // Two rows for the same file (its content, so its fingerprint, changed
+      // after an edit), plus an unrelated file.
+      await repo.upsert(const RecentFile(
+        fingerprint: '10-old',
+        uri: 'content://same',
+        displayName: 'edited.txt',
+        lastOpenedAt: 100,
+      ));
+      await repo.upsert(const RecentFile(
+        fingerprint: '20-new',
+        uri: 'content://same',
+        displayName: 'edited.txt',
+        lastOpenedAt: 200,
+      ));
+      await repo.upsert(const RecentFile(
+        fingerprint: '30-other',
+        uri: 'content://other',
+        displayName: 'other.txt',
+        lastOpenedAt: 300,
+      ));
+
+      await repo.removeOtherUris('content://same', '20-new');
+
+      final all = await repo.all();
+      // The stale old-content row is gone; the current one and the unrelated
+      // file remain.
+      expect(all.map((r) => r.fingerprint), containsAll(['20-new', '30-other']));
+      expect(all.map((r) => r.fingerprint), isNot(contains('10-old')));
+      expect(all.where((r) => r.uri == 'content://same').length, 1);
+    });
   });
 
   group('BookmarksRepository', () {

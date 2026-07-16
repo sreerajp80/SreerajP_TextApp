@@ -56,6 +56,8 @@
   "@actionGo": { "description": "Generic go/confirm button." },
   "actionSaveAsCopy": "Save as a copy",
   "@actionSaveAsCopy": { "description": "Save-as-a-copy button (shared)." },
+  "actionSaveAs": "Save as…",
+  "@actionSaveAs": { "description": "Menu item opening the save options (encoding, line ending, save a copy)." },
   "actionRestore": "Restore",
   "@actionRestore": { "description": "Restore a recovered draft (shared)." },
   "actionDiscard": "Discard",

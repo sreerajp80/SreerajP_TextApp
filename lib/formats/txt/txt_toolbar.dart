@@ -82,7 +82,7 @@ class TxtToolbar extends ConsumerWidget {
                 tooltip: l10n.actionSave,
                 icon: const Icon(Icons.save_outlined),
                 onPressed:
-                    ready ? () => showSaveOptionsSheet(context, session) : null,
+                    ready ? () => saveTxtDirect(context, session) : null,
               ),
               if (ready) TxtReadAloudButton(session: session),
               _OverflowMenu(tab: tab, session: session, enabled: ready),
@@ -97,6 +97,7 @@ class TxtToolbar extends ConsumerWidget {
 
 enum _MenuAction {
   jumpToLine,
+  saveAs,
   links,
   encoding,
   info,
@@ -134,6 +135,13 @@ class _OverflowMenu extends ConsumerWidget {
           child: ListTile(
             leading: const Icon(Icons.my_location),
             title: Text(l10n.txtJumpToLine),
+          ),
+        ),
+        PopupMenuItem(
+          value: _MenuAction.saveAs,
+          child: ListTile(
+            leading: const Icon(Icons.save_as_outlined),
+            title: Text(l10n.actionSaveAs),
           ),
         ),
         if (editing)
@@ -219,6 +227,9 @@ class _OverflowMenu extends ConsumerWidget {
     switch (action) {
       case _MenuAction.jumpToLine:
         await _jumpToLine(context);
+        break;
+      case _MenuAction.saveAs:
+        await showSaveOptionsSheet(context, session);
         break;
       case _MenuAction.replace:
         session.openReplace();

@@ -110,9 +110,8 @@ class MdToolbar extends ConsumerWidget {
                     key: const Key('md-save-button'),
                     tooltip: l10n.mdSave,
                     icon: const Icon(Icons.save_outlined),
-                    onPressed: ready
-                        ? () => showMdSaveOptionsSheet(context, session)
-                        : null,
+                    onPressed:
+                        ready ? () => saveMdDirect(context, session) : null,
                   ),
                   if (ready) MdReadAloudButton(session: session),
                   _OverflowMenu(tab: tab, session: session, enabled: ready),
@@ -129,6 +128,7 @@ class MdToolbar extends ConsumerWidget {
 }
 
 enum _MenuAction {
+  saveAs,
   replace,
   info,
   split,
@@ -159,6 +159,13 @@ class _OverflowMenu extends ConsumerWidget {
       enabled: enabled,
       onSelected: (action) => _handle(context, ref, action),
       itemBuilder: (context) => [
+        PopupMenuItem(
+          value: _MenuAction.saveAs,
+          child: ListTile(
+            leading: const Icon(Icons.save_as_outlined),
+            title: Text(l10n.actionSaveAs),
+          ),
+        ),
         if (editing)
           PopupMenuItem(
             value: _MenuAction.replace,
@@ -228,6 +235,9 @@ class _OverflowMenu extends ConsumerWidget {
     _MenuAction action,
   ) async {
     switch (action) {
+      case _MenuAction.saveAs:
+        await showMdSaveOptionsSheet(context, session);
+        break;
       case _MenuAction.replace:
         session.openReplace();
         break;

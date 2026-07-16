@@ -279,7 +279,7 @@ void main() {
     session.dispose();
   });
 
-  test('restores the remembered reading position on load', () async {
+  test('restores the remembered reading position into view', () async {
     final saf = RecordingSafService(
       contents: {'u': Uint8List.fromList('a\nb\nc\nd\ne'.codeUnits)},
       writableUris: {'u'},
@@ -296,8 +296,55 @@ void main() {
     );
     await session.load();
 
+    // The position is not moved during load (the editor render is not attached
+    // yet); the surface applies it after the first frame.
+    expect(session.currentLine, 0);
+    session.restorePositionIntoView();
     expect(session.currentLine, 2);
+    // A second call must not move the caret again (guarded once).
+    session.jumpToLine(4);
+    session.restorePositionIntoView();
+    expect(session.currentLine, 4);
     session.dispose();
+  });
+
+  test('persists the caret line so it can be restored later', () async {
+    final store = await inMemoryKeyValueStore();
+    final saf = RecordingSafService(
+      contents: {'u': Uint8List.fromList('a\nb\nc\nd\ne'.codeUnits)},
+      writableUris: {'u'},
+    );
+
+    final first = TxtDocumentSession(
+      tab: tabFor('u'),
+      saf: saf,
+      codec: const TextCodecService(),
+      saver: const AtomicSaver(),
+      metadata: MetadataService(saf),
+      store: store,
+      draftStore: Future.value(draftStore),
+      tempDir: Future.value(tempDir),
+    );
+    await first.load();
+    first.jumpToLine(3);
+    first.persistPosition();
+    first.dispose();
+
+    // A fresh session for the same file (same fingerprint) picks the line back up.
+    final second = TxtDocumentSession(
+      tab: tabFor('u'),
+      saf: saf,
+      codec: const TextCodecService(),
+      saver: const AtomicSaver(),
+      metadata: MetadataService(saf),
+      store: store,
+      draftStore: Future.value(draftStore),
+      tempDir: Future.value(tempDir),
+    );
+    await second.load();
+    second.restorePositionIntoView();
+    expect(second.currentLine, 3);
+    second.dispose();
   });
 
   test('word-wrap and view-mode toggles flip their flags', () async {

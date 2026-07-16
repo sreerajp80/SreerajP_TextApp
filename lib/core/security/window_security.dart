@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Toggles Android's FLAG_SECURE (screenshot / screen-record / recents-thumbnail
@@ -18,6 +19,10 @@ class PlatformWindowSecurity implements WindowSecurity {
 
   @override
   Future<void> setSecure(bool secure) async {
+    // Development-only relaxation: in debug and profile builds FLAG_SECURE is
+    // never applied, so tools like scrcpy can mirror the screen during remote
+    // development. Release builds keep full screenshot protection.
+    if (!kReleaseMode) secure = false;
     try {
       await _channel.invokeMethod<bool>('setSecure', {'secure': secure});
     } catch (_) {

@@ -223,6 +223,65 @@ void main() {
     session.dispose();
   });
 
+  test('restores the sort (column + direction) on a later open', () async {
+    final store = await inMemoryKeyValueStore();
+    CsvDocumentSession make() => CsvDocumentSession(
+          tab: tabFor('u'),
+          saf: safWith('name,age\nAda,36\nBob,40\nCid,8'),
+          codec: const TextCodecService(),
+          saver: const AtomicSaver(),
+          metadata: MetadataService(safWith('name,age\nAda,36\nBob,40\nCid,8')),
+          store: store,
+          draftStore: Future.value(draftStore),
+          tempDir: Future.value(tempDir),
+        );
+
+    final first = make();
+    await first.load();
+    first.sortBy(1); // ascending by age
+    expect(first.sortColumn, 1);
+    expect(first.sortDirection, SortDirection.ascending);
+    first.persistPosition();
+    first.dispose();
+
+    // A fresh session for the same file picks the sort back up on load.
+    final second = make();
+    await second.load();
+    expect(second.sortColumn, 1);
+    expect(second.sortDirection, SortDirection.ascending);
+    expect(second.visibleRowIndices, [2, 0, 1]); // 8, 36, 40
+    second.dispose();
+  });
+
+  test('an unsorted file opens unsorted (nothing to restore)', () async {
+    final session = await build(safWith('name,age\nAda,36\nBob,40'));
+    await session.load();
+    expect(session.sortColumn, isNull);
+    expect(session.sortDirection, SortDirection.none);
+    session.dispose();
+  });
+
+  test('a saved sort column out of range is ignored, not applied', () async {
+    // Store a column index the reparsed (2-column) table does not have.
+    final store = await inMemoryKeyValueStore(
+      {'csv.pos.fp-1': 9, 'csv.dir.fp-1': SortDirection.ascending.index},
+    );
+    final session = CsvDocumentSession(
+      tab: tabFor('u'),
+      saf: safWith('name,age\nAda,36\nBob,40'),
+      codec: const TextCodecService(),
+      saver: const AtomicSaver(),
+      metadata: MetadataService(safWith('name,age\nAda,36\nBob,40')),
+      store: store,
+      draftStore: Future.value(draftStore),
+      tempDir: Future.value(tempDir),
+    );
+    await session.load();
+    expect(session.status, CsvLoadStatus.ready);
+    expect(session.sortColumn, isNull);
+    session.dispose();
+  });
+
   test('filter helper matches the session view', () async {
     final session = await build(safWith('name\nAda\nBob'));
     await session.load();

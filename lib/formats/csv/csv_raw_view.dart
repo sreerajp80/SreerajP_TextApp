@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:re_editor/re_editor.dart';
 
+import '../../core/editor/editor_selection_toolbar.dart';
 import '../../core/theme/theme_controller.dart';
 import 'csv_document_session.dart';
 import 'csv_find_panel.dart';
@@ -13,7 +14,7 @@ import 'csv_find_panel.dart';
 /// read-only tab or a view-only mode). Its controllers live on the
 /// [CsvDocumentSession] so editor state survives switching tabs; leaving raw
 /// mode re-parses this text back into the grid.
-class CsvRawView extends ConsumerWidget {
+class CsvRawView extends ConsumerStatefulWidget {
   final CsvDocumentSession session;
   final bool readOnly;
 
@@ -23,10 +24,19 @@ class CsvRawView extends ConsumerWidget {
     required this.readOnly,
   });
 
+  @override
+  ConsumerState<CsvRawView> createState() => _CsvRawViewState();
+}
+
+class _CsvRawViewState extends ConsumerState<CsvRawView> {
   static const double _baseFontSize = 14;
 
+  late final SelectionToolbarController _toolbar =
+      createEditorSelectionToolbar(() => widget.readOnly);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    final session = widget.session;
     final code = session.code;
     if (code == null) return const SizedBox.shrink();
 
@@ -38,7 +48,8 @@ class CsvRawView extends ConsumerWidget {
       controller: code,
       scrollController: session.scroll,
       findController: session.find,
-      readOnly: readOnly,
+      toolbarController: _toolbar,
+      readOnly: widget.readOnly,
       wordWrap: false,
       autofocus: false,
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),

@@ -134,7 +134,7 @@ class XmlToolbar extends ConsumerWidget {
                 tooltip: l10n.actionSave,
                 icon: const Icon(Icons.save_outlined),
                 onPressed:
-                    ready ? () => showXmlSaveOptionsSheet(context, session) : null,
+                    ready ? () => saveXmlDirect(context, session) : null,
               ),
               if (ready) XmlReadAloudButton(session: session),
               _OverflowMenu(tab: tab, session: session, enabled: ready),
@@ -173,6 +173,7 @@ class _ViewButton extends StatelessWidget {
 }
 
 enum _MenuAction {
+  saveAs,
   replace,
   xpath,
   info,
@@ -206,6 +207,13 @@ class _OverflowMenu extends ConsumerWidget {
       enabled: enabled,
       onSelected: (action) => _handle(context, ref, action),
       itemBuilder: (context) => [
+        PopupMenuItem(
+          value: _MenuAction.saveAs,
+          child: ListTile(
+            leading: const Icon(Icons.save_as_outlined),
+            title: Text(l10n.actionSaveAs),
+          ),
+        ),
         if (editing)
           PopupMenuItem(
             value: _MenuAction.replace,
@@ -296,6 +304,9 @@ class _OverflowMenu extends ConsumerWidget {
     _MenuAction action,
   ) async {
     switch (action) {
+      case _MenuAction.saveAs:
+        await showXmlSaveOptionsSheet(context, session);
+        break;
       case _MenuAction.replace:
         session.openReplace();
         break;

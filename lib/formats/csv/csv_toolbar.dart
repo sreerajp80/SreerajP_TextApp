@@ -123,9 +123,8 @@ class _CsvToolbarState extends ConsumerState<CsvToolbar> {
                     key: const Key('csv-save-button'),
                     tooltip: l10n.actionSave,
                     icon: const Icon(Icons.save_outlined),
-                    onPressed: ready
-                        ? () => showCsvSaveOptionsSheet(context, session)
-                        : null,
+                    onPressed:
+                        ready ? () => saveCsvDirect(context, session) : null,
                   ),
                   _OverflowMenu(
                     tab: widget.tab,
@@ -206,7 +205,7 @@ class _CsvToolbarState extends ConsumerState<CsvToolbar> {
   }
 }
 
-enum _MenuAction { replace, info, dedup, split, merge, share, shareZip, print, export }
+enum _MenuAction { saveAs, replace, info, dedup, split, merge, share, shareZip, print, export }
 
 class _OverflowMenu extends ConsumerWidget {
   final DocumentTab tab;
@@ -230,6 +229,13 @@ class _OverflowMenu extends ConsumerWidget {
       enabled: enabled,
       onSelected: (action) => _handle(context, ref, action),
       itemBuilder: (context) => [
+        PopupMenuItem(
+          value: _MenuAction.saveAs,
+          child: ListTile(
+            leading: const Icon(Icons.save_as_outlined),
+            title: Text(l10n.actionSaveAs),
+          ),
+        ),
         if (canEdit && raw)
           PopupMenuItem(
             value: _MenuAction.replace,
@@ -307,6 +313,9 @@ class _OverflowMenu extends ConsumerWidget {
     _MenuAction action,
   ) async {
     switch (action) {
+      case _MenuAction.saveAs:
+        await showCsvSaveOptionsSheet(context, session);
+        break;
       case _MenuAction.replace:
         session.find?.replaceMode();
         break;

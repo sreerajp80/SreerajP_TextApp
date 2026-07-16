@@ -260,6 +260,12 @@ abstract class AppLocalizations {
   /// **'Save as a copy'**
   String get actionSaveAsCopy;
 
+  /// Menu item opening the save options (encoding, line ending, save a copy).
+  ///
+  /// In en, this message translates to:
+  /// **'Save as…'**
+  String get actionSaveAs;
+
   /// Restore a recovered draft (shared).
   ///
   /// In en, this message translates to:
