@@ -1,8 +1,8 @@
 {
   "appName": "SreerajP Text App",
   "description": "Open, read, edit, and save TXT, MD, CSV, JSON, and XML files, with offline LAN peer-to-peer sync.",
-  "version": "1.6.5",
-  "build": "12",
+  "version": "1.6.7",
+  "build": "14",
   "details": {
     "Author": "Sreeraj P",
     "Email": "sreerajp@zohomail.in",
