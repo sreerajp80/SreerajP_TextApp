@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/editor/editor_providers.dart';
 import '../../core/large_file/paged_text.dart';
+import '../../core/theme/theme_controller.dart';
 import '../../core/storage/saf_exceptions.dart';
 import '../../core/storage/saf_service.dart';
 import '../../l10n/app_localizations.dart';
@@ -138,10 +139,19 @@ class _ReadyView extends StatelessWidget {
           child: SingleChildScrollView(
             controller: scroll,
             padding: const EdgeInsets.all(12),
-            child: SelectableText(
-              paged.page(pageIndex),
-              key: const Key('degraded-page-text'),
-              style: const TextStyle(fontFamily: 'monospace', height: 1.4),
+            child: Consumer(
+              builder: (context, ref, child) {
+                final appearance = ref.watch(themeControllerProvider);
+                return SelectableText(
+                  paged.page(pageIndex),
+                  key: const Key('degraded-page-text'),
+                  style: TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 14 * appearance.fontScale,
+                    height: appearance.lineSpacing,
+                  ),
+                );
+              },
             ),
           ),
         ),

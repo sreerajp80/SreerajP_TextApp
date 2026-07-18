@@ -71,7 +71,7 @@ class AppearanceSection extends ConsumerWidget {
           value: settings.fontScale,
           min: ThemeSettings.minFontScale,
           max: ThemeSettings.maxFontScale,
-          divisions: 8,
+          divisions: 25,
           valueLabel: '${(settings.fontScale * 100).round()}%',
           onChanged: controller.setFontScale,
         ),

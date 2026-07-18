@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
+
+import '../../core/theme/theme_controller.dart';
 
 import '../../l10n/app_localizations.dart';
 import 'csv_cell_editor.dart';
@@ -17,23 +20,27 @@ import 'csv_types.dart';
 ///
 /// Rows render in the session's filtered + sorted order, but every edit is
 /// addressed to the **original** row, so filtering/sorting never corrupts data.
-class CsvGrid extends StatefulWidget {
+class CsvGrid extends ConsumerStatefulWidget {
   final CsvDocumentSession session;
   final bool editable;
 
   const CsvGrid({super.key, required this.session, required this.editable});
 
   @override
-  State<CsvGrid> createState() => CsvGridState();
+  ConsumerState<CsvGrid> createState() => CsvGridState();
 }
 
-class CsvGridState extends State<CsvGrid> {
+class CsvGridState extends ConsumerState<CsvGrid> {
   final ScrollController _vertical = ScrollController();
   final ScrollController _horizontal = ScrollController();
 
-  static const double _rowHeight = 40;
-  static const double _headerHeight = 44;
-  static const double _rowHeaderWidth = 56;
+  static const double _baseRowHeight = 40;
+  static const double _baseHeaderHeight = 44;
+  static const double _baseRowHeaderWidth = 56;
+
+  double get _rowHeight => _baseRowHeight * ref.read(themeControllerProvider).fontScale;
+  double get _headerHeight => _baseHeaderHeight * ref.read(themeControllerProvider).fontScale;
+  double get _rowHeaderWidth => _baseRowHeaderWidth * ref.read(themeControllerProvider).fontScale;
 
   @override
   void dispose() {
@@ -66,6 +73,8 @@ class CsvGridState extends State<CsvGrid> {
 
   @override
   Widget build(BuildContext context) {
+    // Watch theme settings to trigger rebuilds on font scale changes.
+    ref.watch(themeControllerProvider);
     final session = widget.session;
     final theme = Theme.of(context);
     final visibleCols = _visibleCols;
@@ -391,9 +400,11 @@ class CsvGridState extends State<CsvGrid> {
   /// average character width — enough for a readable grid without measuring text.
   List<double> _columnWidths(List<int> visibleCols, List<int> visibleRows) {
     final session = widget.session;
-    const charWidth = 8.0;
-    const minWidth = 72.0;
-    const maxWidth = 320.0;
+    final scale = ref.read(themeControllerProvider).fontScale;
+    final charWidth = 8.0 * scale;
+    final minWidth = 72.0 * scale;
+    final maxWidth = 320.0 * scale;
+    final padding = 24.0 * scale;
     final sampleRows = visibleRows.take(50).toList();
     return [
       for (final col in visibleCols)
@@ -405,7 +416,7 @@ class CsvGridState extends State<CsvGrid> {
             final len = session.table.cell(r, col).length;
             if (len > longest) longest = len;
           }
-          return (longest * charWidth + 24).clamp(minWidth, maxWidth);
+          return (longest * charWidth + padding).clamp(minWidth, maxWidth);
         }(),
     ];
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/editor/atomic_saver.dart';
+import '../../core/editor/pinch_to_zoom_area.dart';
 import '../../core/editor/unsaved_changes.dart';
 import '../../core/large_file/large_file_policy.dart';
 import '../../l10n/app_localizations.dart';
@@ -86,7 +87,7 @@ class TabsWorkspace extends ConsumerWidget {
                 Positioned.fill(
                   child: active == null
                       ? const SizedBox.shrink()
-                      : _DocumentBody(tab: active),
+                      : PinchToZoomArea(child: _DocumentBody(tab: active)),
                 ),
                 Positioned(
                   key: const Key('tab-swipe-left-edge'),

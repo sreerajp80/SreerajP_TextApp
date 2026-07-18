@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
 import 'package:text_data/core/storage/saf_exceptions.dart';
 import 'package:text_data/core/storage/saf_service.dart';
 import 'package:text_data/shell/tabs/degraded_document_view.dart';
@@ -32,9 +33,13 @@ DocumentTab _tab() => const DocumentTab(
     );
 
 Future<void> _pump(WidgetTester tester, SafService saf) async {
+  final store = await inMemoryKeyValueStore();
   await tester.pumpWidget(
     ProviderScope(
-      overrides: [safServiceProvider.overrideWithValue(saf)],
+      overrides: [
+        safServiceProvider.overrideWithValue(saf),
+        keyValueStoreSyncProvider.overrideWithValue(store),
+      ],
       child: localizedApp(
         home: Scaffold(
           body: DegradedDocumentView(tab: _tab(), linesPerPage: 5),

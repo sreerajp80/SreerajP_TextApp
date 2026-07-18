@@ -3,7 +3,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
 import 'package:text_data/core/editor/atomic_saver.dart';
 import 'package:text_data/core/editor/draft_store.dart';
 import 'package:text_data/core/editor/encoding.dart';
@@ -87,16 +89,22 @@ void main() {
       session = await newSession(text);
       await session.load();
     });
+    final store = await inMemoryKeyValueStore();
     await tester.pumpWidget(
-      localizedApp(
-        home: Scaffold(
-          body: SizedBox(
-            width: 500,
-            height: 500,
-            child: ListenableBuilder(
-              listenable: session,
-              builder: (context, _) =>
-                  CsvGrid(session: session, editable: true),
+      ProviderScope(
+        overrides: [
+          keyValueStoreSyncProvider.overrideWithValue(store),
+        ],
+        child: localizedApp(
+          home: Scaffold(
+            body: SizedBox(
+              width: 500,
+              height: 500,
+              child: ListenableBuilder(
+                listenable: session,
+                builder: (context, _) =>
+                    CsvGrid(session: session, editable: true),
+              ),
             ),
           ),
         ),

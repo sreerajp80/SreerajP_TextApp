@@ -97,6 +97,8 @@ full workflow rules live in [docs/workflow-rules.md](docs/workflow-rules.md).
 any change to the project.** In short: write a plan to `plans/` and get explicit
 approval before editing, then write a change log to `change_log/` after.
 
+Follow the guidelines listed in [docs/GUIDELINES_MANIFEST.md](docs/GUIDELINES_MANIFEST.md).
+
 ---
 
 ## 8. Communication rules

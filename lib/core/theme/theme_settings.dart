@@ -32,8 +32,8 @@ class ThemeSettings {
   static const ThemeSettings defaults = ThemeSettings();
 
   // Guard rails so a bad stored value can never make text unreadable.
-  static const double minFontScale = 0.8;
-  static const double maxFontScale = 1.6;
+  static const double minFontScale = 0.5;
+  static const double maxFontScale = 3.0;
   static const double minLineSpacing = 1.0;
   static const double maxLineSpacing = 2.0;
 
