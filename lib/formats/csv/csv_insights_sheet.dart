@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import 'csv_chart.dart';
+import 'csv_chart_screen.dart';
 import 'csv_document_session.dart';
 import 'csv_insights.dart';
 import 'csv_types.dart';
@@ -94,6 +95,18 @@ class _InsightsBodyState extends State<_InsightsBody> {
         ],
         const SizedBox(height: 20),
         CsvColumnChart(columnName: insights.name, values: values),
+        const SizedBox(height: 12),
+        // The small chart above is a glance; the full screen is where the bar,
+        // line and pie charts can be explored (roadmap §4.2.4).
+        OutlinedButton.icon(
+          key: const Key('csv-open-full-chart'),
+          onPressed: () {
+            Navigator.of(context).pop();
+            CsvChartScreen.open(context, widget.session, initialColumn: col);
+          },
+          icon: const Icon(Icons.open_in_full),
+          label: Text(l10n.csvOpenFullChart),
+        ),
       ],
     );
   }

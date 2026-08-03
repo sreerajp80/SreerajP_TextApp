@@ -7,7 +7,9 @@ import '../../core/storage/saf_service.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shell/tabs/document_tab.dart';
 import '../../shell/tabs/read_only_lock_button.dart';
+import 'csv_chart_screen.dart';
 import 'csv_columns_sheet.dart';
+import 'csv_conditional_format_sheet.dart';
 import 'csv_document_session.dart';
 import 'csv_export_sheet.dart';
 import 'csv_info_sheet.dart';
@@ -15,6 +17,7 @@ import 'csv_insights_sheet.dart';
 import 'csv_output_actions.dart';
 import 'csv_save_options_sheet.dart';
 import 'csv_session_manager.dart';
+import 'csv_sort_sheet.dart';
 import 'csv_split_merge_actions.dart';
 
 /// The action bar for an open CSV document (tasks 7.2–7.6): the table / raw
@@ -97,6 +100,15 @@ class _CsvToolbarState extends ConsumerState<CsvToolbar> {
                       tooltip: l10n.actionFind,
                       icon: const Icon(Icons.search),
                       onPressed: ready ? () => session.find?.findMode() : null,
+                    ),
+                  if (isTable)
+                    IconButton(
+                      key: const Key('csv-sort-button'),
+                      tooltip: l10n.csvSortLevels,
+                      isSelected: session.sortSpecs.isNotEmpty,
+                      icon: const Icon(Icons.sort),
+                      onPressed:
+                          ready ? () => showCsvSortSheet(context, session) : null,
                     ),
                   if (isTable)
                     IconButton(
@@ -205,7 +217,20 @@ class _CsvToolbarState extends ConsumerState<CsvToolbar> {
   }
 }
 
-enum _MenuAction { saveAs, replace, info, dedup, split, merge, share, shareZip, print, export }
+enum _MenuAction {
+  saveAs,
+  replace,
+  info,
+  highlights,
+  chart,
+  dedup,
+  split,
+  merge,
+  share,
+  shareZip,
+  print,
+  export,
+}
 
 class _OverflowMenu extends ConsumerWidget {
   final DocumentTab tab;
@@ -249,6 +274,20 @@ class _OverflowMenu extends ConsumerWidget {
           child: ListTile(
             leading: const Icon(Icons.info_outline),
             title: Text(l10n.actionFileInfo),
+          ),
+        ),
+        PopupMenuItem(
+          value: _MenuAction.highlights,
+          child: ListTile(
+            leading: const Icon(Icons.format_color_fill_outlined),
+            title: Text(l10n.csvHighlightRules),
+          ),
+        ),
+        PopupMenuItem(
+          value: _MenuAction.chart,
+          child: ListTile(
+            leading: const Icon(Icons.bar_chart),
+            title: Text(l10n.csvChartTitle),
           ),
         ),
         if (canEdit)
@@ -321,6 +360,12 @@ class _OverflowMenu extends ConsumerWidget {
         break;
       case _MenuAction.info:
         await showCsvInfoSheet(context, session);
+        break;
+      case _MenuAction.highlights:
+        await showCsvConditionalFormatSheet(context, session);
+        break;
+      case _MenuAction.chart:
+        await CsvChartScreen.open(context, session);
         break;
       case _MenuAction.dedup:
         await _dedup(context);

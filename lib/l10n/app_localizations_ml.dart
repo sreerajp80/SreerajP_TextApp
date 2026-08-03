@@ -293,6 +293,33 @@ class AppLocalizationsMl extends AppLocalizations {
       'സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല; ടാബ് തുറന്നിരിക്കുന്നു.';
 
   @override
+  String get fileChangedBanner => 'ഈ ഫയൽ ഡിസ്കിൽ മാറിയിട്ടുണ്ട്.';
+
+  @override
+  String get fileChangedReload => 'വീണ്ടും ലോഡ് ചെയ്യുക';
+
+  @override
+  String get fileChangedDismiss => 'അവഗണിക്കുക';
+
+  @override
+  String get fileChangedReloadFailed => 'ഫയൽ വീണ്ടും ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String get fileChangedConfirmTitle =>
+      'വീണ്ടും ലോഡ് ചെയ്ത് മാറ്റങ്ങൾ ഒഴിവാക്കണോ?';
+
+  @override
+  String fileChangedConfirmBody(String fileName) {
+    return '\"$fileName\"-ൽ സംരക്ഷിക്കാത്ത മാറ്റങ്ങളുണ്ട്. വീണ്ടും ലോഡ് ചെയ്താൽ ഡിസ്കിലുള്ള ഫയൽ വരും, ആ മാറ്റങ്ങൾ നഷ്ടപ്പെടും.';
+  }
+
+  @override
+  String get fileChangedConfirmReload => 'ലോഡ് ചെയ്ത് ഒഴിവാക്കുക';
+
+  @override
+  String get fileChangedConfirmCancel => 'റദ്ദാക്കുക';
+
+  @override
   String get unsavedTitle => 'മാറ്റങ്ങൾ സംരക്ഷിക്കണോ?';
 
   @override
@@ -1105,6 +1132,75 @@ class AppLocalizationsMl extends AppLocalizations {
   String get mdLivePreviewOn => 'ലൈവ് പ്രിവ്യൂ ഓൺ';
 
   @override
+  String get mdTableBuilder => 'പട്ടിക നിർമ്മാതാവ്';
+
+  @override
+  String get mdTableBuilderHelp =>
+      'സെല്ലുകൾ പൂരിപ്പിക്കുക; പൈപ്പ് ചിഹ്നങ്ങൾ നിങ്ങൾക്കായി ക്രമീകരിക്കും.';
+
+  @override
+  String get mdTableHeaderCell => 'തലക്കെട്ട്';
+
+  @override
+  String get mdTableAddRow => 'വരി ചേർക്കുക';
+
+  @override
+  String get mdTableAddColumn => 'കോളം ചേർക്കുക';
+
+  @override
+  String get mdTableRemoveRow => 'ഈ വരി നീക്കുക';
+
+  @override
+  String get mdTableRemoveColumn => 'ഈ കോളം നീക്കുക';
+
+  @override
+  String get mdTablePreview => 'മാർക്ക്ഡൗൺ';
+
+  @override
+  String get mdTableInsert => 'പട്ടിക ചേർക്കുക';
+
+  @override
+  String get mdTableAlignDefault => 'സ്ഥിരം';
+
+  @override
+  String get mdTableAlignLeft => 'ഇടത്';
+
+  @override
+  String get mdTableAlignCenter => 'മധ്യം';
+
+  @override
+  String get mdTableAlignRight => 'വലത്';
+
+  @override
+  String get mdFrontMatterTitle => 'ഫ്രണ്ട് മാറ്റർ';
+
+  @override
+  String get mdFrontMatterHelp =>
+      'താഴെയുള്ള ഫീൽഡുകൾ എഡിറ്റ് ചെയ്യുക. ഈ ഫോം കാണിക്കാത്തതെല്ലാം അതേപടി നിലനിർത്തും.';
+
+  @override
+  String get mdFrontMatterNone =>
+      'ഈ ഫയലിൽ ഇതുവരെ ഫ്രണ്ട് മാറ്റർ ഇല്ല. ഒന്ന് ചേർക്കാൻ ഒരു ഫീൽഡ് പൂരിപ്പിക്കുക.';
+
+  @override
+  String get mdFrontMatterAddField => 'ഫീൽഡ് ചേർക്കുക';
+
+  @override
+  String get mdFrontMatterFieldName => 'ഫീൽഡിന്റെ പേര്';
+
+  @override
+  String get mdFrontMatterAdd => 'ചേർക്കുക';
+
+  @override
+  String get mdFrontMatterAddTag => 'ഒരു ടാഗ് ടൈപ്പ് ചെയ്ത് എന്റർ അമർത്തുക';
+
+  @override
+  String get mdFrontMatterPickDate => 'തീയതി തിരഞ്ഞെടുക്കുക';
+
+  @override
+  String get mdFrontMatterApply => 'മാറ്റങ്ങൾ പ്രയോഗിക്കുക';
+
+  @override
   String get mdLivePreviewOff => 'ലൈവ് പ്രിവ്യൂ ഓഫ്';
 
   @override
@@ -1626,6 +1722,89 @@ class AppLocalizationsMl extends AppLocalizations {
   String get xmlXsdComing => 'XSD സ്കീമ പരിശോധന പിന്നീടൊരു അപ്‌ഡേറ്റിൽ വരും.';
 
   @override
+  String get jsonViewAsTable => 'പട്ടികയായി കാണുക';
+
+  @override
+  String get jsonTableNothingToShow =>
+      'പട്ടികയായി കാണിക്കാൻ ഈ ഡോക്യുമെന്റിൽ റെക്കോർഡുകളുടെ അറേ ഇല്ല.';
+
+  @override
+  String jsonTableSummary(String path, int rows, int columns) {
+    return '$path · $rows വരികൾ · $columns കോളങ്ങൾ';
+  }
+
+  @override
+  String get jsonTableWholeDocument => 'മുഴുവൻ ഡോക്യുമെന്റ്';
+
+  @override
+  String get jsonTableCopied => 'മൂല്യം പകർത്തി';
+
+  @override
+  String get jsonQueryBuilderTitle => 'ക്വറി ബിൽഡർ';
+
+  @override
+  String get jsonQueryGoInto => 'ഇതിലേക്ക് പോകുക';
+
+  @override
+  String get jsonQueryAtAnyDepth => 'ഏത് ആഴത്തിലും';
+
+  @override
+  String get jsonQueryMatchesHeading => 'പൊരുത്തങ്ങൾ';
+
+  @override
+  String get jsonQueryNoMatches =>
+      'ഇതുവരെ ഒന്നും പൊരുത്തപ്പെടുന്നില്ല. പിന്നോട്ട് പോയി മറ്റൊരു പാത പരീക്ഷിക്കുക.';
+
+  @override
+  String get jsonQueryNothingDeeper =>
+      'ഇവിടെ നിന്ന് കൂടുതൽ ആഴത്തിൽ പോകാൻ ഒന്നുമില്ല.';
+
+  @override
+  String get jsonQueryStepBack => 'പിന്നോട്ട്';
+
+  @override
+  String get jsonQueryStartOver => 'പുതുതായി തുടങ്ങുക';
+
+  @override
+  String get jsonQueryUse => 'ഈ ക്വറി ഉപയോഗിക്കുക';
+
+  @override
+  String get jsonQuickFixes => 'പെട്ടെന്നുള്ള പരിഹാരങ്ങൾ';
+
+  @override
+  String get jsonFixEverything => 'എല്ലാം ശരിയാക്കുക';
+
+  @override
+  String get jsonFixQuoteKeys => 'കീകൾക്ക് ഉദ്ധരണി ചിഹ്നം ചേർക്കുക';
+
+  @override
+  String get jsonFixDoubleQuotes => 'ഇരട്ട ഉദ്ധരണി ചിഹ്നം ഉപയോഗിക്കുക';
+
+  @override
+  String get jsonFixTrailingCommas => 'അധിക കോമകൾ നീക്കുക';
+
+  @override
+  String get jsonFixRemoveComments => 'കമന്റുകൾ നീക്കുക';
+
+  @override
+  String get jsonFixPythonLiterals => 'true, false, null ഉപയോഗിക്കുക';
+
+  @override
+  String get xmlQueryBuilderTitle => 'XPath ബിൽഡർ';
+
+  @override
+  String get xmlFixCloseTags => 'തുറന്ന ടാഗുകൾ അടയ്ക്കുക';
+
+  @override
+  String get xmlFixEscapeAmpersands => '& ചിഹ്നങ്ങൾ എസ്കേപ്പ് ചെയ്യുക';
+
+  @override
+  String get xmlFixWrapRoot => 'ഒറ്റ റൂട്ടിൽ പൊതിയുക';
+
+  @override
+  String get xmlFixTrimJunk => 'ആദ്യ ടാഗിന് മുൻപുള്ള വാചകം നീക്കുക';
+
+  @override
   String get xmlNotWellFormedYet => 'ഇതുവരെ നന്നായി രൂപപ്പെട്ട XML അല്ല';
 
   @override
@@ -1772,6 +1951,172 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get csvStatAverage => 'ശരാശരി';
+
+  @override
+  String get csvSortLevels => 'ക്രമീകരണ തലങ്ങൾ';
+
+  @override
+  String get csvSortNoLevels =>
+      'ഇതുവരെ ക്രമീകരണമില്ല. ഒന്നിലധികം കോളങ്ങൾ പ്രകാരം ക്രമീകരിക്കാൻ ഒരു തലം ചേർക്കുക.';
+
+  @override
+  String get csvSortAddLevel => 'തലം ചേർക്കുക';
+
+  @override
+  String get csvSortApply => 'ക്രമീകരണം പ്രയോഗിക്കുക';
+
+  @override
+  String get csvSortClear => 'മായ്ക്കുക';
+
+  @override
+  String get csvSortFirstBy => 'ഇത് പ്രകാരം ക്രമീകരിക്കുക';
+
+  @override
+  String get csvSortThenBy => 'പിന്നെ ഇത് പ്രകാരം';
+
+  @override
+  String get csvSortAscending => 'A → Z';
+
+  @override
+  String get csvSortDescending => 'Z → A';
+
+  @override
+  String get csvSortMoveUp => 'ഈ തലം മുകളിലേക്ക് നീക്കുക';
+
+  @override
+  String get csvSortMoveDown => 'ഈ തലം താഴേക്ക് നീക്കുക';
+
+  @override
+  String get csvSetFormula => 'ഫോർമുല സജ്ജമാക്കുക…';
+
+  @override
+  String get csvEditFormula => 'ഫോർമുല എഡിറ്റ് ചെയ്യുക…';
+
+  @override
+  String csvFormulaTitle(String name) {
+    return '\"$name\"-നുള്ള ഫോർമുല';
+  }
+
+  @override
+  String get csvFormulaHelp =>
+      'ഈ വരിക്ക് കോളം അക്ഷരങ്ങൾ (A, B), ഒരു നിശ്ചിത സെല്ലിന് വരി നമ്പർ (B2), അല്ലെങ്കിൽ SUM, AVG, MIN, MAX, COUNT, PRODUCT എന്നിവയ്ക്കുള്ളിൽ ഒരു ശ്രേണി ഉപയോഗിക്കുക.';
+
+  @override
+  String get csvFormulaLabel => 'ഫോർമുല';
+
+  @override
+  String get csvFormulaColumnLetters => 'ഉപയോഗിക്കാവുന്ന കോളങ്ങൾ';
+
+  @override
+  String get csvFormulaPreview => 'ആദ്യ വരികൾ';
+
+  @override
+  String get csvFormulaApply => 'പ്രയോഗിക്കുക';
+
+  @override
+  String get csvFormulaRemove => 'ഫോർമുല നീക്കം ചെയ്യുക';
+
+  @override
+  String get csvHighlightRules => 'ഹൈലൈറ്റ് നിയമങ്ങൾ';
+
+  @override
+  String get csvNoHighlightRules =>
+      'ഇതുവരെ നിയമങ്ങളില്ല. സെല്ലുകൾ സ്വയമേവ നിറം നൽകാൻ ഒന്ന് ചേർക്കുക.';
+
+  @override
+  String get csvAddHighlightRule => 'നിയമം ചേർക്കുക';
+
+  @override
+  String get csvRuleEveryColumn => 'എല്ലാ കോളങ്ങളും';
+
+  @override
+  String get csvRuleWhen => 'മൂല്യം എപ്പോൾ';
+
+  @override
+  String get csvRuleValue => 'ഇതുമായി താരതമ്യം ചെയ്യുക';
+
+  @override
+  String get csvRuleHighlight => 'ഈ നിറത്തിൽ ഹൈലൈറ്റ് ചെയ്യുക';
+
+  @override
+  String get csvConditionLessThan => 'ഇതിലും കുറവാണ്';
+
+  @override
+  String get csvConditionGreaterThan => 'ഇതിലും കൂടുതലാണ്';
+
+  @override
+  String get csvConditionEqualTo => 'ഇതിന് തുല്യമാണ്';
+
+  @override
+  String get csvConditionNotEqualTo => 'ഇതിന് തുല്യമല്ല';
+
+  @override
+  String get csvConditionContains => 'ഇത് അടങ്ങിയിരിക്കുന്നു';
+
+  @override
+  String get csvConditionIsEmpty => 'ശൂന്യമാണ്';
+
+  @override
+  String get csvConditionIsDuplicate => 'അതിന്റെ കോളത്തിൽ ആവർത്തിക്കുന്നു';
+
+  @override
+  String get csvHighlightRed => 'ചുവപ്പ്';
+
+  @override
+  String get csvHighlightYellow => 'മഞ്ഞ';
+
+  @override
+  String get csvHighlightGreen => 'പച്ച';
+
+  @override
+  String get csvHighlightBlue => 'നീല';
+
+  @override
+  String get csvChartTitle => 'ചാർട്ട്';
+
+  @override
+  String get csvOpenFullChart => 'പൂർണ്ണ ചാർട്ട് തുറക്കുക';
+
+  @override
+  String get csvChartBar => 'ബാർ';
+
+  @override
+  String get csvChartLine => 'ലൈൻ';
+
+  @override
+  String get csvChartPie => 'പൈ';
+
+  @override
+  String get csvChartValueColumn => 'മൂല്യങ്ങൾ ഇവിടെ നിന്ന്';
+
+  @override
+  String get csvChartLabelColumn => 'ലേബലുകൾ ഇവിടെ നിന്ന്';
+
+  @override
+  String get csvChartRowNumbers => 'വരി നമ്പറുകൾ';
+
+  @override
+  String get csvChartVisibleRowsOnly => 'സ്ക്രീനിലുള്ള വരികൾ മാത്രം';
+
+  @override
+  String get csvChartNoNumericColumns =>
+      'ചാർട്ട് ചെയ്യാൻ ഈ ഫയലിൽ സംഖ്യാ കോളങ്ങളില്ല.';
+
+  @override
+  String get csvChartNothingToDraw => 'ഈ കോളത്തിന് ചാർട്ട് ചെയ്യാൻ ഒന്നുമില്ല.';
+
+  @override
+  String get csvChartOther => 'മറ്റുള്ളവ';
+
+  @override
+  String csvChartShowingFirst(int count) {
+    return 'ആദ്യത്തെ $count മൂല്യങ്ങൾ കാണിക്കുന്നു.';
+  }
+
+  @override
+  String csvChartSkippedNegative(int count) {
+    return '$count നെഗറ്റീവ് മൂല്യങ്ങൾ പൈയിൽ നിന്ന് ഒഴിവാക്കി.';
+  }
 
   @override
   String get csvSplitOnePart => 'ഫയൽ ഒരു ഭാഗത്തിൽ ഒതുങ്ങാൻ മാത്രം ചെറുതാണ്.';

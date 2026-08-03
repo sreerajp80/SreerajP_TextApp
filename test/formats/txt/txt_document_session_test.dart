@@ -24,11 +24,17 @@ class RecordingSafService extends SafService {
   Uint8List? lastWritten;
   final bool failRead;
 
+  /// Last-modified time per URI in epoch millis. A URI with no entry reports no
+  /// timestamp, like a provider that does not expose one.
+  final Map<String, int> modifiedTimes;
+
   RecordingSafService({
-    this.contents = const {},
+    Map<String, Uint8List> contents = const {},
     this.writableUris = const {},
     this.failRead = false,
-  });
+    Map<String, int> modifiedTimes = const {},
+  })  : contents = Map<String, Uint8List>.of(contents),
+        modifiedTimes = Map<String, int>.of(modifiedTimes);
 
   @override
   Future<Uint8List> readBytes(String uri) async {
@@ -42,10 +48,23 @@ class RecordingSafService extends SafService {
   @override
   Future<void> writeBytes(String uri, Uint8List bytes) async {
     lastWritten = bytes;
+    contents[uri] = bytes;
+    _touch(uri);
   }
 
   @override
-  Future<int?> modifiedTime(String uri) async => null;
+  Future<int?> modifiedTime(String uri) async => modifiedTimes[uri];
+
+  /// Simulates another app writing [uri]: new content and a newer timestamp.
+  void changeOnDisk(String uri, String text) {
+    contents[uri] = Uint8List.fromList(text.codeUnits);
+    _touch(uri);
+  }
+
+  void _touch(String uri) {
+    final current = modifiedTimes[uri];
+    if (current != null) modifiedTimes[uri] = current + 1000;
+  }
 }
 
 void main() {
@@ -400,6 +419,112 @@ void main() {
     expect(session.encoding, TextEncodingType.latin1);
     expect(session.code!.text, 'Ã©');
     expect(session.isDirty, isFalse);
+    session.dispose();
+  });
+
+  // --- the file changed on disk --------------------------------------------
+
+  Future<TxtDocumentSession> loadedSession(RecordingSafService saf) async {
+    final session = TxtDocumentSession(
+      tab: tabFor('u'),
+      saf: saf,
+      codec: const TextCodecService(),
+      saver: const AtomicSaver(),
+      metadata: MetadataService(saf),
+      store: await inMemoryKeyValueStore(),
+      draftStore: Future.value(draftStore),
+      tempDir: Future.value(tempDir),
+      autoSaveInterval: Duration.zero, // no draft timer in tests
+    );
+    await session.load();
+    return session;
+  }
+
+  test('a change made by another app is detected', () async {
+    final saf = RecordingSafService(
+      contents: {'u': Uint8List.fromList('first'.codeUnits)},
+      writableUris: {'u'},
+      modifiedTimes: {'u': 1000},
+    );
+    final session = await loadedSession(saf);
+
+    expect(session.externalChangeDetected, isFalse);
+    saf.changeOnDisk('u', 'second');
+    await session.checkForExternalChange();
+
+    expect(session.externalChangeDetected, isTrue);
+    // Warning only — the tab still shows what it loaded until a reload.
+    expect(session.code!.text, 'first');
+    session.dispose();
+  });
+
+  test('reloading shows the new content and clears unsaved edits', () async {
+    final saf = RecordingSafService(
+      contents: {'u': Uint8List.fromList('first'.codeUnits)},
+      writableUris: {'u'},
+      modifiedTimes: {'u': 1000},
+    );
+    final session = await loadedSession(saf);
+    session.code!.text = 'my own edit';
+    expect(session.isDirty, isTrue);
+
+    saf.changeOnDisk('u', 'second');
+    await session.checkForExternalChange();
+    expect(session.externalChangeDetected, isTrue);
+
+    expect(await session.reloadFromDisk(), isTrue);
+
+    expect(session.code!.text, 'second');
+    expect(session.isDirty, isFalse);
+    expect(session.canUndo, isFalse); // the reload itself is not undoable
+    expect(session.externalChangeDetected, isFalse);
+    session.dispose();
+  });
+
+  test('a failed read leaves the document untouched', () async {
+    final saf = RecordingSafService(
+      contents: {'u': Uint8List.fromList('first'.codeUnits)},
+      writableUris: {'u'},
+      modifiedTimes: {'u': 1000},
+    );
+    final session = await loadedSession(saf);
+    saf.changeOnDisk('u', 'second');
+    await session.checkForExternalChange();
+
+    // The file becomes unreadable between the warning and the reload.
+    final broken = RecordingSafService(failRead: true);
+    final brokenSession = TxtDocumentSession(
+      tab: tabFor('gone'),
+      saf: broken,
+      codec: const TextCodecService(),
+      saver: const AtomicSaver(),
+      metadata: MetadataService(broken),
+      store: await inMemoryKeyValueStore(),
+      draftStore: Future.value(draftStore),
+      tempDir: Future.value(tempDir),
+    );
+    await brokenSession.load();
+
+    expect(await brokenSession.reloadFromDisk(), isFalse);
+    brokenSession.dispose();
+    session.dispose();
+  });
+
+  test('the app never warns about its own save', () async {
+    final saf = RecordingSafService(
+      contents: {'u': Uint8List.fromList('first'.codeUnits)},
+      writableUris: {'u'},
+      modifiedTimes: {'u': 1000},
+    );
+    final session = await loadedSession(saf);
+    session.code!.text = 'edited here';
+
+    final result = await session.save();
+    expect(result.outcome, SaveOutcome.saved);
+
+    // The save moved the file's timestamp, but that write was ours.
+    await session.checkForExternalChange();
+    expect(session.externalChangeDetected, isFalse);
     session.dispose();
   });
 }

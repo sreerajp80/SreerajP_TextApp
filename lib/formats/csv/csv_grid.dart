@@ -6,8 +6,11 @@ import '../../core/theme/theme_controller.dart';
 
 import '../../l10n/app_localizations.dart';
 import 'csv_cell_editor.dart';
+import 'csv_conditional_format.dart';
+import 'csv_conditional_format_sheet.dart';
 import 'csv_document_session.dart';
 import 'csv_filter_sort.dart';
+import 'csv_formula_sheet.dart';
 import 'csv_types.dart';
 
 /// The data grid for a CSV document (tasks 7.2, 7.5).
@@ -126,6 +129,7 @@ class CsvGridState extends ConsumerState<CsvGrid> {
         visibleCols,
         visibleRows,
         types,
+        session.conditionalFormat,
       ),
     );
   }
@@ -136,6 +140,7 @@ class CsvGridState extends ConsumerState<CsvGrid> {
     List<int> visibleCols,
     List<int> visibleRows,
     List<ColumnType> types,
+    CsvConditionalFormat format,
   ) {
     final session = widget.session;
     final theme = Theme.of(context);
@@ -195,13 +200,15 @@ class CsvGridState extends ConsumerState<CsvGrid> {
 
     // Header row.
     if (vicinity.row == 0) {
-      final sortIcon = session.sortColumn == col
-          ? (session.sortDirection == SortDirection.ascending
-              ? Icons.arrow_upward
-              : session.sortDirection == SortDirection.descending
-                  ? Icons.arrow_downward
-                  : null)
-          : null;
+      final direction = session.sortDirectionOf(col);
+      final sortIcon = switch (direction) {
+        SortDirection.ascending => Icons.arrow_upward,
+        SortDirection.descending => Icons.arrow_downward,
+        SortDirection.none => null,
+      };
+      // With a multi-level sort the level number matters as much as the arrow.
+      final level = session.sortSpecs.length > 1 ? session.sortLevelOf(col) : null;
+      final calculated = session.columnFormula(col) != null;
       return TableViewCell(
         child: Container(
           decoration: BoxDecoration(border: border),
@@ -212,6 +219,11 @@ class CsvGridState extends ConsumerState<CsvGrid> {
                 widget.editable ? () => _showColumnMenu(context, col) : null,
             child: Row(
               children: [
+                if (calculated) ...[
+                  Icon(Icons.functions,
+                      size: 13, color: theme.colorScheme.primary),
+                  const SizedBox(width: 3),
+                ],
                 Expanded(
                   child: Text(
                     session.table.header.isNotEmpty
@@ -222,6 +234,10 @@ class CsvGridState extends ConsumerState<CsvGrid> {
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
+                if (level != null)
+                  Text('$level',
+                      style: theme.textTheme.labelSmall
+                          ?.copyWith(color: theme.colorScheme.primary)),
                 if (sortIcon != null) Icon(sortIcon, size: 14),
               ],
             ),
@@ -236,13 +252,21 @@ class CsvGridState extends ConsumerState<CsvGrid> {
     final value = session.table.cell(originalRow, col);
     final numeric =
         types[col] == ColumnType.number || types[col] == ColumnType.currency;
+    // A calculated column is filled in by its formula, so typing into it would
+    // be overwritten on the next recompute.
+    final calculated = session.columnFormula(col) != null;
+    final highlight = format.highlightFor(session.table, originalRow, col);
     return TableViewCell(
       child: InkWell(
-        onTap: widget.editable
+        onTap: widget.editable && !calculated
             ? () => _editCell(context, originalRow, col, value)
             : null,
         child: Container(
-          decoration: BoxDecoration(border: border),
+          decoration: BoxDecoration(
+            border: border,
+            color:
+                highlight == null ? null : csvHighlightColor(context, highlight),
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           alignment: numeric ? Alignment.centerRight : Alignment.centerLeft,
           child: Text(
@@ -298,6 +322,13 @@ class CsvGridState extends ConsumerState<CsvGrid> {
               onTap: () => Navigator.pop(context, 'insertRight'),
             ),
             ListTile(
+              leading: const Icon(Icons.functions),
+              title: Text(session.columnFormula(col) == null
+                  ? l10n.csvSetFormula
+                  : l10n.csvEditFormula),
+              onTap: () => Navigator.pop(context, 'formula'),
+            ),
+            ListTile(
               leading: const Icon(Icons.visibility_off_outlined),
               title: Text(l10n.csvHideColumn),
               onTap: () => Navigator.pop(context, 'hide'),
@@ -327,6 +358,9 @@ class CsvGridState extends ConsumerState<CsvGrid> {
         break;
       case 'insertRight':
         session.insertColumn(col + 1);
+        break;
+      case 'formula':
+        await showCsvFormulaSheet(context, session, col);
         break;
       case 'hide':
         session.setColumnHidden(col, true);

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shell/tabs/document_tab.dart';
 import 'md_document_session.dart';
-import 'md_editor_surface.dart';
 import 'md_front_matter.dart';
+import 'md_front_matter_form.dart';
 import 'md_live_preview.dart';
 import 'md_preview_view.dart';
 import 'md_session_manager.dart';
@@ -65,7 +65,11 @@ class _ReadyView extends StatelessWidget {
     return Column(
       children: [
         if (session.frontMatter.present)
-          _FrontMatterBanner(frontMatter: session.frontMatter),
+          _FrontMatterBanner(
+            frontMatter: session.frontMatter,
+            session: session,
+            readOnly: tab.isReadOnly,
+          ),
         if (session.draftAvailable) _DraftBanner(session: session),
         Expanded(child: _body(context)),
       ],
@@ -73,25 +77,32 @@ class _ReadyView extends StatelessWidget {
   }
 
   Widget _body(BuildContext context) {
-    // A read-only tab can never enter the source editor.
+    // A read-only tab can never enter the source editor, but it can still use
+    // the split view to read the source and the rendered result together
+    // (roadmap §4.4.1).
     switch (session.mode) {
       case MdMode.rendered:
         return MdPreviewView(session: session);
       case MdMode.raw:
-        return MdEditorSurface(session: session, readOnly: true);
+        return MdLivePreview(session: session, readOnly: true);
       case MdMode.edit:
-        if (tab.isReadOnly) {
-          return MdEditorSurface(session: session, readOnly: true);
-        }
-        return MdLivePreview(session: session);
+        return MdLivePreview(session: session, readOnly: tab.isReadOnly);
     }
   }
 }
 
+/// The front-matter summary strip. Tapping it opens the form editor
+/// (roadmap §4.4.3).
 class _FrontMatterBanner extends StatelessWidget {
   final MdFrontMatter frontMatter;
+  final MdDocumentSession session;
+  final bool readOnly;
 
-  const _FrontMatterBanner({required this.frontMatter});
+  const _FrontMatterBanner({
+    required this.frontMatter,
+    required this.session,
+    required this.readOnly,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -100,45 +111,63 @@ class _FrontMatterBanner extends StatelessWidget {
     final author = frontMatter.author;
     final tags = frontMatter.tags;
 
-    return Container(
-      width: double.infinity,
+    return Material(
       color: theme.colorScheme.secondaryContainer,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (title != null)
-            Text(
-              title,
-              style: theme.textTheme.titleSmall?.copyWith(
+      child: InkWell(
+        key: const Key('md-front-matter-banner'),
+        onTap: () =>
+            showMdFrontMatterForm(context, session, readOnly: readOnly),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (title != null)
+                      Text(
+                        title,
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          color: theme.colorScheme.onSecondaryContainer,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    if (author != null)
+                      Text(
+                        AppLocalizations.of(context).mdByAuthor(author),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSecondaryContainer),
+                      ),
+                    if (tags.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Wrap(
+                          spacing: 6,
+                          runSpacing: 4,
+                          children: [
+                            for (final tag in tags)
+                              Chip(
+                                label: Text(tag),
+                                visualDensity: VisualDensity.compact,
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                              ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              Icon(
+                readOnly ? Icons.visibility_outlined : Icons.edit_outlined,
+                size: 18,
                 color: theme.colorScheme.onSecondaryContainer,
-                fontWeight: FontWeight.w700,
               ),
-            ),
-          if (author != null)
-            Text(
-              AppLocalizations.of(context).mdByAuthor(author),
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onSecondaryContainer),
-            ),
-          if (tags.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Wrap(
-                spacing: 6,
-                runSpacing: 4,
-                children: [
-                  for (final tag in tags)
-                    Chip(
-                      label: Text(tag),
-                      visualDensity: VisualDensity.compact,
-                      materialTapTargetSize:
-                          MaterialTapTargetSize.shrinkWrap,
-                    ),
-                ],
-              ),
-            ),
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }

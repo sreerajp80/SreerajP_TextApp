@@ -7,6 +7,7 @@ import 'package:re_editor/re_editor.dart';
 import '../../core/editor/atomic_saver.dart';
 import '../../core/editor/draft_store.dart';
 import '../../core/editor/encoding.dart';
+import '../../core/editor/external_change.dart';
 import '../../core/editor/saf_save_target.dart';
 import '../../core/export/export_target.dart';
 import '../../core/metadata/file_metadata.dart';
@@ -18,15 +19,17 @@ import 'json_node.dart';
 import 'json_parser.dart';
 import 'json_path.dart';
 import 'json_stats.dart';
+import 'json_table.dart';
 import 'json_well_formed_gate.dart';
 
 /// Loading lifecycle of one open JSON document.
 enum JsonLoadStatus { loading, ready, failed }
 
 /// How the JSON document is shown (task 8.1): a colour-coded pretty view, a
-/// collapsible tree, the raw source (read-only), a single-line minified view, or
-/// the source editor.
-enum JsonViewMode { pretty, tree, raw, minified, edit }
+/// collapsible tree, the raw source (read-only), a single-line minified view,
+/// the source editor, or — for an array of uniform objects — a sortable grid
+/// (roadmap §4.3.1).
+enum JsonViewMode { pretty, tree, raw, minified, edit, table }
 
 /// The indentation used when the document is re-formatted or saved (task 8.5).
 enum JsonIndent { twoSpaces, fourSpaces, tab }
@@ -65,7 +68,7 @@ extension JsonIndentInfo on JsonIndent {
 /// that it parses the JSON — leniently for the views (so a JSONC file still
 /// shows) and strictly for the pre-save gate + validity indicator. A plain
 /// [ChangeNotifier] with **no Riverpod dependency**, so it is unit-testable.
-class JsonDocumentSession extends ChangeNotifier {
+class JsonDocumentSession extends ChangeNotifier with ExternalChangeMixin {
   final DocumentTab tab;
   final SafService _saf;
   final TextCodecService _codec;
@@ -153,9 +156,21 @@ class JsonDocumentSession extends ChangeNotifier {
   FileMetadata? get metadata => _metadataValue;
   JsonViewMode get mode => _mode;
   JsonIndent get indent => _indent;
+  @override
   bool get isDirty => _isDirty;
   bool get draftAvailable => _draftAvailable;
   bool get isEditing => _mode == JsonViewMode.edit;
+
+  // --- external change watch (see ExternalChangeMixin) ----------------------
+
+  @override
+  SafService get diskSaf => _saf;
+
+  @override
+  String get diskUri => tab.uri;
+
+  @override
+  void notifyDiskWatch() => _safeNotify();
 
   /// The parsed tree used by the pretty and tree views. `null` when the current
   /// text cannot be read at all (a broken document); the raw view still works.
@@ -245,6 +260,9 @@ class JsonDocumentSession extends ChangeNotifier {
     _scroll = CodeScrollController();
 
     _isWritable = await _saf.isWritable(tab.uri);
+    // Remember what the file looked like on disk, so a change made by another
+    // app can be spotted later (see ExternalChangeMixin).
+    await captureDiskBaseline();
     _ensureParsed();
 
     _metadataValue = await _metadata.buildWithDates(
@@ -272,6 +290,60 @@ class JsonDocumentSession extends ChangeNotifier {
     _status = JsonLoadStatus.failed;
     _errorMessage = message;
     _safeNotify();
+  }
+
+  /// Reads the file again and shows the fresh content (tree and pretty views
+  /// included), dropping whatever the tab held. The caller confirms with the user
+  /// first when the tab has unsaved edits — CLAUDE.md §3.6.
+  ///
+  /// Returns false when the read failed; the document is then left untouched.
+  @override
+  Future<bool> reloadFromDisk() async {
+    final code = _code;
+    if (code == null) return false;
+
+    Uint8List bytes;
+    try {
+      bytes = await _saf.readBytes(tab.uri);
+    } catch (_) {
+      return false;
+    }
+    if (_disposed) return false;
+
+    _rawBytes = bytes;
+    final decoded = _codec.detectAndDecode(bytes);
+    _encoding = defaultSaveEncoding ?? decoded.encoding;
+    _lineEnding = defaultSaveLineEnding ?? decoded.lineEnding;
+
+    // Set the baseline text first: assigning `code.text` fires the change
+    // listener, which compares against it to work out the dirty flag.
+    _savedText = decoded.text;
+    code.text = decoded.text;
+    code.clearHistory(); // the reload itself is not undoable
+    _setDirty(false);
+    _autoSaver?.markSaved(decoded.text);
+
+    // Re-parse the tree, validity, and stats for the pretty/tree views.
+    _parsedFor = null;
+    _ensureParsed();
+
+    // A draft from before the reload belongs to content that is gone.
+    await _draftStore?.discard(tab.fingerprint);
+    _draftAvailable = false;
+
+    _metadataValue = await _metadata.buildWithDates(
+      file: SafFile(
+        uri: tab.uri,
+        displayName: tab.displayName,
+        mimeType: tab.mimeType,
+        size: bytes.length,
+      ),
+      decoded: decoded,
+      formatFields: _metadataFields(),
+    );
+
+    await markReloaded();
+    return true;
   }
 
   Map<String, String> _metadataFields() {
@@ -395,6 +467,8 @@ class JsonDocumentSession extends ChangeNotifier {
     _autoSaver?.markSaved(text);
     await _draftStore?.discard(tab.fingerprint);
     _draftAvailable = false;
+    // The file on disk is now ours again — never warn about our own write.
+    await captureDiskBaseline();
   }
 
   // --- drafts --------------------------------------------------------------
@@ -421,6 +495,97 @@ class JsonDocumentSession extends ChangeNotifier {
     await _draftStore?.discard(tab.fingerprint);
     _draftAvailable = false;
     _safeNotify();
+  }
+
+  // --- array as a table (roadmap 4.3.1) ------------------------------------
+
+  /// The JSONPath of the array currently shown as a table. `$` means "whatever
+  /// array this document offers", which is resolved fresh on every read so the
+  /// grid follows edits.
+  String _tablePath = r'$';
+
+  int _tableSortColumn = -1;
+  JsonSortDirection _tableSortDirection = JsonSortDirection.none;
+
+  String get tablePath => _tablePath;
+  int get tableSortColumn => _tableSortColumn;
+  JsonSortDirection get tableSortDirection => _tableSortDirection;
+
+  /// The array node the table view shows: the one [_tablePath] names, or the
+  /// document's first usable array when the path is the default `$`.
+  JsonNode? get tableNode {
+    final node = root;
+    if (node == null) return null;
+    if (_tablePath != r'$') {
+      final result = evaluateJsonPath(node, _tablePath);
+      final match = result.matches.isEmpty ? null : result.matches.first;
+      if (JsonTable.isTabular(match)) return match;
+      // The array the user picked is gone (an edit removed it); fall back
+      // rather than showing an error.
+    }
+    if (JsonTable.isTabular(node)) return node;
+    return _firstTabularArray(node);
+  }
+
+  /// The current table, or an empty one when this document has no array to
+  /// show. Never throws.
+  JsonTable get jsonTable => JsonTable.fromNode(tableNode);
+
+  /// True when the document has at least one array the grid can show, so the
+  /// toolbar can grey the button out instead of opening an empty screen.
+  bool get hasTabularArray => tableNode != null;
+
+  /// Shows [node] as the table and switches to that view.
+  void showNodeAsTable(JsonNode node) {
+    _tablePath = pathOf(node);
+    _tableSortColumn = -1;
+    _tableSortDirection = JsonSortDirection.none;
+    _mode = JsonViewMode.table;
+    _safeNotify();
+  }
+
+  /// Goes back to the array the document offers by default.
+  void showWholeDocumentAsTable() {
+    if (_tablePath == r'$') return;
+    _tablePath = r'$';
+    _tableSortColumn = -1;
+    _tableSortDirection = JsonSortDirection.none;
+    _safeNotify();
+  }
+
+  /// Cycles the table sort on [column]: ascending → descending → none.
+  void sortTableBy(int column) {
+    if (_tableSortColumn == column) {
+      _tableSortDirection = switch (_tableSortDirection) {
+        JsonSortDirection.none => JsonSortDirection.ascending,
+        JsonSortDirection.ascending => JsonSortDirection.descending,
+        JsonSortDirection.descending => JsonSortDirection.none,
+      };
+      if (_tableSortDirection == JsonSortDirection.none) _tableSortColumn = -1;
+    } else {
+      _tableSortColumn = column;
+      _tableSortDirection = JsonSortDirection.ascending;
+    }
+    _safeNotify();
+  }
+
+  void clearTableSort() {
+    if (_tableSortDirection == JsonSortDirection.none) return;
+    _tableSortColumn = -1;
+    _tableSortDirection = JsonSortDirection.none;
+    _safeNotify();
+  }
+
+  /// The first array below [node] that the grid could show, breadth-first so a
+  /// top-level record list is preferred over one buried deep.
+  static JsonNode? _firstTabularArray(JsonNode node) {
+    final queue = <JsonNode>[node];
+    while (queue.isNotEmpty) {
+      final current = queue.removeAt(0);
+      if (JsonTable.isTabular(current)) return current;
+      queue.addAll(current.children);
+    }
+    return null;
   }
 
   // --- tree expansion + filter (task 8.2, 8.3) -----------------------------

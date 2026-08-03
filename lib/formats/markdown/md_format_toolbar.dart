@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import 'md_document_session.dart';
 import 'md_source_edits.dart';
+import 'md_table_builder_dialog.dart';
+import 'md_table_source.dart';
 
 /// The Markdown formatting toolbar shown in edit mode (task 6.4).
 ///
@@ -54,11 +56,48 @@ class MdFormatToolbar extends StatelessWidget {
             _btn(l10n.mdCodeBlock, Icons.data_object,
                 () => _apply(MdSourceEdits.codeBlock)),
             _btn(l10n.mdLink, Icons.link, () => _apply(MdSourceEdits.link)),
-            _btn(l10n.mdTable, Icons.grid_on,
-                () => _apply(MdSourceEdits.table)),
+            // Roadmap §4.4.2: the table button opens the visual builder rather
+            // than dropping a skeleton the user has to align by hand.
+            _btn(l10n.mdTable, Icons.grid_on, () => _editTable(context)),
           ],
         ),
       ),
+    );
+  }
+
+  /// Opens the table builder (roadmap §4.4.2).
+  ///
+  /// When the cursor sits inside a table, that table is loaded into the builder
+  /// and the result replaces it; otherwise a new table is inserted where the
+  /// cursor is.
+  Future<void> _editTable(BuildContext context) async {
+    final code = session.code;
+    if (code == null) return;
+    final text = code.text;
+    final (start, end) = session.selectionRange;
+
+    final span = MdTableData.findTableAt(text, start);
+    final existing =
+        span == null ? null : MdTableData.parse(text.substring(span.start, span.end));
+
+    final result = await showMdTableBuilder(context, initial: existing);
+    if (result == null) return;
+
+    if (span != null) {
+      final newText = text.replaceRange(span.start, span.end, result);
+      session.applyEdit(newText, span.start, span.start + result.length);
+      return;
+    }
+
+    // Insert on its own lines, so the table is a block of its own.
+    final before = start > 0 && text[start - 1] != '\n' ? '\n\n' : '';
+    final after = end < text.length && text[end] != '\n' ? '\n\n' : '\n';
+    final insert = '$before$result$after';
+    final newText = text.replaceRange(start, end, insert);
+    session.applyEdit(
+      newText,
+      start + before.length,
+      start + before.length + result.length,
     );
   }
 

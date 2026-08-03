@@ -122,6 +122,13 @@ exist (`SecuritySettings`) but enforcement — the launch lock gate and
 `FLAG_SECURE` on the QR/code screen — is implemented in task 13.2. This item is
 tracked there, not a violation of the current rules.
 
+> **Update (task 13.2 shipped 2026-07-12, one day after this audit):** enforcement is
+> now in code — `AppLockGate` re-locks on background/resume
+> (`lib/core/security/app_lock_gate.dart`), and `ScreenshotProtector` /
+> `PlatformWindowSecurity.setSecure` drive `FLAG_SECURE` on the pairing screen
+> (`lib/core/security/window_security.dart`, `lib/sync/ui/sync_host_screen.dart`). Only
+> the manual device verification below remains open.
+
 ---
 
 ## Scoped-storage, atomic-save, permissions (CLAUDE.md §3)

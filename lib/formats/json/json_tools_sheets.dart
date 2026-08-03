@@ -11,12 +11,19 @@ import 'json_diff.dart';
 import 'json_document_session.dart';
 import 'json_parser.dart';
 import 'json_path.dart';
+import 'json_quick_fix.dart';
 import 'json_schema_validator.dart';
 
 /// A bottom sheet to run a JSONPath query against the document and jump to /
 /// copy matches (task 8.3).
+///
+/// [initialQuery] pre-fills the box and runs straight away — that is how a
+/// query built in the visual builder (roadmap §4.3.2) arrives here.
 Future<void> showJsonPathSheet(
-    BuildContext context, JsonDocumentSession session) {
+  BuildContext context,
+  JsonDocumentSession session, {
+  String? initialQuery,
+}) {
   return showModalBottomSheet<void>(
     context: context,
     showDragHandle: true,
@@ -24,23 +31,38 @@ Future<void> showJsonPathSheet(
     builder: (context) => Padding(
       padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: _JsonPathBody(session: session),
+      child: _JsonPathBody(session: session, initialQuery: initialQuery),
     ),
   );
 }
 
 class _JsonPathBody extends StatefulWidget {
   final JsonDocumentSession session;
-  const _JsonPathBody({required this.session});
+  final String? initialQuery;
+
+  const _JsonPathBody({required this.session, this.initialQuery});
 
   @override
   State<_JsonPathBody> createState() => _JsonPathBodyState();
 }
 
 class _JsonPathBodyState extends State<_JsonPathBody> {
-  final _controller = TextEditingController(text: r'$..');
+  late final _controller =
+      TextEditingController(text: widget.initialQuery ?? r'$..');
   String? _error;
   List<String> _matches = const [];
+
+  @override
+  void initState() {
+    super.initState();
+    // A query handed over from the builder is already what the user wants, so
+    // show its result without making them tap Run.
+    if (widget.initialQuery != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _run();
+      });
+    }
+  }
 
   void _run() {
     final root = widget.session.root;
@@ -218,6 +240,7 @@ class _ValidateBodyState extends State<_ValidateBody> {
                 ),
               ],
             ),
+            if (!wellFormed) _QuickFixes(session: widget.session),
             const SizedBox(height: 12),
             OutlinedButton.icon(
               onPressed: _validateAgainstSchema,
@@ -249,6 +272,83 @@ class _ValidateBodyState extends State<_ValidateBody> {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// The 1-tap repairs offered for a document that is not strict JSON
+/// (roadmap §4.3.3).
+///
+/// Each button rewrites the buffer through the session, so the change is a
+/// normal edit the user can undo and must still save — nothing is written to
+/// disk here. The list refreshes after every tap, so fixing one problem reveals
+/// what is left.
+class _QuickFixes extends StatefulWidget {
+  final JsonDocumentSession session;
+
+  const _QuickFixes({required this.session});
+
+  @override
+  State<_QuickFixes> createState() => _QuickFixesState();
+}
+
+class _QuickFixesState extends State<_QuickFixes> {
+  String _labelFor(AppLocalizations l10n, String id) {
+    switch (id) {
+      case JsonQuickFixes.quoteKeys:
+        return l10n.jsonFixQuoteKeys;
+      case JsonQuickFixes.doubleQuotes:
+        return l10n.jsonFixDoubleQuotes;
+      case JsonQuickFixes.trailingCommas:
+        return l10n.jsonFixTrailingCommas;
+      case JsonQuickFixes.removeComments:
+        return l10n.jsonFixRemoveComments;
+      case JsonQuickFixes.pythonLiterals:
+        return l10n.jsonFixPythonLiterals;
+      default:
+        return l10n.jsonFixEverything;
+    }
+  }
+
+  void _apply(String newSource) {
+    widget.session.applySource(newSource);
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+    final source = widget.session.code?.text ?? '';
+    final fixes = JsonQuickFixes.forSource(source);
+    final all = JsonQuickFixes.fixAll(source);
+    if (fixes.isEmpty && all == null) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 16),
+        Text(l10n.jsonQuickFixes, style: theme.textTheme.titleSmall),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            if (all != null)
+              FilledButton.tonalIcon(
+                key: const Key('json-fix-all'),
+                onPressed: () => _apply(all.result),
+                icon: const Icon(Icons.auto_fix_high, size: 18),
+                label: Text(l10n.jsonFixEverything),
+              ),
+            for (final fix in fixes)
+              OutlinedButton(
+                onPressed: () => _apply(fix.result),
+                child: Text(_labelFor(l10n, fix.id)),
+              ),
+          ],
+        ),
+      ],
     );
   }
 }

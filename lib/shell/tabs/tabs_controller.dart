@@ -162,10 +162,27 @@ class TabsController extends Notifier<TabsState> {
   }) {
     final tabs = List<DocumentTab>.of(state.tabs);
 
-    // Already open? Just focus it.
-    final existing = tabs.indexWhere((t) => t.fingerprint == fingerprint);
-    if (existing >= 0) {
-      setActive(tabs[existing].id);
+    // Already open? Just focus it — never open one file in two tabs.
+    //
+    // The file **location** (SAF URI) decides this, not the content
+    // fingerprint: a tab keeps the fingerprint it had when it was opened (drafts
+    // and reading positions are keyed to it), so after a save the tab's
+    // fingerprint is stale and a content-only check would add a duplicate tab.
+    //
+    // The fingerprint is still a useful fallback for the same file reached
+    // through a second URI, but only together with the same display name —
+    // otherwise two different empty files (identical bytes) would collapse into
+    // one tab and show the wrong file.
+    final existing = tabs.indexWhere((t) => t.uri == file.uri);
+    final sameContent = existing >= 0
+        ? existing
+        : tabs.indexWhere(
+            (t) =>
+                t.fingerprint == fingerprint &&
+                t.displayName == file.displayName,
+          );
+    if (sameContent >= 0) {
+      setActive(tabs[sameContent].id);
       return OpenOutcome.opened;
     }
 

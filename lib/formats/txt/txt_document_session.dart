@@ -6,6 +6,7 @@ import 'package:re_editor/re_editor.dart';
 import '../../core/editor/atomic_saver.dart';
 import '../../core/editor/draft_store.dart';
 import '../../core/editor/encoding.dart';
+import '../../core/editor/external_change.dart';
 import '../../core/editor/saf_save_target.dart';
 import '../../core/export/export_target.dart';
 import '../../core/metadata/file_metadata.dart';
@@ -30,7 +31,7 @@ enum TxtLoadStatus { loading, ready, failed }
 /// It is a plain [ChangeNotifier] with **no Riverpod dependency**, so it can be
 /// unit-tested directly. The async services ([DraftStore], temp dir) are passed
 /// as futures and awaited on first use.
-class TxtDocumentSession extends ChangeNotifier {
+class TxtDocumentSession extends ChangeNotifier with ExternalChangeMixin {
   final DocumentTab tab;
   final SafService _saf;
   final TextCodecService _codec;
@@ -119,8 +120,20 @@ class TxtDocumentSession extends ChangeNotifier {
   bool get wordWrap => _wordWrap;
   bool get binaryWarning => _binaryWarning;
   TabViewMode get viewMode => _viewMode;
+  @override
   bool get isDirty => _isDirty;
   bool get draftAvailable => _draftAvailable;
+
+  // --- external change watch (see ExternalChangeMixin) ----------------------
+
+  @override
+  SafService get diskSaf => _saf;
+
+  @override
+  String get diskUri => tab.uri;
+
+  @override
+  void notifyDiskWatch() => _safeNotify();
 
   /// Live stats for the current editor content.
   TxtStats get stats => TxtStats.of(_code?.text ?? '');
@@ -176,6 +189,9 @@ class TxtDocumentSession extends ChangeNotifier {
     _scroll = CodeScrollController();
 
     _isWritable = await _saf.isWritable(tab.uri);
+    // Remember what the file looked like on disk, so a change made by another
+    // app can be spotted later (see ExternalChangeMixin).
+    await captureDiskBaseline();
 
     _metadataValue = await _metadata.buildWithDates(
       file: SafFile(
@@ -202,6 +218,57 @@ class TxtDocumentSession extends ChangeNotifier {
     _status = TxtLoadStatus.failed;
     _errorMessage = message;
     _safeNotify();
+  }
+
+  /// Reads the file again and shows the fresh content, dropping whatever the tab
+  /// held (task: warn on external change). The caller confirms with the user
+  /// first when the tab has unsaved edits — CLAUDE.md §3.6.
+  ///
+  /// Returns false when the read failed; the document is then left untouched.
+  @override
+  Future<bool> reloadFromDisk() async {
+    final code = _code;
+    if (code == null) return false;
+
+    Uint8List bytes;
+    try {
+      bytes = await _saf.readBytes(tab.uri);
+    } catch (_) {
+      return false;
+    }
+    if (_disposed) return false;
+
+    _rawBytes = bytes;
+    _binaryWarning = TxtContentSniff.looksBinary(bytes);
+
+    final decoded = _codec.detectAndDecode(bytes);
+    _encoding = defaultSaveEncoding ?? decoded.encoding;
+    _lineEnding = defaultSaveLineEnding ?? decoded.lineEnding;
+
+    // Set the baseline text first: assigning `code.text` fires the change
+    // listener, which compares against it to work out the dirty flag.
+    _savedText = decoded.text;
+    code.text = decoded.text;
+    code.clearHistory(); // the reload itself is not undoable
+    _setDirty(false);
+    _autoSaver?.markSaved(decoded.text);
+
+    // A draft from before the reload belongs to content that is gone.
+    await _draftStore?.discard(tab.fingerprint);
+    _draftAvailable = false;
+
+    _metadataValue = await _metadata.buildWithDates(
+      file: SafFile(
+        uri: tab.uri,
+        displayName: tab.displayName,
+        mimeType: tab.mimeType,
+        size: bytes.length,
+      ),
+      decoded: decoded,
+    );
+
+    await markReloaded();
+    return true;
   }
 
   // --- view controls -------------------------------------------------------
@@ -361,6 +428,8 @@ class TxtDocumentSession extends ChangeNotifier {
     _autoSaver?.markSaved(text);
     await _draftStore?.discard(tab.fingerprint);
     _draftAvailable = false;
+    // The file on disk is now ours again — never warn about our own write.
+    await captureDiskBaseline();
   }
 
   void undo() => _code?.undo();

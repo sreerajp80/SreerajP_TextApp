@@ -38,6 +38,9 @@ MaterialApp localizedApp({required Widget home}) => MaterialApp(
 /// set, serves fixed byte content, and returns a preset pick result.
 class FakeSafService extends SafService {
   final Set<String> accessibleUris;
+
+  /// File bytes per URI. Modifiable, so a test can simulate a change on disk
+  /// (see [changeOnDisk]) even when it passed a const map in.
   final Map<String, Uint8List> contents;
   final SafFile? pickResult;
   final SafFile? createResult;
@@ -46,13 +49,28 @@ class FakeSafService extends SafService {
   String? lastMimeType;
   Uint8List? lastCreatedBytes;
 
+  /// Last-modified time per URI in epoch millis. A URI with no entry reports no
+  /// timestamp, like a provider that does not expose one.
+  final Map<String, int> modifiedTimes;
+
   FakeSafService({
     this.accessibleUris = const {},
-    this.contents = const {},
+    Map<String, Uint8List> contents = const {},
     this.pickResult,
     this.createResult,
     this.createError,
-  });
+    Map<String, int> modifiedTimes = const {},
+  })  : contents = Map<String, Uint8List>.of(contents),
+        modifiedTimes = Map<String, int>.of(modifiedTimes);
+
+  /// Simulates another app writing [uri]: new content and a newer timestamp.
+  void changeOnDisk(String uri, Uint8List bytes, {int? modifiedAt}) {
+    contents[uri] = bytes;
+    modifiedTimes[uri] = modifiedAt ?? ((modifiedTimes[uri] ?? 0) + 1000);
+  }
+
+  @override
+  Future<int?> modifiedTime(String uri) async => modifiedTimes[uri];
 
   @override
   Future<bool> isAccessible(String uri) async => accessibleUris.contains(uri);

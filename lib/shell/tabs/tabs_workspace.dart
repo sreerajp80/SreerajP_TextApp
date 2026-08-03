@@ -24,6 +24,7 @@ import '../../formats/xml/xml_session_manager.dart';
 import '../../formats/xml/xml_toolbar.dart';
 import 'degraded_document_view.dart';
 import 'document_tab.dart';
+import 'file_changed_banner.dart';
 import 'placeholder_document_view.dart';
 import 'read_only_lock_button.dart';
 import 'session_retention.dart';
@@ -81,6 +82,9 @@ class TabsWorkspace extends ConsumerWidget {
           TabStrip(onRequestClose: (tab) => _confirmClose(context, ref, tab)),
           if (active != null) _DocumentToolbar(tab: active),
           if (active != null && active.isReadOnly) const ReadOnlyBanner(),
+          // Warns when another app changed the file behind this tab, and offers
+          // to load the fresh content. Shows nothing until that happens.
+          if (active != null) FileChangedBanner(tab: active),
           Expanded(
             child: Stack(
               children: [

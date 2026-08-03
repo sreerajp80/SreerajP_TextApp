@@ -68,6 +68,58 @@ void main() {
     expect(state.activeTab?.fingerprint, '10-a');
   });
 
+  test('re-opening a file whose content changed does not duplicate the tab',
+      () async {
+    final container = await makeContainer();
+    final tabs = container.read(tabsControllerProvider.notifier);
+    tabs.openFile(file('a'), '10-a');
+    tabs.openFile(file('b'), '20-b');
+    // Same file (same URI), but it was edited and saved, so the fingerprint of
+    // the bytes on disk is now different from the one the tab was opened with.
+    tabs.openFile(file('a'), '11-a2');
+
+    final state = container.read(tabsControllerProvider);
+    expect(state.tabs.length, 2);
+    expect(state.activeTab?.uri, 'content://a');
+    // The tab keeps its original fingerprint (drafts/positions are keyed to it).
+    expect(state.activeTab?.fingerprint, '10-a');
+  });
+
+  test('two different files with identical content get their own tabs',
+      () async {
+    final container = await makeContainer();
+    final tabs = container.read(tabsControllerProvider.notifier);
+    // Two empty files: same bytes, so the same fingerprint, different files.
+    tabs.openFile(file('empty1'), '0-e');
+    tabs.openFile(file('empty2'), '0-e');
+
+    final state = container.read(tabsControllerProvider);
+    expect(state.tabs.length, 2);
+    expect(state.activeTab?.uri, 'content://empty2');
+  });
+
+  test('the same file reached through a second URI focuses the same tab',
+      () async {
+    final container = await makeContainer();
+    final tabs = container.read(tabsControllerProvider.notifier);
+    tabs.openFile(file('a'), '10-a');
+    // Another provider hands back the same document: different URI, same name
+    // and same bytes.
+    tabs.openFile(
+      const SafFile(
+        uri: 'content://other-provider/a',
+        displayName: 'a.txt',
+        mimeType: 'text/plain',
+        size: 10,
+      ),
+      '10-a',
+    );
+
+    final state = container.read(tabsControllerProvider);
+    expect(state.tabs.length, 1);
+    expect(state.activeTab?.uri, 'content://a');
+  });
+
   test('over-limit closes the least-recently-used tab (2.6)', () async {
     final container = await makeContainer();
     final tabs = container.read(tabsControllerProvider.notifier);

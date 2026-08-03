@@ -7,6 +7,7 @@ import 'json_document_session.dart';
 import 'json_node.dart';
 import 'json_parser.dart';
 import 'json_path.dart';
+import 'json_table.dart';
 import 'json_tree_edits.dart';
 
 /// The collapsible **tree** view of a JSON document (tasks 8.2, 8.5).
@@ -166,6 +167,7 @@ enum _RowAction {
   editKey,
   addChild,
   delete,
+  viewAsTable,
 }
 
 class _RowMenu extends StatelessWidget {
@@ -187,6 +189,10 @@ class _RowMenu extends StatelessWidget {
       tooltip: l10n.xmlNodeActions,
       onSelected: (a) => _handle(context, a),
       itemBuilder: (context) => [
+        // Roadmap §4.3.1: a uniform array is one tap from a sortable grid.
+        if (JsonTable.isTabular(node))
+          PopupMenuItem(
+              value: _RowAction.viewAsTable, child: Text(l10n.jsonViewAsTable)),
         PopupMenuItem(value: _RowAction.copyPath, child: Text(l10n.xmlCopyPath)),
         if (!node.isContainer)
           PopupMenuItem(
@@ -218,6 +224,9 @@ class _RowMenu extends StatelessWidget {
     final source = session.code?.text ?? '';
     const edits = JsonTreeEdits();
     switch (action) {
+      case _RowAction.viewAsTable:
+        session.showNodeAsTable(node);
+        break;
       case _RowAction.copyPath:
         await Clipboard.setData(ClipboardData(text: pathOf(node)));
         messenger.showSnackBar(SnackBar(content: Text(l10n.xmlPathCopied)));

@@ -11,6 +11,7 @@ import 'package:text_data/core/storage/app_database.dart';
 import 'package:text_data/core/storage/drafts_index_repository.dart';
 import 'package:text_data/core/storage/saf_exceptions.dart';
 import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/formats/csv/csv_conditional_format.dart';
 import 'package:text_data/formats/csv/csv_document_session.dart';
 import 'package:text_data/formats/csv/csv_filter_sort.dart';
 import 'package:text_data/shell/tabs/document_tab.dart';
@@ -288,5 +289,238 @@ void main() {
     // The pure helper and the session agree on the filtered set.
     expect(CsvFilterSort.filter(session.table, 'ada'), [0]);
     session.dispose();
+  });
+
+  group('multi-level sort (roadmap 4.2.1)', () {
+    const csv = 'dept,salary\nSales,500\nEng,900\nSales,700';
+
+    test('setSortSpecs drives the visible order', () async {
+      final session = await build(safWith(csv));
+      await session.load();
+      session.setSortSpecs(const [
+        CsvSortSpec(0, SortDirection.ascending),
+        CsvSortSpec(1, SortDirection.descending),
+      ]);
+      expect(session.visibleRowIndices, [1, 2, 0]);
+      expect(session.sortLevelOf(1), 2);
+      session.dispose();
+    });
+
+    test('a level naming a missing column is dropped', () async {
+      final session = await build(safWith(csv));
+      await session.load();
+      session.setSortSpecs(const [
+        CsvSortSpec(9, SortDirection.ascending),
+        CsvSortSpec(1, SortDirection.ascending),
+      ]);
+      expect(session.sortSpecs.length, 1);
+      session.dispose();
+    });
+
+    test('a header tap collapses a multi-level sort to that column', () async {
+      final session = await build(safWith(csv));
+      await session.load();
+      session.setSortSpecs(const [
+        CsvSortSpec(0, SortDirection.ascending),
+        CsvSortSpec(1, SortDirection.descending),
+      ]);
+      session.sortBy(1);
+      expect(session.sortSpecs, const [CsvSortSpec(1, SortDirection.ascending)]);
+      session.dispose();
+    });
+
+    test('the whole hierarchy comes back on a later open', () async {
+      final store = await inMemoryKeyValueStore();
+      CsvDocumentSession make() => CsvDocumentSession(
+            tab: tabFor('u'),
+            saf: safWith(csv),
+            codec: const TextCodecService(),
+            saver: const AtomicSaver(),
+            metadata: MetadataService(safWith(csv)),
+            store: store,
+            draftStore: Future.value(draftStore),
+            tempDir: Future.value(tempDir),
+          );
+
+      final first = make();
+      await first.load();
+      first.setSortSpecs(const [
+        CsvSortSpec(0, SortDirection.ascending),
+        CsvSortSpec(1, SortDirection.descending),
+      ]);
+      first.persistPosition();
+      first.dispose();
+
+      final second = make();
+      await second.load();
+      expect(second.sortSpecs, const [
+        CsvSortSpec(0, SortDirection.ascending),
+        CsvSortSpec(1, SortDirection.descending),
+      ]);
+      second.dispose();
+    });
+  });
+
+  group('calculated columns (roadmap 4.2.2)', () {
+    test('a formula fills the column in and follows later edits', () async {
+      final session = await build(safWith('qty,price,total\n2,10,\n3,20,'));
+      await session.load();
+
+      expect(session.setColumnFormula(2, '=A*B'), isNull);
+      expect(session.table.cell(0, 2), '20');
+      expect(session.table.cell(1, 2), '60');
+
+      // Changing a source cell refreshes the calculated column.
+      session.setCell(0, 0, '5');
+      expect(session.table.cell(0, 2), '50');
+      session.dispose();
+    });
+
+    test('the computed values are what a save would write', () async {
+      final saf = safWith('qty,price,total\n2,10,\n3,20,');
+      final session = await build(saf);
+      await session.load();
+      session.setColumnFormula(2, '=A*B');
+
+      final result = await session.save();
+      expect(result.outcome, SaveOutcome.saved);
+      expect(String.fromCharCodes(saf.lastWritten!),
+          'qty,price,total\n2,10,20\n3,20,60');
+      session.dispose();
+    });
+
+    test('a bad formula is refused and the column is left alone', () async {
+      final session = await build(safWith('a,b\n1,\n2,'));
+      await session.load();
+      final problem = session.setColumnFormula(1, '=NOPE()');
+      expect(problem, isNotNull);
+      expect(session.columnFormula(1), isNull);
+      expect(session.table.cell(0, 1), '');
+      session.dispose();
+    });
+
+    test('a formula using its own column is refused', () async {
+      final session = await build(safWith('a,b\n1,2'));
+      await session.load();
+      expect(session.setColumnFormula(1, '=B+1'), contains('own column'));
+      session.dispose();
+    });
+
+    test('removing a formula keeps the values already computed', () async {
+      final session = await build(safWith('a,b\n2,\n3,'));
+      await session.load();
+      session.setColumnFormula(1, '=A*10');
+      expect(session.table.cell(0, 1), '20');
+
+      session.clearColumnFormula(1);
+      expect(session.columnFormula(1), isNull);
+      expect(session.table.cell(0, 1), '20');
+      session.dispose();
+    });
+
+    test('the formula comes back on a later open', () async {
+      const csv = 'a,b\n2,\n3,';
+      final store = await inMemoryKeyValueStore();
+      CsvDocumentSession make() => CsvDocumentSession(
+            tab: tabFor('u'),
+            saf: safWith(csv),
+            codec: const TextCodecService(),
+            saver: const AtomicSaver(),
+            metadata: MetadataService(safWith(csv)),
+            store: store,
+            draftStore: Future.value(draftStore),
+            tempDir: Future.value(tempDir),
+          );
+
+      final first = make();
+      await first.load();
+      first.setColumnFormula(1, '=A*10');
+      first.dispose();
+
+      final second = make();
+      await second.load();
+      expect(second.columnFormula(1), '=A*10');
+      expect(second.table.cell(1, 1), '30');
+      second.dispose();
+    });
+  });
+
+  group('conditional formatting (roadmap 4.2.3)', () {
+    test('rules reach the grid through the prepared matcher', () async {
+      final session = await build(safWith('n\n-5\n7'));
+      await session.load();
+      session.addFormatRule(const CsvFormatRule(
+        column: 0,
+        condition: CsvCondition.lessThan,
+        value: '0',
+        highlight: CsvHighlight.red,
+      ));
+      expect(session.conditionalFormat.highlightFor(session.table, 0, 0),
+          CsvHighlight.red);
+      expect(session.conditionalFormat.highlightFor(session.table, 1, 0), isNull);
+      session.dispose();
+    });
+
+    test('the prepared matcher follows an edit', () async {
+      final session = await build(safWith('n\n-5\n7'));
+      await session.load();
+      session.addFormatRule(const CsvFormatRule(
+        column: 0,
+        condition: CsvCondition.lessThan,
+        value: '0',
+        highlight: CsvHighlight.red,
+      ));
+      session.setCell(0, 0, '9');
+      expect(session.conditionalFormat.highlightFor(session.table, 0, 0), isNull);
+      session.dispose();
+    });
+
+    test('rules come back on a later open', () async {
+      const csv = 'n\n-5\n7';
+      final store = await inMemoryKeyValueStore();
+      CsvDocumentSession make() => CsvDocumentSession(
+            tab: tabFor('u'),
+            saf: safWith(csv),
+            codec: const TextCodecService(),
+            saver: const AtomicSaver(),
+            metadata: MetadataService(safWith(csv)),
+            store: store,
+            draftStore: Future.value(draftStore),
+            tempDir: Future.value(tempDir),
+          );
+
+      final first = make();
+      await first.load();
+      first.addFormatRule(const CsvFormatRule(
+        column: 0,
+        condition: CsvCondition.lessThan,
+        value: '0',
+        highlight: CsvHighlight.red,
+      ));
+      first.dispose();
+
+      final second = make();
+      await second.load();
+      expect(second.formatRules.length, 1);
+      expect(second.formatRules.first.highlight, CsvHighlight.red);
+      second.dispose();
+    });
+
+    test('deleting a column drops the rules and formulas that named it',
+        () async {
+      final session = await build(safWith('a,b,c\n1,2,\n3,4,'));
+      await session.load();
+      session.setColumnFormula(2, '=A+B');
+      session.addFormatRule(const CsvFormatRule(
+        column: 2,
+        condition: CsvCondition.isEmpty,
+        highlight: CsvHighlight.blue,
+      ));
+
+      session.deleteColumn(2);
+      expect(session.columnFormula(2), isNull);
+      expect(session.formatRules, isEmpty);
+      session.dispose();
+    });
   });
 }

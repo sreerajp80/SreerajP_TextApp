@@ -66,7 +66,7 @@ adding any new one.
 | Secure storage (device keys) | `flutter_secure_storage` |
 | Preferences | `shared_preferences` |
 | Local DB (recents, bookmarks, favorites, drafts index) | `sqflite` or `drift` |
-| Markdown render | `flutter_markdown` (+ `markdown`); `flutter_math_fork` for LaTeX (planned) |
+| Markdown render | `markdown` (parser only) with our own renderer widget — `flutter_markdown` is discontinued and was deliberately not used (CLAUDE.md §3.1); `flutter_math_fork` for LaTeX |
 | Code / syntax highlight | `flutter_highlight` / `highlight` |
 | CSV parse | `csv` |
 | JSON | Dart core `dart:convert`; custom lenient reader for JSONC/JSON5, NDJSON handling |
@@ -118,6 +118,10 @@ lib/
       bookmarks_repository.dart
       favorites_repository.dart
     fingerprint/                # content fingerprint (size + hash) for file identity
+    security/                   # app-lock PIN, biometrics, recovery key, FLAG_SECURE (Phase 13)
+    large_file/                 # paged/streaming render + size policy for big files (Phase 10)
+    locale/                     # app language switcher (Phase 13, gen-l10n)
+    output/                     # shared output/export providers
 
   formats/
     txt/                        # viewer + editor + metadata
@@ -139,6 +143,7 @@ lib/
     sync_transport.dart
     sync_provider.dart
     payload.dart                # build + validate + merge
+    ui/                         # pairing/host/client screens, status chip, share chooser
 
 assets/
   config/app_config.json        # About section source of truth
@@ -208,7 +213,8 @@ capabilities (export targets, print output, metadata fields) it supports.
 
 - **TXT** — word-wrap toggle, line-number gutter, jump-to-line, URL detection, optional
   syntax highlight, split/merge, stats (word/char/line). Full text editing via the core.
-- **Markdown** — rendered vs raw toggle (`flutter_markdown`), auto TOC from headings,
+- **Markdown** — rendered vs raw toggle (own renderer widget over the `markdown` parser's AST,
+  not `flutter_markdown`), auto TOC from headings,
   GFM (tables, task lists, strikethrough, autolinks), optional footnotes/emoji, LaTeX via
   `flutter_math_fork` (planned; Mermaid out of scope → shown as a plain code block). Editor
   has a **formatting toolbar** and a live preview toggle.
@@ -221,9 +227,9 @@ capabilities (export targets, print output, metadata fields) it supports.
   list; **lenient** JSONC/JSON5 read (saves strict JSON); exact-text handling for
   large/high-precision numbers; split/merge top-level arrays.
 - **XML** — pretty / tree / raw views; tree navigation; search + optional XPath; well-formedness
-  check; namespaces, comments, CDATA, entity resolve/re-escape; optional XSD validation via
-  Android `javax.xml.validation` behind a platform channel (DTD and XSLT out of scope);
-  split/merge.
+  check + 1-tap quick fixes; namespaces, comments, CDATA, entity resolve/re-escape; split/merge.
+  Optional XSD schema validation is planned but **not implemented yet** (the UI marks it
+  "coming soon"); DTD and XSLT are out of scope.
 
 ---
 

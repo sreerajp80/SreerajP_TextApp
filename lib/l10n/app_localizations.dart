@@ -632,6 +632,54 @@ abstract class AppLocalizations {
   /// **'Could not save; tab kept open.'**
   String get tabCouldNotSave;
 
+  /// Banner shown when another app changed the open file.
+  ///
+  /// In en, this message translates to:
+  /// **'This file changed on disk.'**
+  String get fileChangedBanner;
+
+  /// Banner action: load the file from disk again.
+  ///
+  /// In en, this message translates to:
+  /// **'Reload'**
+  String get fileChangedReload;
+
+  /// Banner action: keep the current content and hide the warning.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get fileChangedDismiss;
+
+  /// Snackbar when reloading the changed file fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reload the file.'**
+  String get fileChangedReloadFailed;
+
+  /// Confirm dialog title before reloading a tab with unsaved edits.
+  ///
+  /// In en, this message translates to:
+  /// **'Reload and lose your edits?'**
+  String get fileChangedConfirmTitle;
+
+  /// Confirm dialog body before reloading a tab with unsaved edits.
+  ///
+  /// In en, this message translates to:
+  /// **'\"{fileName}\" has unsaved edits. Reloading loads the file from disk and throws those edits away.'**
+  String fileChangedConfirmBody(String fileName);
+
+  /// Confirm dialog action: reload, discarding unsaved edits.
+  ///
+  /// In en, this message translates to:
+  /// **'Reload and discard'**
+  String get fileChangedConfirmReload;
+
+  /// Confirm dialog action: keep the edits, do not reload.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get fileChangedConfirmCancel;
+
   /// Unsaved-changes dialog title.
   ///
   /// In en, this message translates to:
@@ -2090,6 +2138,138 @@ abstract class AppLocalizations {
   /// **'Live preview on'**
   String get mdLivePreviewOn;
 
+  /// Title of the visual Markdown table builder (roadmap 4.4.2).
+  ///
+  /// In en, this message translates to:
+  /// **'Table builder'**
+  String get mdTableBuilder;
+
+  /// Short help text in the table builder.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the cells; the pipe characters are lined up for you.'**
+  String get mdTableBuilderHelp;
+
+  /// Label of a header cell field.
+  ///
+  /// In en, this message translates to:
+  /// **'Header'**
+  String get mdTableHeaderCell;
+
+  /// Adds a body row to the table being built.
+  ///
+  /// In en, this message translates to:
+  /// **'Add row'**
+  String get mdTableAddRow;
+
+  /// Adds a column to the table being built.
+  ///
+  /// In en, this message translates to:
+  /// **'Add column'**
+  String get mdTableAddColumn;
+
+  /// Removes one body row.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this row'**
+  String get mdTableRemoveRow;
+
+  /// Removes one column.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this column'**
+  String get mdTableRemoveColumn;
+
+  /// Heading above the generated table source.
+  ///
+  /// In en, this message translates to:
+  /// **'Markdown'**
+  String get mdTablePreview;
+
+  /// Writes the built table into the document.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert table'**
+  String get mdTableInsert;
+
+  /// Column alignment: none set.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get mdTableAlignDefault;
+
+  /// Column alignment: left.
+  ///
+  /// In en, this message translates to:
+  /// **'Left'**
+  String get mdTableAlignLeft;
+
+  /// Column alignment: centre.
+  ///
+  /// In en, this message translates to:
+  /// **'Center'**
+  String get mdTableAlignCenter;
+
+  /// Column alignment: right.
+  ///
+  /// In en, this message translates to:
+  /// **'Right'**
+  String get mdTableAlignRight;
+
+  /// Title of the YAML front-matter form editor (roadmap 4.4.3).
+  ///
+  /// In en, this message translates to:
+  /// **'Front matter'**
+  String get mdFrontMatterTitle;
+
+  /// Explains that unknown YAML is preserved.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit the fields below. Anything this form does not show is left exactly as it is.'**
+  String get mdFrontMatterHelp;
+
+  /// Shown when the file has no front-matter block.
+  ///
+  /// In en, this message translates to:
+  /// **'This file has no front matter yet. Fill in a field to add one.'**
+  String get mdFrontMatterNone;
+
+  /// Adds a new front-matter field.
+  ///
+  /// In en, this message translates to:
+  /// **'Add field'**
+  String get mdFrontMatterAddField;
+
+  /// Label of the new-field name input.
+  ///
+  /// In en, this message translates to:
+  /// **'Field name'**
+  String get mdFrontMatterFieldName;
+
+  /// Confirms adding a new field.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get mdFrontMatterAdd;
+
+  /// Hint of the tag chip input.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a tag and press enter'**
+  String get mdFrontMatterAddTag;
+
+  /// Opens the date picker for the date field.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a date'**
+  String get mdFrontMatterPickDate;
+
+  /// Writes the form back into the document.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply changes'**
+  String get mdFrontMatterApply;
+
   /// Markdown: live preview disabled tooltip.
   ///
   /// In en, this message translates to:
@@ -3062,6 +3242,162 @@ abstract class AppLocalizations {
   /// **'XSD schema validation is coming in a later update.'**
   String get xmlXsdComing;
 
+  /// Shows a uniform JSON array as a grid (roadmap 4.3.1).
+  ///
+  /// In en, this message translates to:
+  /// **'View as table'**
+  String get jsonViewAsTable;
+
+  /// Shown when no array in the file fits the grid.
+  ///
+  /// In en, this message translates to:
+  /// **'This document has no array of records to show as a table.'**
+  String get jsonTableNothingToShow;
+
+  /// Says which array the grid is showing and how big it is.
+  ///
+  /// In en, this message translates to:
+  /// **'{path} · {rows} rows · {columns} columns'**
+  String jsonTableSummary(String path, int rows, int columns);
+
+  /// Goes back from a picked array to the document's default one.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole document'**
+  String get jsonTableWholeDocument;
+
+  /// A grid cell's value was copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Value copied'**
+  String get jsonTableCopied;
+
+  /// Title of the visual JSONPath builder (roadmap 4.3.2).
+  ///
+  /// In en, this message translates to:
+  /// **'Query builder'**
+  String get jsonQueryBuilderTitle;
+
+  /// Heading above the next-step chips.
+  ///
+  /// In en, this message translates to:
+  /// **'Go into'**
+  String get jsonQueryGoInto;
+
+  /// Heading above the recursive-search chips.
+  ///
+  /// In en, this message translates to:
+  /// **'At any depth'**
+  String get jsonQueryAtAnyDepth;
+
+  /// Heading above the list of matched paths.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches'**
+  String get jsonQueryMatchesHeading;
+
+  /// Shown when the built query selects nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches yet. Step back and try another path.'**
+  String get jsonQueryNoMatches;
+
+  /// Shown when the selection has no children.
+  ///
+  /// In en, this message translates to:
+  /// **'There is nothing deeper to go into from here.'**
+  String get jsonQueryNothingDeeper;
+
+  /// Removes the last step of the built query.
+  ///
+  /// In en, this message translates to:
+  /// **'Step back'**
+  String get jsonQueryStepBack;
+
+  /// Clears every step of the built query.
+  ///
+  /// In en, this message translates to:
+  /// **'Start over'**
+  String get jsonQueryStartOver;
+
+  /// Hands the built query to the query sheet to run.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this query'**
+  String get jsonQueryUse;
+
+  /// Heading above the 1-tap repairs (roadmap 4.3.3).
+  ///
+  /// In en, this message translates to:
+  /// **'Quick fixes'**
+  String get jsonQuickFixes;
+
+  /// Applies every quick fix at once.
+  ///
+  /// In en, this message translates to:
+  /// **'Fix everything'**
+  String get jsonFixEverything;
+
+  /// JSON quick fix.
+  ///
+  /// In en, this message translates to:
+  /// **'Put quotes around keys'**
+  String get jsonFixQuoteKeys;
+
+  /// JSON quick fix.
+  ///
+  /// In en, this message translates to:
+  /// **'Use double quotes'**
+  String get jsonFixDoubleQuotes;
+
+  /// JSON quick fix.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove extra commas'**
+  String get jsonFixTrailingCommas;
+
+  /// JSON quick fix.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove comments'**
+  String get jsonFixRemoveComments;
+
+  /// JSON quick fix for True/False/None.
+  ///
+  /// In en, this message translates to:
+  /// **'Use true, false and null'**
+  String get jsonFixPythonLiterals;
+
+  /// Title of the visual XPath builder (roadmap 4.3.2).
+  ///
+  /// In en, this message translates to:
+  /// **'XPath builder'**
+  String get xmlQueryBuilderTitle;
+
+  /// XML quick fix.
+  ///
+  /// In en, this message translates to:
+  /// **'Close the open tags'**
+  String get xmlFixCloseTags;
+
+  /// XML quick fix.
+  ///
+  /// In en, this message translates to:
+  /// **'Escape the & signs'**
+  String get xmlFixEscapeAmpersands;
+
+  /// XML quick fix.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrap in a single root'**
+  String get xmlFixWrapRoot;
+
+  /// XML quick fix.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the text before the first tag'**
+  String get xmlFixTrimJunk;
+
   /// XML pretty view: invalid title.
   ///
   /// In en, this message translates to:
@@ -3337,6 +3673,318 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Average'**
   String get csvStatAverage;
+
+  /// Title of the multi-column sort sheet (roadmap 4.2.1).
+  ///
+  /// In en, this message translates to:
+  /// **'Sort levels'**
+  String get csvSortLevels;
+
+  /// Shown when the sort hierarchy is empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No sort yet. Add a level to sort by more than one column.'**
+  String get csvSortNoLevels;
+
+  /// Adds another level to the sort hierarchy.
+  ///
+  /// In en, this message translates to:
+  /// **'Add level'**
+  String get csvSortAddLevel;
+
+  /// Applies the built sort hierarchy to the grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply sort'**
+  String get csvSortApply;
+
+  /// Removes every sort level.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get csvSortClear;
+
+  /// Label of the first sort level.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get csvSortFirstBy;
+
+  /// Label of a later sort level.
+  ///
+  /// In en, this message translates to:
+  /// **'Then by'**
+  String get csvSortThenBy;
+
+  /// Ascending sort direction.
+  ///
+  /// In en, this message translates to:
+  /// **'A → Z'**
+  String get csvSortAscending;
+
+  /// Descending sort direction.
+  ///
+  /// In en, this message translates to:
+  /// **'Z → A'**
+  String get csvSortDescending;
+
+  /// Reorders a sort level.
+  ///
+  /// In en, this message translates to:
+  /// **'Move this level up'**
+  String get csvSortMoveUp;
+
+  /// Reorders a sort level.
+  ///
+  /// In en, this message translates to:
+  /// **'Move this level down'**
+  String get csvSortMoveDown;
+
+  /// Column menu: turn a column into a calculated one (roadmap 4.2.2).
+  ///
+  /// In en, this message translates to:
+  /// **'Set formula…'**
+  String get csvSetFormula;
+
+  /// Column menu: change an existing column formula.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit formula…'**
+  String get csvEditFormula;
+
+  /// Title of the column formula sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Formula for \"{name}\"'**
+  String csvFormulaTitle(String name);
+
+  /// Short help text explaining what a formula can contain.
+  ///
+  /// In en, this message translates to:
+  /// **'Use column letters for this row (A, B), a row number for a fixed cell (B2), or a range inside SUM, AVG, MIN, MAX, COUNT or PRODUCT.'**
+  String get csvFormulaHelp;
+
+  /// Label of the formula input field.
+  ///
+  /// In en, this message translates to:
+  /// **'Formula'**
+  String get csvFormulaLabel;
+
+  /// Heading above the tappable column-letter chips.
+  ///
+  /// In en, this message translates to:
+  /// **'Columns you can use'**
+  String get csvFormulaColumnLetters;
+
+  /// Heading above the computed preview values.
+  ///
+  /// In en, this message translates to:
+  /// **'First rows'**
+  String get csvFormulaPreview;
+
+  /// Applies the formula to the column.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get csvFormulaApply;
+
+  /// Turns a calculated column back into a normal one.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove formula'**
+  String get csvFormulaRemove;
+
+  /// Title of the conditional formatting sheet (roadmap 4.2.3).
+  ///
+  /// In en, this message translates to:
+  /// **'Highlight rules'**
+  String get csvHighlightRules;
+
+  /// Shown when there are no conditional formatting rules.
+  ///
+  /// In en, this message translates to:
+  /// **'No rules yet. Add one to colour cells automatically.'**
+  String get csvNoHighlightRules;
+
+  /// Opens the form for a new highlight rule.
+  ///
+  /// In en, this message translates to:
+  /// **'Add rule'**
+  String get csvAddHighlightRule;
+
+  /// Rule applies to all columns rather than one.
+  ///
+  /// In en, this message translates to:
+  /// **'Every column'**
+  String get csvRuleEveryColumn;
+
+  /// Label of the rule's condition picker.
+  ///
+  /// In en, this message translates to:
+  /// **'When the value'**
+  String get csvRuleWhen;
+
+  /// Label of the rule's comparison value field.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare with'**
+  String get csvRuleValue;
+
+  /// Label of the rule's colour picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Highlight in'**
+  String get csvRuleHighlight;
+
+  /// Highlight rule condition.
+  ///
+  /// In en, this message translates to:
+  /// **'is less than'**
+  String get csvConditionLessThan;
+
+  /// Highlight rule condition.
+  ///
+  /// In en, this message translates to:
+  /// **'is greater than'**
+  String get csvConditionGreaterThan;
+
+  /// Highlight rule condition.
+  ///
+  /// In en, this message translates to:
+  /// **'is equal to'**
+  String get csvConditionEqualTo;
+
+  /// Highlight rule condition.
+  ///
+  /// In en, this message translates to:
+  /// **'is not equal to'**
+  String get csvConditionNotEqualTo;
+
+  /// Highlight rule condition.
+  ///
+  /// In en, this message translates to:
+  /// **'contains'**
+  String get csvConditionContains;
+
+  /// Highlight rule condition.
+  ///
+  /// In en, this message translates to:
+  /// **'is empty'**
+  String get csvConditionIsEmpty;
+
+  /// Highlight rule condition for duplicate values.
+  ///
+  /// In en, this message translates to:
+  /// **'repeats in its column'**
+  String get csvConditionIsDuplicate;
+
+  /// Highlight colour name.
+  ///
+  /// In en, this message translates to:
+  /// **'Red'**
+  String get csvHighlightRed;
+
+  /// Highlight colour name.
+  ///
+  /// In en, this message translates to:
+  /// **'Yellow'**
+  String get csvHighlightYellow;
+
+  /// Highlight colour name.
+  ///
+  /// In en, this message translates to:
+  /// **'Green'**
+  String get csvHighlightGreen;
+
+  /// Highlight colour name.
+  ///
+  /// In en, this message translates to:
+  /// **'Blue'**
+  String get csvHighlightBlue;
+
+  /// Title of the full-screen chart page (roadmap 4.2.4).
+  ///
+  /// In en, this message translates to:
+  /// **'Chart'**
+  String get csvChartTitle;
+
+  /// Opens the full-screen interactive chart from the insights sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Open full chart'**
+  String get csvOpenFullChart;
+
+  /// Chart type: bar chart.
+  ///
+  /// In en, this message translates to:
+  /// **'Bar'**
+  String get csvChartBar;
+
+  /// Chart type: line graph.
+  ///
+  /// In en, this message translates to:
+  /// **'Line'**
+  String get csvChartLine;
+
+  /// Chart type: pie chart.
+  ///
+  /// In en, this message translates to:
+  /// **'Pie'**
+  String get csvChartPie;
+
+  /// Picks the numeric column to plot.
+  ///
+  /// In en, this message translates to:
+  /// **'Values from'**
+  String get csvChartValueColumn;
+
+  /// Picks the column that names each point.
+  ///
+  /// In en, this message translates to:
+  /// **'Labels from'**
+  String get csvChartLabelColumn;
+
+  /// Use row numbers instead of a label column.
+  ///
+  /// In en, this message translates to:
+  /// **'Row numbers'**
+  String get csvChartRowNumbers;
+
+  /// Chart follows the grid's current filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the rows on screen'**
+  String get csvChartVisibleRowsOnly;
+
+  /// Shown when nothing can be plotted.
+  ///
+  /// In en, this message translates to:
+  /// **'This file has no number columns to chart.'**
+  String get csvChartNoNumericColumns;
+
+  /// Shown when the chosen column produced no points.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to chart for this column.'**
+  String get csvChartNothingToDraw;
+
+  /// Pie chart slice grouping the smaller values.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get csvChartOther;
+
+  /// Told to the user when the chart capped how much it drew.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing the first {count} values.'**
+  String csvChartShowingFirst(int count);
+
+  /// A pie chart cannot draw negative slices.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} negative values were left out of the pie.'**
+  String csvChartSkippedNegative(int count);
 
   /// CSV split: only one part needed.
   ///

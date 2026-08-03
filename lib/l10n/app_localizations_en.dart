@@ -292,6 +292,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabCouldNotSave => 'Could not save; tab kept open.';
 
   @override
+  String get fileChangedBanner => 'This file changed on disk.';
+
+  @override
+  String get fileChangedReload => 'Reload';
+
+  @override
+  String get fileChangedDismiss => 'Dismiss';
+
+  @override
+  String get fileChangedReloadFailed => 'Could not reload the file.';
+
+  @override
+  String get fileChangedConfirmTitle => 'Reload and lose your edits?';
+
+  @override
+  String fileChangedConfirmBody(String fileName) {
+    return '\"$fileName\" has unsaved edits. Reloading loads the file from disk and throws those edits away.';
+  }
+
+  @override
+  String get fileChangedConfirmReload => 'Reload and discard';
+
+  @override
+  String get fileChangedConfirmCancel => 'Cancel';
+
+  @override
   String get unsavedTitle => 'Save changes?';
 
   @override
@@ -1092,6 +1118,75 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mdLivePreviewOn => 'Live preview on';
 
   @override
+  String get mdTableBuilder => 'Table builder';
+
+  @override
+  String get mdTableBuilderHelp =>
+      'Fill in the cells; the pipe characters are lined up for you.';
+
+  @override
+  String get mdTableHeaderCell => 'Header';
+
+  @override
+  String get mdTableAddRow => 'Add row';
+
+  @override
+  String get mdTableAddColumn => 'Add column';
+
+  @override
+  String get mdTableRemoveRow => 'Remove this row';
+
+  @override
+  String get mdTableRemoveColumn => 'Remove this column';
+
+  @override
+  String get mdTablePreview => 'Markdown';
+
+  @override
+  String get mdTableInsert => 'Insert table';
+
+  @override
+  String get mdTableAlignDefault => 'Default';
+
+  @override
+  String get mdTableAlignLeft => 'Left';
+
+  @override
+  String get mdTableAlignCenter => 'Center';
+
+  @override
+  String get mdTableAlignRight => 'Right';
+
+  @override
+  String get mdFrontMatterTitle => 'Front matter';
+
+  @override
+  String get mdFrontMatterHelp =>
+      'Edit the fields below. Anything this form does not show is left exactly as it is.';
+
+  @override
+  String get mdFrontMatterNone =>
+      'This file has no front matter yet. Fill in a field to add one.';
+
+  @override
+  String get mdFrontMatterAddField => 'Add field';
+
+  @override
+  String get mdFrontMatterFieldName => 'Field name';
+
+  @override
+  String get mdFrontMatterAdd => 'Add';
+
+  @override
+  String get mdFrontMatterAddTag => 'Type a tag and press enter';
+
+  @override
+  String get mdFrontMatterPickDate => 'Pick a date';
+
+  @override
+  String get mdFrontMatterApply => 'Apply changes';
+
+  @override
   String get mdLivePreviewOff => 'Live preview off';
 
   @override
@@ -1607,6 +1702,89 @@ class AppLocalizationsEn extends AppLocalizations {
       'XSD schema validation is coming in a later update.';
 
   @override
+  String get jsonViewAsTable => 'View as table';
+
+  @override
+  String get jsonTableNothingToShow =>
+      'This document has no array of records to show as a table.';
+
+  @override
+  String jsonTableSummary(String path, int rows, int columns) {
+    return '$path · $rows rows · $columns columns';
+  }
+
+  @override
+  String get jsonTableWholeDocument => 'Whole document';
+
+  @override
+  String get jsonTableCopied => 'Value copied';
+
+  @override
+  String get jsonQueryBuilderTitle => 'Query builder';
+
+  @override
+  String get jsonQueryGoInto => 'Go into';
+
+  @override
+  String get jsonQueryAtAnyDepth => 'At any depth';
+
+  @override
+  String get jsonQueryMatchesHeading => 'Matches';
+
+  @override
+  String get jsonQueryNoMatches =>
+      'Nothing matches yet. Step back and try another path.';
+
+  @override
+  String get jsonQueryNothingDeeper =>
+      'There is nothing deeper to go into from here.';
+
+  @override
+  String get jsonQueryStepBack => 'Step back';
+
+  @override
+  String get jsonQueryStartOver => 'Start over';
+
+  @override
+  String get jsonQueryUse => 'Use this query';
+
+  @override
+  String get jsonQuickFixes => 'Quick fixes';
+
+  @override
+  String get jsonFixEverything => 'Fix everything';
+
+  @override
+  String get jsonFixQuoteKeys => 'Put quotes around keys';
+
+  @override
+  String get jsonFixDoubleQuotes => 'Use double quotes';
+
+  @override
+  String get jsonFixTrailingCommas => 'Remove extra commas';
+
+  @override
+  String get jsonFixRemoveComments => 'Remove comments';
+
+  @override
+  String get jsonFixPythonLiterals => 'Use true, false and null';
+
+  @override
+  String get xmlQueryBuilderTitle => 'XPath builder';
+
+  @override
+  String get xmlFixCloseTags => 'Close the open tags';
+
+  @override
+  String get xmlFixEscapeAmpersands => 'Escape the & signs';
+
+  @override
+  String get xmlFixWrapRoot => 'Wrap in a single root';
+
+  @override
+  String get xmlFixTrimJunk => 'Remove the text before the first tag';
+
+  @override
   String get xmlNotWellFormedYet => 'Not well-formed XML yet';
 
   @override
@@ -1752,6 +1930,172 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get csvStatAverage => 'Average';
+
+  @override
+  String get csvSortLevels => 'Sort levels';
+
+  @override
+  String get csvSortNoLevels =>
+      'No sort yet. Add a level to sort by more than one column.';
+
+  @override
+  String get csvSortAddLevel => 'Add level';
+
+  @override
+  String get csvSortApply => 'Apply sort';
+
+  @override
+  String get csvSortClear => 'Clear';
+
+  @override
+  String get csvSortFirstBy => 'Sort by';
+
+  @override
+  String get csvSortThenBy => 'Then by';
+
+  @override
+  String get csvSortAscending => 'A → Z';
+
+  @override
+  String get csvSortDescending => 'Z → A';
+
+  @override
+  String get csvSortMoveUp => 'Move this level up';
+
+  @override
+  String get csvSortMoveDown => 'Move this level down';
+
+  @override
+  String get csvSetFormula => 'Set formula…';
+
+  @override
+  String get csvEditFormula => 'Edit formula…';
+
+  @override
+  String csvFormulaTitle(String name) {
+    return 'Formula for \"$name\"';
+  }
+
+  @override
+  String get csvFormulaHelp =>
+      'Use column letters for this row (A, B), a row number for a fixed cell (B2), or a range inside SUM, AVG, MIN, MAX, COUNT or PRODUCT.';
+
+  @override
+  String get csvFormulaLabel => 'Formula';
+
+  @override
+  String get csvFormulaColumnLetters => 'Columns you can use';
+
+  @override
+  String get csvFormulaPreview => 'First rows';
+
+  @override
+  String get csvFormulaApply => 'Apply';
+
+  @override
+  String get csvFormulaRemove => 'Remove formula';
+
+  @override
+  String get csvHighlightRules => 'Highlight rules';
+
+  @override
+  String get csvNoHighlightRules =>
+      'No rules yet. Add one to colour cells automatically.';
+
+  @override
+  String get csvAddHighlightRule => 'Add rule';
+
+  @override
+  String get csvRuleEveryColumn => 'Every column';
+
+  @override
+  String get csvRuleWhen => 'When the value';
+
+  @override
+  String get csvRuleValue => 'Compare with';
+
+  @override
+  String get csvRuleHighlight => 'Highlight in';
+
+  @override
+  String get csvConditionLessThan => 'is less than';
+
+  @override
+  String get csvConditionGreaterThan => 'is greater than';
+
+  @override
+  String get csvConditionEqualTo => 'is equal to';
+
+  @override
+  String get csvConditionNotEqualTo => 'is not equal to';
+
+  @override
+  String get csvConditionContains => 'contains';
+
+  @override
+  String get csvConditionIsEmpty => 'is empty';
+
+  @override
+  String get csvConditionIsDuplicate => 'repeats in its column';
+
+  @override
+  String get csvHighlightRed => 'Red';
+
+  @override
+  String get csvHighlightYellow => 'Yellow';
+
+  @override
+  String get csvHighlightGreen => 'Green';
+
+  @override
+  String get csvHighlightBlue => 'Blue';
+
+  @override
+  String get csvChartTitle => 'Chart';
+
+  @override
+  String get csvOpenFullChart => 'Open full chart';
+
+  @override
+  String get csvChartBar => 'Bar';
+
+  @override
+  String get csvChartLine => 'Line';
+
+  @override
+  String get csvChartPie => 'Pie';
+
+  @override
+  String get csvChartValueColumn => 'Values from';
+
+  @override
+  String get csvChartLabelColumn => 'Labels from';
+
+  @override
+  String get csvChartRowNumbers => 'Row numbers';
+
+  @override
+  String get csvChartVisibleRowsOnly => 'Only the rows on screen';
+
+  @override
+  String get csvChartNoNumericColumns =>
+      'This file has no number columns to chart.';
+
+  @override
+  String get csvChartNothingToDraw => 'Nothing to chart for this column.';
+
+  @override
+  String get csvChartOther => 'Other';
+
+  @override
+  String csvChartShowingFirst(int count) {
+    return 'Showing the first $count values.';
+  }
+
+  @override
+  String csvChartSkippedNegative(int count) {
+    return '$count negative values were left out of the pie.';
+  }
 
   @override
   String get csvSplitOnePart => 'The file is small enough to fit in one part.';

@@ -12,6 +12,7 @@ import 'xml_document_session.dart';
 import 'xml_export_sheet.dart';
 import 'xml_info_sheet.dart';
 import 'xml_output_actions.dart';
+import 'xml_query_builder_sheet.dart';
 import 'xml_read_aloud_button.dart';
 import 'xml_save_options_sheet.dart';
 import 'xml_session_manager.dart';
@@ -176,6 +177,7 @@ enum _MenuAction {
   saveAs,
   replace,
   xpath,
+  queryBuilder,
   info,
   split,
   merge,
@@ -227,6 +229,13 @@ class _OverflowMenu extends ConsumerWidget {
           child: ListTile(
             leading: const Icon(Icons.alternate_email),
             title: Text(l10n.xmlXPathQuery),
+          ),
+        ),
+        PopupMenuItem(
+          value: _MenuAction.queryBuilder,
+          child: ListTile(
+            leading: const Icon(Icons.account_tree_outlined),
+            title: Text(l10n.xmlQueryBuilderTitle),
           ),
         ),
         PopupMenuItem(
@@ -312,6 +321,13 @@ class _OverflowMenu extends ConsumerWidget {
         break;
       case _MenuAction.xpath:
         await showXmlPathSheet(context, session);
+        break;
+      case _MenuAction.queryBuilder:
+        final query = await showXmlQueryBuilderSheet(context, session);
+        if (query == null || !context.mounted) break;
+        // The builder only writes the query; running it stays the XPath
+        // sheet's job, so there is one place that shows matches.
+        await showXmlPathSheet(context, session, initialQuery: query);
         break;
       case _MenuAction.info:
         await showXmlInfoSheet(context, session);

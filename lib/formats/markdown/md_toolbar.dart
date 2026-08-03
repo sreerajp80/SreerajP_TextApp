@@ -10,6 +10,7 @@ import '../../shell/tabs/read_only_lock_button.dart';
 import 'md_document_session.dart';
 import 'md_export_sheet.dart';
 import 'md_format_toolbar.dart';
+import 'md_front_matter_form.dart';
 import 'md_info_sheet.dart';
 import 'md_output_actions.dart';
 import 'md_read_aloud_button.dart';
@@ -86,7 +87,12 @@ class MdToolbar extends ConsumerWidget {
                       icon: const Icon(Icons.redo),
                       onPressed: session.canRedo ? session.redo : null,
                     ),
+                  ],
+                  // The split works wherever the source is shown, not just in
+                  // edit mode (roadmap §4.4.1).
+                  if (showingSource)
                     IconButton(
+                      key: const Key('md-split-toggle'),
                       tooltip: session.livePreview
                           ? l10n.mdLivePreviewOn
                           : l10n.mdLivePreviewOff,
@@ -94,7 +100,6 @@ class MdToolbar extends ConsumerWidget {
                       icon: const Icon(Icons.vertical_split_outlined),
                       onPressed: session.toggleLivePreview,
                     ),
-                  ],
                   IconButton(
                     tooltip: l10n.mdFind,
                     icon: const Icon(Icons.search),
@@ -130,6 +135,7 @@ class MdToolbar extends ConsumerWidget {
 enum _MenuAction {
   saveAs,
   replace,
+  frontMatter,
   info,
   split,
   merge,
@@ -174,6 +180,13 @@ class _OverflowMenu extends ConsumerWidget {
               title: Text(l10n.actionFindReplace),
             ),
           ),
+        PopupMenuItem(
+          value: _MenuAction.frontMatter,
+          child: ListTile(
+            leading: const Icon(Icons.list_alt_outlined),
+            title: Text(l10n.mdFrontMatterTitle),
+          ),
+        ),
         PopupMenuItem(
           value: _MenuAction.info,
           child: ListTile(
@@ -240,6 +253,10 @@ class _OverflowMenu extends ConsumerWidget {
         break;
       case _MenuAction.replace:
         session.openReplace();
+        break;
+      case _MenuAction.frontMatter:
+        await showMdFrontMatterForm(context, session,
+            readOnly: tab.isReadOnly);
         break;
       case _MenuAction.info:
         await showMdInfoSheet(context, session);

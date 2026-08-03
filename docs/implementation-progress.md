@@ -265,10 +265,12 @@ setting and confirm it sticks across restart; real Malayalam voice install;
 open sync from Settings; tap the About links). Known scope notes: word-wrap
 default applies to the TXT wrap toggle (MD/CSV/JSON/XML use a fixed wrap in
 their editor surface); Security toggles persist now but their enforcement
-(launch lock gate + `FLAG_SECURE`) lands in Phase 13.2; Phase 12's
-`syncableSettingKeys` are un-namespaced and do not match the app's namespaced
-keys, so settings-sync exports nothing yet — a small follow-up flagged for
-Phase 13/14.
+(launch lock gate + `FLAG_SECURE`) lands in Phase 13.2 (shipped — see that
+phase's notes below). Phase 12's `syncableSettingKeys` were un-namespaced and
+did not match the app's namespaced keys, so settings-sync exported nothing;
+**fixed since** — `lib/sync/sync_constants.dart` now lists fully namespaced
+keys (`appearance.theme_mode`, etc.) that match the real setting keys, so
+settings-sync works.
 
 | Task | Status | Notes |
 |---|---|---|

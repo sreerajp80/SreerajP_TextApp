@@ -8,6 +8,7 @@ import 'package:re_editor/re_editor.dart';
 import '../../core/editor/atomic_saver.dart';
 import '../../core/editor/draft_store.dart';
 import '../../core/editor/encoding.dart';
+import '../../core/editor/external_change.dart';
 import '../../core/editor/saf_save_target.dart';
 import '../../core/export/export_target.dart';
 import '../../core/metadata/file_metadata.dart';
@@ -37,7 +38,7 @@ enum MdMode { rendered, raw, edit }
 /// that it parses the Markdown (front matter, AST, TOC, stats) for the rendered
 /// view. A plain [ChangeNotifier] with **no Riverpod dependency**, so it is
 /// unit-testable directly.
-class MdDocumentSession extends ChangeNotifier {
+class MdDocumentSession extends ChangeNotifier with ExternalChangeMixin {
   final DocumentTab tab;
   final SafService _saf;
   final TextCodecService _codec;
@@ -90,6 +91,11 @@ class MdDocumentSession extends ChangeNotifier {
   FileMetadata? _metadataValue;
   MdMode _mode = MdMode.rendered;
   bool _livePreview = true;
+
+  /// How much of the split view the source pane takes, 0.2–0.8 (roadmap
+  /// §4.4.1). Remembered across documents, because it is a reading preference
+  /// rather than something about one file.
+  double _splitRatio = 0.5;
   bool _isDirty = false;
 
   Uint8List? _rawBytes;
@@ -124,10 +130,28 @@ class MdDocumentSession extends ChangeNotifier {
   bool get isWritable => _isWritable;
   FileMetadata? get metadata => _metadataValue;
   MdMode get mode => _mode;
+
+  /// Whether the source and the rendered preview are shown together
+  /// (roadmap §4.4.1).
   bool get livePreview => _livePreview;
+
+  /// How much of the split the source pane takes, 0.2–0.8.
+  double get splitRatio => _splitRatio;
+  @override
   bool get isDirty => _isDirty;
   bool get draftAvailable => _draftAvailable;
   bool get isEditing => _mode == MdMode.edit;
+
+  // --- external change watch (see ExternalChangeMixin) ----------------------
+
+  @override
+  SafService get diskSaf => _saf;
+
+  @override
+  String get diskUri => tab.uri;
+
+  @override
+  void notifyDiskWatch() => _safeNotify();
 
   MdFrontMatter get frontMatter {
     _ensureParsed();
@@ -195,6 +219,11 @@ class MdDocumentSession extends ChangeNotifier {
   String get _positionKey => 'md.pos.${tab.fingerprint}';
   String get _previewKey => 'md.preview.${tab.fingerprint}';
 
+  // The split view is a reading preference, so these keys are app-wide rather
+  // than per file (roadmap §4.4.1).
+  static const String _splitOnKey = 'md.split.on';
+  static const String _splitRatioKey = 'md.split.ratio';
+
   /// The remembered preview scroll offset (0 when none saved).
   double get initialPreviewOffset =>
       (_store.getInt(_previewKey) ?? 0).toDouble();
@@ -228,6 +257,9 @@ class MdDocumentSession extends ChangeNotifier {
     _scroll = CodeScrollController();
 
     _isWritable = await _saf.isWritable(tab.uri);
+    // Remember what the file looked like on disk, so a change made by another
+    // app can be spotted later (see ExternalChangeMixin).
+    await captureDiskBaseline();
     _ensureParsed();
 
     _metadataValue = await _metadata.buildWithDates(
@@ -244,6 +276,7 @@ class MdDocumentSession extends ChangeNotifier {
     _draftStore = await _draftStoreFuture;
     _draftAvailable = await _draftStore!.hasDraft(tab.fingerprint);
 
+    _restoreSplitSettings();
     _startAutoSave();
 
     if (_disposed) return;
@@ -255,6 +288,62 @@ class MdDocumentSession extends ChangeNotifier {
     _status = MdLoadStatus.failed;
     _errorMessage = message;
     _safeNotify();
+  }
+
+  /// Reads the file again and shows the fresh content (rendered view included),
+  /// dropping whatever the tab held. The caller confirms with the user first when
+  /// the tab has unsaved edits — CLAUDE.md §3.6.
+  ///
+  /// Returns false when the read failed; the document is then left untouched.
+  @override
+  Future<bool> reloadFromDisk() async {
+    final code = _code;
+    if (code == null) return false;
+
+    Uint8List bytes;
+    try {
+      bytes = await _saf.readBytes(tab.uri);
+    } catch (_) {
+      return false;
+    }
+    if (_disposed) return false;
+
+    _rawBytes = bytes;
+    final decoded = _codec.detectAndDecode(bytes);
+    _encoding = defaultSaveEncoding ?? decoded.encoding;
+    _lineEnding = defaultSaveLineEnding ?? decoded.lineEnding;
+
+    // Set the baseline text first: assigning `code.text` fires the change
+    // listener, which compares against it to work out the dirty flag.
+    _savedText = decoded.text;
+    code.text = decoded.text;
+    code.clearHistory(); // the reload itself is not undoable
+    _setDirty(false);
+    _autoSaver?.markSaved(decoded.text);
+
+    // Re-parse front matter, AST, TOC and stats for the rendered view, and drop
+    // heading keys that belong to headings that are gone.
+    _parsedFor = null;
+    _ensureParsed();
+    syncHeadingKeys();
+
+    // A draft from before the reload belongs to content that is gone.
+    await _draftStore?.discard(tab.fingerprint);
+    _draftAvailable = false;
+
+    _metadataValue = await _metadata.buildWithDates(
+      file: SafFile(
+        uri: tab.uri,
+        displayName: tab.displayName,
+        mimeType: tab.mimeType,
+        size: bytes.length,
+      ),
+      decoded: decoded,
+      formatFields: _metadataFields(),
+    );
+
+    await markReloaded();
+    return true;
   }
 
   Map<String, String> _metadataFields() {
@@ -281,7 +370,26 @@ class MdDocumentSession extends ChangeNotifier {
 
   void toggleLivePreview() {
     _livePreview = !_livePreview;
+    _store.setBool(_splitOnKey, _livePreview);
     _safeNotify();
+  }
+
+  /// Moves the divider between the source and preview panes (roadmap §4.4.1).
+  /// Clamped so neither pane can be dragged away completely.
+  void setSplitRatio(double ratio) {
+    final clamped = ratio.clamp(0.2, 0.8);
+    if ((clamped - _splitRatio).abs() < 0.001) return;
+    _splitRatio = clamped;
+    _store.setDouble(_splitRatioKey, clamped);
+    _safeNotify();
+  }
+
+  /// Reads the remembered split settings. Called once during [load].
+  void _restoreSplitSettings() {
+    final on = _store.getBool(_splitOnKey);
+    if (on != null) _livePreview = on;
+    final ratio = _store.getDouble(_splitRatioKey);
+    if (ratio != null && ratio >= 0.2 && ratio <= 0.8) _splitRatio = ratio;
   }
 
   // --- saving --------------------------------------------------------------
@@ -349,6 +457,8 @@ class MdDocumentSession extends ChangeNotifier {
     _autoSaver?.markSaved(text);
     await _draftStore?.discard(tab.fingerprint);
     _draftAvailable = false;
+    // The file on disk is now ours again — never warn about our own write.
+    await captureDiskBaseline();
   }
 
   // --- drafts --------------------------------------------------------------

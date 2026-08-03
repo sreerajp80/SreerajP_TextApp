@@ -4,11 +4,18 @@ import 'package:flutter/services.dart';
 import '../../l10n/app_localizations.dart';
 import 'xml_document_session.dart';
 import 'xml_path.dart';
+import 'xml_quick_fix.dart';
 
 /// A bottom sheet to run an XPath query against the document and copy the paths
 /// of matches (task 9.3).
+///
+/// [initialQuery] pre-fills the box and runs straight away — that is how a
+/// query built in the visual builder (roadmap §4.3.2) arrives here.
 Future<void> showXmlPathSheet(
-    BuildContext context, XmlDocumentSession session) {
+  BuildContext context,
+  XmlDocumentSession session, {
+  String? initialQuery,
+}) {
   return showModalBottomSheet<void>(
     context: context,
     showDragHandle: true,
@@ -16,23 +23,38 @@ Future<void> showXmlPathSheet(
     builder: (context) => Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: _XPathBody(session: session),
+      child: _XPathBody(session: session, initialQuery: initialQuery),
     ),
   );
 }
 
 class _XPathBody extends StatefulWidget {
   final XmlDocumentSession session;
-  const _XPathBody({required this.session});
+  final String? initialQuery;
+
+  const _XPathBody({required this.session, this.initialQuery});
 
   @override
   State<_XPathBody> createState() => _XPathBodyState();
 }
 
 class _XPathBodyState extends State<_XPathBody> {
-  final _controller = TextEditingController(text: '//');
+  late final _controller =
+      TextEditingController(text: widget.initialQuery ?? '//');
   String? _error;
   List<String> _matches = const [];
+
+  @override
+  void initState() {
+    super.initState();
+    // A query handed over from the builder is already what the user wants, so
+    // show its result without making them tap Run.
+    if (widget.initialQuery != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _run();
+      });
+    }
+  }
 
   void _run() {
     final document = widget.session.document;
@@ -151,6 +173,7 @@ Future<void> showXmlValidateSheet(
                   ),
                 ],
               ),
+              if (!wellFormed) _XmlQuickFixes(session: session),
               const SizedBox(height: 12),
               Text(
                 l10n.xmlXsdComing,
@@ -163,4 +186,78 @@ Future<void> showXmlValidateSheet(
       );
     },
   );
+}
+
+/// The 1-tap repairs offered for a document that is not well-formed
+/// (roadmap §4.3.3).
+///
+/// Each button rewrites the buffer through the session, so the change is a
+/// normal edit the user can undo and still has to save — nothing is written to
+/// disk here.
+class _XmlQuickFixes extends StatefulWidget {
+  final XmlDocumentSession session;
+
+  const _XmlQuickFixes({required this.session});
+
+  @override
+  State<_XmlQuickFixes> createState() => _XmlQuickFixesState();
+}
+
+class _XmlQuickFixesState extends State<_XmlQuickFixes> {
+  String _labelFor(AppLocalizations l10n, String id) {
+    switch (id) {
+      case XmlQuickFixes.closeTags:
+        return l10n.xmlFixCloseTags;
+      case XmlQuickFixes.escapeAmpersands:
+        return l10n.xmlFixEscapeAmpersands;
+      case XmlQuickFixes.wrapRoot:
+        return l10n.xmlFixWrapRoot;
+      case XmlQuickFixes.trimBeforeDeclaration:
+        return l10n.xmlFixTrimJunk;
+      default:
+        return l10n.jsonFixEverything;
+    }
+  }
+
+  void _apply(String newSource) {
+    widget.session.applySource(newSource);
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+    final source = widget.session.code?.text ?? '';
+    final fixes = XmlQuickFixes.forSource(source);
+    final all = XmlQuickFixes.fixAll(source);
+    if (fixes.isEmpty && all == null) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 16),
+        Text(l10n.jsonQuickFixes, style: theme.textTheme.titleSmall),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            if (all != null)
+              FilledButton.tonalIcon(
+                key: const Key('xml-fix-all'),
+                onPressed: () => _apply(all.result),
+                icon: const Icon(Icons.auto_fix_high, size: 18),
+                label: Text(l10n.jsonFixEverything),
+              ),
+            for (final fix in fixes)
+              OutlinedButton(
+                onPressed: () => _apply(fix.result),
+                child: Text(_labelFor(l10n, fix.id)),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
 }

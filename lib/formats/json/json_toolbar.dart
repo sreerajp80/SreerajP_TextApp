@@ -13,6 +13,7 @@ import 'json_export_sheet.dart';
 import 'json_info_sheet.dart';
 import 'json_output_actions.dart';
 import 'json_parser.dart';
+import 'json_query_builder_sheet.dart';
 import 'json_read_aloud_button.dart';
 import 'json_save_options_sheet.dart';
 import 'json_session_manager.dart';
@@ -73,6 +74,15 @@ class JsonToolbar extends ConsumerWidget {
                   mode: JsonViewMode.minified,
                   icon: Icons.compress,
                   tooltip: l10n.jsonViewMinified,
+                ),
+                // Roadmap §4.3.1 — greyed out when there is no array to show.
+                _ViewButton(
+                  key: const Key('json-table-view-button'),
+                  session: session,
+                  mode: JsonViewMode.table,
+                  icon: Icons.table_chart_outlined,
+                  tooltip: l10n.jsonViewAsTable,
+                  enabled: session.hasTabularArray,
                 ),
               ],
               if (canEdit)
@@ -166,11 +176,17 @@ class _ViewButton extends StatelessWidget {
   final IconData icon;
   final String tooltip;
 
+  /// False greys the button out — used by the table view, which needs an array
+  /// to show.
+  final bool enabled;
+
   const _ViewButton({
+    super.key,
     required this.session,
     required this.mode,
     required this.icon,
     required this.tooltip,
+    this.enabled = true,
   });
 
   @override
@@ -180,7 +196,7 @@ class _ViewButton extends StatelessWidget {
       tooltip: tooltip,
       isSelected: selected,
       icon: Icon(icon),
-      onPressed: () => session.setMode(mode),
+      onPressed: enabled ? () => session.setMode(mode) : null,
     );
   }
 }
@@ -189,6 +205,7 @@ enum _MenuAction {
   saveAs,
   replace,
   jsonPath,
+  queryBuilder,
   info,
   diff,
   split,
@@ -241,6 +258,13 @@ class _OverflowMenu extends ConsumerWidget {
           child: ListTile(
             leading: const Icon(Icons.alternate_email),
             title: Text(l10n.jsonPathQuery),
+          ),
+        ),
+        PopupMenuItem(
+          value: _MenuAction.queryBuilder,
+          child: ListTile(
+            leading: const Icon(Icons.account_tree_outlined),
+            title: Text(l10n.jsonQueryBuilderTitle),
           ),
         ),
         PopupMenuItem(
@@ -333,6 +357,13 @@ class _OverflowMenu extends ConsumerWidget {
         break;
       case _MenuAction.jsonPath:
         await showJsonPathSheet(context, session);
+        break;
+      case _MenuAction.queryBuilder:
+        final query = await showJsonQueryBuilderSheet(context, session);
+        if (query == null || !context.mounted) break;
+        // The builder only writes the query; running it stays the JSONPath
+        // sheet's job, so there is one place that shows matches.
+        await showJsonPathSheet(context, session, initialQuery: query);
         break;
       case _MenuAction.info:
         await showJsonInfoSheet(context, session);

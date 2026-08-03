@@ -7,6 +7,7 @@ import 'json_document_session.dart';
 import 'json_editor_surface.dart';
 import 'json_pretty_view.dart';
 import 'json_session_manager.dart';
+import 'json_table_view.dart';
 import 'json_tree_view.dart';
 
 /// The body shown inside a JSON tab: it loads the document then shows the
@@ -81,6 +82,8 @@ class _ReadyView extends StatelessWidget {
         return JsonEditorSurface(session: session, readOnly: true);
       case JsonViewMode.tree:
         return _TreeWithSearch(session: session, editing: canEdit);
+      case JsonViewMode.table:
+        return JsonTableView(session: session);
       case JsonViewMode.edit:
         return JsonEditorSurface(session: session, readOnly: !canEdit);
     }
