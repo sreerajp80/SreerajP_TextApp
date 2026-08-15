@@ -147,7 +147,7 @@ Footer text
     test('detects GitHub and Stripe tokens', () {
       const text = '''
 github_token = ghp_1234567890abcdefghijklmnopqrstuvwxyz12
-stripe_key = sk_live_1234567890abcdefghijklmnopqr
+stripe_key = sk_test_1234567890abcdefghijklmnopqr
 ''';
       final result = detector.scan(text);
 
