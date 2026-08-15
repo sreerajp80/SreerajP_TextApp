@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/theme_controller.dart';
-import 'md_document_session.dart';
-import 'md_link_warning.dart';
-import 'md_renderer.dart';
+import 'package:text_data/core/theme/theme_controller.dart';
+import 'package:text_data/formats/markdown/md_document_session.dart';
+import 'package:text_data/formats/markdown/md_link_warning.dart';
+import 'package:text_data/formats/markdown/md_renderer.dart';
 
 /// The scrollable rendered Markdown surface (tasks 6.1–6.3).
 ///
@@ -29,9 +29,7 @@ class _MdPreviewViewState extends ConsumerState<MdPreviewView> {
       final offset = widget.session.initialPreviewOffset;
       final controller = widget.session.previewScroll;
       if (offset > 0 && controller.hasClients) {
-        controller.jumpTo(
-          offset.clamp(0, controller.position.maxScrollExtent),
-        );
+        controller.jumpTo(offset.clamp(0, controller.position.maxScrollExtent));
       }
     });
   }

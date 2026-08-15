@@ -8,10 +8,19 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <!-- Phase 13 — optional biometric unlock for app-lock (local_auth). -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <!-- Backup is off on every API level: app data must never leave the device
+         without an explicit user action (security.md §10.4). Drafts hold the
+         plain text of documents the user was editing. allowBackup +
+         fullBackupContent cover API 30 and below; dataExtractionRules covers
+         API 31 and above. To move data between devices, use the app's own LAN
+         peer-to-peer sync. -->
     <application
         android:label="SreerajP Text App"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/data_extraction_rules">
         <activity
             android:name=".MainActivity"
             android:exported="true"

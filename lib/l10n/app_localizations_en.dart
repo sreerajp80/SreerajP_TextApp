@@ -738,11 +738,142 @@ class AppLocalizationsEn extends AppLocalizations {
   String get helpCardSubtitle => 'Learn how app features work.';
 
   @override
+  String get helpSearchFilterHint => 'Search help topics…';
+
+  @override
+  String get helpNoTopicsFound => 'No matching help topics found.';
+
+  @override
+  String get helpP2pSyncTitle => 'LAN Sync & Live Diff';
+
+  @override
+  String get helpP2pSyncSubtitle =>
+      'Sync data and compare document versions live over Wi-Fi.';
+
+  @override
+  String get helpP2pSyncBody =>
+      'Sync favorites, bookmarks, recents, and display settings across devices on your local Wi-Fi without internet or external servers.\n\n• Live Diff & Delta Sync: Open any document, tap menu and select Live Diff to connect with a nearby device. View color-coded line-by-line differences and merge specific incoming changes directly.\n• Security: All sync communication is encrypted end-to-end using AES-256-GCM with a temporary pairing code. Nothing is ever sent over the internet.';
+
+  @override
+  String get helpQrSharingTitle => 'Optical QR Transfer (AirQR)';
+
+  @override
+  String get helpQrSharingSubtitle =>
+      'Transfer text and files visually without Wi-Fi, Bluetooth, or cables.';
+
+  @override
+  String get helpQrSharingBody =>
+      'Send documents or selections between devices using animated high-density QR codes and camera scanning without any network connection.\n\n• How to Send: Open a document, tap the menu and choose \"Send by QR\" or \"Send selection by QR\". Adjust speed and density if needed.\n• How to Receive: Open the AirQR screen on the receiver and point the camera at the sender\'s screen.\n• Encryption: Enable encryption to protect transfers with an AES-256 session passphrase.';
+
+  @override
+  String get helpPrivacyShieldTitle => 'Privacy Shield & PII Scrubber';
+
+  @override
+  String get helpPrivacyShieldSubtitle =>
+      'Detect and redact sensitive personal information completely offline.';
+
+  @override
+  String get helpPrivacyShieldBody =>
+      'Protect personal and confidential information before sharing or saving.\n\n• Automatic Detection: Privacy Shield scans text offline for email addresses, phone numbers, credit card numbers, IPv4/IPv6 addresses, national IDs (SSN/Aadhaar), and secret API keys/tokens.\n• Redact & Mask: Preview detected items, select specific categories to mask, and replace them with standard redaction tokens (e.g. [EMAIL], [PHONE]) or asterisks.\n• Zero Network Leakage: All scanning and scrubbing is performed purely on your device.';
+
+  @override
+  String get helpVaultBackupTitle => 'Document Vault & Encrypted Backups';
+
+  @override
+  String get helpVaultBackupSubtitle =>
+      'Store sensitive files in an encrypted vault and export .txdata archives.';
+
+  @override
+  String get helpVaultBackupBody =>
+      'Keep sensitive files secure with hardware-backed encryption.\n\n• Document Vault: Store private files in an isolated AES-256-GCM encrypted vault protected by your app PIN or biometric authentication.\n• Encrypted Backups (.txdata): Export multiple documents and settings into password-protected encrypted .txdata archive files.\n• Restore: Import .txdata backups at any time with the archive password.';
+
+  @override
+  String get helpSqlQueryTitle => 'SQL Query Engine';
+
+  @override
+  String get helpSqlQuerySubtitle =>
+      'Query CSV, JSON, and XML files directly with local SQL statements.';
+
+  @override
+  String get helpSqlQueryBody =>
+      'Analyze and transform tabular and structured data using standard SQL syntax directly on your device.\n\n• Supported Formats: Run queries on CSV, JSON, and XML documents.\n• Capabilities: Full SQL syntax including SELECT, WHERE, GROUP BY, HAVING, ORDER BY, and table JOINs across opened tabs.\n• Export Results: Save query output directly as new CSV or JSON files.';
+
+  @override
+  String get helpMultiCursorTitle => 'Multi-Cursor & Column Editing';
+
+  @override
+  String get helpMultiCursorSubtitle =>
+      'Simultaneously edit multiple lines and select vertical text columns.';
+
+  @override
+  String get helpMultiCursorBody =>
+      'Boost editing speed on repetitive formatting and text transformation tasks.\n\n• Multi-Cursor: Tap and hold to place multiple independent cursors in the text editor. All cursors type, delete, and paste at the same time.\n• Column Selection: Select vertical columns of text across multiple lines to easily add prefixes, suffixes, or edit tabular text alignments.';
+
+  @override
+  String get helpSearchTitle => 'Search & Workspace Index';
+
+  @override
+  String get helpSearchSubtitle =>
+      'Find text inside documents or search across all files with SQLite FTS5.';
+
+  @override
+  String get helpSearchBody =>
+      'Find text rapidly across your documents:\n\n• In-Document Search: Use Find & Replace with case sensitivity, whole-word matching, and regular expressions.\n• Global Workspace Search: Tap the search icon on the Home screen to query the high-speed SQLite FTS5 full-text index covering all recent and favorite documents.\n• 100% Private: All indexing and search operations occur locally on your device.';
+
+  @override
+  String get helpAuditLogTitle => 'Tamper-Evident Audit Log';
+
+  @override
+  String get helpAuditLogSubtitle =>
+      'Verify file integrity with cryptographic SHA-256 hash chains.';
+
+  @override
+  String get helpAuditLogBody =>
+      'Maintain transparent and tamper-evident records of document operations.\n\n• Hash Chaining: Every file open, edit, save, export, and vault operation is logged with SHA-256 digests chained cryptographically to the previous entry.\n• Integrity Verification: Run verification from Settings → Audit Log to mathematically prove no log entries or file histories have been altered.';
+
+  @override
+  String get helpFormatToolsTitle => 'Format-Specific Tools';
+
+  @override
+  String get helpFormatToolsSubtitle =>
+      'Specialized visual tools and editors for JSON, Markdown, CSV, XML, and TXT.';
+
+  @override
+  String get helpFormatToolsBody =>
+      'TextData provides custom editors and visual tools tailored to each file type:\n\n• JSON: Interactive visual tree viewer, JSONPath query runner, schema validator, array splitter, and formatter.\n• Markdown: Live split-screen preview, visual table builder, YAML front-matter editor, and heading splitter.\n• CSV: Interactive spreadsheet grid, column sorting, formulas (SUM, AVG, MIN, MAX, COUNT), and delimiter converter.\n• XML: Hierarchical tree view, XPath query runner, XSD schema validator, and auto-beautifier.\n• TXT: Line splitting, word wrap toggling, line jump, and web link extractor.';
+
+  @override
+  String get helpSpeechTitle => 'Speech & Read Aloud';
+
+  @override
+  String get helpSpeechSubtitle =>
+      'Listen to documents read aloud in English and Malayalam.';
+
+  @override
+  String get helpSpeechBody =>
+      'Listen to documents hands-free using your device\'s built-in text-to-speech engine.\n\n• Supported Languages: English and Malayalam.\n• Voice Controls: Play, pause, stop, and configure speech rate and language from Settings → Speech.';
+
+  @override
   String get helpSplitArrayTitle => 'Split array';
+
+  @override
+  String get helpSplitArraySubtitle =>
+      'Break a JSON array into smaller numbered files.';
 
   @override
   String get helpSplitArrayBody =>
       'Split array works when the top level of a JSON file is an array. Choose how many items each part should contain. The app then creates numbered files such as name.part1.json and asks where to save each one. The last part may contain fewer items. Your original file is not changed.';
+
+  @override
+  String get helpBackupTitle => 'Backup & export';
+
+  @override
+  String get helpBackupSubtitle =>
+      'Keep copies of your files safe in other formats or locations.';
+
+  @override
+  String get helpBackupBody =>
+      'Keep copies of your files safe using Export and Save a copy. Open any document and tap the menu to find \"Export\" — this converts your file to another format such as PDF or plain text. Use \"Save a copy\" to save the document to a new location without changing the original. For extra safety, export important files regularly and store copies in a safe place such as a cloud folder, an SD card, or another device using LAN sync or QR sharing.';
 
   @override
   String get aboutSectionTitle => 'About';
@@ -2161,4 +2292,1108 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get csvDeleteRow => 'Delete row';
+
+  @override
+  String get airqrTitle => 'Air-gap transfer (QR)';
+
+  @override
+  String get airqrIntro =>
+      'Move a document or a piece of text to another device using only the screen and the camera. Nothing is sent over Wi-Fi, Bluetooth, or the internet.';
+
+  @override
+  String get airqrReceive => 'Receive';
+
+  @override
+  String get airqrReceiveSubtitle =>
+      'Point the camera at the other device\'s screen';
+
+  @override
+  String get airqrHowToSend => 'How to send';
+
+  @override
+  String get airqrHowToSendBody =>
+      'Open the document you want to send, then choose \"Send by QR\" from its menu. To send only part of a document, select the text first.';
+
+  @override
+  String get airqrSpeedNoteTitle => 'This is slow on purpose';
+
+  @override
+  String get airqrSpeedNoteBody =>
+      'A camera link carries about 15 KB each second. Short notes take a few seconds; a large file can take minutes. For anything big, use LAN sync instead.';
+
+  @override
+  String get airqrSendTitle => 'Sending by QR';
+
+  @override
+  String get airqrSendByQr => 'Send by QR';
+
+  @override
+  String get airqrSendSelectionByQr => 'Send selection by QR';
+
+  @override
+  String get airqrHoldSteady =>
+      'Hold both devices steady until the other device says it has every frame. The code below repeats until then.';
+
+  @override
+  String get airqrCodeLabel => 'Session code';
+
+  @override
+  String get airqrCodeHint =>
+      'Read this code to the other person. It is not inside the QR code, so anyone who records the screen still cannot read your data without it.';
+
+  @override
+  String get airqrUnsealedWarning =>
+      'This transfer is not protected. Anyone who can see this screen can read the data.';
+
+  @override
+  String airqrFrameCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count frames',
+      one: '1 frame',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String airqrPassCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count passes done',
+      one: '1 pass done',
+      zero: 'First pass',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String airqrOnePassTakes(int seconds) {
+    return 'One full pass takes about $seconds seconds.';
+  }
+
+  @override
+  String airqrSpeedLabel(int fps) {
+    return 'Speed: $fps frames per second';
+  }
+
+  @override
+  String get airqrSpeedHelp =>
+      'Lower this if the other device is missing frames.';
+
+  @override
+  String airqrDensityLabel(int bytes) {
+    return 'Detail: $bytes bytes per frame';
+  }
+
+  @override
+  String get airqrDensityHelp =>
+      'Lower this for an easier-to-scan code on an older camera. It needs more frames.';
+
+  @override
+  String get airqrReceiveTitle => 'Receiving by QR';
+
+  @override
+  String get airqrScanSemantics =>
+      'Camera viewfinder for receiving an animated QR code';
+
+  @override
+  String get airqrLookingForStream => 'Looking for a transfer…';
+
+  @override
+  String airqrFramesProgress(int received, int total) {
+    return '$received of $total frames';
+  }
+
+  @override
+  String airqrFps(String rate) {
+    return '$rate frames/second';
+  }
+
+  @override
+  String airqrRemaining(int seconds) {
+    return 'About ${seconds}s left';
+  }
+
+  @override
+  String airqrStillMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Waiting for $count more frames',
+      one: 'Waiting for 1 more frame',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get airqrAssembling => 'Checking and rebuilding the data…';
+
+  @override
+  String get airqrAllFramesReceived => 'All frames received';
+
+  @override
+  String get airqrEnterCodePrompt =>
+      'Enter the session code shown on the sending device.';
+
+  @override
+  String get airqrUnlock => 'Unlock';
+
+  @override
+  String get airqrStartOver => 'Start over';
+
+  @override
+  String get airqrReceivedTitle => 'Transfer complete';
+
+  @override
+  String airqrCharacterCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count characters',
+      one: '1 character',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get airqrPreview => 'Preview';
+
+  @override
+  String get airqrCopyText => 'Copy text';
+
+  @override
+  String get airqrCopied => 'Copied to the clipboard';
+
+  @override
+  String get airqrUseThis => 'Save as a file';
+
+  @override
+  String get airqrFailedGeneric => 'The transfer could not be completed.';
+
+  @override
+  String airqrSavedAs(String name) {
+    return 'Saved as $name';
+  }
+
+  @override
+  String get airqrInsertedIntoDocument =>
+      'Text inserted into the open document';
+
+  @override
+  String get airqrTooLargeTitle => 'Too large for QR transfer';
+
+  @override
+  String airqrTooLargeBody(String size, String limit) {
+    return 'This is $size, and QR transfer stops at $limit. At camera speed it would take far too long. Use LAN sync instead.';
+  }
+
+  @override
+  String get airqrSlowTitle => 'This will take a while';
+
+  @override
+  String airqrSlowBody(String size, String duration) {
+    return 'This is $size, which takes $duration by QR code. You will need to hold both devices steady for that long. LAN sync would be much faster.';
+  }
+
+  @override
+  String get airqrSendAnyway => 'Send anyway';
+
+  @override
+  String airqrAboutMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: 'about $minutes minutes',
+      one: 'about 1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String airqrAboutSeconds(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'about $seconds seconds',
+      one: 'about 1 second',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get airqrNothingToSend => 'There is nothing to send.';
+
+  @override
+  String get searchWorkspaceTitle => 'Search all files';
+
+  @override
+  String get searchWorkspaceTooltip => 'Search all files';
+
+  @override
+  String get searchWorkspaceHint => 'Search recent and favorite files';
+
+  @override
+  String get searchWorkspaceStartTitle => 'Search inside your files';
+
+  @override
+  String get searchWorkspaceStartBody =>
+      'Type a word to find it in the files you opened or marked as favorites. Everything is searched on this device only.';
+
+  @override
+  String get searchWorkspaceNoResults => 'No matches found';
+
+  @override
+  String get searchWorkspaceNoResultsBody =>
+      'Try a shorter word, or open the file once so it gets indexed.';
+
+  @override
+  String get searchWorkspaceOffTitle => 'Workspace search is off';
+
+  @override
+  String get searchWorkspaceOffBody =>
+      'Turn it on in Settings › Files & Tabs to search across your files.';
+
+  @override
+  String get searchWorkspaceClear => 'Clear search';
+
+  @override
+  String get searchWorkspaceAll => 'All';
+
+  @override
+  String get searchWorkspacePartial =>
+      'Long file — only the first part is searched';
+
+  @override
+  String get searchWorkspaceUnavailable =>
+      'File not available — remove from search';
+
+  @override
+  String searchWorkspaceResults(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count files',
+      one: '1 file',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filesIndexTitle => 'Workspace search index';
+
+  @override
+  String get filesIndexOn =>
+      'Files you open are indexed on this device so you can search inside all of them.';
+
+  @override
+  String get filesIndexOff =>
+      'New files are not indexed. Search only finds what was stored before.';
+
+  @override
+  String filesIndexCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count files indexed',
+      one: '1 file indexed',
+      zero: 'No files indexed',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filesIndexClear => 'Clear search index';
+
+  @override
+  String get filesIndexClearBody =>
+      'This deletes the stored text of every indexed file. Files themselves are not touched.';
+
+  @override
+  String get filesIndexCleared => 'Search index cleared';
+
+  @override
+  String get filesIndexRebuild => 'Rebuild search index';
+
+  @override
+  String get filesIndexRebuilding => 'Rebuilding the search index…';
+
+  @override
+  String filesIndexRebuilt(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count files indexed',
+      one: '1 file indexed',
+      zero: 'Nothing new to index',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ephemeralBadgeTimerTooltip(String time) {
+    return 'This tab self-destructs in $time';
+  }
+
+  @override
+  String get ephemeralBadgeOutputTooltip =>
+      'This tab self-destructs after the next export or share';
+
+  @override
+  String get ephemeralSheetTitle => 'Make this tab self-destruct';
+
+  @override
+  String get ephemeralSheetWhatIsWiped =>
+      'When it burns, the app forgets this document: the auto-save draft, the recent entry, favourites, bookmarks, its reading position, and its text in the workspace search index.';
+
+  @override
+  String get ephemeralSheetFileKept =>
+      'Your file itself is not deleted. The app only clears what it stores about it.';
+
+  @override
+  String get ephemeralSheetUnsavedWarning =>
+      'Unsaved edits in this tab are thrown away when it burns, with no further prompt.';
+
+  @override
+  String get ephemeralSheetTimerLabel => 'Self-destruct after';
+
+  @override
+  String get ephemeralSheetCustomMinutes => 'Minutes';
+
+  @override
+  String get ephemeralSheetBurnAfterOutput => 'Burn after export or share';
+
+  @override
+  String get ephemeralSheetBurnAfterOutputHint =>
+      'The first successful export, share, or print destroys the tab. A cancelled or failed one does not.';
+
+  @override
+  String get ephemeralSheetNothingChosen =>
+      'Choose a timer, turn on burn after export, or both.';
+
+  @override
+  String get ephemeralSheetConfirm => 'Make ephemeral';
+
+  @override
+  String get ephemeralDuration15Minutes => '15 minutes';
+
+  @override
+  String get ephemeralDuration1Hour => '1 hour';
+
+  @override
+  String get ephemeralDuration4Hours => '4 hours';
+
+  @override
+  String get ephemeralDuration24Hours => '24 hours';
+
+  @override
+  String get ephemeralDurationCustom => 'Custom';
+
+  @override
+  String get ephemeralDurationNone => 'No timer';
+
+  @override
+  String get tabMakeEphemeral => 'Make self-destructing…';
+
+  @override
+  String get tabChangeEphemeral => 'Change self-destruct…';
+
+  @override
+  String get tabCancelEphemeral => 'Keep this tab';
+
+  @override
+  String get tabBurnNow => 'Burn now';
+
+  @override
+  String ephemeralMarked(String name) {
+    return '$name will self-destruct';
+  }
+
+  @override
+  String ephemeralCancelled(String name) {
+    return '$name is a normal tab again';
+  }
+
+  @override
+  String ephemeralBurned(String name) {
+    return '$name was burned';
+  }
+
+  @override
+  String ephemeralBurnedPartly(String name) {
+    return '$name was closed, but some stored traces could not be removed';
+  }
+
+  @override
+  String get ephemeralBurnNowTitle => 'Burn this tab?';
+
+  @override
+  String get ephemeralBurnNowBody =>
+      'The tab closes and the app forgets this document. Unsaved edits are lost. Your file itself is not deleted.';
+
+  @override
+  String get actionBurn => 'Burn';
+
+  @override
+  String get ephemeralOpenAsEphemeral => 'Open as self-destructing…';
+
+  @override
+  String get ephemeralSettingsTitle => 'Self-destructing documents';
+
+  @override
+  String get ephemeralSettingsDefaultDuration => 'Default timer';
+
+  @override
+  String get ephemeralSettingsBurnAfterOutput => 'Default to burn after export';
+
+  @override
+  String get ephemeralSettingsBurnAfterOutputHint =>
+      'Pre-selects the switch in the self-destruct sheet. It does not change any tab on its own.';
+
+  @override
+  String get ephemeralSettingsBurnAll => 'Burn all self-destructing tabs now';
+
+  @override
+  String ephemeralSettingsOpenCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count self-destructing tabs are open',
+      one: '1 self-destructing tab is open',
+      zero: 'No self-destructing tabs are open',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ephemeralSettingsBurnAllDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tabs burned',
+      one: '1 tab burned',
+      zero: 'Nothing to burn',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ephemeralSettingsWipeNote =>
+      'A burn overwrites the app\'s stored copy with zeros before deleting it. On flash storage that is a strong extra step, not a guarantee — Android\'s own app encryption is the real protection.';
+
+  @override
+  String get sqlMenuAction => 'Run SQL query…';
+
+  @override
+  String get sqlQueryTitle => 'SQL query';
+
+  @override
+  String get sqlQueryHint => 'SELECT * FROM data LIMIT 100';
+
+  @override
+  String get sqlRunAction => 'Run';
+
+  @override
+  String get sqlRunning => 'Running…';
+
+  @override
+  String get sqlLoadingData => 'Loading the data…';
+
+  @override
+  String get sqlTablesHeading => 'Tables';
+
+  @override
+  String sqlTableSummary(int rows, int columns) {
+    return '$rows rows · $columns columns';
+  }
+
+  @override
+  String sqlColumnRenamed(String original) {
+    return 'was “$original”';
+  }
+
+  @override
+  String get sqlColumnBlankName => '(blank)';
+
+  @override
+  String sqlRowsCapped(int count) {
+    return 'Only the first $count rows of this file were loaded.';
+  }
+
+  @override
+  String get sqlAddTable => 'Add a table';
+
+  @override
+  String get sqlAddTableTitle => 'Add another open document';
+
+  @override
+  String get sqlAddTableEmpty => 'No other CSV or JSON tab is open.';
+
+  @override
+  String sqlAddTableFailed(String name) {
+    return '$name has nothing that can be loaded as a table.';
+  }
+
+  @override
+  String sqlTableAdded(String name, String table) {
+    return '$name is now the table $table.';
+  }
+
+  @override
+  String get sqlRemoveTable => 'Remove';
+
+  @override
+  String get sqlPresetsHeading => 'Starter queries';
+
+  @override
+  String get sqlPresetSelectAll => 'Show the first rows';
+
+  @override
+  String get sqlPresetCountRows => 'Count the rows';
+
+  @override
+  String get sqlPresetGroupCount => 'Group and total';
+
+  @override
+  String get sqlPresetOrderBy => 'Highest values first';
+
+  @override
+  String get sqlPresetJoin => 'Join the two tables';
+
+  @override
+  String sqlResultSummary(int rows, int ms) {
+    return '$rows rows in $ms ms';
+  }
+
+  @override
+  String sqlResultTruncated(int count) {
+    return 'Showing the first $count rows of the result.';
+  }
+
+  @override
+  String get sqlResultEmpty => 'The query ran, but no rows matched.';
+
+  @override
+  String get sqlResultPlaceholder =>
+      'Type a query and tap Run, or pick a starter query.';
+
+  @override
+  String get sqlCopyResult => 'Copy result as CSV';
+
+  @override
+  String get sqlCopiedResult => 'Result copied as CSV';
+
+  @override
+  String get sqlSaveResult => 'Save result as CSV…';
+
+  @override
+  String sqlSavedResult(String name) {
+    return 'Saved $name';
+  }
+
+  @override
+  String get sqlNoResultYet => 'There is no result to save yet.';
+
+  @override
+  String get sqlReloadData => 'Reload data';
+
+  @override
+  String get sqlReloadedData => 'Data reloaded from the open documents.';
+
+  @override
+  String get sqlSnapshotNote =>
+      'Queries run over a copy taken when this screen opened. Reload after editing the document.';
+
+  @override
+  String get sqlNoData =>
+      'This document has nothing that can be queried as a table.';
+
+  @override
+  String get sqlLoadFailed => 'The data could not be loaded for querying.';
+
+  @override
+  String get sqlErrorEmpty => 'Type a query first.';
+
+  @override
+  String get sqlErrorNotSelect =>
+      'Only a query that starts with SELECT or WITH can run here.';
+
+  @override
+  String get sqlErrorMultiple => 'Type one statement only.';
+
+  @override
+  String sqlErrorForbidden(String keyword) {
+    return '“$keyword” is not allowed — this screen only reads data.';
+  }
+
+  @override
+  String get sqlReadOnlyNote =>
+      'This is a read-only copy of your data. A query can never change or delete your file.';
+
+  @override
+  String get auditSectionTitle => 'Audit Log';
+
+  @override
+  String get auditCardSubtitle =>
+      'Cryptographic SHA-256 chain log of workspace activity';
+
+  @override
+  String get auditEnableTitle => 'Record workspace audit log';
+
+  @override
+  String get auditEnableSubtitle =>
+      'Chains SHA-256 hashes of document edits, exports, sync, and security events.';
+
+  @override
+  String get auditChainStatusLabel => 'Chain status';
+
+  @override
+  String get auditViewLogTitle => 'View audit log';
+
+  @override
+  String auditEntryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count recorded entries',
+      one: '1 recorded entry',
+      zero: 'No recorded entries',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get auditLogTitle => 'Workspace Audit Log';
+
+  @override
+  String get auditVerifyAction => 'Verify chain';
+
+  @override
+  String get auditExportAction => 'Export certificate';
+
+  @override
+  String get auditExportSubject => 'TextData Audit Certificate';
+
+  @override
+  String get auditExportFailed => 'Could not export the audit certificate.';
+
+  @override
+  String get auditClearAction => 'Clear audit log';
+
+  @override
+  String get auditClearSubtitle =>
+      'Deletes all audit records and resets the cryptographic chain.';
+
+  @override
+  String get auditClearTitle => 'Clear audit log?';
+
+  @override
+  String get auditClearConfirmation =>
+      'This will delete all activity records. The cryptographic hash chain will restart with a new genesis entry.';
+
+  @override
+  String get auditClearSuccess => 'Audit log cleared.';
+
+  @override
+  String get auditEmptyState => 'No audit entries recorded yet.';
+
+  @override
+  String get auditBadgeVerified => 'Chain Verified';
+
+  @override
+  String get auditBadgeCorrupted => 'Chain Corrupted';
+
+  @override
+  String get auditBadgeEmpty => 'Log Empty';
+
+  @override
+  String get auditBadgeVerifying => 'Verifying…';
+
+  @override
+  String get auditBadgeError => 'Check Failed';
+
+  @override
+  String auditChainVerifiedBanner(int count) {
+    return 'Tamper-Proof Chain Verified ($count entries)';
+  }
+
+  @override
+  String auditChainCorruptedBanner(int index) {
+    return 'Audit Chain Corrupted at Entry #$index';
+  }
+
+  @override
+  String get auditChainEmptyBanner => 'No audit log entries to verify.';
+
+  @override
+  String get backupSectionTitle => 'Backup & Restore';
+
+  @override
+  String get backupCardSubtitle =>
+      'Encrypted archive export and restore (.txdata)';
+
+  @override
+  String get backupSectionDescription =>
+      'Export or restore your files, recents, favorites, bookmarks, and settings in a single AES-256 encrypted .txdata bundle.';
+
+  @override
+  String get backupManageTitle => 'Backup Archive Manager';
+
+  @override
+  String get backupManageSubtitle =>
+      'Create password-sealed backups or restore from existing .txdata archives.';
+
+  @override
+  String get backupZeroKnowledgeNote =>
+      'Zero-Knowledge Protection: Archives are sealed with AES-256-GCM using keys derived via PBKDF2-HMAC-SHA256 (200,000 iterations). Your password is never stored or transmitted. If forgotten, encrypted backups cannot be recovered.';
+
+  @override
+  String get backupScreenTitle => 'Backup & Restore (.txdata)';
+
+  @override
+  String get backupHeroTitle => 'Encrypted Backup Archives';
+
+  @override
+  String get backupHeroBody =>
+      'Bundle your workspace data and settings into a tamper-evident, password-sealed AES-256 archive. Fully offline with zero cloud access.';
+
+  @override
+  String get backupExportCardTitle => 'Create Encrypted Backup';
+
+  @override
+  String get backupExportCardBody =>
+      'Select workspace items and seal them under a chosen password into a .txdata file.';
+
+  @override
+  String get backupExportButton => 'Export Backup (.txdata)';
+
+  @override
+  String get backupRestoreCardTitle => 'Restore From Backup';
+
+  @override
+  String get backupRestoreCardBody =>
+      'Open an existing .txdata file, verify your password, and selectively restore items.';
+
+  @override
+  String get backupRestoreButton => 'Select Backup File (.txdata)';
+
+  @override
+  String get backupSaveToDevice => 'Save to device (SAF)';
+
+  @override
+  String get backupShareArchive => 'Share archive file';
+
+  @override
+  String backupExportSaved(String fileName) {
+    return 'Backup archive saved as $fileName';
+  }
+
+  @override
+  String get backupExportError => 'Failed to create backup';
+
+  @override
+  String get backupRestoreError => 'Failed to restore backup';
+
+  @override
+  String get backupUnlockFailedTitle => 'Cannot Unlock Backup';
+
+  @override
+  String backupRestoreSuccessSummary(
+    int recents,
+    int favorites,
+    int bookmarks,
+    int settings,
+  ) {
+    return 'Restored $recents recents, $favorites favorites, $bookmarks bookmarks, $settings settings.';
+  }
+
+  @override
+  String get backupExportTitle => 'Create Encrypted Backup';
+
+  @override
+  String get backupExportSelectItems => 'Select components to include:';
+
+  @override
+  String get backupIncludeRecents => 'Recent files history';
+
+  @override
+  String get backupIncludeFavorites => 'Favorite files list';
+
+  @override
+  String get backupIncludeBookmarks => 'Document bookmarks';
+
+  @override
+  String get backupIncludeSettings => 'App settings & preferences';
+
+  @override
+  String backupIncludeFiles(int count) {
+    return 'Open documents ($count files)';
+  }
+
+  @override
+  String get backupPasswordHeader => 'Encryption Password:';
+
+  @override
+  String get backupPasswordLabel => 'Password';
+
+  @override
+  String get backupConfirmPasswordLabel => 'Confirm Password';
+
+  @override
+  String get backupPasswordTooShort =>
+      'Password must be at least 6 characters.';
+
+  @override
+  String get backupPasswordsDoNotMatch => 'Passwords do not match.';
+
+  @override
+  String get backupPasswordWarning =>
+      'Keep this password safe. If forgotten, this backup archive cannot be decrypted.';
+
+  @override
+  String get backupCreateAction => 'Create Backup';
+
+  @override
+  String get backupEnterPasswordTitle => 'Unlock Backup Archive';
+
+  @override
+  String get backupEnterPasswordPrompt =>
+      'Enter the password used to encrypt this .txdata archive:';
+
+  @override
+  String get backupUnlockAction => 'Unlock & Inspect';
+
+  @override
+  String get backupRestoreTitle => 'Restore Backup Archive';
+
+  @override
+  String backupCreatedOn(String date) {
+    return 'Archive created on $date';
+  }
+
+  @override
+  String get backupSelectRestoreItems => 'Select items to restore:';
+
+  @override
+  String backupRecentsCount(int count) {
+    return 'Recent files ($count items)';
+  }
+
+  @override
+  String backupFavoritesCount(int count) {
+    return 'Favorite files ($count items)';
+  }
+
+  @override
+  String backupBookmarksCount(int count) {
+    return 'Document bookmarks ($count items)';
+  }
+
+  @override
+  String backupSettingsCount(int count) {
+    return 'App settings ($count preferences)';
+  }
+
+  @override
+  String backupFilesCount(int count) {
+    return 'Attached document files ($count files)';
+  }
+
+  @override
+  String get backupMergeModeTitle => 'Merge with existing data';
+
+  @override
+  String get backupMergeModeSubtitle =>
+      'Preserves existing records and adds missing ones.';
+
+  @override
+  String get backupReplaceModeSubtitle =>
+      'Replaces existing records with items from this backup.';
+
+  @override
+  String get backupRestoreAction => 'Restore Data';
+
+  @override
+  String get vaultTitle => 'Biometric Vault';
+
+  @override
+  String get vaultLockAction => 'Lock in Biometric Vault';
+
+  @override
+  String get vaultUnlockAction => 'Unlock Document';
+
+  @override
+  String get p2pFileTransferTitle => 'Document Transfer';
+
+  @override
+  String get columnSelectionTitle => 'Column & Multi-Cursor Edit';
+
+  @override
+  String get columnSelectionAction => 'Column / Multi-Cursor';
+
+  @override
+  String columnSelectionLines(int start, int end, int count) {
+    return 'Lines $start to $end ($count lines)';
+  }
+
+  @override
+  String get columnSelectionStartLine => 'Start line';
+
+  @override
+  String get columnSelectionEndLine => 'End line';
+
+  @override
+  String get columnSelectionAllLines => 'All lines';
+
+  @override
+  String get columnSelectionCurrentLines => 'Selection';
+
+  @override
+  String get columnModePrefixSuffix => 'Prefix / Suffix';
+
+  @override
+  String get columnModeBlock => 'Column Block';
+
+  @override
+  String get columnModeInsertAtCol => 'Insert at Column';
+
+  @override
+  String get columnModeNumbering => 'Numbering';
+
+  @override
+  String get columnPrefixLabel => 'Prefix (start of line)';
+
+  @override
+  String get columnSuffixLabel => 'Suffix (end of line)';
+
+  @override
+  String get columnStartColLabel => 'Start column';
+
+  @override
+  String get columnEndColLabel => 'End column';
+
+  @override
+  String get columnInsertColLabel => 'Column index';
+
+  @override
+  String get columnInsertTextLabel => 'Text to insert';
+
+  @override
+  String get columnPadShorterLines => 'Pad shorter lines with spaces';
+
+  @override
+  String get columnNumberStart => 'Start number';
+
+  @override
+  String get columnNumberStep => 'Step';
+
+  @override
+  String get columnNumberFormat => 'Format template (%d)';
+
+  @override
+  String get columnNumberPadding => 'Zero padding digits';
+
+  @override
+  String get columnLivePreview => 'Live Preview';
+
+  @override
+  String get columnApplyAction => 'Apply Edits';
+
+  @override
+  String get columnCopyBlockAction => 'Copy Block';
+
+  @override
+  String get columnCutBlockAction => 'Cut Block';
+
+  @override
+  String get columnDeleteBlockAction => 'Delete Block';
+
+  @override
+  String get columnBlockCopied => 'Column block copied to clipboard';
+
+  @override
+  String columnEditsApplied(int count) {
+    return 'Applied bulk edits across $count lines';
+  }
+
+  @override
+  String get columnTrimWhitespace => 'Trim whitespace';
+
+  @override
+  String get privacyShieldTitle => 'Offline Privacy Shield';
+
+  @override
+  String get privacyShieldSubtitle =>
+      'On-device PII & secret credentials scanner';
+
+  @override
+  String get privacyShieldAction => 'Privacy Shield & Scrubbing';
+
+  @override
+  String get privacyModeRedact => 'Redact';
+
+  @override
+  String get privacyModeHash => 'Salted Hash';
+
+  @override
+  String get privacyModeAnonymize => 'Anonymize';
+
+  @override
+  String get privacySelectAll => 'All Items';
+
+  @override
+  String get privacyTabDetections => 'Detected Items';
+
+  @override
+  String get privacyTabPreview => 'Full Preview';
+
+  @override
+  String get privacyCleanTitle => 'No Sensitive Data Detected';
+
+  @override
+  String get privacyCleanDescription =>
+      'No emails, phone numbers, cards, IP addresses, or secret keys found in this file.';
+
+  @override
+  String get privacyApplyToBuffer => 'Apply to Document';
+
+  @override
+  String get privacyShareScrubbed => 'Share Scrubbed';
+
+  @override
+  String get privacyExportScrubbed => 'Export Scrubbed';
+
+  @override
+  String get privacyShareFailed => 'Could not share the scrubbed document.';
+
+  @override
+  String get liveDiffTitle => 'Live Diff & Delta Sync';
+
+  @override
+  String get liveDiffAction => 'Live P2P Diff & Sync';
+
+  @override
+  String get liveDiffAutoMerge => 'Auto-Merge';
+
+  @override
+  String get liveDiffAcceptMine => 'Accept All Mine';
+
+  @override
+  String get liveDiffAcceptPeer => 'Accept All Peer';
+
+  @override
+  String get liveDiffSideBySide => 'Side-by-Side';
+
+  @override
+  String get liveDiffUnified => 'Unified Diff';
+
+  @override
+  String get liveDiffPreview => 'Merge Preview';
+
+  @override
+  String get liveDiffPushToPeer => 'Push My Edits to Peer';
+
+  @override
+  String get liveDiffSaveMerged => 'Save Merged Document';
 }

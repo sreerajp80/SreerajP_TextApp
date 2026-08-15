@@ -21,18 +21,20 @@ void main() {
     await controller.close();
   });
 
-  test('closed resolves and a pending read fails when the stream drops',
-      () async {
-    final controller = StreamController<List<int>>();
-    final reader = BoundedLineReader(controller.stream, maxLineBytes: 1024);
-    final pending = reader.readLine();
-    // Attach the matcher before the future can complete with an error, so it is
-    // never seen as an unhandled async error.
-    final expectation = expectLater(pending, throwsA(anything));
-    await controller.close();
-    await reader.closed; // must complete
-    await expectation;
-  });
+  test(
+    'closed resolves and a pending read fails when the stream drops',
+    () async {
+      final controller = StreamController<List<int>>();
+      final reader = BoundedLineReader(controller.stream, maxLineBytes: 1024);
+      final pending = reader.readLine();
+      // Attach the matcher before the future can complete with an error, so it is
+      // never seen as an unhandled async error.
+      final expectation = expectLater(pending, throwsA(anything));
+      await controller.close();
+      await reader.closed; // must complete
+      await expectation;
+    },
+  );
 
   test('lines buffered before a reader asks are delivered in order', () async {
     final controller = StreamController<List<int>>();

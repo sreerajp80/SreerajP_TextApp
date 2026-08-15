@@ -1,5 +1,5 @@
-import 'csv_table.dart';
-import 'csv_types.dart';
+import 'package:text_data/formats/csv/csv_table.dart';
+import 'package:text_data/formats/csv/csv_types.dart';
 
 /// The chart shapes the full-screen chart offers (roadmap §4.2.4).
 enum CsvChartType { bar, line, pie }
@@ -40,11 +40,13 @@ class CsvChartSeries {
 
   bool get isEmpty => points.isEmpty;
 
-  double get maxValue =>
-      points.isEmpty ? 0 : points.map((p) => p.value).reduce((a, b) => a > b ? a : b);
+  double get maxValue => points.isEmpty
+      ? 0
+      : points.map((p) => p.value).reduce((a, b) => a > b ? a : b);
 
-  double get minValue =>
-      points.isEmpty ? 0 : points.map((p) => p.value).reduce((a, b) => a < b ? a : b);
+  double get minValue => points.isEmpty
+      ? 0
+      : points.map((p) => p.value).reduce((a, b) => a < b ? a : b);
 }
 
 /// Turns a CSV column into chart points (roadmap §4.2.4).
@@ -157,7 +159,9 @@ class CsvChartData {
     }
 
     final kept = entries.take(maxSlices - 1).toList();
-    final rest = entries.skip(maxSlices - 1).fold<double>(0, (a, e) => a + e.value);
+    final rest = entries
+        .skip(maxSlices - 1)
+        .fold<double>(0, (a, e) => a + e.value);
     return CsvChartSeries(
       title: title,
       points: [

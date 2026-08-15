@@ -26,8 +26,10 @@ void main() {
     final doc = parse('<root><item id="5"/></root>');
     final item = doc.rootElement.childElements.first;
     final out = edits.removeAttribute(doc, item, 'id');
-    expect(parse(out).rootElement.childElements.first.getAttribute('id'),
-        isNull);
+    expect(
+      parse(out).rootElement.childElements.first.getAttribute('id'),
+      isNull,
+    );
   });
 
   test('renameElement keeps attributes and children', () {
@@ -52,8 +54,9 @@ void main() {
     final doc = parse('<root><a/><b/></root>');
     final a = doc.rootElement.childElements.first;
     final out = edits.deleteNode(doc, a);
-    expect(parse(out).rootElement.childElements.map((e) => e.name.qualified),
-        ['b']);
+    expect(parse(out).rootElement.childElements.map((e) => e.name.qualified), [
+      'b',
+    ]);
   });
 
   test('deleteNode never removes the document root', () {
@@ -66,16 +69,21 @@ void main() {
     final doc = parse('<root><a/><b/><c/></root>');
     final b = doc.rootElement.childElements.toList()[1];
     final out = edits.moveSibling(doc, b, -1); // move b up
-    expect(parse(out).rootElement.childElements.map((e) => e.name.qualified),
-        ['b', 'a', 'c']);
+    expect(parse(out).rootElement.childElements.map((e) => e.name.qualified), [
+      'b',
+      'a',
+      'c',
+    ]);
   });
 
   test('moveSibling at an edge is a no-op', () {
     final doc = parse('<root><a/><b/></root>');
     final a = doc.rootElement.childElements.first;
     final out = edits.moveSibling(doc, a, -1); // already first
-    expect(parse(out).rootElement.childElements.map((e) => e.name.qualified),
-        ['a', 'b']);
+    expect(parse(out).rootElement.childElements.map((e) => e.name.qualified), [
+      'a',
+      'b',
+    ]);
   });
 
   test('every edit leaves well-formed XML', () {

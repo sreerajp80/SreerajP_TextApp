@@ -56,8 +56,12 @@ void main() {
   });
 
   test('invalid regex is reported and nothing changes', () {
-    final r = fr.replaceAll('abc', '(bad', 'X',
-        const SearchOptions(regex: true));
+    final r = fr.replaceAll(
+      'abc',
+      '(bad',
+      'X',
+      const SearchOptions(regex: true),
+    );
     expect(r.hasError, isTrue);
     expect(r.replacedCount, 0);
     expect(r.text, 'abc');

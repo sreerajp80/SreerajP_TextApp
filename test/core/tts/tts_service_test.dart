@@ -53,18 +53,20 @@ void main() {
       );
     });
 
-    test('needsInstall when the engine is present but the voice is missing',
-        () async {
-      final engine = _FakeEngine(
-        installed: const ['en-US'],
-        available: {'en-US'},
-      );
-      final service = TtsService(engine);
-      expect(
-        await service.availability(TtsLanguage.malayalam),
-        TtsAvailability.needsInstall,
-      );
-    });
+    test(
+      'needsInstall when the engine is present but the voice is missing',
+      () async {
+        final engine = _FakeEngine(
+          installed: const ['en-US'],
+          available: {'en-US'},
+        );
+        final service = TtsService(engine);
+        expect(
+          await service.availability(TtsLanguage.malayalam),
+          TtsAvailability.needsInstall,
+        );
+      },
+    );
 
     test('unavailable when there is no usable engine', () async {
       final engine = _FakeEngine(installed: const [], available: {});

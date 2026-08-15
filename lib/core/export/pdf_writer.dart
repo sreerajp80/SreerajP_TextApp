@@ -26,11 +26,7 @@ class PdfWriter {
         margin: const pw.EdgeInsets.all(32),
         build: (context) => [
           for (final line in lines)
-            pw.Text(
-              line.isEmpty ? ' ' : line,
-              style: style,
-              softWrap: true,
-            ),
+            pw.Text(line.isEmpty ? ' ' : line, style: style, softWrap: true),
         ],
       ),
     );
@@ -57,8 +53,10 @@ class PdfWriter {
             headers: header.isEmpty ? null : header,
             data: rows,
             cellStyle: const pw.TextStyle(fontSize: 9),
-            headerStyle:
-                pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold),
+            headerStyle: pw.TextStyle(
+              fontSize: 9,
+              fontWeight: pw.FontWeight.bold,
+            ),
             cellAlignment: pw.Alignment.centerLeft,
             border: pw.TableBorder.all(width: 0.5, color: PdfColors.grey600),
           ),

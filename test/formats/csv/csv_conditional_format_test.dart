@@ -5,16 +5,16 @@ import 'package:text_data/formats/csv/csv_table.dart';
 /// Guards the conditional formatting rules (roadmap §4.2.3).
 void main() {
   CsvTable table() => CsvTable(
-        header: ['name', 'balance'],
-        rows: [
-          ['Ada', '-40'],
-          ['Bob', '120'],
-          ['Ada', '0'],
-          ['Cid', ''],
-          ['Dee', '120'],
-        ],
-        hasHeader: true,
-      );
+    header: ['name', 'balance'],
+    rows: [
+      ['Ada', '-40'],
+      ['Bob', '120'],
+      ['Ada', '0'],
+      ['Cid', ''],
+      ['Dee', '120'],
+    ],
+    hasHeader: true,
+  );
 
   CsvHighlight? highlightAt(List<CsvFormatRule> rules, int row, int col) {
     final t = table();

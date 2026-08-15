@@ -19,7 +19,9 @@ void main() {
 
   group('SafService error mapping', () {
     test('permission_denied maps to SafPermissionDenied', () {
-      handleWith((_) async => throw PlatformException(code: 'permission_denied'));
+      handleWith(
+        (_) async => throw PlatformException(code: 'permission_denied'),
+      );
       expect(
         () => service.readBytes('content://x'),
         throwsA(isA<SafPermissionDenied>()),

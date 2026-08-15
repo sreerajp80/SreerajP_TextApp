@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../core/editor/atomic_saver.dart';
-import '../../core/editor/confirm_overwrite.dart';
-import '../../core/editor/encoding.dart';
-import '../../l10n/app_localizations.dart';
-import '../txt/txt_encoding_labels.dart';
-import 'md_document_session.dart';
+import 'package:text_data/core/editor/atomic_saver.dart';
+import 'package:text_data/core/editor/confirm_overwrite.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/txt/txt_encoding_labels.dart';
+import 'package:text_data/formats/markdown/md_document_session.dart';
 
 /// Runs a plain Save: overwrite the file, preserving its encoding + line ending,
 /// and report the outcome with a snackbar. A read-only file falls back to "Save
@@ -70,8 +70,9 @@ void _reportSaveResult(
 ) {
   final message = switch (result.outcome) {
     SaveOutcome.saved => l10n.saveDone,
-    SaveOutcome.savedAsCopy =>
-      l10n.saveCopyDone(result.destination?.displayName ?? l10n.saveNewFile),
+    SaveOutcome.savedAsCopy => l10n.saveCopyDone(
+      result.destination?.displayName ?? l10n.saveNewFile,
+    ),
     SaveOutcome.cancelled => null,
     SaveOutcome.blockedByGate => result.message ?? l10n.saveCouldNot,
     SaveOutcome.readOnlyNeedsCopy => l10n.saveReadOnly,
@@ -117,8 +118,10 @@ class _SaveOptionsBodyState extends State<_SaveOptionsBody> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(l10n.saveOptionsTitle,
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              l10n.saveOptionsTitle,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 12),
             DropdownButtonFormField<TextEncodingType>(
               initialValue: _encoding,
@@ -156,8 +159,9 @@ class _SaveOptionsBodyState extends State<_SaveOptionsBody> {
                 TextButton(
                   onPressed: () {
                     _apply();
-                    Navigator.of(context)
-                        .pop(const _SaveChoice(_SaveAction.copy));
+                    Navigator.of(
+                      context,
+                    ).pop(const _SaveChoice(_SaveAction.copy));
                   },
                   child: Text(l10n.actionSaveAsCopy),
                 ),
@@ -166,13 +170,14 @@ class _SaveOptionsBodyState extends State<_SaveOptionsBody> {
                   onPressed: () {
                     _apply();
                     Navigator.of(context).pop(
-                      _SaveChoice(canOverwrite
-                          ? _SaveAction.overwrite
-                          : _SaveAction.copy),
+                      _SaveChoice(
+                        canOverwrite ? _SaveAction.overwrite : _SaveAction.copy,
+                      ),
                     );
                   },
                   child: Text(
-                      canOverwrite ? l10n.actionSave : l10n.actionSaveAsCopy),
+                    canOverwrite ? l10n.actionSave : l10n.actionSaveAsCopy,
+                  ),
                 ),
               ],
             ),

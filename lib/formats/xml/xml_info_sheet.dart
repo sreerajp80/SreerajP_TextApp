@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../txt/txt_encoding_labels.dart';
-import 'xml_document_session.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/txt/txt_encoding_labels.dart';
+import 'package:text_data/formats/xml/xml_document_session.dart';
 
 /// A bottom sheet showing the XML file's insights and metadata (task 9.6):
 /// root element, element count, depth, most-common tags, namespaces, plus size,
 /// dates, encoding, and line ending.
 Future<void> showXmlInfoSheet(
-    BuildContext context, XmlDocumentSession session) {
+  BuildContext context,
+  XmlDocumentSession session,
+) {
   return showModalBottomSheet<void>(
     context: context,
     showDragHandle: true,
@@ -19,8 +21,10 @@ Future<void> showXmlInfoSheet(
       final ns = session.namespaces;
 
       final rows = <MapEntry<String, String>>[
-        MapEntry(l10n.xmlInfoWellFormed,
-            session.isWellFormed ? l10n.commonYes : l10n.commonNo),
+        MapEntry(
+          l10n.xmlInfoWellFormed,
+          session.isWellFormed ? l10n.commonYes : l10n.commonNo,
+        ),
         if (stats != null) ...[
           MapEntry(l10n.xmlInfoRoot, stats.rootElement ?? '—'),
           MapEntry(l10n.xmlInfoElements, '${stats.elementCount}'),
@@ -32,7 +36,8 @@ Future<void> showXmlInfoSheet(
         if (meta != null) ...[
           MapEntry(l10n.labelEncoding, session.encoding.label),
           MapEntry(l10n.labelLineEnding, session.lineEnding.label),
-          if (meta.size != null) MapEntry(l10n.infoSize, _formatBytes(meta.size!)),
+          if (meta.size != null)
+            MapEntry(l10n.infoSize, _formatBytes(meta.size!)),
           if (meta.modifiedAt != null)
             MapEntry(l10n.infoModified, _formatDate(meta.modifiedAt!)),
         ],
@@ -45,8 +50,10 @@ Future<void> showXmlInfoSheet(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.infoTitle,
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                l10n.infoTitle,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 8),
               for (final row in rows)
                 Padding(
@@ -59,9 +66,7 @@ Future<void> showXmlInfoSheet(
                         child: Text(
                           row.value,
                           textAlign: TextAlign.right,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
+                          style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                       ),

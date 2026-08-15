@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../core/editor/encoding.dart';
-import '../../l10n/app_localizations.dart';
-import 'txt_document_session.dart';
-import 'txt_encoding_labels.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/txt/txt_document_session.dart';
+import 'package:text_data/formats/txt/txt_encoding_labels.dart';
 
 /// A bottom sheet to view and switch the file's text encoding (task 4.4).
 ///
@@ -25,8 +25,10 @@ Future<void> showEncodingSheet(
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-              child: Text(AppLocalizations.of(context).txtEncodingSheetTitle,
-                  style: Theme.of(context).textTheme.titleMedium),
+              child: Text(
+                AppLocalizations.of(context).txtEncodingSheetTitle,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
             RadioGroup<TextEncodingType>(
               groupValue: session.encoding,

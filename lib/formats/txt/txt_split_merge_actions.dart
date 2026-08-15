@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../core/editor/encoding.dart';
-import '../../core/storage/saf_exceptions.dart';
-import '../../core/storage/saf_service.dart';
-import '../../l10n/app_localizations.dart';
-import '../../shell/tabs/document_tab.dart';
-import 'txt_document_session.dart';
-import 'txt_split_merge.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/formats/txt/txt_document_session.dart';
+import 'package:text_data/formats/txt/txt_split_merge.dart';
 
 /// UI actions for splitting one TXT file into parts and merging another file's
 /// text into this one (task 4.5). The heavy lifting is the pure [TxtSplitMerge];
@@ -38,20 +38,24 @@ class TxtSplitMergeActions {
 
     final parts = choice.byLines
         ? splitMerge.splitByLines(code.text, choice.amount)
-        : splitMerge.splitBySize(code.text, choice.amount * 1024,
-            encoding: session.encoding);
+        : splitMerge.splitBySize(
+            code.text,
+            choice.amount * 1024,
+            encoding: session.encoding,
+          );
 
     if (parts.length < 2) {
-      messenger.showSnackBar(SnackBar(
-        content: Text(l10n.txtSplitOnePart),
-      ));
+      messenger.showSnackBar(SnackBar(content: Text(l10n.txtSplitOnePart)));
       return;
     }
 
     final baseName = _stripExtension(session.tab.displayName);
     for (var i = 0; i < parts.length; i++) {
-      final bytes =
-          codec.encode(parts[i], session.encoding, session.lineEnding);
+      final bytes = codec.encode(
+        parts[i],
+        session.encoding,
+        session.lineEnding,
+      );
       try {
         await saf.createDocument(
           suggestedName: '$baseName.part${i + 1}.txt',
@@ -153,9 +157,13 @@ class _SplitDialogState extends State<_SplitDialog> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 RadioListTile<bool>(
-                    value: true, title: Text(l10n.txtSplitByLines)),
+                  value: true,
+                  title: Text(l10n.txtSplitByLines),
+                ),
                 RadioListTile<bool>(
-                    value: false, title: Text(l10n.txtSplitBySize)),
+                  value: false,
+                  title: Text(l10n.txtSplitBySize),
+                ),
               ],
             ),
           ),
@@ -178,9 +186,9 @@ class _SplitDialogState extends State<_SplitDialog> {
           onPressed: () {
             final amount = int.tryParse(_controller.text.trim()) ?? 0;
             if (amount < 1) return;
-            Navigator.of(context).pop(
-              _SplitChoice(byLines: _byLines, amount: amount),
-            );
+            Navigator.of(
+              context,
+            ).pop(_SplitChoice(byLines: _byLines, amount: amount));
           },
           child: Text(l10n.actionSplit),
         ),

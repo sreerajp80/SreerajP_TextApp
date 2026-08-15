@@ -1,4 +1,4 @@
-import 'json_node.dart';
+import 'package:text_data/formats/json/json_node.dart';
 
 /// One schema violation: where it is and what is wrong (task 8.4).
 class JsonSchemaError {
@@ -29,19 +29,29 @@ class JsonSchemaValidator {
   }
 
   void _validate(
-      Object? value, Object? schema, String path, List<JsonSchemaError> errors) {
+    Object? value,
+    Object? schema,
+    String path,
+    List<JsonSchemaError> errors,
+  ) {
     if (schema is! Map) return;
 
     final type = schema['type'];
     if (type != null && !_typeMatches(value, type)) {
-      errors.add(JsonSchemaError(
-          path, 'expected type ${_typeText(type)} but found ${_typeOf(value)}'));
+      errors.add(
+        JsonSchemaError(
+          path,
+          'expected type ${_typeText(type)} but found ${_typeOf(value)}',
+        ),
+      );
       return; // Other checks assume the type held.
     }
 
     final enumValues = schema['enum'];
     if (enumValues is List && !enumValues.any((e) => _deepEquals(e, value))) {
-      errors.add(JsonSchemaError(path, 'value is not one of the allowed values'));
+      errors.add(
+        JsonSchemaError(path, 'value is not one of the allowed values'),
+      );
     }
 
     if (value is num) {
@@ -58,7 +68,9 @@ class JsonSchemaValidator {
     if (value is String) {
       final minLen = schema['minLength'];
       if (minLen is num && value.length < minLen) {
-        errors.add(JsonSchemaError(path, 'must be at least $minLen characters'));
+        errors.add(
+          JsonSchemaError(path, 'must be at least $minLen characters'),
+        );
       }
       final maxLen = schema['maxLength'];
       if (maxLen is num && value.length > maxLen) {
@@ -80,11 +92,19 @@ class JsonSchemaValidator {
         for (final entry in value.entries) {
           final propSchema = properties[entry.key];
           if (propSchema != null) {
-            _validate(entry.value, propSchema, _childPath(path, '${entry.key}'),
-                errors);
+            _validate(
+              entry.value,
+              propSchema,
+              _childPath(path, '${entry.key}'),
+              errors,
+            );
           } else if (schema['additionalProperties'] == false) {
-            errors.add(JsonSchemaError(
-                _childPath(path, '${entry.key}'), 'additional key not allowed'));
+            errors.add(
+              JsonSchemaError(
+                _childPath(path, '${entry.key}'),
+                'additional key not allowed',
+              ),
+            );
           }
         }
       }
@@ -122,8 +142,7 @@ class JsonSchemaValidator {
     }
   }
 
-  String _typeText(Object type) =>
-      type is List ? type.join(' or ') : '$type';
+  String _typeText(Object type) => type is List ? type.join(' or ') : '$type';
 
   String _typeOf(Object? value) {
     if (value == null) return 'null';
@@ -164,7 +183,8 @@ Object? dartValueOf(JsonNode node) {
   switch (node.kind) {
     case JsonKind.object:
       return {
-        for (final child in node.children) (child.key ?? ''): dartValueOf(child),
+        for (final child in node.children)
+          (child.key ?? ''): dartValueOf(child),
       };
     case JsonKind.array:
       return [for (final child in node.children) dartValueOf(child)];

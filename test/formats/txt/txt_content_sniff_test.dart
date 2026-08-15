@@ -8,8 +8,10 @@ void main() {
   Uint8List bytes(List<int> b) => Uint8List.fromList(b);
 
   test('plain ASCII text is not binary', () {
-    expect(TxtContentSniff.looksBinary(bytes(utf8.encode('hello world\n'))),
-        isFalse);
+    expect(
+      TxtContentSniff.looksBinary(bytes(utf8.encode('hello world\n'))),
+      isFalse,
+    );
   });
 
   test('empty input is treated as text', () {

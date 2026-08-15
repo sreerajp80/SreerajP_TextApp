@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/theme_controller.dart';
-import '../../l10n/app_localizations.dart';
-import 'json_document_session.dart';
-import 'json_node.dart';
-import 'json_parser.dart';
+import 'package:text_data/core/theme/theme_controller.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/json/json_document_session.dart';
+import 'package:text_data/formats/json/json_node.dart';
+import 'package:text_data/formats/json/json_parser.dart';
 
 /// The colour-coded, indented **pretty** view of a JSON document (task 8.1).
 ///
@@ -48,57 +48,111 @@ class JsonPrettyView extends ConsumerWidget {
     );
   }
 
-  void _build(JsonNode node, List<InlineSpan> out, _JsonColors colors,
-      String indentUnit, int depth) {
+  void _build(
+    JsonNode node,
+    List<InlineSpan> out,
+    _JsonColors colors,
+    String indentUnit,
+    int depth,
+  ) {
     switch (node.kind) {
       case JsonKind.object:
         if (node.children.isEmpty) {
-          out.add(TextSpan(text: '{}', style: TextStyle(color: colors.punctuation)));
+          out.add(
+            TextSpan(
+              text: '{}',
+              style: TextStyle(color: colors.punctuation),
+            ),
+          );
           return;
         }
-        out.add(TextSpan(text: '{', style: TextStyle(color: colors.punctuation)));
+        out.add(
+          TextSpan(
+            text: '{',
+            style: TextStyle(color: colors.punctuation),
+          ),
+        );
         for (var i = 0; i < node.children.length; i++) {
           final child = node.children[i];
           out.add(TextSpan(text: '\n${indentUnit * (depth + 1)}'));
-          out.add(TextSpan(
-            text: encodeJsonString(child.key ?? ''),
-            style: TextStyle(color: colors.key),
-          ));
-          out.add(TextSpan(text: ': ', style: TextStyle(color: colors.punctuation)));
+          out.add(
+            TextSpan(
+              text: encodeJsonString(child.key ?? ''),
+              style: TextStyle(color: colors.key),
+            ),
+          );
+          out.add(
+            TextSpan(
+              text: ': ',
+              style: TextStyle(color: colors.punctuation),
+            ),
+          );
           _build(child, out, colors, indentUnit, depth + 1);
           if (i != node.children.length - 1) {
-            out.add(TextSpan(text: ',', style: TextStyle(color: colors.punctuation)));
+            out.add(
+              TextSpan(
+                text: ',',
+                style: TextStyle(color: colors.punctuation),
+              ),
+            );
           }
         }
         out.add(TextSpan(text: '\n${indentUnit * depth}}'));
         break;
       case JsonKind.array:
         if (node.children.isEmpty) {
-          out.add(TextSpan(text: '[]', style: TextStyle(color: colors.punctuation)));
+          out.add(
+            TextSpan(
+              text: '[]',
+              style: TextStyle(color: colors.punctuation),
+            ),
+          );
           return;
         }
-        out.add(TextSpan(text: '[', style: TextStyle(color: colors.punctuation)));
+        out.add(
+          TextSpan(
+            text: '[',
+            style: TextStyle(color: colors.punctuation),
+          ),
+        );
         for (var i = 0; i < node.children.length; i++) {
           out.add(TextSpan(text: '\n${indentUnit * (depth + 1)}'));
           _build(node.children[i], out, colors, indentUnit, depth + 1);
           if (i != node.children.length - 1) {
-            out.add(TextSpan(text: ',', style: TextStyle(color: colors.punctuation)));
+            out.add(
+              TextSpan(
+                text: ',',
+                style: TextStyle(color: colors.punctuation),
+              ),
+            );
           }
         }
         out.add(TextSpan(text: '\n${indentUnit * depth}]'));
         break;
       case JsonKind.string:
-        out.add(TextSpan(
-          text: encodeJsonString(node.stringValue ?? ''),
-          style: TextStyle(color: colors.string),
-        ));
+        out.add(
+          TextSpan(
+            text: encodeJsonString(node.stringValue ?? ''),
+            style: TextStyle(color: colors.string),
+          ),
+        );
         break;
       case JsonKind.number:
-        out.add(TextSpan(text: node.rawText, style: TextStyle(color: colors.number)));
+        out.add(
+          TextSpan(
+            text: node.rawText,
+            style: TextStyle(color: colors.number),
+          ),
+        );
         break;
       case JsonKind.boolean:
       case JsonKind.nullValue:
-        out.add(TextSpan(text: node.rawText, style: TextStyle(color: colors.keyword)));
+        out.add(
+          TextSpan(
+            text: node.rawText,
+            style: TextStyle(color: colors.keyword),
+          ),
+        );
         break;
     }
   }
@@ -143,8 +197,11 @@ class _InvalidNotice extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.rule_folder_outlined,
-                size: 48, color: theme.colorScheme.error),
+            Icon(
+              Icons.rule_folder_outlined,
+              size: 48,
+              color: theme.colorScheme.error,
+            ),
             const SizedBox(height: 12),
             Text(l10n.jsonNotValidYet, style: theme.textTheme.titleMedium),
             const SizedBox(height: 4),
@@ -153,8 +210,9 @@ class _InvalidNotice extends StatelessWidget {
                   ? l10n.jsonProblemNearLine(line)
                   : l10n.jsonOpenEditorToFix,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),

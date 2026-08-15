@@ -34,7 +34,10 @@ class RecordingSafService extends SafService {
   @override
   Future<Uint8List> readBytes(String uri) async {
     if (failRead) throw const SafUriStale();
-    return contents[uri] ?? Uint8List(0);
+    // A real SAF read hands back a fresh buffer the caller owns (see
+    // SafService.readBytes), so the fake copies instead of sharing its own.
+    final bytes = contents[uri];
+    return bytes == null ? Uint8List(0) : Uint8List.fromList(bytes);
   }
 
   @override
@@ -74,13 +77,13 @@ void main() {
   });
 
   DocumentTab tabFor(String uri, {String name = 'data.csv'}) => DocumentTab(
-        id: 'tab-1',
-        fingerprint: 'fp-1',
-        uri: uri,
-        displayName: name,
-        mimeType: 'text/csv',
-        lastActiveAt: 1,
-      );
+    id: 'tab-1',
+    fingerprint: 'fp-1',
+    uri: uri,
+    displayName: name,
+    mimeType: 'text/csv',
+    lastActiveAt: 1,
+  );
 
   Future<CsvDocumentSession> build(RecordingSafService saf) async {
     return CsvDocumentSession(
@@ -128,21 +131,23 @@ void main() {
     session.dispose();
   });
 
-  test('raw toggle preserves content and re-parses edits back into the grid',
-      () async {
-    final session = await build(safWith('a,b\n1,2'));
-    await session.load();
+  test(
+    'raw toggle preserves content and re-parses edits back into the grid',
+    () async {
+      final session = await build(safWith('a,b\n1,2'));
+      await session.load();
 
-    session.setViewMode(CsvViewMode.raw);
-    expect(session.code!.text, 'a,b\n1,2'); // grid serialized to raw
+      session.setViewMode(CsvViewMode.raw);
+      expect(session.code!.text, 'a,b\n1,2'); // grid serialized to raw
 
-    // Edit the raw text and switch back to the grid.
-    session.code!.text = 'a,b\n1,2\n3,4';
-    session.setViewMode(CsvViewMode.table);
-    expect(session.table.rowCount, 2);
-    expect(session.table.cell(1, 1), '4');
-    session.dispose();
-  });
+      // Edit the raw text and switch back to the grid.
+      session.code!.text = 'a,b\n1,2\n3,4';
+      session.setViewMode(CsvViewMode.table);
+      expect(session.table.rowCount, 2);
+      expect(session.table.cell(1, 1), '4');
+      session.dispose();
+    },
+  );
 
   test('filter and sort drive the visible row order', () async {
     final session = await build(safWith('name,age\nAda,36\nBob,40\nCid,8'));
@@ -194,8 +199,17 @@ void main() {
 
   test('save round-trips preserving encoding and CRLF line endings', () async {
     // Windows-1252 bytes with CRLF: "a\r\ncafé\r\n".
-    final original = Uint8List.fromList(
-        [0x61, 0x0D, 0x0A, 0x63, 0x61, 0x66, 0xE9, 0x0D, 0x0A]);
+    final original = Uint8List.fromList([
+      0x61,
+      0x0D,
+      0x0A,
+      0x63,
+      0x61,
+      0x66,
+      0xE9,
+      0x0D,
+      0x0A,
+    ]);
     final saf = RecordingSafService(
       contents: {'u': original},
       writableUris: {'u'},
@@ -214,28 +228,30 @@ void main() {
     session.dispose();
   });
 
-  test('read-only file cannot overwrite; save reports it needs a copy',
-      () async {
-    final session = await build(safWith('a,b\n1,2', writable: false));
-    await session.load();
-    expect(session.isWritable, isFalse);
-    final result = await session.save();
-    expect(result.outcome, SaveOutcome.readOnlyNeedsCopy);
-    session.dispose();
-  });
+  test(
+    'read-only file cannot overwrite; save reports it needs a copy',
+    () async {
+      final session = await build(safWith('a,b\n1,2', writable: false));
+      await session.load();
+      expect(session.isWritable, isFalse);
+      final result = await session.save();
+      expect(result.outcome, SaveOutcome.readOnlyNeedsCopy);
+      session.dispose();
+    },
+  );
 
   test('restores the sort (column + direction) on a later open', () async {
     final store = await inMemoryKeyValueStore();
     CsvDocumentSession make() => CsvDocumentSession(
-          tab: tabFor('u'),
-          saf: safWith('name,age\nAda,36\nBob,40\nCid,8'),
-          codec: const TextCodecService(),
-          saver: const AtomicSaver(),
-          metadata: MetadataService(safWith('name,age\nAda,36\nBob,40\nCid,8')),
-          store: store,
-          draftStore: Future.value(draftStore),
-          tempDir: Future.value(tempDir),
-        );
+      tab: tabFor('u'),
+      saf: safWith('name,age\nAda,36\nBob,40\nCid,8'),
+      codec: const TextCodecService(),
+      saver: const AtomicSaver(),
+      metadata: MetadataService(safWith('name,age\nAda,36\nBob,40\nCid,8')),
+      store: store,
+      draftStore: Future.value(draftStore),
+      tempDir: Future.value(tempDir),
+    );
 
     final first = make();
     await first.load();
@@ -264,9 +280,10 @@ void main() {
 
   test('a saved sort column out of range is ignored, not applied', () async {
     // Store a column index the reparsed (2-column) table does not have.
-    final store = await inMemoryKeyValueStore(
-      {'csv.pos.fp-1': 9, 'csv.dir.fp-1': SortDirection.ascending.index},
-    );
+    final store = await inMemoryKeyValueStore({
+      'csv.pos.fp-1': 9,
+      'csv.dir.fp-1': SortDirection.ascending.index,
+    });
     final session = CsvDocumentSession(
       tab: tabFor('u'),
       saf: safWith('name,age\nAda,36\nBob,40'),
@@ -325,22 +342,24 @@ void main() {
         CsvSortSpec(1, SortDirection.descending),
       ]);
       session.sortBy(1);
-      expect(session.sortSpecs, const [CsvSortSpec(1, SortDirection.ascending)]);
+      expect(session.sortSpecs, const [
+        CsvSortSpec(1, SortDirection.ascending),
+      ]);
       session.dispose();
     });
 
     test('the whole hierarchy comes back on a later open', () async {
       final store = await inMemoryKeyValueStore();
       CsvDocumentSession make() => CsvDocumentSession(
-            tab: tabFor('u'),
-            saf: safWith(csv),
-            codec: const TextCodecService(),
-            saver: const AtomicSaver(),
-            metadata: MetadataService(safWith(csv)),
-            store: store,
-            draftStore: Future.value(draftStore),
-            tempDir: Future.value(tempDir),
-          );
+        tab: tabFor('u'),
+        saf: safWith(csv),
+        codec: const TextCodecService(),
+        saver: const AtomicSaver(),
+        metadata: MetadataService(safWith(csv)),
+        store: store,
+        draftStore: Future.value(draftStore),
+        tempDir: Future.value(tempDir),
+      );
 
       final first = make();
       await first.load();
@@ -384,8 +403,10 @@ void main() {
 
       final result = await session.save();
       expect(result.outcome, SaveOutcome.saved);
-      expect(String.fromCharCodes(saf.lastWritten!),
-          'qty,price,total\n2,10,20\n3,20,60');
+      expect(
+        String.fromCharCodes(saf.lastWritten!),
+        'qty,price,total\n2,10,20\n3,20,60',
+      );
       session.dispose();
     });
 
@@ -422,15 +443,15 @@ void main() {
       const csv = 'a,b\n2,\n3,';
       final store = await inMemoryKeyValueStore();
       CsvDocumentSession make() => CsvDocumentSession(
-            tab: tabFor('u'),
-            saf: safWith(csv),
-            codec: const TextCodecService(),
-            saver: const AtomicSaver(),
-            metadata: MetadataService(safWith(csv)),
-            store: store,
-            draftStore: Future.value(draftStore),
-            tempDir: Future.value(tempDir),
-          );
+        tab: tabFor('u'),
+        saf: safWith(csv),
+        codec: const TextCodecService(),
+        saver: const AtomicSaver(),
+        metadata: MetadataService(safWith(csv)),
+        store: store,
+        draftStore: Future.value(draftStore),
+        tempDir: Future.value(tempDir),
+      );
 
       final first = make();
       await first.load();
@@ -449,29 +470,41 @@ void main() {
     test('rules reach the grid through the prepared matcher', () async {
       final session = await build(safWith('n\n-5\n7'));
       await session.load();
-      session.addFormatRule(const CsvFormatRule(
-        column: 0,
-        condition: CsvCondition.lessThan,
-        value: '0',
-        highlight: CsvHighlight.red,
-      ));
-      expect(session.conditionalFormat.highlightFor(session.table, 0, 0),
-          CsvHighlight.red);
-      expect(session.conditionalFormat.highlightFor(session.table, 1, 0), isNull);
+      session.addFormatRule(
+        const CsvFormatRule(
+          column: 0,
+          condition: CsvCondition.lessThan,
+          value: '0',
+          highlight: CsvHighlight.red,
+        ),
+      );
+      expect(
+        session.conditionalFormat.highlightFor(session.table, 0, 0),
+        CsvHighlight.red,
+      );
+      expect(
+        session.conditionalFormat.highlightFor(session.table, 1, 0),
+        isNull,
+      );
       session.dispose();
     });
 
     test('the prepared matcher follows an edit', () async {
       final session = await build(safWith('n\n-5\n7'));
       await session.load();
-      session.addFormatRule(const CsvFormatRule(
-        column: 0,
-        condition: CsvCondition.lessThan,
-        value: '0',
-        highlight: CsvHighlight.red,
-      ));
+      session.addFormatRule(
+        const CsvFormatRule(
+          column: 0,
+          condition: CsvCondition.lessThan,
+          value: '0',
+          highlight: CsvHighlight.red,
+        ),
+      );
       session.setCell(0, 0, '9');
-      expect(session.conditionalFormat.highlightFor(session.table, 0, 0), isNull);
+      expect(
+        session.conditionalFormat.highlightFor(session.table, 0, 0),
+        isNull,
+      );
       session.dispose();
     });
 
@@ -479,24 +512,26 @@ void main() {
       const csv = 'n\n-5\n7';
       final store = await inMemoryKeyValueStore();
       CsvDocumentSession make() => CsvDocumentSession(
-            tab: tabFor('u'),
-            saf: safWith(csv),
-            codec: const TextCodecService(),
-            saver: const AtomicSaver(),
-            metadata: MetadataService(safWith(csv)),
-            store: store,
-            draftStore: Future.value(draftStore),
-            tempDir: Future.value(tempDir),
-          );
+        tab: tabFor('u'),
+        saf: safWith(csv),
+        codec: const TextCodecService(),
+        saver: const AtomicSaver(),
+        metadata: MetadataService(safWith(csv)),
+        store: store,
+        draftStore: Future.value(draftStore),
+        tempDir: Future.value(tempDir),
+      );
 
       final first = make();
       await first.load();
-      first.addFormatRule(const CsvFormatRule(
-        column: 0,
-        condition: CsvCondition.lessThan,
-        value: '0',
-        highlight: CsvHighlight.red,
-      ));
+      first.addFormatRule(
+        const CsvFormatRule(
+          column: 0,
+          condition: CsvCondition.lessThan,
+          value: '0',
+          highlight: CsvHighlight.red,
+        ),
+      );
       first.dispose();
 
       final second = make();
@@ -506,21 +541,25 @@ void main() {
       second.dispose();
     });
 
-    test('deleting a column drops the rules and formulas that named it',
-        () async {
-      final session = await build(safWith('a,b,c\n1,2,\n3,4,'));
-      await session.load();
-      session.setColumnFormula(2, '=A+B');
-      session.addFormatRule(const CsvFormatRule(
-        column: 2,
-        condition: CsvCondition.isEmpty,
-        highlight: CsvHighlight.blue,
-      ));
+    test(
+      'deleting a column drops the rules and formulas that named it',
+      () async {
+        final session = await build(safWith('a,b,c\n1,2,\n3,4,'));
+        await session.load();
+        session.setColumnFormula(2, '=A+B');
+        session.addFormatRule(
+          const CsvFormatRule(
+            column: 2,
+            condition: CsvCondition.isEmpty,
+            highlight: CsvHighlight.blue,
+          ),
+        );
 
-      session.deleteColumn(2);
-      expect(session.columnFormula(2), isNull);
-      expect(session.formatRules, isEmpty);
-      session.dispose();
-    });
+        session.deleteColumn(2);
+        expect(session.columnFormula(2), isNull);
+        expect(session.formatRules, isEmpty);
+        session.dispose();
+      },
+    );
   });
 }

@@ -1,4 +1,4 @@
-import 'json_node.dart';
+import 'package:text_data/formats/json/json_node.dart';
 
 /// The result of parsing a JSON document (task 8.4).
 ///
@@ -81,13 +81,19 @@ class JsonParser {
     try {
       state.skipInsignificant();
       if (state.atEnd) {
-        return JsonParseResult.failure('The file has no JSON content.',
-            state.line, state.column);
+        return JsonParseResult.failure(
+          'The file has no JSON content.',
+          state.line,
+          state.column,
+        );
       }
       final root = state.parseValue();
       state.skipInsignificant();
       if (!state.atEnd) {
-        throw _ParseError('Unexpected content after the JSON value.', state.pos);
+        throw _ParseError(
+          'Unexpected content after the JSON value.',
+          state.pos,
+        );
       }
       return JsonParseResult.success(root, lenientUsed: state.lenientUsed);
     } on _ParseError catch (e) {
@@ -105,11 +111,13 @@ class JsonParser {
       final text = lines[i].trim();
       if (text.isEmpty) continue;
       final result = parse(text, lenient: true);
-      records.add(NdjsonRecord(
-        line: i + 1,
-        node: result.ok ? result.root : null,
-        error: result.ok ? null : result.errorMessage,
-      ));
+      records.add(
+        NdjsonRecord(
+          line: i + 1,
+          node: result.ok ? result.root : null,
+          error: result.ok ? null : result.errorMessage,
+        ),
+      );
     }
     return records;
   }
@@ -142,8 +150,13 @@ String minifyJson(JsonNode node) {
   return buffer.toString();
 }
 
-void _write(JsonNode node, StringBuffer out, String indent, int depth,
-    bool pretty) {
+void _write(
+  JsonNode node,
+  StringBuffer out,
+  String indent,
+  int depth,
+  bool pretty,
+) {
   switch (node.kind) {
     case JsonKind.object:
       if (node.children.isEmpty) {
@@ -160,7 +173,14 @@ void _write(JsonNode node, StringBuffer out, String indent, int depth,
         return;
       }
       out.write('[');
-      _writeChildren(node.children, out, indent, depth, pretty, isObject: false);
+      _writeChildren(
+        node.children,
+        out,
+        indent,
+        depth,
+        pretty,
+        isObject: false,
+      );
       _writeCloser(']', out, indent, depth, pretty);
       break;
     case JsonKind.string:
@@ -174,8 +194,14 @@ void _write(JsonNode node, StringBuffer out, String indent, int depth,
   }
 }
 
-void _writeChildren(List<JsonNode> children, StringBuffer out, String indent,
-    int depth, bool pretty, {required bool isObject}) {
+void _writeChildren(
+  List<JsonNode> children,
+  StringBuffer out,
+  String indent,
+  int depth,
+  bool pretty, {
+  required bool isObject,
+}) {
   final pad = pretty ? indent * (depth + 1) : '';
   for (var i = 0; i < children.length; i++) {
     if (pretty) out.write('\n');
@@ -191,7 +217,12 @@ void _writeChildren(List<JsonNode> children, StringBuffer out, String indent,
 }
 
 void _writeCloser(
-    String closer, StringBuffer out, String indent, int depth, bool pretty) {
+  String closer,
+  StringBuffer out,
+  String indent,
+  int depth,
+  bool pretty,
+) {
   if (pretty) {
     out.write('\n');
     out.write(indent * depth);
@@ -318,7 +349,11 @@ class _State {
     if (!atEnd && _char == 0x7D) {
       pos++;
       return JsonNode(
-          kind: JsonKind.object, start: start, end: pos, children: children);
+        kind: JsonKind.object,
+        start: start,
+        end: pos,
+        children: children,
+      );
     }
     while (true) {
       skipInsignificant();
@@ -369,7 +404,11 @@ class _State {
       throw _ParseError("A ',' or '}' was expected.", pos);
     }
     final node = JsonNode(
-        kind: JsonKind.object, start: start, end: pos, children: children);
+      kind: JsonKind.object,
+      start: start,
+      end: pos,
+      children: children,
+    );
     for (final child in children) {
       child.parent = node;
     }
@@ -384,7 +423,11 @@ class _State {
     if (!atEnd && _char == 0x5D) {
       pos++;
       return JsonNode(
-          kind: JsonKind.array, start: start, end: pos, children: children);
+        kind: JsonKind.array,
+        start: start,
+        end: pos,
+        children: children,
+      );
     }
     var i = 0;
     while (true) {
@@ -413,7 +456,11 @@ class _State {
       throw _ParseError("A ',' or ']' was expected.", pos);
     }
     final node = JsonNode(
-        kind: JsonKind.array, start: start, end: pos, children: children);
+      kind: JsonKind.array,
+      start: start,
+      end: pos,
+      children: children,
+    );
     for (final child in children) {
       child.parent = node;
     }
@@ -495,7 +542,10 @@ class _State {
         continue;
       }
       if (c < 0x20 && !lenient) {
-        throw _ParseError('A control character is not allowed in a string.', pos);
+        throw _ParseError(
+          'A control character is not allowed in a string.',
+          pos,
+        );
       }
       value.writeCharCode(c);
       pos++;
@@ -533,22 +583,38 @@ class _State {
       throw _ParseError('A number was expected here.', start);
     }
     return JsonNode(
-        kind: JsonKind.number, start: start, end: pos, rawText: raw);
+      kind: JsonKind.number,
+      start: start,
+      end: pos,
+      rawText: raw,
+    );
   }
 
   JsonNode _parseKeyword() {
     final start = pos;
     if (_matches('true')) {
       return JsonNode(
-          kind: JsonKind.boolean, start: start, end: pos, rawText: 'true');
+        kind: JsonKind.boolean,
+        start: start,
+        end: pos,
+        rawText: 'true',
+      );
     }
     if (_matches('false')) {
       return JsonNode(
-          kind: JsonKind.boolean, start: start, end: pos, rawText: 'false');
+        kind: JsonKind.boolean,
+        start: start,
+        end: pos,
+        rawText: 'false',
+      );
     }
     if (_matches('null')) {
       return JsonNode(
-          kind: JsonKind.nullValue, start: start, end: pos, rawText: 'null');
+        kind: JsonKind.nullValue,
+        start: start,
+        end: pos,
+        rawText: 'null',
+      );
     }
     throw _ParseError('An unexpected token was found.', pos);
   }

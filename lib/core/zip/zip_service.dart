@@ -26,8 +26,7 @@ class ZipService {
   }
 
   /// Convenience: zip a single named file.
-  Uint8List zipOne(String name, Uint8List bytes) =>
-      zipEntries({name: bytes});
+  Uint8List zipOne(String name, Uint8List bytes) => zipEntries({name: bytes});
 
   /// Unpacks a ZIP archive back into a map of file name → bytes. Round-trips
   /// with [zipEntries] (used by the test and by any future import path).

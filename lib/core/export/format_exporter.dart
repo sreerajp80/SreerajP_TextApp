@@ -1,4 +1,4 @@
-import 'export_target.dart';
+import 'package:text_data/core/export/export_target.dart';
 
 /// A format module's export capability (task 5.4).
 ///

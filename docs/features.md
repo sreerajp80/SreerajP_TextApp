@@ -140,6 +140,15 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
   - Dialect auto-detection and manual overrides (Delimiter: `,`, `\t`, `;`, `|`; Quote char: `"`, `'`).
   - Custom column selection export sheet (`CsvExportSheet`).
 - **Split & Merge Tools**: Split CSV by row count or header grouping; merge multiple CSV files with automatic column header matching.
+- **Embedded SQL Query Engine (`lib/core/sql/`)**: Runs real, read-only SQL — `SELECT`, `WHERE`, `GROUP BY`, aggregates, `ORDER BY`, `JOIN` — against the open document, entirely offline. Opened from the overflow menu.
+  - **How it works**: the document is copied into a throwaway in-memory SQLite database. It uses the `sqflite` package the app already had, so the feature added no new dependency. The app's own database is never touched.
+  - **Typed columns**: an all-numeric column (including `1,234` and `$1,299.00`) loads as a number, so `WHERE amount > 100` compares numerically. Blank cells load as `NULL`, never `0`, so `AVG` and `COUNT` stay honest. A blank or repeated header is repaired and the schema panel says what was renamed.
+  - **Joins across tabs**: any other open CSV or JSON tab can be added as a second table, which is what makes `JOIN` useful.
+  - **Read-only by design**: only one statement starting with `SELECT` or `WITH` is allowed; writes, `PRAGMA`, the file functions, and `ATTACH` are refused, so a query can never reach another database or change a file. A blocked word inside a string literal (`WHERE note = 'delete me'`) still runs.
+  - **Starter queries** are written with the loaded tables' real names, and tapping a column chip inserts it into the SQL box.
+  - **Results**: shown in a scrollable grid, copyable as CSV, and savable as a new CSV file through the system picker.
+  - **Stated limits**: 200,000 rows loaded per table, 5,000 result rows shown, no mid-query cancel (SQLite cannot be interrupted part-way), and the tables are a snapshot — a "Reload data" action re-copies after an edit.
+
 
 ---
 
@@ -169,6 +178,7 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
 - **Large Integer Precision Protection**: Preserves 64-bit integer numbers (e.g. Twitter/Discord IDs) as exact strings to prevent JavaScript/Dart double-precision truncation.
 - **Bi-directional YAML Conversion (`JsonYaml`)**: 1-tap conversion between JSON and YAML syntax.
 - **Array Split & Merge**: Split top-level JSON arrays into individual file chunks; merge separate JSON files into a master array.
+- **Embedded SQL Query Engine**: An array of records can be queried with read-only SQL from the overflow menu — the same engine the CSV format uses (see §2.4). The array the table view is pointed at is the one that becomes the SQL table, so drilling into a nested array first also narrows the query. A nested object keeps its short display text (`{ 3 }`), so a query can select it but not look inside it.
 
 ---
 
@@ -203,6 +213,7 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
 - **Recent Files Repository (`RecentsRepository`)**: Tracks recently opened documents with file metadata, last opened timestamp, format type, and quick launch tiles on the Home screen.
 - **Favorites & Pinned Files (`FavoritesRepository`)**: Pin frequently accessed files to the home dashboard.
 - **In-Document Bookmarks & Fingerprinting (`ContentFingerprint`)**: Add persistent bookmarks to specific lines/locations within documents. Bookmarks track content alterations and line shifts using SHA-256 content hashes.
+- **Workspace-Wide Full-Text Search (`SearchIndexService`)**: An offline SQLite FTS5 index over recent and favorite files. Files are indexed when opened and re-indexed after each successful save; a search screen on Home looks inside every indexed TXT, Markdown, CSV, JSON, and XML file at once, with format filter chips, highlighted snippets, and one tap to open the file as a tab. Oversized (≥ 50 MB) and binary files are skipped, each file is capped at 2 MB of stored text, and Settings › Files & Tabs can turn the index off, rebuild it, or clear it. Everything stays in the app's private database on the device.
 - **File Metadata Inspector (`FileMetadata`)**: Displays file path, URI, size, line count, character count, MIME type, encoding, and line ending style.
 
 ---
@@ -229,6 +240,11 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
   - Configurable auto-lock timeouts upon app backgrounding.
 - **Hardware-Backed Key Storage (`SecureStore`)**: Encrypts security credentials, PIN hashes, and pairing keys using Android Keystore via `flutter_secure_storage`.
 - **Window Security (`FLAG_SECURE`)**: Blocks task switcher previews and screenshot capture on sensitive app screens.
+- **Self-Destructing Documents (`lib/core/ephemeral/`)**: Any open tab can be marked to self-destruct, either on a timer (15 minutes, 1 hour, 4 hours, 24 hours, or a typed number of minutes) or after its first successful export, share, or print. A countdown badge on the tab chip shows the time left. A file can also be opened straight into a self-destructing tab by long-pressing the "Open a file" button on Home.
+  - **What a burn removes**: the auto-save draft (zero-filled before deletion), its `drafts_index` row, the recents entry, the favourite, the file's bookmarks, its reading position and per-file view settings, and — the most important one — the document's own text in the workspace FTS5 search index. The tab closes without the unsaved-changes prompt, because marking a tab ephemeral *is* the instruction to discard it, and the sheet says so before the mark is applied.
+  - **What a burn does not do**: it never deletes the user's file. The app is scoped-storage only, so "ephemeral" means the app forgets the document, not that the document is destroyed. The sheet states this in plain words.
+  - **Prevention, not just cleanup**: an ephemeral tab is never written to the saved tab set (so it cannot return after a relaunch), is never added to recents, and never feeds the search index on save.
+  - **Honest limits**: a `0x00` overwrite defeats an ordinary undelete of the logical file, but flash wear-levelling means it is not a guarantee that the physical blocks are gone — Android's per-app file encryption is the real protection. A Dart `String` cannot be zeroed at all (it is immutable and garbage-collected), so text scrubbing means dropping every reference; only the raw byte buffers are genuinely overwritten. The Settings screen says as much.
 
 ---
 
@@ -286,7 +302,7 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
 | Specifications / Layer | Details |
 | :--- | :--- |
 | **Product Version** | TextData v1.6.8+15 |
-| **Framework & Engine** | Flutter 3.41.9+ / Dart 3.11.5+ |
+| **Framework & Engine** | Flutter 3.44.8+ / Dart 3.12.2+ |
 | **Target OS & Requirements** | Android 8.0+ (minSdk 26+), Phones & Tablets, Portrait & Landscape |
 | **Storage Architecture** | Storage Access Framework (SAF), SQLite (`sqflite`), Secure Storage (`flutter_secure_storage`) |
 | **State Management** | Flutter Riverpod 3.3.2+ |

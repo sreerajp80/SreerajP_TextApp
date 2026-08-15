@@ -1,23 +1,30 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/editor/editor_providers.dart';
-import '../../core/output/output_providers.dart';
-import '../../core/storage/saf_service.dart';
-import '../../l10n/app_localizations.dart';
-import '../../shell/tabs/document_tab.dart';
-import '../../shell/tabs/read_only_lock_button.dart';
-import 'xml_document_session.dart';
-import 'xml_export_sheet.dart';
-import 'xml_info_sheet.dart';
-import 'xml_output_actions.dart';
-import 'xml_query_builder_sheet.dart';
-import 'xml_read_aloud_button.dart';
-import 'xml_save_options_sheet.dart';
-import 'xml_session_manager.dart';
-import 'xml_split_merge_actions.dart';
-import 'xml_tools_sheets.dart';
+import 'package:text_data/core/editor/column_selection_sheet.dart';
+import 'package:text_data/core/editor/editor_providers.dart';
+import 'package:text_data/core/privacy/ui/privacy_shield_sheet.dart';
+import 'package:text_data/sync/diff/diff_dialog_helper.dart';
+import 'package:text_data/airqr/ui/airqr_send_action.dart';
+import 'package:text_data/core/output/output_providers.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/shell/tabs/read_only_lock_button.dart';
+import 'package:text_data/formats/xml/xml_document_session.dart';
+import 'package:text_data/formats/xml/xml_export_sheet.dart';
+import 'package:text_data/formats/xml/xml_info_sheet.dart';
+import 'package:text_data/formats/xml/xml_output_actions.dart';
+import 'package:text_data/formats/xml/xml_query_builder_sheet.dart';
+import 'package:text_data/formats/xml/xml_read_aloud_button.dart';
+import 'package:text_data/formats/xml/xml_save_options_sheet.dart';
+import 'package:text_data/formats/xml/xml_session_manager.dart';
+import 'package:text_data/formats/xml/xml_split_merge_actions.dart';
+import 'package:text_data/formats/xml/xml_tools_sheets.dart';
 
 /// The action bar for an open XML document (tasks 9.1–9.6): the
 /// pretty/tree/raw/edit view controls, undo/redo, find, format/minify, validate,
@@ -38,8 +45,8 @@ class XmlToolbar extends ConsumerWidget {
         final ready = session.status == XmlLoadStatus.ready;
         final canEdit = ready && !tab.isReadOnly;
         final editing = session.mode == XmlViewMode.edit && !tab.isReadOnly;
-        final showingSource = session.mode == XmlViewMode.raw ||
-            session.mode == XmlViewMode.edit;
+        final showingSource =
+            session.mode == XmlViewMode.raw || session.mode == XmlViewMode.edit;
         final inTree = session.mode == XmlViewMode.tree;
         final hasTree = ready && session.document != null;
 
@@ -127,15 +134,15 @@ class XmlToolbar extends ConsumerWidget {
                       ? Icons.check_circle_outline
                       : Icons.error_outline,
                 ),
-                onPressed:
-                    ready ? () => showXmlValidateSheet(context, session) : null,
+                onPressed: ready
+                    ? () => showXmlValidateSheet(context, session)
+                    : null,
               ),
               IconButton(
                 key: const Key('xml-save-button'),
                 tooltip: l10n.actionSave,
                 icon: const Icon(Icons.save_outlined),
-                onPressed:
-                    ready ? () => saveXmlDirect(context, session) : null,
+                onPressed: ready ? () => saveXmlDirect(context, session) : null,
               ),
               if (ready) XmlReadAloudButton(session: session),
               _OverflowMenu(tab: tab, session: session, enabled: ready),
@@ -176,6 +183,7 @@ class _ViewButton extends StatelessWidget {
 enum _MenuAction {
   saveAs,
   replace,
+  columnEdit,
   xpath,
   queryBuilder,
   info,
@@ -184,6 +192,9 @@ enum _MenuAction {
   copyFull,
   copyMinified,
   share,
+  privacyShield,
+  liveDiff,
+  sendByQr,
   shareZip,
   print,
   export,
@@ -216,7 +227,7 @@ class _OverflowMenu extends ConsumerWidget {
             title: Text(l10n.actionSaveAs),
           ),
         ),
-        if (editing)
+        if (editing) ...[
           PopupMenuItem(
             value: _MenuAction.replace,
             child: ListTile(
@@ -224,6 +235,14 @@ class _OverflowMenu extends ConsumerWidget {
               title: Text(l10n.actionFindReplace),
             ),
           ),
+          PopupMenuItem(
+            value: _MenuAction.columnEdit,
+            child: ListTile(
+              leading: const Icon(Icons.view_column_rounded),
+              title: Text(l10n.columnSelectionTitle),
+            ),
+          ),
+        ],
         PopupMenuItem(
           value: _MenuAction.xpath,
           child: ListTile(
@@ -283,6 +302,27 @@ class _OverflowMenu extends ConsumerWidget {
           ),
         ),
         PopupMenuItem(
+          value: _MenuAction.privacyShield,
+          child: ListTile(
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: Text(l10n.privacyShieldAction),
+          ),
+        ),
+        const PopupMenuItem(
+          value: _MenuAction.liveDiff,
+          child: ListTile(
+            leading: Icon(Icons.difference_outlined),
+            title: Text('Live P2P Diff & Sync'),
+          ),
+        ),
+        PopupMenuItem(
+          value: _MenuAction.sendByQr,
+          child: ListTile(
+            leading: const Icon(Icons.qr_code_2),
+            title: Text(l10n.airqrSendByQr),
+          ),
+        ),
+        PopupMenuItem(
           value: _MenuAction.shareZip,
           child: ListTile(
             leading: const Icon(Icons.folder_zip_outlined),
@@ -319,6 +359,12 @@ class _OverflowMenu extends ConsumerWidget {
       case _MenuAction.replace:
         session.openReplace();
         break;
+      case _MenuAction.columnEdit:
+        final code = session.code;
+        if (code != null) {
+          await ColumnSelectionSheet.show(context: context, controller: code);
+        }
+        break;
       case _MenuAction.xpath:
         await showXmlPathSheet(context, session);
         break;
@@ -350,6 +396,50 @@ class _OverflowMenu extends ConsumerWidget {
       case _MenuAction.share:
         await _output(ref).shareFile(context, session);
         break;
+      case _MenuAction.privacyShield:
+        final editing = session.mode == XmlViewMode.edit && !tab.isReadOnly;
+        await PrivacyShieldSheet.show(
+          context,
+          text: session.textContent.text,
+          documentTitle: session.tab.displayName,
+          mimeType: session.tab.mimeType ?? 'application/xml',
+          onApplyToEditor: editing
+              ? (newText) {
+                  final code = session.code;
+                  if (code != null) {
+                    code.text = newText;
+                  }
+                }
+              : null,
+          shareService: ref.read(shareServiceProvider),
+          safService: ref.read(safServiceProvider),
+        );
+        break;
+      case _MenuAction.liveDiff:
+        final editing = session.mode == XmlViewMode.edit && !tab.isReadOnly;
+        await LiveDiffLauncher.showDiffOptions(
+          context: context,
+          ref: ref,
+          tab: session.tab,
+          content: session.textContent.text,
+          onApplyToEditor: editing
+              ? (newText) {
+                  final code = session.code;
+                  if (code != null) {
+                    code.text = newText;
+                  }
+                }
+              : null,
+        );
+        break;
+      case _MenuAction.sendByQr:
+        await AirqrSendAction.sendDocument(
+          context: context,
+          name: session.tab.displayName,
+          mimeType: session.tab.mimeType ?? 'application/xml',
+          content: session.textContent.text,
+        );
+        break;
       case _MenuAction.shareZip:
         await _output(ref).shareAsZip(context, session);
         break;
@@ -368,16 +458,22 @@ class _OverflowMenu extends ConsumerWidget {
   }
 
   XmlSplitMergeActions _actions(WidgetRef ref) => XmlSplitMergeActions(
-        saf: ref.read(safServiceProvider),
-        codec: ref.read(textCodecServiceProvider),
-      );
+    saf: ref.read(safServiceProvider),
+    codec: ref.read(textCodecServiceProvider),
+  );
 
   XmlOutputActions _output(WidgetRef ref) => XmlOutputActions(
-        share: ref.read(shareServiceProvider),
-        zip: ref.read(zipServiceProvider),
-        print: ref.read(printServiceProvider),
-        export: ref.read(exportServiceProvider),
-        saf: ref.read(safServiceProvider),
-        codec: ref.read(textCodecServiceProvider),
-      );
+    share: ref.read(shareServiceProvider),
+    zip: ref.read(zipServiceProvider),
+    print: ref.read(printServiceProvider),
+    export: ref.read(exportServiceProvider),
+    saf: ref.read(safServiceProvider),
+    codec: ref.read(textCodecServiceProvider),
+    // Burns this tab when it was marked "burn after export" (Feature 9).
+    onOutputCompleted: () => unawaited(
+      ref
+          .read(ephemeralControllerProvider.notifier)
+          .notifyOutputCompleted(tab.id),
+    ),
+  );
 }

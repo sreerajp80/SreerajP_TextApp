@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/editor/editor_providers.dart';
-import '../../core/large_file/paged_text.dart';
-import '../../core/theme/theme_controller.dart';
-import '../../core/storage/saf_exceptions.dart';
-import '../../core/storage/saf_service.dart';
-import '../../l10n/app_localizations.dart';
-import 'document_tab.dart';
+import 'package:text_data/core/editor/editor_providers.dart';
+import 'package:text_data/core/large_file/paged_text.dart';
+import 'package:text_data/core/theme/theme_controller.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
 
 /// The body shown for a file that is too big for the normal editor (Phase 10,
 /// task 10.2). It opens the file **read-only**, one page at a time, with a clear
@@ -179,13 +179,18 @@ class _LargeFileBanner extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: Row(
         children: [
-          Icon(Icons.info_outline, size: 18, color: scheme.onSecondaryContainer),
+          Icon(
+            Icons.info_outline,
+            size: 18,
+            color: scheme.onSecondaryContainer,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               AppLocalizations.of(context).degradedLargeBanner,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: scheme.onSecondaryContainer),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: scheme.onSecondaryContainer,
+              ),
             ),
           ),
         ],
@@ -211,8 +216,9 @@ class _PageBar extends StatefulWidget {
 }
 
 class _PageBarState extends State<_PageBar> {
-  late final TextEditingController _jump =
-      TextEditingController(text: '${widget.pageIndex + 1}');
+  late final TextEditingController _jump = TextEditingController(
+    text: '${widget.pageIndex + 1}',
+  );
 
   @override
   void didUpdateWidget(covariant _PageBar old) {
@@ -254,7 +260,9 @@ class _PageBarState extends State<_PageBar> {
           IconButton(
             key: const Key('degraded-prev-page'),
             tooltip: l10n.degradedPrevPage,
-            onPressed: atFirst ? null : () => widget.onGoToPage(widget.pageIndex - 1),
+            onPressed: atFirst
+                ? null
+                : () => widget.onGoToPage(widget.pageIndex - 1),
             icon: const Icon(Icons.chevron_left),
           ),
           const SizedBox(width: 4),
@@ -276,13 +284,17 @@ class _PageBarState extends State<_PageBar> {
             ),
           ),
           const SizedBox(width: 8),
-          Text(l10n.degradedOfCount(widget.pageCount),
-              style: theme.textTheme.bodyMedium),
+          Text(
+            l10n.degradedOfCount(widget.pageCount),
+            style: theme.textTheme.bodyMedium,
+          ),
           const SizedBox(width: 4),
           IconButton(
             key: const Key('degraded-next-page'),
             tooltip: l10n.degradedNextPage,
-            onPressed: atLast ? null : () => widget.onGoToPage(widget.pageIndex + 1),
+            onPressed: atLast
+                ? null
+                : () => widget.onGoToPage(widget.pageIndex + 1),
             icon: const Icon(Icons.chevron_right),
           ),
         ],
@@ -306,14 +318,14 @@ class _FailureView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.error_outline,
-                size: 56, color: theme.colorScheme.error),
+            Icon(Icons.error_outline, size: 56, color: theme.colorScheme.error),
             const SizedBox(height: 12),
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 16),
             FilledButton.tonal(
-                onPressed: onRetry,
-                child: Text(AppLocalizations.of(context).degradedTryAgain)),
+              onPressed: onRetry,
+              child: Text(AppLocalizations.of(context).degradedTryAgain),
+            ),
           ],
         ),
       ),

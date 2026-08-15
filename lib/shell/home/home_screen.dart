@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../create_document_action.dart';
-import '../open_file_action.dart';
-import 'file_type_icon.dart';
-import 'recents_controller.dart';
+import 'package:text_data/core/ephemeral/ephemeral_settings.dart';
+import 'package:text_data/core/ephemeral/ephemeral_sheet.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/create_document_action.dart';
+import 'package:text_data/shell/open_file_action.dart';
+import 'package:text_data/shell/home/file_type_icon.dart';
+import 'package:text_data/shell/home/recents_controller.dart';
+import 'package:text_data/shell/search/workspace_search_screen.dart';
 
 /// Home / Recent Files screen (task 2.3).
 ///
@@ -26,9 +29,19 @@ class HomeScreen extends ConsumerWidget {
         title: Text(l10n.homeTitle),
         actions: [
           IconButton(
-            tooltip: l10n.actionOpenFile,
-            icon: const Icon(Icons.folder_open_outlined),
-            onPressed: () => OpenFileAction(ref).pickAndOpen(context),
+            tooltip: l10n.searchWorkspaceTooltip,
+            icon: const Icon(Icons.search),
+            onPressed: () => WorkspaceSearchScreen.open(context),
+          ),
+          // Long-press opens the file straight into a self-destructing tab
+          // (Feature 9), so the normal tap keeps its one-step behaviour.
+          GestureDetector(
+            onLongPress: () => _openAsEphemeral(context, ref),
+            child: IconButton(
+              tooltip: l10n.actionOpenFile,
+              icon: const Icon(Icons.folder_open_outlined),
+              onPressed: () => OpenFileAction(ref).pickAndOpen(context),
+            ),
           ),
           recents.maybeWhen(
             data: (entries) => entries.isEmpty
@@ -55,6 +68,21 @@ class HomeScreen extends ConsumerWidget {
             : _RecentsList(entries: entries),
       ),
     );
+  }
+
+  /// Asks how the document should self-destruct, then opens the system picker
+  /// (Feature 9).
+  ///
+  /// The settings are chosen **before** the file, so the tab is marked the
+  /// moment it exists and no recents row or search-index entry is ever written
+  /// for it.
+  Future<void> _openAsEphemeral(BuildContext context, WidgetRef ref) async {
+    final option = await showEphemeralSheet(
+      context,
+      initial: ref.read(ephemeralSettingsProvider),
+    );
+    if (option == null || !context.mounted) return;
+    await OpenFileAction(ref).pickAndOpen(context, ephemeral: option);
   }
 
   Future<void> _confirmClearAll(BuildContext context, WidgetRef ref) async {

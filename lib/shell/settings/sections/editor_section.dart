@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/editor/editor_settings.dart';
-import '../../../core/editor/editor_settings_controller.dart';
-import '../../../l10n/app_localizations.dart';
-import 'settings_widgets.dart';
+import 'package:text_data/core/editor/editor_settings.dart';
+import 'package:text_data/core/editor/editor_settings_controller.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/settings/sections/settings_widgets.dart';
 
 /// Editor settings (task 11.2): default encoding / line ending on save,
 /// confirm-before-overwrite, auto-save interval, and open-read-only-by-default.

@@ -54,7 +54,8 @@ void main() {
       expect(
         totalBits,
         greaterThanOrEqualTo(310.0),
-        reason: 'The pairing code must keep ~320 bits of entropy '
+        reason:
+            'The pairing code must keep ~320 bits of entropy '
             '(security-rules §P2P).',
       );
     });

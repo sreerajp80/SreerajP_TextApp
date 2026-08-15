@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../core/editor/encoding.dart';
-import '../../core/storage/saf_exceptions.dart';
-import '../../core/storage/saf_service.dart';
-import '../../l10n/app_localizations.dart';
-import 'csv_document_session.dart';
-import 'csv_parse.dart';
-import 'csv_split_merge.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:text_data/formats/csv/csv_parse.dart';
+import 'package:text_data/formats/csv/csv_split_merge.dart';
 
 /// UI actions for splitting a CSV by row count and appending another CSV
 /// (task 7.6). The heavy lifting is the pure [CsvSplitMerge]; these helpers
@@ -32,9 +32,7 @@ class CsvSplitMergeActions {
 
     final parts = CsvSplitMerge.splitByRows(session.table, rowsPerPart);
     if (parts.length < 2) {
-      messenger.showSnackBar(SnackBar(
-        content: Text(l10n.csvSplitOnePart),
-      ));
+      messenger.showSnackBar(SnackBar(content: Text(l10n.csvSplitOnePart)));
       return;
     }
 
@@ -49,9 +47,9 @@ class CsvSplitMergeActions {
           mimeType: 'text/csv',
         );
       } on SafCancelled {
-        messenger.showSnackBar(SnackBar(
-          content: Text(l10n.csvSplitStopped(i, parts.length)),
-        ));
+        messenger.showSnackBar(
+          SnackBar(content: Text(l10n.csvSplitStopped(i, parts.length))),
+        );
         return;
       } on SafException catch (e) {
         messenger.showSnackBar(SnackBar(content: Text(e.message)));

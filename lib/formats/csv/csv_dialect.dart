@@ -1,4 +1,4 @@
-import '../../core/editor/encoding.dart';
+import 'package:text_data/core/editor/encoding.dart';
 
 /// The field separators a CSV file can use (task 7.1). Comma is the common case;
 /// semicolon is frequent in locales that use the comma as a decimal mark; tab
@@ -92,8 +92,9 @@ class CsvDialect {
     CsvDelimiter best = CsvDelimiter.comma;
     var bestScore = -1.0;
     for (final candidate in CsvDelimiter.values) {
-      final counts =
-          lines.map((l) => _countOutsideQuotes(l, candidate.char)).toList();
+      final counts = lines
+          .map((l) => _countOutsideQuotes(l, candidate.char))
+          .toList();
       final maxCount = counts.reduce((a, b) => a > b ? a : b);
       if (maxCount == 0) continue;
       // Most common non-zero count and how many lines agree with it.

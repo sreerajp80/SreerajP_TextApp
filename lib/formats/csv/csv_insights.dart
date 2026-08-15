@@ -1,4 +1,4 @@
-import 'csv_types.dart';
+import 'package:text_data/formats/csv/csv_types.dart';
 
 /// Read-only statistics for one CSV column (task 7.4): totals that apply to any
 /// column (count, empty, unique) plus numeric aggregates (min/max/sum/average)

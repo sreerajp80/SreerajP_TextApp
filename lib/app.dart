@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'core/locale/locale_controller.dart';
-import 'core/security/app_lock_gate.dart';
-import 'core/theme/app_theme_mode.dart';
-import 'core/theme/app_themes.dart';
-import 'core/theme/theme_controller.dart';
-import 'core/theme/theme_settings.dart';
-import 'l10n/app_localizations.dart';
-import 'shell/app_shell.dart';
-import 'shell/onboarding/onboarding_controller.dart';
-import 'shell/onboarding/onboarding_screen.dart';
+import 'package:text_data/core/locale/locale_controller.dart';
+import 'package:text_data/core/security/app_lock_gate.dart';
+import 'package:text_data/core/theme/app_theme_mode.dart';
+import 'package:text_data/core/theme/app_themes.dart';
+import 'package:text_data/core/theme/theme_controller.dart';
+import 'package:text_data/core/theme/theme_settings.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/app_shell.dart';
+import 'package:text_data/shell/onboarding/onboarding_controller.dart';
+import 'package:text_data/shell/onboarding/onboarding_screen.dart';
 
 /// Root of the TextData app.
 ///
@@ -38,8 +38,9 @@ class TextDataApp extends ConsumerWidget {
       themeMode: themes.mode,
       home: ScreenshotProtector(
         child: AppLockGate(
-          child:
-              onboardingComplete ? const AppShell() : const OnboardingScreen(),
+          child: onboardingComplete
+              ? const AppShell()
+              : const OnboardingScreen(),
         ),
       ),
     );

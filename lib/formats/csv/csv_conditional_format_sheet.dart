@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'csv_conditional_format.dart';
-import 'csv_document_session.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/csv/csv_conditional_format.dart';
+import 'package:text_data/formats/csv/csv_document_session.dart';
 
 /// The colour a highlight draws with, taken from the current theme so the grid
 /// stays readable in light and dark mode.
@@ -100,8 +100,9 @@ class _RulesBodyState extends State<_RulesBody> {
       showDragHandle: true,
       isScrollControlled: true,
       builder: (context) => Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
         child: _NewRuleBody(session: widget.session),
       ),
     );
@@ -123,8 +124,10 @@ class _RulesBodyState extends State<_RulesBody> {
           child: Row(
             children: [
               Expanded(
-                child: Text(l10n.csvHighlightRules,
-                    style: theme.textTheme.titleMedium),
+                child: Text(
+                  l10n.csvHighlightRules,
+                  style: theme.textTheme.titleMedium,
+                ),
               ),
               if (rules.isNotEmpty)
                 TextButton(
@@ -148,8 +151,9 @@ class _RulesBodyState extends State<_RulesBody> {
                   child: Text(
                     l10n.csvNoHighlightRules,
                     textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyMedium
-                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
               for (var i = 0; i < rules.length; i++)
@@ -168,7 +172,7 @@ class _RulesBodyState extends State<_RulesBody> {
                   subtitle: Text(
                     rules[i].condition.needsValue
                         ? '${csvConditionLabel(l10n, rules[i].condition)} '
-                            '${rules[i].value}'
+                              '${rules[i].value}'
                         : csvConditionLabel(l10n, rules[i].condition),
                   ),
                   trailing: IconButton(
@@ -217,8 +221,7 @@ class _NewRuleBodyState extends State<_NewRuleBody> {
     super.dispose();
   }
 
-  bool get _canSave =>
-      !_condition.needsValue || _value.text.trim().isNotEmpty;
+  bool get _canSave => !_condition.needsValue || _value.text.trim().isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +246,10 @@ class _NewRuleBodyState extends State<_NewRuleBody> {
                 isDense: true,
               ),
               items: [
-                DropdownMenuItem(value: -1, child: Text(l10n.csvRuleEveryColumn)),
+                DropdownMenuItem(
+                  value: -1,
+                  child: Text(l10n.csvRuleEveryColumn),
+                ),
                 for (var c = 0; c < widget.session.table.columnCount; c++)
                   DropdownMenuItem(
                     value: c,
@@ -255,8 +261,9 @@ class _NewRuleBodyState extends State<_NewRuleBody> {
                     ),
                   ),
               ],
-              onChanged: (value) =>
-                  setState(() => _column = value == null || value < 0 ? null : value),
+              onChanged: (value) => setState(
+                () => _column = value == null || value < 0 ? null : value,
+              ),
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<CsvCondition>(
@@ -318,13 +325,13 @@ class _NewRuleBodyState extends State<_NewRuleBody> {
                 key: const Key('csv-rule-save'),
                 onPressed: _canSave
                     ? () => Navigator.of(context).pop(
-                          CsvFormatRule(
-                            column: _column,
-                            condition: _condition,
-                            value: _value.text.trim(),
-                            highlight: _highlight,
-                          ),
-                        )
+                        CsvFormatRule(
+                          column: _column,
+                          condition: _condition,
+                          value: _value.text.trim(),
+                          highlight: _highlight,
+                        ),
+                      )
                     : null,
                 child: Text(l10n.actionSave),
               ),

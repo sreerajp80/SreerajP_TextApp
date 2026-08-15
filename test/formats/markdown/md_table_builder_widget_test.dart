@@ -49,12 +49,12 @@ void main() {
   testWidgets('the preview updates as cells are typed into', (tester) async {
     await openBuilder(tester, initial: MdTableData.blank(columns: 1, rows: 1));
 
-    await tester.enterText(
-        find.byKey(const Key('md-table-cell--1-0')), 'Name');
+    await tester.enterText(find.byKey(const Key('md-table-cell--1-0')), 'Name');
     await tester.pump();
 
-    final preview =
-        tester.widget<Text>(find.byKey(const Key('md-table-preview')));
+    final preview = tester.widget<Text>(
+      find.byKey(const Key('md-table-preview')),
+    );
     expect(preview.data, contains('Name'));
   });
 
@@ -77,12 +77,14 @@ void main() {
 | Ada | 36 |''');
     await openBuilder(tester, initial: initial);
 
-    final field =
-        tester.widget<TextField>(find.byKey(const Key('md-table-cell--1-0')));
+    final field = tester.widget<TextField>(
+      find.byKey(const Key('md-table-cell--1-0')),
+    );
     expect(field.controller!.text, 'Name');
 
-    final cell =
-        tester.widget<TextField>(find.byKey(const Key('md-table-cell-0-1')));
+    final cell = tester.widget<TextField>(
+      find.byKey(const Key('md-table-cell-0-1')),
+    );
     expect(cell.controller!.text, '36');
   });
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../core/editor/encoding.dart';
-import '../../core/storage/saf_exceptions.dart';
-import '../../core/storage/saf_service.dart';
-import '../../l10n/app_localizations.dart';
-import 'md_document_session.dart';
-import 'md_split_merge.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/markdown/md_document_session.dart';
+import 'package:text_data/formats/markdown/md_split_merge.dart';
 
 /// UI actions for splitting a Markdown file by top-level heading and appending
 /// another Markdown file into this one (task 6.5). The heavy lifting is the pure
@@ -32,16 +32,17 @@ class MdSplitMergeActions {
 
     final parts = splitMerge.splitByTopHeading(code.text);
     if (parts.length < 2) {
-      messenger.showSnackBar(SnackBar(
-        content: Text(l10n.mdNoTopHeadings),
-      ));
+      messenger.showSnackBar(SnackBar(content: Text(l10n.mdNoTopHeadings)));
       return;
     }
 
     final baseName = _stripExtension(session.tab.displayName);
     for (var i = 0; i < parts.length; i++) {
-      final bytes =
-          codec.encode(parts[i], session.encoding, session.lineEnding);
+      final bytes = codec.encode(
+        parts[i],
+        session.encoding,
+        session.lineEnding,
+      );
       try {
         await saf.createDocument(
           suggestedName: '$baseName.part${i + 1}.md',
@@ -49,9 +50,9 @@ class MdSplitMergeActions {
           mimeType: 'text/markdown',
         );
       } on SafCancelled {
-        messenger.showSnackBar(SnackBar(
-          content: Text(l10n.splitStopped(i, parts.length)),
-        ));
+        messenger.showSnackBar(
+          SnackBar(content: Text(l10n.splitStopped(i, parts.length))),
+        );
         return;
       } on SafException catch (e) {
         messenger.showSnackBar(SnackBar(content: Text(e.message)));

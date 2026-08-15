@@ -1,5 +1,5 @@
-import '../../core/editor/atomic_saver.dart';
-import 'xml_parser.dart';
+import 'package:text_data/core/editor/atomic_saver.dart';
+import 'package:text_data/formats/xml/xml_parser.dart';
 
 /// The pre-save well-formedness gate for XML (task 9.5).
 ///

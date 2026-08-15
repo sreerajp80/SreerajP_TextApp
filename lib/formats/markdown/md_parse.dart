@@ -38,10 +38,7 @@ class MdParse {
   /// (task 6.5). Math is intentionally left as literal `$$…$$` source so a
   /// downstream viewer can typeset it; our own renderer handles math on screen.
   static String toHtml(String source) {
-    return md.markdownToHtml(
-      source,
-      extensionSet: md.ExtensionSet.gitHubWeb,
-    );
+    return md.markdownToHtml(source, extensionSet: md.ExtensionSet.gitHubWeb);
   }
 }
 

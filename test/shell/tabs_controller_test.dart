@@ -11,11 +11,11 @@ import 'package:text_data/shell/tabs/tabs_persistence.dart';
 import '../support/test_support.dart';
 
 SafFile file(String id) => SafFile(
-      uri: 'content://$id',
-      displayName: '$id.txt',
-      mimeType: 'text/plain',
-      size: 10,
-    );
+  uri: 'content://$id',
+  displayName: '$id.txt',
+  mimeType: 'text/plain',
+  size: 10,
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -29,8 +29,9 @@ void main() {
       overrides: [
         keyValueStoreSyncProvider.overrideWithValue(kv),
         safServiceProvider.overrideWithValue(saf ?? FakeSafService()),
-        deviceMemoryProvider
-            .overrideWithValue(const FakeDeviceMemory(4 * 1024 * 1024 * 1024)),
+        deviceMemoryProvider.overrideWithValue(
+          const FakeDeviceMemory(4 * 1024 * 1024 * 1024),
+        ),
       ],
     );
     addTearDown(container.dispose);
@@ -68,57 +69,63 @@ void main() {
     expect(state.activeTab?.fingerprint, '10-a');
   });
 
-  test('re-opening a file whose content changed does not duplicate the tab',
-      () async {
-    final container = await makeContainer();
-    final tabs = container.read(tabsControllerProvider.notifier);
-    tabs.openFile(file('a'), '10-a');
-    tabs.openFile(file('b'), '20-b');
-    // Same file (same URI), but it was edited and saved, so the fingerprint of
-    // the bytes on disk is now different from the one the tab was opened with.
-    tabs.openFile(file('a'), '11-a2');
+  test(
+    're-opening a file whose content changed does not duplicate the tab',
+    () async {
+      final container = await makeContainer();
+      final tabs = container.read(tabsControllerProvider.notifier);
+      tabs.openFile(file('a'), '10-a');
+      tabs.openFile(file('b'), '20-b');
+      // Same file (same URI), but it was edited and saved, so the fingerprint of
+      // the bytes on disk is now different from the one the tab was opened with.
+      tabs.openFile(file('a'), '11-a2');
 
-    final state = container.read(tabsControllerProvider);
-    expect(state.tabs.length, 2);
-    expect(state.activeTab?.uri, 'content://a');
-    // The tab keeps its original fingerprint (drafts/positions are keyed to it).
-    expect(state.activeTab?.fingerprint, '10-a');
-  });
+      final state = container.read(tabsControllerProvider);
+      expect(state.tabs.length, 2);
+      expect(state.activeTab?.uri, 'content://a');
+      // The tab keeps its original fingerprint (drafts/positions are keyed to it).
+      expect(state.activeTab?.fingerprint, '10-a');
+    },
+  );
 
-  test('two different files with identical content get their own tabs',
-      () async {
-    final container = await makeContainer();
-    final tabs = container.read(tabsControllerProvider.notifier);
-    // Two empty files: same bytes, so the same fingerprint, different files.
-    tabs.openFile(file('empty1'), '0-e');
-    tabs.openFile(file('empty2'), '0-e');
+  test(
+    'two different files with identical content get their own tabs',
+    () async {
+      final container = await makeContainer();
+      final tabs = container.read(tabsControllerProvider.notifier);
+      // Two empty files: same bytes, so the same fingerprint, different files.
+      tabs.openFile(file('empty1'), '0-e');
+      tabs.openFile(file('empty2'), '0-e');
 
-    final state = container.read(tabsControllerProvider);
-    expect(state.tabs.length, 2);
-    expect(state.activeTab?.uri, 'content://empty2');
-  });
+      final state = container.read(tabsControllerProvider);
+      expect(state.tabs.length, 2);
+      expect(state.activeTab?.uri, 'content://empty2');
+    },
+  );
 
-  test('the same file reached through a second URI focuses the same tab',
-      () async {
-    final container = await makeContainer();
-    final tabs = container.read(tabsControllerProvider.notifier);
-    tabs.openFile(file('a'), '10-a');
-    // Another provider hands back the same document: different URI, same name
-    // and same bytes.
-    tabs.openFile(
-      const SafFile(
-        uri: 'content://other-provider/a',
-        displayName: 'a.txt',
-        mimeType: 'text/plain',
-        size: 10,
-      ),
-      '10-a',
-    );
+  test(
+    'the same file reached through a second URI focuses the same tab',
+    () async {
+      final container = await makeContainer();
+      final tabs = container.read(tabsControllerProvider.notifier);
+      tabs.openFile(file('a'), '10-a');
+      // Another provider hands back the same document: different URI, same name
+      // and same bytes.
+      tabs.openFile(
+        const SafFile(
+          uri: 'content://other-provider/a',
+          displayName: 'a.txt',
+          mimeType: 'text/plain',
+          size: 10,
+        ),
+        '10-a',
+      );
 
-    final state = container.read(tabsControllerProvider);
-    expect(state.tabs.length, 1);
-    expect(state.activeTab?.uri, 'content://a');
-  });
+      final state = container.read(tabsControllerProvider);
+      expect(state.tabs.length, 1);
+      expect(state.activeTab?.uri, 'content://a');
+    },
+  );
 
   test('over-limit closes the least-recently-used tab (2.6)', () async {
     final container = await makeContainer();
@@ -155,10 +162,7 @@ void main() {
       tabs.setDirty(t.id, true);
     }
 
-    expect(
-      tabs.openFile(file('c'), '30-c'),
-      OpenOutcome.cappedNeedsChoice,
-    );
+    expect(tabs.openFile(file('c'), '30-c'), OpenOutcome.cappedNeedsChoice);
     final state = container.read(tabsControllerProvider);
     expect(state.tabs.length, 2); // unchanged; nothing closed
     expect(state.tabs.any((t) => t.fingerprint == '30-c'), isFalse);
@@ -186,54 +190,92 @@ void main() {
     tabs.openFile(file('c'), '30-c'); // active = c (index 2)
 
     tabs.next(); // wraps to index 0
-    expect(container.read(tabsControllerProvider).activeTab?.fingerprint,
-        '10-a');
+    expect(
+      container.read(tabsControllerProvider).activeTab?.fingerprint,
+      '10-a',
+    );
     tabs.prev(); // back to index 2
-    expect(container.read(tabsControllerProvider).activeTab?.fingerprint,
-        '30-c');
+    expect(
+      container.read(tabsControllerProvider).activeTab?.fingerprint,
+      '30-c',
+    );
   });
 
-  test('restore brings back accessible tabs and skips stale ones (2.8)',
-      () async {
+  test(
+    'restore brings back accessible tabs and skips stale ones (2.8)',
+    () async {
+      final store = await inMemoryKeyValueStore();
+      final saf = FakeSafService(accessibleUris: {'content://a'});
+
+      // Seed a saved set: 'a' is reachable, 'gone' is not.
+      final persistence = TabsPersistence(store, saf);
+      await persistence.setRestoreEnabled(true);
+      await persistence.save([
+        const DocumentTab(
+          id: 'a#1',
+          fingerprint: '10-a',
+          uri: 'content://a',
+          displayName: 'a.txt',
+          lastActiveAt: 1,
+        ),
+        const DocumentTab(
+          id: 'gone#1',
+          fingerprint: '20-gone',
+          uri: 'content://gone',
+          displayName: 'gone.txt',
+          lastActiveAt: 2,
+        ),
+      ]);
+
+      final container = await makeContainer(store: store, saf: saf);
+      final tabs = container.read(tabsControllerProvider.notifier);
+
+      final skipped = await tabs.restore();
+      expect(skipped, 1);
+
+      final state = container.read(tabsControllerProvider);
+      expect(state.tabs.length, 1);
+      expect(state.tabs.single.uri, 'content://a');
+    },
+  );
+
+  test('save leaves out the excluded (ephemeral) tab ids', () async {
     final store = await inMemoryKeyValueStore();
-    final saf = FakeSafService(accessibleUris: {'content://a'});
+    final saf = FakeSafService();
 
-    // Seed a saved set: 'a' is reachable, 'gone' is not.
-    final persistence = TabsPersistence(store, saf);
-    await persistence.setRestoreEnabled(true);
-    await persistence.save([
-      DocumentTab(
-        id: 'a#1',
-        fingerprint: '10-a',
-        uri: 'content://a',
-        displayName: 'a.txt',
-        lastActiveAt: 1,
-      ),
-      DocumentTab(
-        id: 'gone#1',
-        fingerprint: '20-gone',
-        uri: 'content://gone',
-        displayName: 'gone.txt',
-        lastActiveAt: 2,
-      ),
-    ]);
+    await TabsPersistence(store, saf).save(
+      const [
+        DocumentTab(
+          id: 'keep#1',
+          fingerprint: '10-keep',
+          uri: 'content://keep',
+          displayName: 'keep.txt',
+          lastActiveAt: 1,
+        ),
+        DocumentTab(
+          id: 'secret#1',
+          fingerprint: '20-secret',
+          uri: 'content://secret',
+          displayName: 'secret.txt',
+          lastActiveAt: 2,
+        ),
+      ],
+      excludeIds: {'secret#1'},
+    );
 
-    final container = await makeContainer(store: store, saf: saf);
-    final tabs = container.read(tabsControllerProvider.notifier);
-
-    final skipped = await tabs.restore();
-    expect(skipped, 1);
-
-    final state = container.read(tabsControllerProvider);
-    expect(state.tabs.length, 1);
-    expect(state.tabs.single.uri, 'content://a');
+    final saved = store.getPlainString(TabsPersistence.openTabsKey) ?? '';
+    expect(saved, contains('content://keep'));
+    // An ephemeral tab must not leave its name or URI on disk, and must not come
+    // back on the next launch (Feature 9).
+    expect(saved, isNot(contains('content://secret')));
+    expect(saved, isNot(contains('secret.txt')));
   });
 
   test('restore is a no-op when the toggle is off', () async {
     final store = await inMemoryKeyValueStore();
     final saf = FakeSafService(accessibleUris: {'content://a'});
     await TabsPersistence(store, saf).save([
-      DocumentTab(
+      const DocumentTab(
         id: 'a#1',
         fingerprint: '10-a',
         uri: 'content://a',
@@ -244,8 +286,9 @@ void main() {
     // restoreEnabled defaults to false.
 
     final container = await makeContainer(store: store, saf: saf);
-    final skipped =
-        await container.read(tabsControllerProvider.notifier).restore();
+    final skipped = await container
+        .read(tabsControllerProvider.notifier)
+        .restore();
     expect(skipped, 0);
     expect(container.read(tabsControllerProvider).tabs, isEmpty);
   });

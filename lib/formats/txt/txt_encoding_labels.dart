@@ -1,4 +1,4 @@
-import '../../core/editor/encoding.dart';
+import 'package:text_data/core/editor/encoding.dart';
 
 /// Human-readable names for encodings and line endings, shown in the encoding
 /// switch and save-options UI (tasks 4.2, 4.4).

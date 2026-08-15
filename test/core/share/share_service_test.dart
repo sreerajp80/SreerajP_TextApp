@@ -26,24 +26,27 @@ class _FakeLauncher implements ShareLauncher {
 
 void main() {
   group('ShareService', () {
-    test('builds a file request with the right name, MIME, and bytes', () async {
-      final launcher = _FakeLauncher();
-      final service = ShareService(launcher);
-      final bytes = Uint8List.fromList('data'.codeUnits);
+    test(
+      'builds a file request with the right name, MIME, and bytes',
+      () async {
+        final launcher = _FakeLauncher();
+        final service = ShareService(launcher);
+        final bytes = Uint8List.fromList('data'.codeUnits);
 
-      await service.shareFileBytes(
-        name: 'export.pdf',
-        mimeType: 'application/pdf',
-        bytes: bytes,
-        subject: 'My export',
-      );
+        await service.shareFileBytes(
+          name: 'export.pdf',
+          mimeType: 'application/pdf',
+          bytes: bytes,
+          subject: 'My export',
+        );
 
-      final req = launcher.lastFiles!.single;
-      expect(req.name, 'export.pdf');
-      expect(req.mimeType, 'application/pdf');
-      expect(req.bytes, bytes);
-      expect(launcher.lastSubject, 'My export');
-    });
+        final req = launcher.lastFiles!.single;
+        expect(req.name, 'export.pdf');
+        expect(req.mimeType, 'application/pdf');
+        expect(req.bytes, bytes);
+        expect(launcher.lastSubject, 'My export');
+      },
+    );
 
     test('shares raw text', () async {
       final launcher = _FakeLauncher();

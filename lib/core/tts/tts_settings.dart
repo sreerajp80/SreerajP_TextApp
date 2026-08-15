@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../storage/key_value_store.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
 
 /// Speech (TTS) preferences (task 11.4).
 ///
@@ -48,9 +48,11 @@ class TtsSettingsController extends Notifier<TtsSettings> {
   TtsSettings build() {
     final store = _store;
     return TtsSettings(
-      englishEnabled: store.getBool(TtsSettings.englishKey) ??
+      englishEnabled:
+          store.getBool(TtsSettings.englishKey) ??
           TtsSettings.defaults.englishEnabled,
-      malayalamEnabled: store.getBool(TtsSettings.malayalamKey) ??
+      malayalamEnabled:
+          store.getBool(TtsSettings.malayalamKey) ??
           TtsSettings.defaults.malayalamEnabled,
     );
   }
@@ -68,5 +70,5 @@ class TtsSettingsController extends Notifier<TtsSettings> {
 
 final ttsSettingsProvider =
     NotifierProvider<TtsSettingsController, TtsSettings>(
-  TtsSettingsController.new,
-);
+      TtsSettingsController.new,
+    );

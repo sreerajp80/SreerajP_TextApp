@@ -26,17 +26,17 @@ class XmlQueryStep {
   final int position;
 
   const XmlQueryStep.element(this.name)
-      : kind = XmlStepKind.element,
-        position = 0;
+    : kind = XmlStepKind.element,
+      position = 0;
   const XmlQueryStep.position(this.position)
-      : kind = XmlStepKind.position,
-        name = '';
+    : kind = XmlStepKind.position,
+      name = '';
   const XmlQueryStep.attribute(this.name)
-      : kind = XmlStepKind.attribute,
-        position = 0;
+    : kind = XmlStepKind.attribute,
+      position = 0;
   const XmlQueryStep.anyDepthElement(this.name)
-      : kind = XmlStepKind.anyDepthElement,
-        position = 0;
+    : kind = XmlStepKind.anyDepthElement,
+      position = 0;
 
   @override
   bool operator ==(Object other) =>
@@ -135,13 +135,17 @@ class XmlQueryBuilder {
     final lastIsPosition =
         steps.isNotEmpty && steps.last.kind == XmlStepKind.position;
     if (!lastIsPosition && current.length > 1) {
-      final count = current.length < maxPositions ? current.length : maxPositions;
+      final count = current.length < maxPositions
+          ? current.length
+          : maxPositions;
       for (var i = 1; i <= count; i++) {
-        choices.add(XmlStepChoice(
-          step: XmlQueryStep.position(i),
-          label: '[$i]',
-          detail: 'match $i',
-        ));
+        choices.add(
+          XmlStepChoice(
+            step: XmlQueryStep.position(i),
+            label: '[$i]',
+            detail: 'match $i',
+          ),
+        );
       }
     }
 
@@ -151,21 +155,25 @@ class XmlQueryBuilder {
       for (final child in node.childElements) {
         final name = child.name.qualified;
         if (!seenElements.add(name)) continue;
-        choices.add(XmlStepChoice(
-          step: XmlQueryStep.element(name),
-          label: name,
-          detail: _detail(child),
-        ));
+        choices.add(
+          XmlStepChoice(
+            step: XmlQueryStep.element(name),
+            label: name,
+            detail: _detail(child),
+          ),
+        );
       }
       if (node is XmlElement) {
         for (final attribute in node.attributes) {
           final name = attribute.name.qualified;
           if (!seenAttributes.add(name)) continue;
-          choices.add(XmlStepChoice(
-            step: XmlQueryStep.attribute(name),
-            label: '@$name',
-            detail: 'attribute',
-          ));
+          choices.add(
+            XmlStepChoice(
+              step: XmlQueryStep.attribute(name),
+              label: '@$name',
+              detail: 'attribute',
+            ),
+          );
         }
       }
     }

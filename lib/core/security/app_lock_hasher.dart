@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import '../../sync/sync_constants.dart';
-import '../../sync/sync_crypto.dart';
+import 'package:text_data/sync/sync_constants.dart';
+import 'package:text_data/sync/sync_crypto.dart';
 
 /// Salted hashing for the app-lock PIN and recovery code, plus recovery-code
 /// generation. Pure and platform-free, so it is fully unit-testable (task 13.2).
@@ -49,8 +49,8 @@ class AppLockHasher {
   /// bias) from the look-alike-free alphabet, using Random.secure().
   static String generateRecoveryCode({int length = recoveryCodeLength}) {
     const alphabet = SyncConstants.codeAlphabet;
-    final n = alphabet.length;
-    final limit = 256 - (256 % n);
+    const n = alphabet.length;
+    const limit = 256 - (256 % n);
     final buf = StringBuffer();
     while (buf.length < length) {
       final b = SyncCrypto.randomBytes(1)[0];

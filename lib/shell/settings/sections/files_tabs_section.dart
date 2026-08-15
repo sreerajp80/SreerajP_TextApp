@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/storage/device_memory.dart';
-import '../../../l10n/app_localizations.dart';
-import '../../tabs/over_limit_behavior.dart';
-import '../../tabs/tabs_controller.dart';
-import 'settings_widgets.dart';
+import 'package:text_data/core/index/index_providers.dart';
+import 'package:text_data/core/storage/device_memory.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/over_limit_behavior.dart';
+import 'package:text_data/shell/tabs/tabs_controller.dart';
+import 'package:text_data/shell/settings/sections/settings_widgets.dart';
 
 /// Files & Tabs settings (task 11.3): the maximum open-tab cap (Auto from device
 /// RAM, or a fixed number), the over-limit behavior, and restore-on-relaunch.
@@ -108,7 +109,138 @@ class _FilesTabsSectionState extends ConsumerState<FilesTabsSection> {
             if (mounted) setState(() {});
           },
         ),
+        const Divider(height: 0),
+        const _WorkspaceIndexTiles(),
       ],
     );
+  }
+}
+
+/// Workspace search index controls (Feature 11): the on/off switch, how many
+/// files are indexed, and the rebuild / clear actions.
+class _WorkspaceIndexTiles extends ConsumerStatefulWidget {
+  const _WorkspaceIndexTiles();
+
+  @override
+  ConsumerState<_WorkspaceIndexTiles> createState() =>
+      _WorkspaceIndexTilesState();
+}
+
+class _WorkspaceIndexTilesState extends ConsumerState<_WorkspaceIndexTiles> {
+  int? _count;
+  bool _busy = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshCount();
+  }
+
+  Future<void> _refreshCount() async {
+    try {
+      final index = await ref.read(searchIndexServiceProvider.future);
+      final count = await index.count();
+      if (mounted) setState(() => _count = count);
+    } catch (_) {
+      if (mounted) setState(() => _count = 0);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final enabled = ref.watch(workspaceIndexEnabledProvider);
+    final count = _count;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SwitchListTile(
+          title: Text(l10n.filesIndexTitle),
+          subtitle: Text(enabled ? l10n.filesIndexOn : l10n.filesIndexOff),
+          value: enabled,
+          onChanged: (v) =>
+              ref.read(workspaceIndexEnabledProvider.notifier).set(v),
+        ),
+        ListTile(
+          title: Text(l10n.filesIndexRebuild),
+          subtitle: Text(
+            count == null
+                ? l10n.filesIndexCount(0)
+                : l10n.filesIndexCount(count),
+          ),
+          trailing: _busy
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(Icons.refresh),
+          enabled: enabled && !_busy,
+          onTap: enabled && !_busy ? _rebuild : null,
+        ),
+        ListTile(
+          title: Text(l10n.filesIndexClear),
+          subtitle: Text(l10n.filesIndexClearBody),
+          trailing: const Icon(Icons.delete_outline),
+          enabled: !_busy,
+          onTap: _busy ? null : _clear,
+        ),
+      ],
+    );
+  }
+
+  Future<void> _rebuild() async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    setState(() => _busy = true);
+    messenger.showSnackBar(SnackBar(content: Text(l10n.filesIndexRebuilding)));
+    var added = 0;
+    try {
+      final backfill = await ref.read(searchIndexBackfillProvider.future);
+      added = await backfill.run();
+    } catch (_) {
+      added = 0;
+    }
+    await _refreshCount();
+    if (!mounted) return;
+    setState(() => _busy = false);
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.filesIndexRebuilt(added))),
+    );
+  }
+
+  Future<void> _clear() async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.filesIndexClear),
+        content: Text(l10n.filesIndexClearBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.actionCancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.filesIndexClear),
+          ),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    setState(() => _busy = true);
+    try {
+      final index = await ref.read(searchIndexServiceProvider.future);
+      await index.clear();
+    } catch (_) {
+      // ignored — nothing to clear
+    }
+    await _refreshCount();
+    if (!mounted) return;
+    setState(() => _busy = false);
+    messenger.showSnackBar(SnackBar(content: Text(l10n.filesIndexCleared)));
   }
 }

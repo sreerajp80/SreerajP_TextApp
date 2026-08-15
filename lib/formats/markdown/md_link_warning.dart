@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../l10n/app_localizations.dart';
+import 'package:text_data/l10n/app_localizations.dart';
 
 /// Opens a URL after the user explicitly agrees. Injectable so tests can verify
 /// the flow without the real platform plugin.
@@ -77,9 +77,7 @@ Future<void> showMarkdownLinkWarning(
       return;
     case _LinkAction.copy:
       await Clipboard.setData(ClipboardData(text: url));
-      messenger.showSnackBar(
-        SnackBar(content: Text(outerL10n.txtLinkCopied)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(outerL10n.txtLinkCopied)));
       return;
     case _LinkAction.open:
       final uri = Uri.tryParse(url);

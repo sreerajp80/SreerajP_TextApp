@@ -20,7 +20,9 @@ void main() {
   };
 
   test('a valid instance produces no errors', () {
-    final node = parser.parse('{"name": "Ada", "age": 36, "role": "admin"}').root!;
+    final node = parser
+        .parse('{"name": "Ada", "age": 36, "role": "admin"}')
+        .root!;
     expect(validator.validate(node, schema), isEmpty);
   });
 
@@ -37,7 +39,9 @@ void main() {
   });
 
   test('lists an out-of-range number and a bad enum', () {
-    final node = parser.parse('{"name": "A", "age": 999, "role": "root"}').root!;
+    final node = parser
+        .parse('{"name": "A", "age": 999, "role": "root"}')
+        .root!;
     final errors = validator.validate(node, schema);
     expect(errors.any((e) => e.path == r'$.age'), isTrue);
     expect(errors.any((e) => e.path == r'$.role'), isTrue);

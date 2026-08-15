@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../sync_transport.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/sync/sync_transport.dart';
 
 /// A live status chip for the host's connection state (arch §9.6).
 ///
@@ -16,11 +16,31 @@ class SyncStatusChip extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
     final (label, icon, color) = switch (phase) {
-      HostPhase.listening => (l10n.syncStatusWaiting, Icons.wifi_tethering, scheme.tertiary),
-      HostPhase.connected => (l10n.syncStatusConnected, Icons.check_circle, scheme.primary),
-      HostPhase.denied => (l10n.syncStatusWrongCode, Icons.error_outline, scheme.error),
-      HostPhase.error => (l10n.syncStatusError, Icons.error_outline, scheme.error),
-      HostPhase.stopped => (l10n.syncStatusStopped, Icons.stop_circle_outlined, scheme.outline),
+      HostPhase.listening => (
+        l10n.syncStatusWaiting,
+        Icons.wifi_tethering,
+        scheme.tertiary,
+      ),
+      HostPhase.connected => (
+        l10n.syncStatusConnected,
+        Icons.check_circle,
+        scheme.primary,
+      ),
+      HostPhase.denied => (
+        l10n.syncStatusWrongCode,
+        Icons.error_outline,
+        scheme.error,
+      ),
+      HostPhase.error => (
+        l10n.syncStatusError,
+        Icons.error_outline,
+        scheme.error,
+      ),
+      HostPhase.stopped => (
+        l10n.syncStatusStopped,
+        Icons.stop_circle_outlined,
+        scheme.outline,
+      ),
     };
     return Chip(
       avatar: Icon(icon, color: color, size: 18),

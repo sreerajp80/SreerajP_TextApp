@@ -750,11 +750,144 @@ class AppLocalizationsMl extends AppLocalizations {
       'ആപ്പ് സവിശേഷതകൾ എങ്ങനെ പ്രവർത്തിക്കുന്നു എന്ന് അറിയുക.';
 
   @override
+  String get helpSearchFilterHint => 'സഹായ വിഷയങ്ങൾ തിരയുക…';
+
+  @override
+  String get helpNoTopicsFound =>
+      'പൊരുത്തപ്പെടുന്ന സഹായ വിഷയങ്ങളൊന്നും കണ്ടെത്തിയില്ല.';
+
+  @override
+  String get helpP2pSyncTitle => 'LAN സിങ്കും ലൈവ് ഡിഫും';
+
+  @override
+  String get helpP2pSyncSubtitle =>
+      'Wi-Fi വഴി ഡാറ്റ സമന്വയിപ്പിക്കുകയും ഡോക്യുമെന്റുകൾ താരതമ്യം ചെയ്യുകയും ചെയ്യുക.';
+
+  @override
+  String get helpP2pSyncBody =>
+      'ഇന്റർനെറ്റോ ബാഹ്യ സെർവറുകളോ ഇല്ലാതെ നിങ്ങളുടെ ലോക്കൽ Wi-Fi നെറ്റ്‌വർക്കിലുള്ള ഉപകരണങ്ങളിലുടനീളം പ്രിയപ്പെട്ടവ, ബുക്ക്‌മാർക്കുകൾ, സമീപകാല ഫയലുകൾ, ഡിസ്‌പ്ലേ ക്രമീകരണങ്ങൾ എന്നിവ സമന്വയിപ്പിക്കുക.\n\n• ലൈവ് ഡിഫും ഡെൽറ്റ സിങ്കും: ഏത് ഡോക്യുമെന്റും തുറന്ന് മെനുവിൽ നിന്ന് ലൈവ് ഡിഫ് തിരഞ്ഞെടുത്ത് അടുത്തുള്ള ഉപകരണവുമായി ബന്ധിപ്പിക്കുക. വർണ്ണ-കോഡ് ചെയ്ത വ്യത്യാസങ്ങൾ വരി തോറും കാണുകയും മാറ്റങ്ങൾ നേരിട്ട് ലയിപ്പിക്കുകയും ചെയ്യുക.\n• സുരക്ഷ: എല്ലാ സിങ്ക് ആശയവിനിമയങ്ങളും താൽക്കാലിക പെയറിംഗ് കോഡ് ഉപയോഗിച്ച് AES-256-GCM എൻക്രിപ്ഷൻ വഴി സംരക്ഷിക്കപ്പെടുന്നു. ഒന്നും ഇന്റർനെറ്റിലേക്ക് അയയ്ക്കില്ല.';
+
+  @override
+  String get helpQrSharingTitle => 'ഒപ്റ്റിക്കൽ QR പങ്കിടൽ (AirQR)';
+
+  @override
+  String get helpQrSharingSubtitle =>
+      'Wi-Fi, ബ്ലൂടൂത്ത് അല്ലെങ്കിൽ കേബിളുകൾ ഇല്ലാതെ വിഷ്വൽ ആയി ഫയലുകൾ അയയ്ക്കുക.';
+
+  @override
+  String get helpQrSharingBody =>
+      'നെറ്റ്‌വർക്ക് കണക്ഷൻ ഇല്ലാതെ ആനിമേറ്റഡ് ഹൈ-ഡെൻസിറ്റി QR കോഡുകളും ക്യാമറ സ്കാനിംഗും ഉപയോഗിച്ച് ഉപകരണങ്ങൾ തമ്മിൽ ഡോക്യുമെന്റുകൾ അയയ്ക്കുക.\n\n• എങ്ങനെ അയയ്ക്കാം: ഒരു ഡോക്യുമെന്റ് തുറന്ന് മെനുവിൽ നിന്ന് \"QR വഴി അയയ്ക്കുക\" അല്ലെങ്കിൽ \"തിരഞ്ഞെടുപ്പ് QR വഴി അയയ്ക്കുക\" തിരഞ്ഞെടുക്കുക. ആവശ്യമെങ്കിൽ വേഗതയും സാന്ദ്രതയും ക്രമീകരിക്കുക.\n• എങ്ങനെ സ്വീകരിക്കാം: സ്വീകരിക്കുന്ന ഉപകരണത്തിൽ AirQR സ്ക്രീൻ തുറന്ന് ക്യാമറ അയയ്ക്കുന്ന സ്ക്രീനിലേക്ക് ചൂണ്ടുക.\n• എൻക്രിപ്ഷൻ: AES-256 സെഷൻ പാസ്‌ഫ്രെയ്‌സ് ഉപയോഗിച്ച് കൈമാറ്റം സംരക്ഷിക്കാൻ എൻക്രിപ്ഷൻ ഓണാക്കുക.';
+
+  @override
+  String get helpPrivacyShieldTitle => 'പ്രൈവസി ഷീൽഡും PII സ്‌ക്രബ്ബറും';
+
+  @override
+  String get helpPrivacyShieldSubtitle =>
+      'വ്യക്തിഗത വിവരങ്ങൾ പൂർണ്ണമായും ഓഫ്‌ലൈനായി കണ്ടെത്തി മായ്ക്കുക.';
+
+  @override
+  String get helpPrivacyShieldBody =>
+      'പങ്കിടുന്നതിനോ സംരക്ഷിക്കുന്നതിനോ മുൻപ് സ്വകാര്യ വിവരങ്ങൾ പരിരക്ഷിക്കുക.\n\n• ഓട്ടോമാറ്റിക് ഡിറ്റക്ഷൻ: ഇമെയിൽ വിലാസങ്ങൾ, ഫോൺ നമ്പറുകൾ, ക്രെഡിറ്റ് കാർഡ് നമ്പറുകൾ, IPv4/IPv6 വിലാസങ്ങൾ, ഐഡന്റിറ്റി നമ്പറുകൾ (SSN/ആധാർ), രഹസ്യ API കീകൾ എന്നിവയ്ക്കായി ടെക്സ്റ്റ് ഓഫ്‌ലൈനായി സ്കാൻ ചെയ്യുന്നു.\n• തിരുത്തലും മാസ്കിംഗും: കണ്ടെത്തിയ വിവരങ്ങൾ പരിശോധിച്ച്, സാധാരണ റീഡാക്ഷൻ ടോക്കണുകൾ ([EMAIL], [PHONE]) അല്ലെങ്കിൽ ചിഹ്നങ്ങൾ ഉപയോഗിച്ച് മാറ്റിസ്ഥാപിക്കുക.\n• പൂജ്യം നെറ്റ്‌വർക്ക് ചോർച്ച: എല്ലാ സ്കാനിംഗും നിങ്ങളുടെ ഉപകരണത്തിൽ പൂർണ്ണമായും ഓഫ്‌ലൈനായി നടക്കുന്നു.';
+
+  @override
+  String get helpVaultBackupTitle =>
+      'ഡോക്യുമെന്റ് വോൾട്ടും എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പുകളും';
+
+  @override
+  String get helpVaultBackupSubtitle =>
+      'രഹസ്യ ഫയലുകൾ സുരക്ഷിത വോൾട്ടിൽ സൂക്ഷിക്കുകയും .txdata ബാക്കപ്പുകൾ നിർമ്മിക്കുകയും ചെയ്യുക.';
+
+  @override
+  String get helpVaultBackupBody =>
+      'ഹാർഡ്‌വെയർ-പിന്തുണയുള്ള എൻക്രിപ്ഷൻ ഉപയോഗിച്ച് രഹസ്യ ഫയലുകൾ സുരക്ഷിതമായി സൂക്ഷിക്കുക.\n\n• ഡോക്യുമെന്റ് വോൾട്ട്: നിങ്ങളുടെ ആപ്പ് പിൻ അല്ലെങ്കിൽ ബയോമെട്രിക് ലോക്ക് ഉപയോഗിച്ച് പരിരക്ഷിച്ചിരിക്കുന്ന AES-256-GCM എൻക്രിപ്റ്റ് ചെയ്ത വോൾട്ടിൽ സ്വകാര്യ ഫയലുകൾ സൂക്ഷിക്കുക.\n• എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പുകൾ (.txdata): ഒന്നിലധികം ഡോക്യുമെന്റുകളും ക്രമീകരണങ്ങളും പാസ്‌വേഡ് പരിരക്ഷിത .txdata ആർക്കൈവ് ഫയലുകളായി എക്സ്പോർട്ട് ചെയ്യുക.\n• പുനഃസ്ഥാപിക്കൽ: ആർക്കൈവ് പാസ്‌വേഡ് ഉപയോഗിച്ച് ഏത് സമയത്തും .txdata ബാക്കപ്പുകൾ ഇമ്പോർട്ട് ചെയ്യുക.';
+
+  @override
+  String get helpSqlQueryTitle => 'SQL ക്വറി എഞ്ചിൻ';
+
+  @override
+  String get helpSqlQuerySubtitle =>
+      'CSV, JSON, XML ഫയലുകളിൽ നേരിട്ട് ലോക്കൽ SQL ക്വറികൾ പ്രവർത്തിപ്പിക്കുക.';
+
+  @override
+  String get helpSqlQueryBody =>
+      'നിങ്ങളുടെ ഉപകരണത്തിൽ നേരിട്ട് സാധാരണ SQL സിന്റാക്സ് ഉപയോഗിച്ച് ഡാറ്റ വിശകലനം ചെയ്യുകയും പരിവർത്തനം ചെയ്യുകയും ചെയ്യുക.\n\n• പിന്തുണയ്ക്കുന്ന ഫോർമാറ്റുകൾ: CSV, JSON, XML ഡോക്യുമെന്റുകളിൽ ക്വറികൾ പ്രവർത്തിപ്പിക്കുക.\n• ശേഷികൾ: SELECT, WHERE, GROUP BY, HAVING, ORDER BY, ടാബുകൾക്കിടയിലുള്ള JOIN എന്നിവ ഉൾപ്പെടെയുള്ള പൂർണ്ണ SQL കമാൻഡുകൾ.\n• എക്സ്പോർട്ട്: ഫലങ്ങൾ നേരിട്ട് പുതിയ CSV അല്ലെങ്കിൽ JSON ഫയലുകളായി സംരക്ഷിക്കുക.';
+
+  @override
+  String get helpMultiCursorTitle => 'മൾട്ടി-കഴ്‌സറും കോളം എഡിറ്റിംഗും';
+
+  @override
+  String get helpMultiCursorSubtitle =>
+      'ഒരേ സമയം ഒന്നിലധികം വരികൾ എഡിറ്റ് ചെയ്യുകയും ലംബമായി സെലക്ട് ചെയ്യുകയും ചെയ്യുക.';
+
+  @override
+  String get helpMultiCursorBody =>
+      'ഒരേ രീതിയിലുള്ള ടെക്സ്റ്റ് ഫോർമാറ്റിംഗും മാറ്റങ്ങളും വേഗത്തിലാക്കുക.\n\n• മൾട്ടി-കഴ്‌സർ: എഡിറ്ററിൽ ഒന്നിലധികം കഴ്‌സറുകൾ സ്ഥാപിക്കാൻ അമർത്തിപ്പിടിക്കുക. എല്ലാ കഴ്‌സറുകളും ഒരേ സമയം ടൈപ്പ് ചെയ്യുകയും ഡിലീറ്റ് ചെയ്യുകയും ചെയ്യുന്നു.\n• കോളം സെലക്ഷൻ: ഒന്നിലധികം വരികളിലായി ലംബമായ ടെക്സ്റ്റ് സെലക്ട് ചെയ്ത് എളുപ്പത്തിൽ പ്രിഫിക്സുകളോ സഫിക്സുകളോ ചേർക്കുക.';
+
+  @override
+  String get helpSearchTitle => 'തിരയലും വർക്ക്‌സ്‌പേസ് ഇൻഡക്‌സും';
+
+  @override
+  String get helpSearchSubtitle =>
+      'ഡോക്യുമെന്റുകളിലോ എല്ലാ ഫയലുകളിലുമോ അതിവേഗം ടെക്സ്റ്റ് കണ്ടെത്തുക.';
+
+  @override
+  String get helpSearchBody =>
+      'നിങ്ങളുടെ എല്ലാ ഫയലുകളിലും ടെക്സ്റ്റ് അതിവേഗം കണ്ടെത്തുക:\n\n• ഡോക്യുമെന്റ് തിരയൽ: കേസ് സെൻസിറ്റിവിറ്റി, പൂർണ്ണ വാക്ക്, റെഗുലർ എക്സ്പ്രഷനുകൾ എന്നിവ ഉപയോഗിച്ച് Find & Replace ഉപയോഗിക്കുക.\n• ഗ്ലോബൽ വർക്ക്‌സ്‌പേസ് സെർച്ച്: സമീപകാല, പ്രിയപ്പെട്ട എല്ലാ ഫയലുകളിലും അതിവേഗ SQLite FTS5 ഇൻഡക്സ് തിരയാൻ ഹോം സ്ക്രീനിലെ സെർച്ച് ഐക്കൺ ടാപ്പ് ചെയ്യുക.\n• 100% സ്വകാര്യം: എല്ലാ തിരയലുകളും നിങ്ങളുടെ ഉപകരണത്തിൽ മാത്രം നടക്കുന്നു.';
+
+  @override
+  String get helpAuditLogTitle => 'ഓഡിറ്റ് ലോഗും സമഗ്രതാ പരിശോധനയും';
+
+  @override
+  String get helpAuditLogSubtitle =>
+      'SHA-256 ഹാഷ് ചെയിനുകൾ ഉപയോഗിച്ച് ഫയലുകളുടെ സമഗ്രത പരിശോധിക്കുക.';
+
+  @override
+  String get helpAuditLogBody =>
+      'ഡോക്യുമെന്റ് പ്രവർത്തനങ്ങളുടെ മാറ്റമില്ലാത്ത രേഖകൾ സൂക്ഷിക്കുക.\n\n• ഹാഷ് ചെയിനിംഗ്: എല്ലാ ഫയൽ തുറക്കൽ, എഡിറ്റ്, സേവ്, വോൾട്ട് പ്രവർത്തനങ്ങളും SHA-256 ചെക്ക്‌സമ്മുകൾ ഉപയോഗിച്ച് ക്രിപ്റ്റോഗ്രാഫിക്കലായി രേഖപ്പെടുത്തുന്നു.\n• സമഗ്രതാ പരിശോധന: ലോഗുകളോ ഫയലുകളോ മാറ്റം വരുത്തിയിട്ടില്ലെന്ന് തെളിയിക്കാൻ ക്രമീകരണങ്ങൾ → ഓഡിറ്റ് ലോഗിൽ നിന്ന് പരിശോധന നടത്തുക.';
+
+  @override
+  String get helpFormatToolsTitle => 'പ്രത്യേക ഫോർമാറ്റ് ടൂളുകൾ';
+
+  @override
+  String get helpFormatToolsSubtitle =>
+      'JSON, Markdown, CSV, XML, TXT എന്നിവയ്ക്കുള്ള പ്രത്യേക ടൂളുകൾ.';
+
+  @override
+  String get helpFormatToolsBody =>
+      'ഓരോ ഫയൽ തരത്തിനും അനുയോജ്യമായ പ്രത്യേക വിഷ്വൽ ടൂളുകൾ TextData നൽകുന്നു:\n\n• JSON: ഇന്ററാക്ടീവ് ട്രീ വ്യൂവർ, JSONPath ക്വറികൾ, സ്കീമ വാലിഡേറ്റർ, അറേ സ്പ്ലിറ്റർ, ഫോർമാറ്റർ.\n• Markdown: ലൈവ് സ്പ്ലിറ്റ് പ്രിവ്യൂ, വിഷ്വൽ ടേബിൾ ബിൽഡർ, YAML ഫ്രണ്ട്-മാറ്റർ എഡിറ്റർ, ഹെഡിംഗ് സ്പ്ലിറ്റർ.\n• CSV: ഇന്ററാക്ടീവ് സ്പ്രെഡ്ഷീറ്റ് ഗ്രിഡ്, സോർട്ടിംഗ്, ഫോർമുലകൾ (SUM, AVG മുതലായവ), ഡിലിമിറ്റർ കൺവെർട്ടർ.\n• XML: ട്രീ വ്യൂ, XPath ക്വറികൾ, XSD സ്കീമ വാലിഡേഷൻ, ബ്യൂട്ടിഫയർ.\n• TXT: ലൈൻ വിഭജനം, വേഡ് റാപ്പ്, ലൈനിലേക്ക് ചാടൽ, വെബ് ലിങ്ക് ഡിറ്റക്ടർ.';
+
+  @override
+  String get helpSpeechTitle => 'വായനയും സംസാരവും (Read Aloud)';
+
+  @override
+  String get helpSpeechSubtitle =>
+      'ഡോക്യുമെന്റുകൾ ഇംഗ്ലീഷിലും മലയാളത്തിലും ഉറക്കെ വായിച്ചു കേൾക്കുക.';
+
+  @override
+  String get helpSpeechBody =>
+      'നിങ്ങളുടെ ഉപകരണത്തിലെ ടെക്സ്റ്റ്-ടു-സ്പീച്ച് എഞ്ചിൻ ഉപയോഗിച്ച് ഡോക്യുമെന്റുകൾ കേൾക്കുക.\n\n• പിന്തുണയ്ക്കുന്ന ഭാഷകൾ: ഇംഗ്ലീഷ്, മലയാളം.\n• നിയന്ത്രണങ്ങൾ: പ്ലേ, പോസ്, സ്റ്റോപ്പ്, ഒപ്പം ക്രമീകരണങ്ങൾ → സ്പീച്ച് വഴി വേഗതയും ഭാഷയും ക്രമീകരിക്കാം.';
+
+  @override
   String get helpSplitArrayTitle => 'അറേ വിഭജിക്കുക';
+
+  @override
+  String get helpSplitArraySubtitle =>
+      'ഒരു JSON അറേ ചെറിയ നമ്പറിട്ട ഫയലുകളായി വിഭജിക്കുക.';
 
   @override
   String get helpSplitArrayBody =>
       'JSON ഫയലിന്റെ ഏറ്റവും മുകൾ തലം ഒരു അറേ ആയിരിക്കുമ്പോൾ അറേ വിഭജനം പ്രവർത്തിക്കുന്നു. ഓരോ ഭാഗത്തിലും എത്ര ഇനങ്ങൾ വേണമെന്ന് തിരഞ്ഞെടുക്കുക. ആപ്പ് പിന്നീട് name.part1.json പോലുള്ള നമ്പറിട്ട ഫയലുകൾ സൃഷ്ടിക്കുകയും ഓരോന്നും എവിടെ സംരക്ഷിക്കണമെന്ന് ചോദിക്കുകയും ചെയ്യുന്നു. അവസാന ഭാഗത്തിൽ കുറച്ച് ഇനങ്ങൾ മാത്രമേ ഉണ്ടാകൂ. നിങ്ങളുടെ യഥാർത്ഥ ഫയൽ മാറ്റില്ല.';
+
+  @override
+  String get helpBackupTitle => 'ബാക്കപ്പ് & എക്സ്പോർട്ട്';
+
+  @override
+  String get helpBackupSubtitle =>
+      'നിങ്ങളുടെ ഫയലുകളുടെ പകർപ്പുകൾ മറ്റ് ഫോർമാറ്റുകളിലോ ലൊക്കേഷനുകളിലോ സുരക്ഷിതമായി സൂക്ഷിക്കുക.';
+
+  @override
+  String get helpBackupBody =>
+      'എക്സ്പോർട്ടും സേവ് എ കോപ്പിയും ഉപയോഗിച്ച് നിങ്ങളുടെ ഫയലുകളുടെ പകർപ്പുകൾ സുരക്ഷിതമായി സൂക്ഷിക്കുക. ഏതെങ്കിലും ഡോക്യുമെന്റ് തുറന്ന് \"എക്സ്പോർട്ട്\" കണ്ടെത്താൻ മെനു ടാപ്പ് ചെയ്യുക — ഇത് നിങ്ങളുടെ ഫയൽ PDF അല്ലെങ്കിൽ പ്ലെയിൻ ടെക്സ്റ്റ് പോലുള്ള മറ്റൊരു ഫോർമാറ്റിലേക്ക് മാറ്റുന്നു. യഥാർത്ഥ ഫയൽ മാറ്റാതെ പുതിയ ലൊക്കേഷനിൽ സംരക്ഷിക്കാൻ \"സേവ് എ കോപ്പി\" ഉപയോഗിക്കുക. അധിക സുരക്ഷയ്ക്ക്, പ്രധാനപ്പെട്ട ഫയലുകൾ പതിവായി എക്സ്പോർട്ട് ചെയ്ത് ക്ലൗഡ് ഫോൾഡർ, SD കാർഡ്, അല്ലെങ്കിൽ LAN സിങ്ക് അല്ലെങ്കിൽ QR പങ്കിടൽ വഴി മറ്റൊരു ഉപകരണം പോലുള്ള സുരക്ഷിതമായ സ്ഥലത്ത് പകർപ്പുകൾ സൂക്ഷിക്കുക.';
 
   @override
   String get aboutSectionTitle => 'കുറിച്ച്';
@@ -2182,4 +2315,1109 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get csvDeleteRow => 'വരി ഇല്ലാതാക്കുക';
+
+  @override
+  String get airqrTitle => 'എയർ-ഗ്യാപ് കൈമാറ്റം (QR)';
+
+  @override
+  String get airqrIntro =>
+      'സ്ക്രീനും ക്യാമറയും മാത്രം ഉപയോഗിച്ച് ഒരു ഡോക്യുമെന്റോ കുറച്ച് ടെക്സ്റ്റോ മറ്റൊരു ഉപകരണത്തിലേക്ക് അയയ്ക്കുക. വൈ-ഫൈ, ബ്ലൂടൂത്ത്, ഇന്റർനെറ്റ് വഴി ഒന്നും അയയ്ക്കുന്നില്ല.';
+
+  @override
+  String get airqrReceive => 'സ്വീകരിക്കുക';
+
+  @override
+  String get airqrReceiveSubtitle =>
+      'മറ്റേ ഉപകരണത്തിന്റെ സ്ക്രീനിലേക്ക് ക്യാമറ ചൂണ്ടുക';
+
+  @override
+  String get airqrHowToSend => 'എങ്ങനെ അയയ്ക്കാം';
+
+  @override
+  String get airqrHowToSendBody =>
+      'അയയ്ക്കേണ്ട ഡോക്യുമെന്റ് തുറന്ന്, അതിന്റെ മെനുവിൽ നിന്ന് \"QR വഴി അയയ്ക്കുക\" തിരഞ്ഞെടുക്കുക. ഒരു ഭാഗം മാത്രം അയയ്ക്കാൻ, ആദ്യം ടെക്സ്റ്റ് തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get airqrSpeedNoteTitle => 'ഇത് മനഃപൂർവം സാവധാനമാണ്';
+
+  @override
+  String get airqrSpeedNoteBody =>
+      'ക്യാമറ ലിങ്ക് സെക്കൻഡിൽ ഏകദേശം 15 KB മാത്രം കൊണ്ടുപോകുന്നു. ചെറിയ കുറിപ്പുകൾക്ക് കുറച്ച് സെക്കൻഡ് മതി; വലിയ ഫയലിന് മിനിറ്റുകൾ എടുക്കാം. വലിയ ഫയലുകൾക്ക് LAN സിങ്ക് ഉപയോഗിക്കുക.';
+
+  @override
+  String get airqrSendTitle => 'QR വഴി അയയ്ക്കുന്നു';
+
+  @override
+  String get airqrSendByQr => 'QR വഴി അയയ്ക്കുക';
+
+  @override
+  String get airqrSendSelectionByQr => 'തിരഞ്ഞെടുത്തത് QR വഴി അയയ്ക്കുക';
+
+  @override
+  String get airqrHoldSteady =>
+      'മറ്റേ ഉപകരണത്തിന് എല്ലാ ഫ്രെയിമുകളും ലഭിക്കുന്നതുവരെ രണ്ട് ഉപകരണങ്ങളും ഇളകാതെ പിടിക്കുക. അതുവരെ കോഡ് ആവർത്തിക്കും.';
+
+  @override
+  String get airqrCodeLabel => 'സെഷൻ കോഡ്';
+
+  @override
+  String get airqrCodeHint =>
+      'ഈ കോഡ് മറ്റെയാളോട് പറയുക. ഇത് QR കോഡിനുള്ളിൽ ഇല്ല, അതിനാൽ സ്ക്രീൻ റെക്കോർഡ് ചെയ്യുന്നവർക്കും ഇതില്ലാതെ നിങ്ങളുടെ ഡാറ്റ വായിക്കാനാവില്ല.';
+
+  @override
+  String get airqrUnsealedWarning =>
+      'ഈ കൈമാറ്റം സുരക്ഷിതമല്ല. ഈ സ്ക്രീൻ കാണാൻ കഴിയുന്ന ആർക്കും ഡാറ്റ വായിക്കാം.';
+
+  @override
+  String airqrFrameCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ഫ്രെയിമുകൾ',
+      one: '1 ഫ്രെയിം',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String airqrPassCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count റൗണ്ടുകൾ പൂർത്തിയായി',
+      one: '1 റൗണ്ട് പൂർത്തിയായി',
+      zero: 'ആദ്യ റൗണ്ട്',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String airqrOnePassTakes(int seconds) {
+    return 'ഒരു പൂർണ്ണ റൗണ്ടിന് ഏകദേശം $seconds സെക്കൻഡ് എടുക്കും.';
+  }
+
+  @override
+  String airqrSpeedLabel(int fps) {
+    return 'വേഗത: സെക്കൻഡിൽ $fps ഫ്രെയിം';
+  }
+
+  @override
+  String get airqrSpeedHelp =>
+      'മറ്റേ ഉപകരണത്തിന് ഫ്രെയിമുകൾ നഷ്ടപ്പെടുന്നെങ്കിൽ ഇത് കുറയ്ക്കുക.';
+
+  @override
+  String airqrDensityLabel(int bytes) {
+    return 'വിശദാംശം: ഫ്രെയിമിന് $bytes ബൈറ്റ്';
+  }
+
+  @override
+  String get airqrDensityHelp =>
+      'പഴയ ക്യാമറയിൽ എളുപ്പത്തിൽ സ്കാൻ ചെയ്യാൻ ഇത് കുറയ്ക്കുക. കൂടുതൽ ഫ്രെയിമുകൾ വേണ്ടിവരും.';
+
+  @override
+  String get airqrReceiveTitle => 'QR വഴി സ്വീകരിക്കുന്നു';
+
+  @override
+  String get airqrScanSemantics =>
+      'ആനിമേറ്റഡ് QR കോഡ് സ്വീകരിക്കാനുള്ള ക്യാമറ വ്യൂഫൈൻഡർ';
+
+  @override
+  String get airqrLookingForStream => 'ഒരു കൈമാറ്റം തിരയുന്നു…';
+
+  @override
+  String airqrFramesProgress(int received, int total) {
+    return '$total-ൽ $received ഫ്രെയിമുകൾ';
+  }
+
+  @override
+  String airqrFps(String rate) {
+    return 'സെക്കൻഡിൽ $rate ഫ്രെയിം';
+  }
+
+  @override
+  String airqrRemaining(int seconds) {
+    return 'ഏകദേശം $seconds സെക്കൻഡ് ബാക്കി';
+  }
+
+  @override
+  String airqrStillMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ഫ്രെയിമുകൾ കൂടി കാത്തിരിക്കുന്നു',
+      one: 'ഒരു ഫ്രെയിം കൂടി കാത്തിരിക്കുന്നു',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get airqrAssembling => 'ഡാറ്റ പരിശോധിച്ച് പുനർനിർമ്മിക്കുന്നു…';
+
+  @override
+  String get airqrAllFramesReceived => 'എല്ലാ ഫ്രെയിമുകളും ലഭിച്ചു';
+
+  @override
+  String get airqrEnterCodePrompt =>
+      'അയയ്ക്കുന്ന ഉപകരണത്തിൽ കാണിക്കുന്ന സെഷൻ കോഡ് നൽകുക.';
+
+  @override
+  String get airqrUnlock => 'അൺലോക്ക് ചെയ്യുക';
+
+  @override
+  String get airqrStartOver => 'വീണ്ടും തുടങ്ങുക';
+
+  @override
+  String get airqrReceivedTitle => 'കൈമാറ്റം പൂർത്തിയായി';
+
+  @override
+  String airqrCharacterCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count അക്ഷരങ്ങൾ',
+      one: '1 അക്ഷരം',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get airqrPreview => 'പ്രിവ്യൂ';
+
+  @override
+  String get airqrCopyText => 'ടെക്സ്റ്റ് പകർത്തുക';
+
+  @override
+  String get airqrCopied => 'ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തി';
+
+  @override
+  String get airqrUseThis => 'ഫയലായി സേവ് ചെയ്യുക';
+
+  @override
+  String get airqrFailedGeneric => 'കൈമാറ്റം പൂർത്തിയാക്കാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String airqrSavedAs(String name) {
+    return '$name ആയി സേവ് ചെയ്തു';
+  }
+
+  @override
+  String get airqrInsertedIntoDocument =>
+      'തുറന്ന ഡോക്യുമെന്റിൽ ടെക്സ്റ്റ് ചേർത്തു';
+
+  @override
+  String get airqrTooLargeTitle => 'QR കൈമാറ്റത്തിന് വളരെ വലുതാണ്';
+
+  @override
+  String airqrTooLargeBody(String size, String limit) {
+    return 'ഇത് $size ആണ്, QR കൈമാറ്റത്തിന്റെ പരിധി $limit ആണ്. ക്യാമറ വേഗതയിൽ ഇതിന് വളരെ അധികം സമയം എടുക്കും. പകരം LAN സിങ്ക് ഉപയോഗിക്കുക.';
+  }
+
+  @override
+  String get airqrSlowTitle => 'ഇതിന് കുറച്ച് സമയം എടുക്കും';
+
+  @override
+  String airqrSlowBody(String size, String duration) {
+    return 'ഇത് $size ആണ്, QR കോഡ് വഴി $duration എടുക്കും. അത്രയും നേരം രണ്ട് ഉപകരണങ്ങളും ഇളകാതെ പിടിക്കണം. LAN സിങ്ക് വളരെ വേഗത്തിലാകും.';
+  }
+
+  @override
+  String get airqrSendAnyway => 'എന്നാലും അയയ്ക്കുക';
+
+  @override
+  String airqrAboutMinutes(int minutes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      minutes,
+      locale: localeName,
+      other: 'ഏകദേശം $minutes മിനിറ്റ്',
+      one: 'ഏകദേശം 1 മിനിറ്റ്',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String airqrAboutSeconds(int seconds) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seconds,
+      locale: localeName,
+      other: 'ഏകദേശം $seconds സെക്കൻഡ്',
+      one: 'ഏകദേശം 1 സെക്കൻഡ്',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get airqrNothingToSend => 'അയയ്ക്കാൻ ഒന്നുമില്ല.';
+
+  @override
+  String get searchWorkspaceTitle => 'എല്ലാ ഫയലുകളിലും തിരയുക';
+
+  @override
+  String get searchWorkspaceTooltip => 'എല്ലാ ഫയലുകളിലും തിരയുക';
+
+  @override
+  String get searchWorkspaceHint => 'സമീപകാല, പ്രിയപ്പെട്ട ഫയലുകളിൽ തിരയുക';
+
+  @override
+  String get searchWorkspaceStartTitle => 'നിങ്ങളുടെ ഫയലുകൾക്കുള്ളിൽ തിരയുക';
+
+  @override
+  String get searchWorkspaceStartBody =>
+      'നിങ്ങൾ തുറന്നതോ പ്രിയപ്പെട്ടതായി അടയാളപ്പെടുത്തിയതോ ആയ ഫയലുകളിൽ ഒരു വാക്ക് കണ്ടെത്താൻ അത് ടൈപ്പ് ചെയ്യുക. തിരയൽ ഈ ഉപകരണത്തിൽ മാത്രം നടക്കുന്നു.';
+
+  @override
+  String get searchWorkspaceNoResults => 'പൊരുത്തങ്ങളൊന്നും കണ്ടെത്തിയില്ല';
+
+  @override
+  String get searchWorkspaceNoResultsBody =>
+      'ചെറിയ ഒരു വാക്ക് പരീക്ഷിക്കുക, അല്ലെങ്കിൽ ഫയൽ ഒരിക്കൽ തുറക്കുക, അപ്പോൾ അത് സൂചികയിൽ ചേരും.';
+
+  @override
+  String get searchWorkspaceOffTitle => 'വർക്ക്‌സ്‌പേസ് തിരയൽ ഓഫാണ്';
+
+  @override
+  String get searchWorkspaceOffBody =>
+      'ഫയലുകളിലുടനീളം തിരയാൻ ക്രമീകരണങ്ങൾ › ഫയലുകളും ടാബുകളും എന്നതിൽ ഇത് ഓണാക്കുക.';
+
+  @override
+  String get searchWorkspaceClear => 'തിരയൽ മായ്ക്കുക';
+
+  @override
+  String get searchWorkspaceAll => 'എല്ലാം';
+
+  @override
+  String get searchWorkspacePartial =>
+      'വലിയ ഫയൽ — ആദ്യ ഭാഗം മാത്രമേ തിരയുന്നുള്ളൂ';
+
+  @override
+  String get searchWorkspaceUnavailable =>
+      'ഫയൽ ലഭ്യമല്ല — തിരയലിൽ നിന്ന് നീക്കുക';
+
+  @override
+  String searchWorkspaceResults(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ഫയലുകൾ',
+      one: '1 ഫയൽ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filesIndexTitle => 'വർക്ക്‌സ്‌പേസ് തിരയൽ സൂചിക';
+
+  @override
+  String get filesIndexOn =>
+      'നിങ്ങൾ തുറക്കുന്ന ഫയലുകൾ ഈ ഉപകരണത്തിൽ സൂചികയിൽ ചേർക്കും, അതിനാൽ എല്ലാത്തിലും തിരയാം.';
+
+  @override
+  String get filesIndexOff =>
+      'പുതിയ ഫയലുകൾ സൂചികയിൽ ചേർക്കുന്നില്ല. നേരത്തെ സംഭരിച്ചത് മാത്രമേ തിരയലിൽ കാണൂ.';
+
+  @override
+  String filesIndexCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ഫയലുകൾ സൂചികയിലുണ്ട്',
+      one: '1 ഫയൽ സൂചികയിലുണ്ട്',
+      zero: 'ഫയലുകളൊന്നും സൂചികയിലില്ല',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get filesIndexClear => 'തിരയൽ സൂചിക മായ്ക്കുക';
+
+  @override
+  String get filesIndexClearBody =>
+      'ഇത് സൂചികയിലുള്ള ഓരോ ഫയലിന്റെയും സംഭരിച്ച വാചകം ഇല്ലാതാക്കും. ഫയലുകൾക്ക് ഒന്നും സംഭവിക്കില്ല.';
+
+  @override
+  String get filesIndexCleared => 'തിരയൽ സൂചിക മായ്ച്ചു';
+
+  @override
+  String get filesIndexRebuild => 'തിരയൽ സൂചിക വീണ്ടും നിർമ്മിക്കുക';
+
+  @override
+  String get filesIndexRebuilding => 'തിരയൽ സൂചിക വീണ്ടും നിർമ്മിക്കുന്നു…';
+
+  @override
+  String filesIndexRebuilt(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ഫയലുകൾ സൂചികയിൽ ചേർത്തു',
+      one: '1 ഫയൽ സൂചികയിൽ ചേർത്തു',
+      zero: 'പുതുതായി ഒന്നും സൂചികയിൽ ചേർത്തില്ല',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ephemeralBadgeTimerTooltip(String time) {
+    return 'ഈ ടാബ് $time കഴിഞ്ഞ് സ്വയം ഇല്ലാതാകും';
+  }
+
+  @override
+  String get ephemeralBadgeOutputTooltip =>
+      'അടുത്ത കയറ്റുമതിക്കോ പങ്കിടലിനോ ശേഷം ഈ ടാബ് സ്വയം ഇല്ലാതാകും';
+
+  @override
+  String get ephemeralSheetTitle => 'ഈ ടാബ് സ്വയം ഇല്ലാതാകട്ടെ';
+
+  @override
+  String get ephemeralSheetWhatIsWiped =>
+      'ഇല്ലാതാകുമ്പോൾ ആപ്പ് ഈ രേഖ മറക്കും: സ്വയം സേവ് ഡ്രാഫ്റ്റ്, സമീപകാല പട്ടികയിലെ വരി, പ്രിയപ്പെട്ടവ, ബുക്ക്‌മാർക്കുകൾ, വായന സ്ഥാനം, തിരയൽ സൂചികയിലെ അതിന്റെ വാചകം.';
+
+  @override
+  String get ephemeralSheetFileKept =>
+      'നിങ്ങളുടെ ഫയൽ ഇല്ലാതാക്കില്ല. ആപ്പ് അതിനെക്കുറിച്ച് സൂക്ഷിക്കുന്നത് മാത്രമേ മായ്ക്കൂ.';
+
+  @override
+  String get ephemeralSheetUnsavedWarning =>
+      'ഈ ടാബിലെ സേവ് ചെയ്യാത്ത മാറ്റങ്ങൾ വീണ്ടും ചോദിക്കാതെ നഷ്ടപ്പെടും.';
+
+  @override
+  String get ephemeralSheetTimerLabel => 'എത്ര സമയത്തിനു ശേഷം ഇല്ലാതാകണം';
+
+  @override
+  String get ephemeralSheetCustomMinutes => 'മിനിറ്റുകൾ';
+
+  @override
+  String get ephemeralSheetBurnAfterOutput =>
+      'കയറ്റുമതിക്കോ പങ്കിടലിനോ ശേഷം ഇല്ലാതാക്കുക';
+
+  @override
+  String get ephemeralSheetBurnAfterOutputHint =>
+      'ആദ്യത്തെ വിജയകരമായ കയറ്റുമതി, പങ്കിടൽ അല്ലെങ്കിൽ പ്രിന്റ് ടാബ് ഇല്ലാതാക്കും. റദ്ദാക്കിയതോ പരാജയപ്പെട്ടതോ ഇല്ലാതാക്കില്ല.';
+
+  @override
+  String get ephemeralSheetNothingChosen =>
+      'ഒരു സമയം തിരഞ്ഞെടുക്കുക, അല്ലെങ്കിൽ കയറ്റുമതിക്കു ശേഷം ഇല്ലാതാക്കൽ ഓണാക്കുക, അല്ലെങ്കിൽ രണ്ടും.';
+
+  @override
+  String get ephemeralSheetConfirm => 'സ്വയം ഇല്ലാതാകുന്നതാക്കുക';
+
+  @override
+  String get ephemeralDuration15Minutes => '15 മിനിറ്റ്';
+
+  @override
+  String get ephemeralDuration1Hour => '1 മണിക്കൂർ';
+
+  @override
+  String get ephemeralDuration4Hours => '4 മണിക്കൂർ';
+
+  @override
+  String get ephemeralDuration24Hours => '24 മണിക്കൂർ';
+
+  @override
+  String get ephemeralDurationCustom => 'സ്വന്തം സമയം';
+
+  @override
+  String get ephemeralDurationNone => 'സമയപരിധി ഇല്ല';
+
+  @override
+  String get tabMakeEphemeral => 'സ്വയം ഇല്ലാതാകുന്നതാക്കുക…';
+
+  @override
+  String get tabChangeEphemeral => 'സ്വയം ഇല്ലാതാകൽ മാറ്റുക…';
+
+  @override
+  String get tabCancelEphemeral => 'ഈ ടാബ് നിലനിർത്തുക';
+
+  @override
+  String get tabBurnNow => 'ഇപ്പോൾ ഇല്ലാതാക്കുക';
+
+  @override
+  String ephemeralMarked(String name) {
+    return '$name സ്വയം ഇല്ലാതാകും';
+  }
+
+  @override
+  String ephemeralCancelled(String name) {
+    return '$name വീണ്ടും ഒരു സാധാരണ ടാബ് ആണ്';
+  }
+
+  @override
+  String ephemeralBurned(String name) {
+    return '$name ഇല്ലാതാക്കി';
+  }
+
+  @override
+  String ephemeralBurnedPartly(String name) {
+    return '$name അടച്ചു, പക്ഷേ സൂക്ഷിച്ച ചില വിവരങ്ങൾ നീക്കാനായില്ല';
+  }
+
+  @override
+  String get ephemeralBurnNowTitle => 'ഈ ടാബ് ഇല്ലാതാക്കണോ?';
+
+  @override
+  String get ephemeralBurnNowBody =>
+      'ടാബ് അടയ്ക്കും, ആപ്പ് ഈ രേഖ മറക്കും. സേവ് ചെയ്യാത്ത മാറ്റങ്ങൾ നഷ്ടപ്പെടും. നിങ്ങളുടെ ഫയൽ ഇല്ലാതാക്കില്ല.';
+
+  @override
+  String get actionBurn => 'ഇല്ലാതാക്കുക';
+
+  @override
+  String get ephemeralOpenAsEphemeral => 'സ്വയം ഇല്ലാതാകുന്ന ടാബായി തുറക്കുക…';
+
+  @override
+  String get ephemeralSettingsTitle => 'സ്വയം ഇല്ലാതാകുന്ന രേഖകൾ';
+
+  @override
+  String get ephemeralSettingsDefaultDuration => 'സ്ഥിര സമയപരിധി';
+
+  @override
+  String get ephemeralSettingsBurnAfterOutput =>
+      'കയറ്റുമതിക്കു ശേഷം ഇല്ലാതാക്കൽ സ്ഥിരമായി തിരഞ്ഞെടുക്കുക';
+
+  @override
+  String get ephemeralSettingsBurnAfterOutputHint =>
+      'ഇത് ഷീറ്റിലെ സ്വിച്ച് മുൻകൂട്ടി ഓണാക്കുന്നു. ഇത് സ്വയം ഒരു ടാബിനെയും മാറ്റില്ല.';
+
+  @override
+  String get ephemeralSettingsBurnAll =>
+      'സ്വയം ഇല്ലാതാകുന്ന എല്ലാ ടാബുകളും ഇപ്പോൾ ഇല്ലാതാക്കുക';
+
+  @override
+  String ephemeralSettingsOpenCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'സ്വയം ഇല്ലാതാകുന്ന $count ടാബുകൾ തുറന്നിട്ടുണ്ട്',
+      one: 'സ്വയം ഇല്ലാതാകുന്ന 1 ടാബ് തുറന്നിട്ടുണ്ട്',
+      zero: 'സ്വയം ഇല്ലാതാകുന്ന ടാബുകളൊന്നും തുറന്നിട്ടില്ല',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String ephemeralSettingsBurnAllDone(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ടാബുകൾ ഇല്ലാതാക്കി',
+      one: '1 ടാബ് ഇല്ലാതാക്കി',
+      zero: 'ഇല്ലാതാക്കാൻ ഒന്നുമില്ല',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get ephemeralSettingsWipeNote =>
+      'ഇല്ലാതാക്കുമ്പോൾ ആപ്പ് സൂക്ഷിച്ച പകർപ്പിനെ പൂജ്യങ്ങൾ കൊണ്ട് മായ്ച്ചശേഷമാണ് നീക്കുന്നത്. ഫ്ലാഷ് സംഭരണത്തിൽ ഇത് ശക്തമായ ഒരു അധിക നടപടിയാണ്, ഉറപ്പല്ല — യഥാർത്ഥ സംരക്ഷണം Android-ന്റെ സ്വന്തം ആപ്പ് എൻക്രിപ്ഷനാണ്.';
+
+  @override
+  String get sqlMenuAction => 'SQL ചോദ്യം പ്രവർത്തിപ്പിക്കുക…';
+
+  @override
+  String get sqlQueryTitle => 'SQL ചോദ്യം';
+
+  @override
+  String get sqlQueryHint => 'SELECT * FROM data LIMIT 100';
+
+  @override
+  String get sqlRunAction => 'പ്രവർത്തിപ്പിക്കുക';
+
+  @override
+  String get sqlRunning => 'പ്രവർത്തിക്കുന്നു…';
+
+  @override
+  String get sqlLoadingData => 'വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നു…';
+
+  @override
+  String get sqlTablesHeading => 'പട്ടികകൾ';
+
+  @override
+  String sqlTableSummary(int rows, int columns) {
+    return '$rows വരികൾ · $columns നിരകൾ';
+  }
+
+  @override
+  String sqlColumnRenamed(String original) {
+    return 'മുമ്പ് “$original”';
+  }
+
+  @override
+  String get sqlColumnBlankName => '(ശൂന്യം)';
+
+  @override
+  String sqlRowsCapped(int count) {
+    return 'ഈ ഫയലിലെ ആദ്യത്തെ $count വരികൾ മാത്രമാണ് ലോഡ് ചെയ്തത്.';
+  }
+
+  @override
+  String get sqlAddTable => 'പട്ടിക ചേർക്കുക';
+
+  @override
+  String get sqlAddTableTitle => 'തുറന്നിരിക്കുന്ന മറ്റൊരു രേഖ ചേർക്കുക';
+
+  @override
+  String get sqlAddTableEmpty =>
+      'മറ്റൊരു CSV അല്ലെങ്കിൽ JSON ടാബ് തുറന്നിട്ടില്ല.';
+
+  @override
+  String sqlAddTableFailed(String name) {
+    return '$name എന്നതിൽ പട്ടികയായി ലോഡ് ചെയ്യാൻ ഒന്നുമില്ല.';
+  }
+
+  @override
+  String sqlTableAdded(String name, String table) {
+    return '$name ഇപ്പോൾ $table എന്ന പട്ടികയാണ്.';
+  }
+
+  @override
+  String get sqlRemoveTable => 'നീക്കുക';
+
+  @override
+  String get sqlPresetsHeading => 'തുടങ്ങാനുള്ള ചോദ്യങ്ങൾ';
+
+  @override
+  String get sqlPresetSelectAll => 'ആദ്യ വരികൾ കാണിക്കുക';
+
+  @override
+  String get sqlPresetCountRows => 'വരികൾ എണ്ണുക';
+
+  @override
+  String get sqlPresetGroupCount => 'ഗ്രൂപ്പ് ചെയ്ത് ആകെ കണക്കാക്കുക';
+
+  @override
+  String get sqlPresetOrderBy => 'വലിയ മൂല്യങ്ങൾ ആദ്യം';
+
+  @override
+  String get sqlPresetJoin => 'രണ്ട് പട്ടികകൾ ചേർക്കുക';
+
+  @override
+  String sqlResultSummary(int rows, int ms) {
+    return '$rows വരികൾ, $ms മില്ലിസെക്കൻഡിൽ';
+  }
+
+  @override
+  String sqlResultTruncated(int count) {
+    return 'ഫലത്തിലെ ആദ്യത്തെ $count വരികൾ കാണിക്കുന്നു.';
+  }
+
+  @override
+  String get sqlResultEmpty =>
+      'ചോദ്യം പ്രവർത്തിച്ചു, പക്ഷേ ഒരു വരിയും ചേർന്നില്ല.';
+
+  @override
+  String get sqlResultPlaceholder =>
+      'ഒരു ചോദ്യം എഴുതി പ്രവർത്തിപ്പിക്കുക, അല്ലെങ്കിൽ തുടങ്ങാനുള്ള ഒരു ചോദ്യം തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get sqlCopyResult => 'ഫലം CSV ആയി പകർത്തുക';
+
+  @override
+  String get sqlCopiedResult => 'ഫലം CSV ആയി പകർത്തി';
+
+  @override
+  String get sqlSaveResult => 'ഫലം CSV ഫയലായി സംരക്ഷിക്കുക…';
+
+  @override
+  String sqlSavedResult(String name) {
+    return '$name സംരക്ഷിച്ചു';
+  }
+
+  @override
+  String get sqlNoResultYet => 'സംരക്ഷിക്കാൻ ഇതുവരെ ഫലമില്ല.';
+
+  @override
+  String get sqlReloadData => 'വിവരങ്ങൾ വീണ്ടും എടുക്കുക';
+
+  @override
+  String get sqlReloadedData =>
+      'തുറന്ന രേഖകളിൽ നിന്ന് വിവരങ്ങൾ വീണ്ടും എടുത്തു.';
+
+  @override
+  String get sqlSnapshotNote =>
+      'ഈ സ്ക്രീൻ തുറന്നപ്പോൾ എടുത്ത പകർപ്പിലാണ് ചോദ്യങ്ങൾ പ്രവർത്തിക്കുന്നത്. രേഖ തിരുത്തിയ ശേഷം വീണ്ടും എടുക്കുക.';
+
+  @override
+  String get sqlNoData => 'ഈ രേഖയിൽ പട്ടികയായി ചോദിക്കാവുന്ന ഒന്നുമില്ല.';
+
+  @override
+  String get sqlLoadFailed => 'ചോദ്യത്തിനായി വിവരങ്ങൾ ലോഡ് ചെയ്യാനായില്ല.';
+
+  @override
+  String get sqlErrorEmpty => 'ആദ്യം ഒരു ചോദ്യം എഴുതുക.';
+
+  @override
+  String get sqlErrorNotSelect =>
+      'SELECT അല്ലെങ്കിൽ WITH കൊണ്ട് തുടങ്ങുന്ന ചോദ്യം മാത്രമേ ഇവിടെ പ്രവർത്തിക്കൂ.';
+
+  @override
+  String get sqlErrorMultiple => 'ഒരു പ്രസ്താവന മാത്രം എഴുതുക.';
+
+  @override
+  String sqlErrorForbidden(String keyword) {
+    return '“$keyword” അനുവദനീയമല്ല — ഈ സ്ക്രീൻ വിവരങ്ങൾ വായിക്കുക മാത്രമേ ചെയ്യൂ.';
+  }
+
+  @override
+  String get sqlReadOnlyNote =>
+      'ഇത് നിങ്ങളുടെ വിവരങ്ങളുടെ വായന-മാത്രം പകർപ്പാണ്. ഒരു ചോദ്യത്തിനും നിങ്ങളുടെ ഫയൽ മാറ്റാനോ ഇല്ലാതാക്കാനോ കഴിയില്ല.';
+
+  @override
+  String get auditSectionTitle => 'ഓഡിറ്റ് ലോഗ്';
+
+  @override
+  String get auditCardSubtitle => 'പ്രവർത്തനങ്ങളുടെ SHA-256 ചെയിൻ ലോഗ്';
+
+  @override
+  String get auditEnableTitle => 'ഓഡിറ്റ് ലോഗ് രേഖപ്പെടുത്തുക';
+
+  @override
+  String get auditEnableSubtitle =>
+      'രേഖകൾ തിരുത്തൽ, എക്സ്പോർട്ട്, സിങ്ക്, സുരക്ഷാ മാറ്റങ്ങൾ എന്നിവയുടെ ഹാഷ് സൂക്ഷിക്കുന്നു.';
+
+  @override
+  String get auditChainStatusLabel => 'ചെയിൻ സ്ഥിതി';
+
+  @override
+  String get auditViewLogTitle => 'ഓഡിറ്റ് ലോഗ് കാണുക';
+
+  @override
+  String auditEntryCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count രേഖകളുണ്ട്',
+      one: '1 രേഖയുണ്ട്',
+      zero: 'രേഖകളൊന്നുമില്ല',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get auditLogTitle => 'ഓഡിറ്റ് ലോഗ്';
+
+  @override
+  String get auditVerifyAction => 'പരിശോധിക്കുക';
+
+  @override
+  String get auditExportAction => 'സർട്ടിഫിക്കറ്റ് എക്സ്പോർട്ട് ചെയ്യുക';
+
+  @override
+  String get auditExportSubject => 'TextData ഓഡിറ്റ് സർട്ടിഫിക്കറ്റ്';
+
+  @override
+  String get auditExportFailed => 'ഓഡിറ്റ് സർട്ടിഫിക്കറ്റ് തയ്യാറാക്കാനായില്ല.';
+
+  @override
+  String get auditClearAction => 'ഓഡിറ്റ് ലോഗ് മായ്ക്കുക';
+
+  @override
+  String get auditClearSubtitle =>
+      'എല്ലാ രേഖകളും മായ്ച്ച് ചെയിൻ വീണ്ടും തുടങ്ങുന്നു.';
+
+  @override
+  String get auditClearTitle => 'ഓഡിറ്റ് ലോഗ് മായ്ക്കണമോ?';
+
+  @override
+  String get auditClearConfirmation =>
+      'ഇത് എല്ലാ ഓഡിറ്റ് രേഖകളും മായ്ക്കും. ക്രിപ്റ്റോഗ്രാഫിക് ചെയിൻ പുതിയൊരു തുടക്കത്തിൽ നിന്ന് വീണ്ടും ആരംഭിക്കും.';
+
+  @override
+  String get auditClearSuccess => 'ഓഡിറ്റ് ലോഗ് മായ്ച്ചു.';
+
+  @override
+  String get auditEmptyState => 'ഓഡിറ്റ് രേഖകളൊന്നും രേഖപ്പെടുത്തിയിട്ടില്ല.';
+
+  @override
+  String get auditBadgeVerified => 'പരിശോധിച്ച് ഉറപ്പാക്കി';
+
+  @override
+  String get auditBadgeCorrupted => 'ചെയിൻ തകരാറിലാണ്';
+
+  @override
+  String get auditBadgeEmpty => 'ശൂന്യമാണ്';
+
+  @override
+  String get auditBadgeVerifying => 'പരിശോധിക്കുന്നു…';
+
+  @override
+  String get auditBadgeError => 'പരിശോധന പരാജയപ്പെട്ടു';
+
+  @override
+  String auditChainVerifiedBanner(int count) {
+    return 'മാറ്റമില്ലാത്ത ചെയിൻ ഉറപ്പാക്കി ($count രേഖകൾ)';
+  }
+
+  @override
+  String auditChainCorruptedBanner(int index) {
+    return '#$index-ാമത്തെ രേഖയിൽ ചെയിൻ തകരാറിലാണ്';
+  }
+
+  @override
+  String get auditChainEmptyBanner => 'പരിശോധിക്കാൻ ഓഡിറ്റ് രേഖകളൊന്നുമില്ല.';
+
+  @override
+  String get backupSectionTitle => 'ബാക്കപ്പും പുനഃസ്ഥാപനവും';
+
+  @override
+  String get backupCardSubtitle => 'എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പ് ഫയൽ (.txdata)';
+
+  @override
+  String get backupSectionDescription =>
+      'നിങ്ങളുടെ ഫയലുകൾ, സമീപകാല ഫയലുകൾ, പ്രിയപ്പെട്ടവ, ബുക്ക്മാർക്കുകൾ, ക്രമീകരണങ്ങൾ എന്നിവ ഒറ്റ AES-256 .txdata ഫയലായി ബാക്കപ്പ് ചെയ്യുക അല്ലെങ്കിൽ പുനഃസ്ഥാപിക്കുക.';
+
+  @override
+  String get backupManageTitle => 'ബാക്കപ്പ് മാനേജർ';
+
+  @override
+  String get backupManageSubtitle =>
+      'പാസ്‌വേഡ് സുരക്ഷിതമായ ബാക്കപ്പ് ഉണ്ടാക്കുക അല്ലെങ്കിൽ .txdata ഫയലിൽ നിന്ന് പുനഃസ്ഥാപിക്കുക.';
+
+  @override
+  String get backupZeroKnowledgeNote =>
+      'പൂർണ്ണ സുരക്ഷ: PBKDF2-HMAC-SHA256 (200,000 ആവർത്തനങ്ങൾ), AES-256-GCM ഉപയോഗിച്ചാണ് ബാക്കപ്പ് എൻക്രിപ്റ്റ് ചെയ്യുന്നത്. നിങ്ങളുടെ പാസ്‌വേഡ് എവിടെയും സൂക്ഷിക്കുന്നില്ല. പാസ്‌വേഡ് മറന്നുപോയാൽ ബാക്കപ്പ് വീണ്ടെടുക്കാൻ കഴിയില്ല.';
+
+  @override
+  String get backupScreenTitle => 'ബാക്കപ്പും പുനഃസ്ഥാപനവും (.txdata)';
+
+  @override
+  String get backupHeroTitle => 'സുരക്ഷിത ബാക്കപ്പ് ആർക്കൈവുകൾ';
+
+  @override
+  String get backupHeroBody =>
+      'നിങ്ങളുടെ ആപ്പ് വിവരങ്ങളും ക്രമീകരണങ്ങളും പാസ്‌വേഡ് സുരക്ഷിതമായ AES-256 ഫയലായി സൂക്ഷിക്കുക. പൂർണ്ണമായും ഓഫ്‌ലൈനാണ്.';
+
+  @override
+  String get backupExportCardTitle => 'ബാക്കപ്പ് നിർമ്മിക്കുക';
+
+  @override
+  String get backupExportCardBody =>
+      'ആവശ്യമുള്ള വിവരങ്ങൾ തിരഞ്ഞെടുത്ത് പാസ്‌വേഡ് നൽകി .txdata ഫയലായി മാറ്റുക.';
+
+  @override
+  String get backupExportButton => 'ബാക്കപ്പ് നിർമ്മിക്കുക (.txdata)';
+
+  @override
+  String get backupRestoreCardTitle => 'ബാക്കപ്പിൽ നിന്ന് പുനഃസ്ഥാപിക്കുക';
+
+  @override
+  String get backupRestoreCardBody =>
+      'ഒരു .txdata ഫയൽ തുറന്ന്, പാസ്‌വേഡ് നൽകി വിവരങ്ങൾ ആപ്പിലേക്ക് തിരികെ എടുക്കുക.';
+
+  @override
+  String get backupRestoreButton => 'ബാക്കപ്പ് ഫയൽ തിരഞ്ഞെടുക്കുക (.txdata)';
+
+  @override
+  String get backupSaveToDevice => 'ഫോണിൽ സേവ് ചെയ്യുക';
+
+  @override
+  String get backupShareArchive => 'ബാക്കപ്പ് ഫയൽ പങ്കിടുക';
+
+  @override
+  String backupExportSaved(String fileName) {
+    return 'ബാക്കപ്പ് $fileName ആയി സേവ് ചെയ്തു';
+  }
+
+  @override
+  String get backupExportError => 'ബാക്കപ്പ് നിർമ്മാണം പരാജയപ്പെട്ടു';
+
+  @override
+  String get backupRestoreError => 'ബാക്കപ്പ് പുനഃസ്ഥാപനം പരാജയപ്പെട്ടു';
+
+  @override
+  String get backupUnlockFailedTitle => 'ബാക്കപ്പ് തുറക്കാനായില്ല';
+
+  @override
+  String backupRestoreSuccessSummary(
+    int recents,
+    int favorites,
+    int bookmarks,
+    int settings,
+  ) {
+    return '$recents സമീപകാല ഫയലുകൾ, $favorites പ്രിയപ്പെട്ടവ, $bookmarks ബുക്ക്മാർക്കുകൾ, $settings ക്രമീകരണങ്ങൾ പുനഃസ്ഥാപിച്ചു.';
+  }
+
+  @override
+  String get backupExportTitle => 'ബാക്കപ്പ് നിർമ്മിക്കുക';
+
+  @override
+  String get backupExportSelectItems => 'ഉൾപ്പെടുത്തേണ്ടവ തിരഞ്ഞെടുക്കുക:';
+
+  @override
+  String get backupIncludeRecents => 'സമീപകാല ഫയലുകളുടെ ചരിത്രം';
+
+  @override
+  String get backupIncludeFavorites => 'പ്രിയപ്പെട്ട ഫയലുകൾ';
+
+  @override
+  String get backupIncludeBookmarks => 'ബുക്ക്മാർക്കുകൾ';
+
+  @override
+  String get backupIncludeSettings => 'ആപ്പ് ക്രമീകരണങ്ങൾ';
+
+  @override
+  String backupIncludeFiles(int count) {
+    return 'തുറന്ന രേഖകൾ ($count എണ്ണം)';
+  }
+
+  @override
+  String get backupPasswordHeader => 'എൻക്രിപ്ഷൻ പാസ്‌വേഡ്:';
+
+  @override
+  String get backupPasswordLabel => 'പാസ്‌വേഡ്';
+
+  @override
+  String get backupConfirmPasswordLabel => 'പാസ്‌വേഡ് സ്ഥിരീകരിക്കുക';
+
+  @override
+  String get backupPasswordTooShort => 'പാസ്‌വേഡിന് കുറഞ്ഞത് 6 അക്ഷരങ്ങൾ വേണം.';
+
+  @override
+  String get backupPasswordsDoNotMatch => 'പാസ്‌വേഡുകൾ പൊരുത്തപ്പെടുന്നില്ല.';
+
+  @override
+  String get backupPasswordWarning =>
+      'ഈ പാസ്‌വേഡ് ഓർത്തു വെയ്ക്കുക. മറന്നുപോയാൽ ബാക്കപ്പ് ഫയൽ തുറക്കാൻ കഴിയില്ല.';
+
+  @override
+  String get backupCreateAction => 'ബാക്കപ്പ് ഉണ്ടാക്കുക';
+
+  @override
+  String get backupEnterPasswordTitle => 'ബാക്കപ്പ് അൺലോക്ക് ചെയ്യുക';
+
+  @override
+  String get backupEnterPasswordPrompt => 'ഈ .txdata ഫയലിന്റെ പാസ്‌വേഡ് നൽകുക:';
+
+  @override
+  String get backupUnlockAction => 'തുറക്കുക';
+
+  @override
+  String get backupRestoreTitle => 'ബാക്കപ്പ് പുനഃസ്ഥാപിക്കുക';
+
+  @override
+  String backupCreatedOn(String date) {
+    return 'ബാക്കപ്പ് നിർമ്മിച്ച തീയതി: $date';
+  }
+
+  @override
+  String get backupSelectRestoreItems => 'പുനഃസ്ഥാപിക്കേണ്ടവ തിരഞ്ഞെടുക്കുക:';
+
+  @override
+  String backupRecentsCount(int count) {
+    return 'സമീപകാല ഫയലുകൾ ($count എണ്ണം)';
+  }
+
+  @override
+  String backupFavoritesCount(int count) {
+    return 'പ്രിയപ്പെട്ടവ ($count എണ്ണം)';
+  }
+
+  @override
+  String backupBookmarksCount(int count) {
+    return 'ബുക്ക്മാർക്കുകൾ ($count എണ്ണം)';
+  }
+
+  @override
+  String backupSettingsCount(int count) {
+    return 'ആപ്പ് ക്രമീകരണങ്ങൾ ($count എണ്ണം)';
+  }
+
+  @override
+  String backupFilesCount(int count) {
+    return 'രേഖകൾ ($count എണ്ണം)';
+  }
+
+  @override
+  String get backupMergeModeTitle => 'നിലവിലുള്ള വിവരങ്ങളിലേക്ക് ചേർക്കുക';
+
+  @override
+  String get backupMergeModeSubtitle =>
+      'നിലവിലുള്ളവ നിലനിർത്തി പുതിയവ ചേർക്കുന്നു.';
+
+  @override
+  String get backupReplaceModeSubtitle =>
+      'നിലവിലുള്ളവ മാറ്റി ബാക്കപ്പിലെ വിവരങ്ങൾ മാത്രം നൽകുന്നു.';
+
+  @override
+  String get backupRestoreAction => 'പുനഃസ്ഥാപിക്കുക';
+
+  @override
+  String get vaultTitle => 'ബയോമെട്രിക് വോൾട്ട്';
+
+  @override
+  String get vaultLockAction => 'ബയോമെട്രിക് വോൾട്ടിൽ പൂട്ടുക';
+
+  @override
+  String get vaultUnlockAction => 'ഡോക്യുമെന്റ് തുറക്കുക';
+
+  @override
+  String get p2pFileTransferTitle => 'രേഖകൾ കൈമാറുക';
+
+  @override
+  String get columnSelectionTitle => 'കോളം & മൾട്ടി-കർസർ എഡിറ്റ്';
+
+  @override
+  String get columnSelectionAction => 'കോളം / മൾട്ടി-കർസർ';
+
+  @override
+  String columnSelectionLines(int start, int end, int count) {
+    return 'വരികൾ $start മുതൽ $end വരെ ($count വരികൾ)';
+  }
+
+  @override
+  String get columnSelectionStartLine => 'തുടക്ക വരി';
+
+  @override
+  String get columnSelectionEndLine => 'അവസാന വരി';
+
+  @override
+  String get columnSelectionAllLines => 'മുഴുവൻ വരികളും';
+
+  @override
+  String get columnSelectionCurrentLines => 'തിരഞ്ഞെടുത്തവ';
+
+  @override
+  String get columnModePrefixSuffix => 'പ്രിഫിക്‌സ് / സഫിക്‌സ്';
+
+  @override
+  String get columnModeBlock => 'കോളം ബ്ലോക്ക്';
+
+  @override
+  String get columnModeInsertAtCol => 'കോളത്തിൽ ചേർക്കുക';
+
+  @override
+  String get columnModeNumbering => 'നമ്പറിംഗ്';
+
+  @override
+  String get columnPrefixLabel => 'പ്രിഫിക്‌സ് (വരിയുടെ തുടക്കത്തിൽ)';
+
+  @override
+  String get columnSuffixLabel => 'സഫിക്‌സ് (വരിയുടെ ഒടുവിൽ)';
+
+  @override
+  String get columnStartColLabel => 'തുടക്ക കോളം';
+
+  @override
+  String get columnEndColLabel => 'അവസാന കോളം';
+
+  @override
+  String get columnInsertColLabel => 'കോളം നമ്പർ';
+
+  @override
+  String get columnInsertTextLabel => 'ചേർക്കേണ്ട ടെക്സ്റ്റ്';
+
+  @override
+  String get columnPadShorterLines => 'ചെറിയ വരികളിൽ സ്‌പേസ് ചേർക്കുക';
+
+  @override
+  String get columnNumberStart => 'തുടക്ക നമ്പർ';
+
+  @override
+  String get columnNumberStep => 'സ്റ്റെപ്പ്';
+
+  @override
+  String get columnNumberFormat => 'ഫോർമാറ്റ് (%d)';
+
+  @override
+  String get columnNumberPadding => 'പൂജ്യങ്ങൾ ചേർക്കുക';
+
+  @override
+  String get columnLivePreview => 'തത്സമയ പ്രിവ്യൂ';
+
+  @override
+  String get columnApplyAction => 'മാറ്റങ്ങൾ വരുത്തുക';
+
+  @override
+  String get columnCopyBlockAction => 'ബ്ലോക്ക് കോപ്പി ചെയ്യുക';
+
+  @override
+  String get columnCutBlockAction => 'ബ്ലോക്ക് കട്ട് ചെയ്യുക';
+
+  @override
+  String get columnDeleteBlockAction => 'ബ്ലോക്ക് മായ്ക്കുക';
+
+  @override
+  String get columnBlockCopied =>
+      'കോളം ബ്ലോക്ക് ക്ലിപ്പ്ബോർഡിലേക്ക് കോപ്പി ചെയ്തു';
+
+  @override
+  String columnEditsApplied(int count) {
+    return '$count വരികളിൽ മാറ്റങ്ങൾ വരുത്തി';
+  }
+
+  @override
+  String get columnTrimWhitespace => 'സ്‌പേസ് ഒഴിവാക്കുക';
+
+  @override
+  String get privacyShieldTitle => 'ഓഫ്‌ലൈൻ പ്രൈവസി ഷീൽഡ്';
+
+  @override
+  String get privacyShieldSubtitle => 'രഹസ്യ വിവരങ്ങളും PII-യും കണ്ടെത്തുന്നു';
+
+  @override
+  String get privacyShieldAction => 'പ്രൈവസി ഷീൽഡ് & സ്ക്രബ്ബിംഗ്';
+
+  @override
+  String get privacyModeRedact => 'മറയ്ക്കുക (Redact)';
+
+  @override
+  String get privacyModeHash => 'ഹാഷ് ചെയ്യുക (Hash)';
+
+  @override
+  String get privacyModeAnonymize => 'അജ്ഞാതമാക്കുക (Anonymize)';
+
+  @override
+  String get privacySelectAll => 'എല്ലാം തിരഞ്ഞെടുക്കുക';
+
+  @override
+  String get privacyTabDetections => 'കണ്ടെത്തിയവ';
+
+  @override
+  String get privacyTabPreview => 'പൂർണ്ണ പ്രിവ്യൂ';
+
+  @override
+  String get privacyCleanTitle => 'രഹസ്യ വിവരങ്ങളൊന്നും കണ്ടെത്തിയില്ല';
+
+  @override
+  String get privacyCleanDescription =>
+      'ഈ ഫയലിൽ ഇമെയിൽ, ഫോൺ നമ്പർ, കാർഡ് വിവരങ്ങൾ, ഐപി വിലാസങ്ങൾ എന്നിവയൊന്നും ഇല്ല.';
+
+  @override
+  String get privacyApplyToBuffer => 'രേഖയിൽ മാറ്റുക';
+
+  @override
+  String get privacyShareScrubbed => 'മറച്ച കോപ്പി പങ്കിടുക';
+
+  @override
+  String get privacyExportScrubbed => 'മറച്ച കോപ്പി സേവ് ചെയ്യുക';
+
+  @override
+  String get privacyShareFailed => 'ഡോക്യുമെന്റ് പങ്കിടാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String get liveDiffTitle => 'തത്സമയ ഡിഫ് & ഡെൽറ്റ സമന്വയം';
+
+  @override
+  String get liveDiffAction => 'തത്സമയ P2P ഡിഫ് & സമന്വയം';
+
+  @override
+  String get liveDiffAutoMerge => 'ഓട്ടോ-മെർജ്ജ്';
+
+  @override
+  String get liveDiffAcceptMine => 'എന്റേത് സ്വീകരിക്കുക';
+
+  @override
+  String get liveDiffAcceptPeer => 'മറുഭാഗത്തിന്റേത് സ്വീകരിക്കുക';
+
+  @override
+  String get liveDiffSideBySide => 'വശങ്ങളിലായി കാണുക';
+
+  @override
+  String get liveDiffUnified => 'ഒരുമിച്ചു കാണുക';
+
+  @override
+  String get liveDiffPreview => 'പ്രിവ്യൂ';
+
+  @override
+  String get liveDiffPushToPeer => 'മറുഭാഗത്തേക്ക് അയക്കുക';
+
+  @override
+  String get liveDiffSaveMerged => 'യോജിപ്പിച്ച ഫയൽ സേവ് ചെയ്യുക';
 }

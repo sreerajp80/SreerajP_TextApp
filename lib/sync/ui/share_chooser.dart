@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../sync_constants.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/sync/sync_constants.dart';
 
 /// "Choose what to share" panel (arch §9.6, host tab 2).
 ///
@@ -13,7 +13,8 @@ class ShareChooser extends StatefulWidget {
   final bool connected;
   final bool sending;
   final void Function() onFullSync;
-  final void Function(List<String> categories, bool includeSettings) onSelective;
+  final void Function(List<String> categories, bool includeSettings)
+  onSelective;
 
   /// Categories pre-checked when the panel opens (task 11.5). Defaults to every
   /// category when null. Always narrowed to the known categories.
@@ -91,8 +92,10 @@ class _ShareChooserState extends State<ShareChooser> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(l10n.syncChooseWhatToShare,
-                    style: theme.textTheme.titleMedium),
+                Text(
+                  l10n.syncChooseWhatToShare,
+                  style: theme.textTheme.titleMedium,
+                ),
                 const SizedBox(height: 8),
                 for (final category in SyncConstants.allCategories)
                   CheckboxListTile(
@@ -102,12 +105,12 @@ class _ShareChooserState extends State<ShareChooser> {
                     value: _selected.contains(category),
                     onChanged: enabled
                         ? (v) => setState(() {
-                              if (v == true) {
-                                _selected.add(category);
-                              } else {
-                                _selected.remove(category);
-                              }
-                            })
+                            if (v == true) {
+                              _selected.add(category);
+                            } else {
+                              _selected.remove(category);
+                            }
+                          })
                         : null,
                   ),
                 CheckboxListTile(
@@ -135,9 +138,9 @@ class _ShareChooserState extends State<ShareChooser> {
                 OutlinedButton.icon(
                   onPressed: enabled && _selected.isNotEmpty
                       ? () => widget.onSelective(
-                            _selected.toList(growable: false),
-                            _includeSettings,
-                          )
+                          _selected.toList(growable: false),
+                          _includeSettings,
+                        )
                       : null,
                   icon: const Icon(Icons.send_outlined),
                   label: Text(l10n.syncSendSelected),

@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../metadata/file_metadata.dart';
-import '../storage/saf_service.dart';
-import 'atomic_saver.dart';
-import 'encoding.dart';
+import 'package:text_data/core/metadata/file_metadata.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/core/editor/atomic_saver.dart';
+import 'package:text_data/core/editor/encoding.dart';
 
 /// Dependency-injection providers for the shared editor services built in
 /// Phase 3. Phase 4 (TXT) is the first consumer; later format modules reuse the
@@ -14,8 +14,9 @@ import 'encoding.dart';
 /// directly — these providers only wire them into the widget tree.
 
 /// The single [TextCodecService] used for all encode/decode across formats.
-final textCodecServiceProvider =
-    Provider<TextCodecService>((ref) => const TextCodecService());
+final textCodecServiceProvider = Provider<TextCodecService>(
+  (ref) => const TextCodecService(),
+);
 
 /// The atomic saver (encode → gate → single verified write).
 final atomicSaverProvider = Provider<AtomicSaver>(

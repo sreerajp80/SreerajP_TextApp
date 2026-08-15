@@ -30,18 +30,15 @@ class XmlParseResult {
   });
 
   const XmlParseResult.valid(XmlDocument document)
-      : this._(ok: true, document: document);
+    : this._(ok: true, document: document);
 
-  const XmlParseResult.invalid(
-    String message, {
-    int line = 0,
-    int column = 0,
-  }) : this._(
-          ok: false,
-          errorMessage: message,
-          errorLine: line,
-          errorColumn: column,
-        );
+  const XmlParseResult.invalid(String message, {int line = 0, int column = 0})
+    : this._(
+        ok: false,
+        errorMessage: message,
+        errorLine: line,
+        errorColumn: column,
+      );
 }
 
 /// A thin, never-throwing wrapper over the `xml` package's [XmlDocument.parse]
@@ -98,8 +95,7 @@ class XmlDocumentParser {
   void _stripIndentWhitespace(XmlNode node) {
     final hasElementChildren = node.children.any((c) => c is XmlElement);
     if (hasElementChildren) {
-      node.children
-          .removeWhere((c) => c is XmlText && c.value.trim().isEmpty);
+      node.children.removeWhere((c) => c is XmlText && c.value.trim().isEmpty);
     }
     for (final child in node.children) {
       _stripIndentWhitespace(child);

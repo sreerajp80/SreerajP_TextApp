@@ -1,12 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/editor/editor_settings_controller.dart';
-import '../../core/storage/device_memory.dart';
-import '../../core/storage/key_value_store.dart';
-import '../../core/storage/saf_service.dart';
-import 'document_tab.dart';
-import 'over_limit_behavior.dart';
-import 'tabs_persistence.dart';
+import 'package:text_data/core/editor/editor_settings_controller.dart';
+import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
+import 'package:text_data/core/storage/device_memory.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/shell/tabs/over_limit_behavior.dart';
+import 'package:text_data/shell/tabs/tabs_persistence.dart';
 
 /// Result of trying to open a file into a tab.
 enum OpenOutcome {
@@ -286,6 +287,16 @@ class TabsController extends Notifier<TabsState> {
     return true;
   }
 
+  /// Closes an ephemeral tab that has just been burned (Feature 9).
+  ///
+  /// Unlike [closeTab] this never consults the unsaved-edits guard. That is not
+  /// a hole in the "never lose edits silently" rule (CLAUDE.md §3.6): marking a
+  /// tab ephemeral **is** the user's explicit instruction to throw the document
+  /// away, and the sheet that sets the mark says so before it is applied.
+  void burnTab(String id) {
+    _removeTabs({id});
+  }
+
   /// Closes every other **saved** tab. Unsaved tabs are kept (never closed
   /// silently). Returns the ids left unclosed because they were dirty.
   List<String> closeOthers(String keepId, {bool force = false}) {
@@ -355,7 +366,21 @@ class TabsController extends Notifier<TabsState> {
 
   void _save() {
     // Fire-and-forget; persistence failures must never break the workspace.
-    _persistence.save(state.tabs);
+    //
+    // Ephemeral tabs are left out of the saved set (Feature 9): writing one
+    // would leave the file's name and URI on disk and bring the document back
+    // on the next launch — the opposite of what the user asked for.
+    _persistence.save(state.tabs, excludeIds: _ephemeralIds());
+  }
+
+  /// Ids of tabs currently marked ephemeral. Falls back to an empty set when the
+  /// ephemeral controller is not available (tests that build tabs alone).
+  Set<String> _ephemeralIds() {
+    try {
+      return ref.read(ephemeralControllerProvider.notifier).ephemeralTabIds;
+    } catch (_) {
+      return const {};
+    }
   }
 }
 

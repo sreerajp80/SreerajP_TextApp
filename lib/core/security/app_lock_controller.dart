@@ -1,10 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../shell/settings/security_settings.dart';
-import 'app_lock_hasher.dart';
-import 'app_lock_repository.dart';
-import 'biometric_service.dart';
-import 'security_providers.dart';
+import 'package:text_data/core/audit/audit_constants.dart';
+import 'package:text_data/core/audit/audit_hooks.dart';
+import 'package:text_data/core/audit/audit_providers.dart';
+import 'package:text_data/core/audit/audit_settings.dart';
+import 'package:text_data/shell/settings/security_settings.dart';
+import 'package:text_data/core/security/app_lock_hasher.dart';
+import 'package:text_data/core/security/app_lock_repository.dart';
+import 'package:text_data/core/security/biometric_service.dart';
+import 'package:text_data/core/security/security_providers.dart';
 
 /// Runtime app-lock state for this app session (task 13.2).
 ///
@@ -29,6 +35,17 @@ class AppLockController extends Notifier<AppLockState> {
   SecuritySettingsController get _settings =>
       ref.read(securitySettingsProvider.notifier);
 
+  void _recordSecurityAudit(String eventType, [String? detail]) {
+    unawaited(
+      AuditHooks.onSecurityEvent(
+        service: ref.read(auditServiceProvider.future),
+        enabled: ref.read(auditEnabledProvider),
+        eventType: eventType,
+        detail: detail,
+      ),
+    );
+  }
+
   @override
   AppLockState build() {
     // Read once at start (not watch) so this controller owns the lock state and
@@ -48,6 +65,8 @@ class AppLockController extends Notifier<AppLockState> {
     await _repo.setRecovery(recovery);
     _settings.setAppLockEnabled(true);
     state = const AppLockState(locked: false);
+    _recordSecurityAudit(AuditEventType.securityLockToggle, 'App lock enabled');
+    _recordSecurityAudit(AuditEventType.securityPinChange, 'Initial PIN set');
     return recovery;
   }
 
@@ -56,10 +75,17 @@ class AppLockController extends Notifier<AppLockState> {
     await _repo.clearAll();
     _settings.setAppLockEnabled(false);
     state = const AppLockState(locked: false);
+    _recordSecurityAudit(
+      AuditEventType.securityLockToggle,
+      'App lock disabled',
+    );
   }
 
   /// Changes the PIN (app-lock stays on). Does not change the recovery code.
-  Future<void> changePin(String newPin) => _repo.setPin(newPin);
+  Future<void> changePin(String newPin) async {
+    await _repo.setPin(newPin);
+    _recordSecurityAudit(AuditEventType.securityPinChange, 'PIN changed');
+  }
 
   /// Regenerates the recovery code and returns the new plaintext **once**.
   Future<String> regenerateRecoveryCode() async {
@@ -98,6 +124,10 @@ class AppLockController extends Notifier<AppLockState> {
     final recovery = AppLockHasher.generateRecoveryCode();
     await _repo.setRecovery(recovery);
     state = const AppLockState(locked: false);
+    _recordSecurityAudit(
+      AuditEventType.securityPinChange,
+      'PIN reset via recovery code',
+    );
     return recovery;
   }
 
@@ -110,6 +140,4 @@ class AppLockController extends Notifier<AppLockState> {
 }
 
 final appLockControllerProvider =
-    NotifierProvider<AppLockController, AppLockState>(
-  AppLockController.new,
-);
+    NotifierProvider<AppLockController, AppLockState>(AppLockController.new);

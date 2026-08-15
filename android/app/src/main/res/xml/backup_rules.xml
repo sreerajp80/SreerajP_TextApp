@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 11 and below (API 30 and under) backup rules, used together with
+  android:allowBackup="false" in the manifest.
+
+  Same answer as data_extraction_rules.xml, in the older format: nothing in
+  app storage may be backed up off the device. See that file and
+  docs/security.md section 10.4 for the reasoning.
+-->
+<full-backup-content>
+    <exclude domain="root" />
+    <exclude domain="file" />
+    <exclude domain="database" />
+    <exclude domain="sharedpref" />
+    <exclude domain="external" />
+</full-backup-content>

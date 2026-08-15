@@ -3,16 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../core/editor/encoding.dart';
-import '../../core/storage/saf_exceptions.dart';
-import '../../core/storage/saf_service.dart';
-import '../../l10n/app_localizations.dart';
-import 'json_diff.dart';
-import 'json_document_session.dart';
-import 'json_parser.dart';
-import 'json_path.dart';
-import 'json_quick_fix.dart';
-import 'json_schema_validator.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/json/json_diff.dart';
+import 'package:text_data/formats/json/json_document_session.dart';
+import 'package:text_data/formats/json/json_parser.dart';
+import 'package:text_data/formats/json/json_path.dart';
+import 'package:text_data/formats/json/json_quick_fix.dart';
+import 'package:text_data/formats/json/json_schema_validator.dart';
 
 /// A bottom sheet to run a JSONPath query against the document and jump to /
 /// copy matches (task 8.3).
@@ -30,7 +30,8 @@ Future<void> showJsonPathSheet(
     isScrollControlled: true,
     builder: (context) => Padding(
       padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom),
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: _JsonPathBody(session: session, initialQuery: initialQuery),
     ),
   );
@@ -47,8 +48,9 @@ class _JsonPathBody extends StatefulWidget {
 }
 
 class _JsonPathBodyState extends State<_JsonPathBody> {
-  late final _controller =
-      TextEditingController(text: widget.initialQuery ?? r'$..');
+  late final _controller = TextEditingController(
+    text: widget.initialQuery ?? r'$..',
+  );
   String? _error;
   List<String> _matches = const [];
 
@@ -90,8 +92,10 @@ class _JsonPathBodyState extends State<_JsonPathBody> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(l10n.jsonPathTitle,
-                style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              l10n.jsonPathTitle,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -112,8 +116,10 @@ class _JsonPathBodyState extends State<_JsonPathBody> {
             ),
             const SizedBox(height: 8),
             if (_error != null)
-              Text(_error!,
-                  style: TextStyle(color: Theme.of(context).colorScheme.error))
+              Text(
+                _error!,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              )
             else
               Text(l10n.xmlMatchCount(_matches.length)),
             const SizedBox(height: 8),
@@ -184,8 +190,9 @@ class _ValidateBodyState extends State<_ValidateBody> {
     }
     SafFile file;
     try {
-      file = await widget.saf
-          .pickFile(mimeTypes: const ['application/json', 'text/*']);
+      file = await widget.saf.pickFile(
+        mimeTypes: const ['application/json', 'text/*'],
+      );
     } on SafCancelled {
       return;
     } on SafException catch (e) {
@@ -232,11 +239,13 @@ class _ValidateBodyState extends State<_ValidateBody> {
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: Text(wellFormed
-                      ? l10n.jsonWellFormed
-                      : (line != null
-                          ? l10n.jsonNotValidWithLine(line, error)
-                          : l10n.jsonNotValidNoLine(error))),
+                  child: Text(
+                    wellFormed
+                        ? l10n.jsonWellFormed
+                        : (line != null
+                              ? l10n.jsonNotValidWithLine(line, error)
+                              : l10n.jsonNotValidNoLine(error)),
+                  ),
                 ),
               ],
             ),
@@ -247,14 +256,13 @@ class _ValidateBodyState extends State<_ValidateBody> {
               icon: const Icon(Icons.rule),
               label: Text(l10n.jsonValidateAgainstSchema),
             ),
-            if (_note != null) ...[
-              const SizedBox(height: 8),
-              Text(_note!),
-            ],
+            if (_note != null) ...[const SizedBox(height: 8), Text(_note!)],
             if (_schemaErrors != null && _schemaErrors!.isNotEmpty) ...[
               const SizedBox(height: 8),
-              Text(l10n.jsonSchemaErrors(_schemaErrors!.length),
-                  style: theme.textTheme.titleSmall),
+              Text(
+                l10n.jsonSchemaErrors(_schemaErrors!.length),
+                style: theme.textTheme.titleSmall,
+              ),
               Flexible(
                 child: ListView(
                   shrinkWrap: true,
@@ -365,9 +373,7 @@ Future<void> showJsonDiffSheet(
   final l10n = AppLocalizations.of(context);
   final root = session.root;
   if (root == null) {
-    messenger.showSnackBar(
-      SnackBar(content: Text(l10n.jsonFixBeforeCompare)),
-    );
+    messenger.showSnackBar(SnackBar(content: Text(l10n.jsonFixBeforeCompare)));
     return;
   }
   SafFile file;
@@ -386,9 +392,7 @@ Future<void> showJsonDiffSheet(
     final text = codec.detectAndDecode(bytes).text;
     final other = const JsonParser().parse(text, lenient: true);
     if (!other.ok || other.root == null) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.jsonOtherNotValid)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.jsonOtherNotValid)));
       return;
     }
     diffResult = const JsonDiff().compare(root, other.root!);
@@ -425,21 +429,41 @@ class _DiffBody extends StatelessWidget {
           children: [
             Text(l10n.jsonDiffWith(name), style: theme.textTheme.titleMedium),
             const SizedBox(height: 4),
-            Text(result.isEmpty
-                ? l10n.jsonIdentical
-                : l10n.jsonDiffSummary(result.added.length,
-                    result.removed.length, result.changed.length)),
+            Text(
+              result.isEmpty
+                  ? l10n.jsonIdentical
+                  : l10n.jsonDiffSummary(
+                      result.added.length,
+                      result.removed.length,
+                      result.changed.length,
+                    ),
+            ),
             const SizedBox(height: 8),
             Flexible(
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  ..._section(theme, l10n, l10n.jsonDiffAdded, result.added,
-                      theme.colorScheme.primary),
-                  ..._section(theme, l10n, l10n.jsonDiffRemoved, result.removed,
-                      theme.colorScheme.error),
-                  ..._section(theme, l10n, l10n.jsonDiffChanged, result.changed,
-                      theme.colorScheme.tertiary),
+                  ..._section(
+                    theme,
+                    l10n,
+                    l10n.jsonDiffAdded,
+                    result.added,
+                    theme.colorScheme.primary,
+                  ),
+                  ..._section(
+                    theme,
+                    l10n,
+                    l10n.jsonDiffRemoved,
+                    result.removed,
+                    theme.colorScheme.error,
+                  ),
+                  ..._section(
+                    theme,
+                    l10n,
+                    l10n.jsonDiffChanged,
+                    result.changed,
+                    theme.colorScheme.tertiary,
+                  ),
                 ],
               ),
             ),
@@ -449,14 +473,21 @@ class _DiffBody extends StatelessWidget {
     );
   }
 
-  List<Widget> _section(ThemeData theme, AppLocalizations l10n, String title,
-      List<String> paths, Color color) {
+  List<Widget> _section(
+    ThemeData theme,
+    AppLocalizations l10n,
+    String title,
+    List<String> paths,
+    Color color,
+  ) {
     if (paths.isEmpty) return const [];
     return [
       Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 4),
-        child: Text(l10n.jsonDiffSection(title, paths.length),
-            style: theme.textTheme.titleSmall?.copyWith(color: color)),
+        child: Text(
+          l10n.jsonDiffSection(title, paths.length),
+          style: theme.textTheme.titleSmall?.copyWith(color: color),
+        ),
       ),
       for (final path in paths)
         Text(path, style: const TextStyle(fontFamily: 'monospace')),

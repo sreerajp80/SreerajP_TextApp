@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 12+ (API 31 and above) backup rules.
+
+  This app is offline-first with no backend. App data must never leave the
+  device without an explicit user action, so both channels are fully excluded:
+
+    * cloud-backup   - Android Auto Backup upload to the user's Google Drive.
+    * device-transfer - direct copy to a new device during setup.
+
+  The serious item is the drafts folder under the app support directory: a
+  draft holds a plain copy of the text of a document the user was editing, and
+  it is kept until that document is saved or discarded.
+
+  The user's own documents are not affected by this. They live in shared
+  storage behind the Storage Access Framework, never inside app storage.
+  Recents and bookmarks hold SAF persistable URI permissions, which are tied to
+  this device and install and would not work if restored elsewhere. To move
+  data between devices, use the app's own LAN peer-to-peer sync.
+
+  See docs/security.md section 10.4.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" />
+        <exclude domain="file" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="root" />
+        <exclude domain="file" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+    </device-transfer>
+</data-extraction-rules>

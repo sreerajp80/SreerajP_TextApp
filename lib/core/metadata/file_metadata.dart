@@ -1,5 +1,5 @@
-import '../editor/encoding.dart';
-import '../storage/saf_service.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/core/storage/saf_service.dart';
 
 /// The facts the app shows about an open file (architecture.md §6, §9 "About").
 ///
@@ -28,9 +28,7 @@ class FileMetadata {
     this.formatFields = const {},
   });
 
-  FileMetadata copyWith({
-    Map<String, String>? formatFields,
-  }) {
+  FileMetadata copyWith({Map<String, String>? formatFields}) {
     return FileMetadata(
       name: name,
       size: size,
@@ -82,8 +80,9 @@ class MetadataService {
     Map<String, String> formatFields = const {},
   }) async {
     final millis = await _saf.modifiedTime(file.uri);
-    final modified =
-        millis == null ? null : DateTime.fromMillisecondsSinceEpoch(millis);
+    final modified = millis == null
+        ? null
+        : DateTime.fromMillisecondsSinceEpoch(millis);
     return build(
       file: file,
       decoded: decoded,

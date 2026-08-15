@@ -1,36 +1,40 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/editor/atomic_saver.dart';
-import '../../core/editor/pinch_to_zoom_area.dart';
-import '../../core/editor/unsaved_changes.dart';
-import '../../core/large_file/large_file_policy.dart';
-import '../../l10n/app_localizations.dart';
-import '../../formats/csv/csv_document_view.dart';
-import '../../formats/csv/csv_session_manager.dart';
-import '../../formats/csv/csv_toolbar.dart';
-import '../../formats/format_dispatch.dart';
-import '../../formats/json/json_document_view.dart';
-import '../../formats/json/json_session_manager.dart';
-import '../../formats/json/json_toolbar.dart';
-import '../../formats/markdown/md_document_view.dart';
-import '../../formats/markdown/md_session_manager.dart';
-import '../../formats/markdown/md_toolbar.dart';
-import '../../formats/txt/txt_document_view.dart';
-import '../../formats/txt/txt_session_manager.dart';
-import '../../formats/txt/txt_toolbar.dart';
-import '../../formats/xml/xml_document_view.dart';
-import '../../formats/xml/xml_session_manager.dart';
-import '../../formats/xml/xml_toolbar.dart';
-import 'degraded_document_view.dart';
-import 'document_tab.dart';
-import 'file_changed_banner.dart';
-import 'placeholder_document_view.dart';
-import 'read_only_lock_button.dart';
-import 'session_retention.dart';
-import 'tab_strip.dart';
-import 'tabs_controller.dart';
-import 'unsaved_changes_dialog.dart';
+import 'package:text_data/core/editor/atomic_saver.dart';
+import 'package:text_data/core/editor/pinch_to_zoom_area.dart';
+import 'package:text_data/core/editor/unsaved_changes.dart';
+import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
+import 'package:text_data/core/large_file/large_file_policy.dart';
+import 'package:text_data/core/vault/ui/vault_unlock_view.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/csv/csv_document_view.dart';
+import 'package:text_data/formats/csv/csv_session_manager.dart';
+import 'package:text_data/formats/csv/csv_toolbar.dart';
+import 'package:text_data/formats/format_dispatch.dart';
+import 'package:text_data/formats/json/json_document_view.dart';
+import 'package:text_data/formats/json/json_session_manager.dart';
+import 'package:text_data/formats/json/json_toolbar.dart';
+import 'package:text_data/formats/markdown/md_document_view.dart';
+import 'package:text_data/formats/markdown/md_session_manager.dart';
+import 'package:text_data/formats/markdown/md_toolbar.dart';
+import 'package:text_data/formats/txt/txt_document_view.dart';
+import 'package:text_data/formats/txt/txt_session_manager.dart';
+import 'package:text_data/formats/txt/txt_toolbar.dart';
+import 'package:text_data/formats/xml/xml_document_view.dart';
+import 'package:text_data/formats/xml/xml_session_manager.dart';
+import 'package:text_data/formats/xml/xml_toolbar.dart';
+import 'package:text_data/shell/tabs/degraded_document_view.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/shell/tabs/file_changed_banner.dart';
+import 'package:text_data/shell/tabs/placeholder_document_view.dart';
+import 'package:text_data/shell/tabs/read_only_lock_button.dart';
+import 'package:text_data/shell/tabs/session_retention.dart';
+import 'package:text_data/shell/tabs/tab_strip.dart';
+import 'package:text_data/shell/tabs/tabs_controller.dart';
+import 'package:text_data/shell/tabs/unsaved_changes_dialog.dart';
 
 /// The open-documents workspace: the tab strip plus the active document body,
 /// with edge-bound left/right swipe to move between tabs (tasks 2.5, 2.7).
@@ -65,6 +69,14 @@ class TabsWorkspace extends ConsumerWidget {
     ref.read(jsonSessionManagerProvider).retainOnly(openIds);
     ref.read(csvSessionManagerProvider).retainOnly(openIds);
     ref.read(xmlSessionManagerProvider).retainOnly(openIds);
+
+    // Burn the traces of any ephemeral tab that left the workspace by another
+    // route — the × button, "close all", or the tab cap closing the least
+    // recently used one (Feature 9). How the tab closed does not change the
+    // user's instruction that this document leave nothing behind.
+    unawaited(
+      ref.read(ephemeralControllerProvider.notifier).syncOpenTabs(openIds),
+    );
 
     // Release heavy state for clean background tabs beyond the loaded budget,
     // so several large files stay in check (Phase 10.3). They rebuild from the
@@ -278,6 +290,8 @@ class _DocumentBody extends StatelessWidget {
         return CsvDocumentView(tab: tab);
       case DocumentFormat.xml:
         return XmlDocumentView(tab: tab);
+      case DocumentFormat.vault:
+        return VaultUnlockView(tab: tab);
       default:
         return PlaceholderDocumentView(tab: tab);
     }
@@ -325,7 +339,7 @@ class _DocumentToolbar extends StatelessWidget {
         children: [ReadOnlyLockButton()],
       ),
     };
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(color: theme.dividerColor, width: 0.5),

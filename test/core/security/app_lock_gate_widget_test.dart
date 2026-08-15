@@ -27,15 +27,14 @@ void main() {
       ProviderScope(
         overrides: [
           keyValueStoreSyncProvider.overrideWithValue(store),
-          biometricServiceProvider
-              .overrideWithValue(const UnavailableBiometricService()),
+          biometricServiceProvider.overrideWithValue(
+            const UnavailableBiometricService(),
+          ),
           windowSecurityProvider.overrideWithValue(window),
         ],
         child: localizedApp(
-          home: ScreenshotProtector(
-            child: AppLockGate(
-              child: const Scaffold(body: Text('SECRET-CHILD')),
-            ),
+          home: const ScreenshotProtector(
+            child: AppLockGate(child: Scaffold(body: Text('SECRET-CHILD'))),
           ),
         ),
       ),
@@ -44,9 +43,12 @@ void main() {
     return window;
   }
 
-  testWidgets('locked: shows the lock screen and hides the app', (tester) async {
-    final store =
-        await inMemoryKeyValueStore({'security.app_lock_enabled': true});
+  testWidgets('locked: shows the lock screen and hides the app', (
+    tester,
+  ) async {
+    final store = await inMemoryKeyValueStore({
+      'security.app_lock_enabled': true,
+    });
     await pumpGate(tester, store: store);
 
     expect(find.text('Enter your PIN'), findsOneWidget);
@@ -61,19 +63,21 @@ void main() {
     expect(find.text('Enter your PIN'), findsNothing);
   });
 
-  testWidgets('screenshot protection on -> FLAG_SECURE set true',
-      (tester) async {
+  testWidgets('screenshot protection on -> FLAG_SECURE set true', (
+    tester,
+  ) async {
     final store = await inMemoryKeyValueStore(); // protection on by default
     final window = await pumpGate(tester, store: store);
 
     expect(window.calls, contains(true));
   });
 
-  testWidgets('screenshot protection off -> FLAG_SECURE set false',
-      (tester) async {
-    final store = await inMemoryKeyValueStore(
-      {'security.screenshot_protection': false},
-    );
+  testWidgets('screenshot protection off -> FLAG_SECURE set false', (
+    tester,
+  ) async {
+    final store = await inMemoryKeyValueStore({
+      'security.screenshot_protection': false,
+    });
     final window = await pumpGate(tester, store: store);
 
     expect(window.calls, contains(false));

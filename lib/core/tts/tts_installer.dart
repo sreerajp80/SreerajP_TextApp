@@ -45,5 +45,6 @@ class ChannelTtsInstaller implements TtsInstaller {
   }
 }
 
-final ttsInstallerProvider =
-    Provider<TtsInstaller>((ref) => const ChannelTtsInstaller());
+final ttsInstallerProvider = Provider<TtsInstaller>(
+  (ref) => const ChannelTtsInstaller(),
+);

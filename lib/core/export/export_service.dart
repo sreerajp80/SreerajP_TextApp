@@ -1,5 +1,5 @@
-import 'export_target.dart';
-import 'format_exporter.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/core/export/format_exporter.dart';
 
 /// The single conversion service (task 5.4).
 ///
@@ -12,7 +12,7 @@ class ExportService {
   final Map<String, FormatExporter> _exporters;
 
   ExportService(List<FormatExporter> exporters)
-      : _exporters = {for (final e in exporters) e.formatId: e};
+    : _exporters = {for (final e in exporters) e.formatId: e};
 
   /// The targets [formatId] can produce, or an empty set if the format is not
   /// registered.
@@ -35,7 +35,7 @@ class ExportService {
   ) async {
     final exporter = _exporters[formatId];
     if (exporter == null) {
-      throw UnsupportedExportException(
+      throw const UnsupportedExportException(
         'This file type cannot be exported yet.',
       );
     }

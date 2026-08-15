@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xml/xml.dart';
 
-import '../../core/theme/theme_controller.dart';
-import '../../l10n/app_localizations.dart';
-import 'xml_document_session.dart';
+import 'package:text_data/core/theme/theme_controller.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/xml/xml_document_session.dart';
 
 /// The colour-coded, indented **pretty** view of an XML document (task 9.1).
 ///
@@ -51,21 +51,47 @@ class XmlPrettyView extends ConsumerWidget {
     );
   }
 
-  void _build(XmlNode node, List<InlineSpan> out, _XmlColors colors,
-      String unit, int depth) {
+  void _build(
+    XmlNode node,
+    List<InlineSpan> out,
+    _XmlColors colors,
+    String unit,
+    int depth,
+  ) {
     final indent = unit * depth;
     if (node is XmlElement) {
-      out.add(TextSpan(text: '$indent<', style: TextStyle(color: colors.punctuation)));
-      out.add(TextSpan(text: node.name.qualified, style: TextStyle(color: colors.tag)));
+      out.add(
+        TextSpan(
+          text: '$indent<',
+          style: TextStyle(color: colors.punctuation),
+        ),
+      );
+      out.add(
+        TextSpan(
+          text: node.name.qualified,
+          style: TextStyle(color: colors.tag),
+        ),
+      );
       for (final attribute in node.attributes) {
         out.add(const TextSpan(text: ' '));
-        out.add(TextSpan(
+        out.add(
+          TextSpan(
             text: attribute.name.qualified,
-            style: TextStyle(color: colors.attrName)));
-        out.add(TextSpan(text: '=', style: TextStyle(color: colors.punctuation)));
-        out.add(TextSpan(
+            style: TextStyle(color: colors.attrName),
+          ),
+        );
+        out.add(
+          TextSpan(
+            text: '=',
+            style: TextStyle(color: colors.punctuation),
+          ),
+        );
+        out.add(
+          TextSpan(
             text: '"${_escape(attribute.value)}"',
-            style: TextStyle(color: colors.attrValue)));
+            style: TextStyle(color: colors.attrValue),
+          ),
+        );
       }
 
       final elementChildren = node.childElements.toList();
@@ -75,58 +101,123 @@ class XmlPrettyView extends ConsumerWidget {
           .toList();
 
       if (significant.isEmpty) {
-        out.add(TextSpan(text: '/>\n', style: TextStyle(color: colors.punctuation)));
+        out.add(
+          TextSpan(
+            text: '/>\n',
+            style: TextStyle(color: colors.punctuation),
+          ),
+        );
         return;
       }
-      out.add(TextSpan(text: '>', style: TextStyle(color: colors.punctuation)));
+      out.add(
+        TextSpan(
+          text: '>',
+          style: TextStyle(color: colors.punctuation),
+        ),
+      );
       if (textOnly) {
         for (final child in significant) {
           _inline(child, out, colors);
         }
-        out.add(TextSpan(text: '</', style: TextStyle(color: colors.punctuation)));
-        out.add(TextSpan(text: node.name.qualified, style: TextStyle(color: colors.tag)));
-        out.add(TextSpan(text: '>\n', style: TextStyle(color: colors.punctuation)));
+        out.add(
+          TextSpan(
+            text: '</',
+            style: TextStyle(color: colors.punctuation),
+          ),
+        );
+        out.add(
+          TextSpan(
+            text: node.name.qualified,
+            style: TextStyle(color: colors.tag),
+          ),
+        );
+        out.add(
+          TextSpan(
+            text: '>\n',
+            style: TextStyle(color: colors.punctuation),
+          ),
+        );
       } else {
         out.add(const TextSpan(text: '\n'));
         for (final child in significant) {
           _build(child, out, colors, unit, depth + 1);
         }
-        out.add(TextSpan(text: '$indent</', style: TextStyle(color: colors.punctuation)));
-        out.add(TextSpan(text: node.name.qualified, style: TextStyle(color: colors.tag)));
-        out.add(TextSpan(text: '>\n', style: TextStyle(color: colors.punctuation)));
+        out.add(
+          TextSpan(
+            text: '$indent</',
+            style: TextStyle(color: colors.punctuation),
+          ),
+        );
+        out.add(
+          TextSpan(
+            text: node.name.qualified,
+            style: TextStyle(color: colors.tag),
+          ),
+        );
+        out.add(
+          TextSpan(
+            text: '>\n',
+            style: TextStyle(color: colors.punctuation),
+          ),
+        );
       }
     } else if (node is XmlText) {
       final value = node.value.trim();
       if (value.isEmpty) return;
-      out.add(TextSpan(text: '$indent${_escape(value)}\n',
-          style: TextStyle(color: colors.text)));
+      out.add(
+        TextSpan(
+          text: '$indent${_escape(value)}\n',
+          style: TextStyle(color: colors.text),
+        ),
+      );
     } else if (node is XmlCDATA) {
-      out.add(TextSpan(
+      out.add(
+        TextSpan(
           text: '$indent<![CDATA[${node.value}]]>\n',
-          style: TextStyle(color: colors.cdata)));
+          style: TextStyle(color: colors.cdata),
+        ),
+      );
     } else if (node is XmlComment) {
-      out.add(TextSpan(
+      out.add(
+        TextSpan(
           text: '$indent<!--${node.value}-->\n',
-          style: TextStyle(color: colors.comment, fontStyle: FontStyle.italic)));
+          style: TextStyle(color: colors.comment, fontStyle: FontStyle.italic),
+        ),
+      );
     } else {
       // Declaration, processing instructions, doctype: render verbatim.
-      out.add(TextSpan(
+      out.add(
+        TextSpan(
           text: '$indent${node.toXmlString()}\n',
-          style: TextStyle(color: colors.punctuation)));
+          style: TextStyle(color: colors.punctuation),
+        ),
+      );
     }
   }
 
   /// Renders a text / CDATA child inline (inside a text-only element).
   void _inline(XmlNode node, List<InlineSpan> out, _XmlColors colors) {
     if (node is XmlText) {
-      out.add(TextSpan(text: _escape(node.value.trim()),
-          style: TextStyle(color: colors.text)));
+      out.add(
+        TextSpan(
+          text: _escape(node.value.trim()),
+          style: TextStyle(color: colors.text),
+        ),
+      );
     } else if (node is XmlCDATA) {
-      out.add(TextSpan(text: '<![CDATA[${node.value}]]>',
-          style: TextStyle(color: colors.cdata)));
+      out.add(
+        TextSpan(
+          text: '<![CDATA[${node.value}]]>',
+          style: TextStyle(color: colors.cdata),
+        ),
+      );
     } else if (node is XmlComment) {
-      out.add(TextSpan(text: '<!--${node.value}-->',
-          style: TextStyle(color: colors.comment, fontStyle: FontStyle.italic)));
+      out.add(
+        TextSpan(
+          text: '<!--${node.value}-->',
+          style: TextStyle(color: colors.comment, fontStyle: FontStyle.italic),
+        ),
+      );
     }
   }
 
@@ -151,8 +242,11 @@ class _InvalidNotice extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.rule_folder_outlined,
-                size: 48, color: theme.colorScheme.error),
+            Icon(
+              Icons.rule_folder_outlined,
+              size: 48,
+              color: theme.colorScheme.error,
+            ),
             const SizedBox(height: 12),
             Text(l10n.xmlNotWellFormedYet, style: theme.textTheme.titleMedium),
             const SizedBox(height: 4),
@@ -161,8 +255,9 @@ class _InvalidNotice extends StatelessWidget {
                   ? l10n.xmlProblemNearLine(line)
                   : l10n.xmlOpenEditorToFix,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),

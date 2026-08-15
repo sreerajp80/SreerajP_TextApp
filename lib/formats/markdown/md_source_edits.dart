@@ -88,8 +88,7 @@ class MdSourceEdits {
 
   /// Inserts a starter GFM table at the cursor, selecting the first header cell.
   static MdEdit table(String text, int start, int end) {
-    const block =
-        '| Column 1 | Column 2 |\n| --- | --- |\n| Cell | Cell |';
+    const block = '| Column 1 | Column 2 |\n| --- | --- |\n| Cell | Cell |';
     // "| " is 2 chars, then "Column 1" (8 chars).
     return _insertBlock(text, start, end, block, selStart: 2, selEnd: 10);
   }

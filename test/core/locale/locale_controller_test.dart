@@ -26,7 +26,9 @@ void main() {
   test('hydrates from a stored value', () async {
     final store = await inMemoryKeyValueStore();
     await store.setPlainString(
-        LocaleController.languageKey, AppLocale.malayalam.prefValue);
+      LocaleController.languageKey,
+      AppLocale.malayalam.prefValue,
+    );
     final container = containerWith(store);
     expect(container.read(localeControllerProvider), AppLocale.malayalam);
   });
@@ -38,8 +40,10 @@ void main() {
 
     controller.setLocale(AppLocale.english);
     expect(container.read(localeControllerProvider), AppLocale.english);
-    expect(store.getPlainString(LocaleController.languageKey),
-        AppLocale.english.prefValue);
+    expect(
+      store.getPlainString(LocaleController.languageKey),
+      AppLocale.english.prefValue,
+    );
   });
 
   test('a corrupt stored value falls back to system', () async {

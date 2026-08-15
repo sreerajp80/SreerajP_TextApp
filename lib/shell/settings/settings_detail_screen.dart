@@ -20,9 +20,12 @@ class SettingsDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: ListView(
-        padding: const EdgeInsets.only(top: 8, bottom: 24),
-        children: [child],
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.only(top: 8, bottom: 32),
+          children: [child],
+        ),
       ),
     );
   }

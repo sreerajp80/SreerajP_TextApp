@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'md_document_session.dart';
-import 'md_editor_surface.dart';
-import 'md_preview_view.dart';
+import 'package:text_data/formats/markdown/md_document_session.dart';
+import 'package:text_data/formats/markdown/md_editor_surface.dart';
+import 'package:text_data/formats/markdown/md_preview_view.dart';
 
 /// The split-screen dual view: the Markdown source and the live rendered result
 /// side by side (roadmap §4.4.1).
@@ -50,9 +50,18 @@ class MdLivePreview extends StatelessWidget {
         final usable = total - _dividerThickness;
         if (!usable.isFinite || usable <= 0) {
           return landscape
-              ? Row(children: [Expanded(child: editor), Expanded(child: preview)])
+              ? Row(
+                  children: [
+                    Expanded(child: editor),
+                    Expanded(child: preview),
+                  ],
+                )
               : Column(
-                  children: [Expanded(child: editor), Expanded(child: preview)]);
+                  children: [
+                    Expanded(child: editor),
+                    Expanded(child: preview),
+                  ],
+                );
         }
         final first = usable * session.splitRatio;
 

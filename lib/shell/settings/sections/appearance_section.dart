@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/locale/app_locale.dart';
-import '../../../core/locale/locale_controller.dart';
-import '../../../core/theme/app_fonts.dart';
-import '../../../core/theme/app_theme_mode.dart';
-import '../../../core/theme/theme_controller.dart';
-import '../../../core/theme/theme_settings.dart';
-import '../../../l10n/app_localizations.dart';
-import 'settings_widgets.dart';
+import 'package:text_data/core/locale/app_locale.dart';
+import 'package:text_data/core/locale/locale_controller.dart';
+import 'package:text_data/core/theme/app_fonts.dart';
+import 'package:text_data/core/theme/app_theme_mode.dart';
+import 'package:text_data/core/theme/theme_controller.dart';
+import 'package:text_data/core/theme/theme_settings.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/settings/sections/settings_widgets.dart';
 
 /// Appearance settings (task 11.1): theme, font size, font family, line spacing,
 /// and the default word-wrap for text formats.

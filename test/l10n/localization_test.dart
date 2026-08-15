@@ -45,8 +45,9 @@ void main() {
     expect(l10n.filesAutoCap(1), isNot(l10n.filesAutoCap(5)));
   });
 
-  testWidgets('AppLocalizations resolves and renders localized text',
-      (tester) async {
+  testWidgets('AppLocalizations resolves and renders localized text', (
+    tester,
+  ) async {
     late AppLocalizations l10n;
     await tester.pumpWidget(
       MaterialApp(

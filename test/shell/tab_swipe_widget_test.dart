@@ -13,9 +13,10 @@ import '../support/test_support.dart';
 // A non-text file so the body is the placeholder (this test checks edge-swipe
 // tab switching, not the TXT editor).
 SafFile file(String id) => SafFile(
-    uri: 'content://$id',
-    displayName: '$id.bin',
-    mimeType: 'application/octet-stream');
+  uri: 'content://$id',
+  displayName: '$id.bin',
+  mimeType: 'application/octet-stream',
+);
 
 void main() {
   Future<ProviderContainer> mountWithTwoTabs(WidgetTester tester) async {
@@ -24,8 +25,9 @@ void main() {
       overrides: [
         keyValueStoreSyncProvider.overrideWithValue(store),
         safServiceProvider.overrideWithValue(FakeSafService()),
-        deviceMemoryProvider
-            .overrideWithValue(const FakeDeviceMemory(4 * 1024 * 1024 * 1024)),
+        deviceMemoryProvider.overrideWithValue(
+          const FakeDeviceMemory(4 * 1024 * 1024 * 1024),
+        ),
       ],
     );
     addTearDown(container.dispose);
@@ -48,8 +50,10 @@ void main() {
     final container = await mountWithTwoTabs(tester);
 
     // Active tab is 'b' at start.
-    expect(container.read(tabsControllerProvider).activeTab?.displayName,
-        'b.bin');
+    expect(
+      container.read(tabsControllerProvider).activeTab?.displayName,
+      'b.bin',
+    );
 
     // Fling left on the right edge zone → next() → wraps to 'a'.
     await tester.fling(
@@ -59,26 +63,34 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(container.read(tabsControllerProvider).activeTab?.displayName,
-        'a.bin');
-  });
-
-  testWidgets('a swipe in the content centre does not switch tabs (edge-binding)',
-      (tester) async {
-    final container = await mountWithTwoTabs(tester);
-    expect(container.read(tabsControllerProvider).activeTab?.displayName,
-        'b.bin');
-
-    // Fling on the document body (centre) — no edge gesture zone there.
-    await tester.fling(
-      find.byType(PlaceholderDocumentView),
-      const Offset(-300, 0),
-      1000,
+    expect(
+      container.read(tabsControllerProvider).activeTab?.displayName,
+      'a.bin',
     );
-    await tester.pumpAndSettle();
-
-    // Still on 'b' — the centre swipe was ignored.
-    expect(container.read(tabsControllerProvider).activeTab?.displayName,
-        'b.bin');
   });
+
+  testWidgets(
+    'a swipe in the content centre does not switch tabs (edge-binding)',
+    (tester) async {
+      final container = await mountWithTwoTabs(tester);
+      expect(
+        container.read(tabsControllerProvider).activeTab?.displayName,
+        'b.bin',
+      );
+
+      // Fling on the document body (centre) — no edge gesture zone there.
+      await tester.fling(
+        find.byType(PlaceholderDocumentView),
+        const Offset(-300, 0),
+        1000,
+      );
+      await tester.pumpAndSettle();
+
+      // Still on 'b' — the centre swipe was ignored.
+      expect(
+        container.read(tabsControllerProvider).activeTab?.displayName,
+        'b.bin',
+      );
+    },
+  );
 }

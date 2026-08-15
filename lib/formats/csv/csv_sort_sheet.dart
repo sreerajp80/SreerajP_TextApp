@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'csv_document_session.dart';
-import 'csv_filter_sort.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:text_data/formats/csv/csv_filter_sort.dart';
 
 /// A sheet to build a multi-level sort (roadmap §4.2.1), e.g. "Department
 /// ascending, then Salary descending".
@@ -10,7 +10,10 @@ import 'csv_filter_sort.dart';
 /// The levels are edited in a working copy and only handed to the session when
 /// the user applies them, so a half-built hierarchy never reshuffles the grid
 /// underneath them.
-Future<void> showCsvSortSheet(BuildContext context, CsvDocumentSession session) {
+Future<void> showCsvSortSheet(
+  BuildContext context,
+  CsvDocumentSession session,
+) {
   return showModalBottomSheet<void>(
     context: context,
     showDragHandle: true,
@@ -36,8 +39,9 @@ class _SortBody extends StatefulWidget {
 }
 
 class _SortBodyState extends State<_SortBody> {
-  late final List<CsvSortSpec> _levels =
-      List<CsvSortSpec>.from(widget.session.sortSpecs);
+  late final List<CsvSortSpec> _levels = List<CsvSortSpec>.from(
+    widget.session.sortSpecs,
+  );
 
   int get _columnCount => widget.session.table.columnCount;
 
@@ -78,8 +82,10 @@ class _SortBodyState extends State<_SortBody> {
           child: Row(
             children: [
               Expanded(
-                child: Text(l10n.csvSortLevels,
-                    style: theme.textTheme.titleMedium),
+                child: Text(
+                  l10n.csvSortLevels,
+                  style: theme.textTheme.titleMedium,
+                ),
               ),
               if (_levels.isNotEmpty)
                 TextButton(
@@ -100,8 +106,9 @@ class _SortBodyState extends State<_SortBody> {
                   child: Text(
                     l10n.csvSortNoLevels,
                     textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyMedium
-                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
               for (var i = 0; i < _levels.length; i++) _level(l10n, i),
@@ -109,9 +116,11 @@ class _SortBodyState extends State<_SortBody> {
               OutlinedButton.icon(
                 onPressed: _levels.length >= _columnCount
                     ? null
-                    : () => setState(() => _levels.add(
+                    : () => setState(
+                        () => _levels.add(
                           CsvSortSpec(_nextFreeColumn, SortDirection.ascending),
-                        )),
+                        ),
+                      ),
                 icon: const Icon(Icons.add),
                 label: Text(l10n.csvSortAddLevel),
               ),
@@ -159,9 +168,9 @@ class _SortBodyState extends State<_SortBody> {
                   onPressed: index == 0
                       ? null
                       : () => setState(() {
-                            final moved = _levels.removeAt(index);
-                            _levels.insert(index - 1, moved);
-                          }),
+                          final moved = _levels.removeAt(index);
+                          _levels.insert(index - 1, moved);
+                        }),
                 ),
                 IconButton(
                   tooltip: l10n.csvSortMoveDown,
@@ -169,9 +178,9 @@ class _SortBodyState extends State<_SortBody> {
                   onPressed: index == _levels.length - 1
                       ? null
                       : () => setState(() {
-                            final moved = _levels.removeAt(index);
-                            _levels.insert(index + 1, moved);
-                          }),
+                          final moved = _levels.removeAt(index);
+                          _levels.insert(index + 1, moved);
+                        }),
                 ),
                 IconButton(
                   tooltip: l10n.actionRemove,
@@ -191,13 +200,17 @@ class _SortBodyState extends State<_SortBody> {
                 for (var c = 0; c < _columnCount; c++)
                   DropdownMenuItem(
                     value: c,
-                    child: Text(_columnName(c), overflow: TextOverflow.ellipsis),
+                    child: Text(
+                      _columnName(c),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
               ],
               onChanged: (value) {
                 if (value == null) return;
-                setState(() =>
-                    _levels[index] = CsvSortSpec(value, level.direction));
+                setState(
+                  () => _levels[index] = CsvSortSpec(value, level.direction),
+                );
               },
             ),
             const SizedBox(height: 8),
@@ -217,8 +230,8 @@ class _SortBodyState extends State<_SortBody> {
               selected: {level.direction},
               showSelectedIcon: false,
               onSelectionChanged: (selection) => setState(
-                () => _levels[index] =
-                    CsvSortSpec(level.column, selection.first),
+                () =>
+                    _levels[index] = CsvSortSpec(level.column, selection.first),
               ),
             ),
           ],

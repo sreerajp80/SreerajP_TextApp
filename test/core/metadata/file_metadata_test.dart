@@ -28,7 +28,7 @@ void main() {
 
   test('falls back to decoded length when size is unknown', () {
     const file = SafFile(uri: 'content://x', displayName: 'x.txt');
-    final decoded = DecodedText(
+    const decoded = DecodedText(
       text: 'abcd',
       encoding: TextEncodingType.utf8,
       lineEnding: LineEndingStyle.lf,
@@ -39,7 +39,7 @@ void main() {
 
   test('per-format fields are carried through', () {
     const file = SafFile(uri: 'content://x', displayName: 'data.csv');
-    final decoded = DecodedText(
+    const decoded = DecodedText(
       text: 'a,b',
       encoding: TextEncodingType.utf8,
       lineEnding: LineEndingStyle.crlf,

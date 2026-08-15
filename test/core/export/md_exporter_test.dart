@@ -8,7 +8,8 @@ void main() {
   const exporter = MarkdownExporter();
   const content = TextContent(
     displayName: 'notes.md',
-    text: '# Title\n\nSome **bold** text and a [link](https://x.com).\n\n'
+    text:
+        '# Title\n\nSome **bold** text and a [link](https://x.com).\n\n'
         '| A | B |\n| - | - |\n| 1 | 2 |',
   );
 

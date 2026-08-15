@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../theme/theme_controller.dart';
-import '../theme/theme_settings.dart';
+import 'package:text_data/core/theme/theme_controller.dart';
+import 'package:text_data/core/theme/theme_settings.dart';
 
 /// A widget that wraps any file viewer/editor surface and intercepts pinch/scale
 /// gestures to dynamically change the app-wide font size scale (CLAUDE.md §3).
@@ -117,9 +117,10 @@ class _PinchToZoomAreaState extends ConsumerState<PinchToZoomArea> {
     if (baseScale == null || baseSpan == null || baseSpan < 1.0) {
       return; // avoid divide-by-near-zero
     }
-    final newScale = (baseScale * (_currentVerticalSpan() / baseSpan))
-        .clamp(ThemeSettings.minFontScale, ThemeSettings.maxFontScale)
-        .toDouble();
+    final newScale = (baseScale * (_currentVerticalSpan() / baseSpan)).clamp(
+      ThemeSettings.minFontScale,
+      ThemeSettings.maxFontScale,
+    );
     ref.read(themeControllerProvider.notifier).setFontScale(newScale);
   }
 

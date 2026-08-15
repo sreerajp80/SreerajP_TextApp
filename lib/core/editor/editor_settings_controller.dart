@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../storage/key_value_store.dart';
-import 'editor_settings.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:text_data/core/editor/editor_settings.dart';
 
 /// The one place the app changes and remembers editor behavior (task 11.2).
 ///
@@ -24,13 +24,15 @@ class EditorSettingsController extends Notifier<EditorSettings> {
       encodingDefault: EncodingDefault.fromPrefValue(
         store.getPlainString(EditorSettings.encodingKey),
       ),
-      confirmOverwrite: store.getBool(EditorSettings.confirmOverwriteKey) ??
+      confirmOverwrite:
+          store.getBool(EditorSettings.confirmOverwriteKey) ??
           EditorSettings.defaults.confirmOverwrite,
-      autoSaveSeconds: store.getInt(EditorSettings.autoSaveSecondsKey) ??
+      autoSaveSeconds:
+          store.getInt(EditorSettings.autoSaveSecondsKey) ??
           EditorSettings.defaults.autoSaveSeconds,
       openReadOnlyByDefault:
           store.getBool(EditorSettings.readOnlyDefaultKey) ??
-              EditorSettings.defaults.openReadOnlyByDefault,
+          EditorSettings.defaults.openReadOnlyByDefault,
     );
   }
 
@@ -62,5 +64,5 @@ class EditorSettingsController extends Notifier<EditorSettings> {
 
 final editorSettingsProvider =
     NotifierProvider<EditorSettingsController, EditorSettings>(
-  EditorSettingsController.new,
-);
+      EditorSettingsController.new,
+    );

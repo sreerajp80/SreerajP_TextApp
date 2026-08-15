@@ -7,15 +7,15 @@ import 'package:text_data/formats/csv/csv_table.dart';
 /// decisions are tested here.
 void main() {
   CsvTable table() => CsvTable(
-        header: ['region', 'sales', 'note'],
-        rows: [
-          ['North', '100', 'a'],
-          ['South', '50', 'b'],
-          ['North', '25', 'c'],
-          ['East', 'n/a', 'd'],
-        ],
-        hasHeader: true,
-      );
+    header: ['region', 'sales', 'note'],
+    rows: [
+      ['North', '100', 'a'],
+      ['South', '50', 'b'],
+      ['North', '25', 'c'],
+      ['East', 'n/a', 'd'],
+    ],
+    hasHeader: true,
+  );
 
   test('numericColumns finds only the columns worth plotting', () {
     final t = CsvTable(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../core/export/export_service.dart';
-import '../../core/export/export_target.dart';
-import '../../l10n/app_localizations.dart';
-import 'csv_document_session.dart';
-import 'csv_output_actions.dart';
+import 'package:text_data/core/export/export_service.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:text_data/formats/csv/csv_output_actions.dart';
 
 /// Which rows an export covers (task 7.6).
 enum CsvExportScope { all, filtered, selected }
@@ -30,15 +30,20 @@ Future<void> showCsvExportSheet(
 
   final content = switch (choice.scope) {
     CsvExportScope.all => session.textContent,
-    CsvExportScope.filtered =>
-      session.textContentForRows(session.visibleRowIndices),
+    CsvExportScope.filtered => session.textContentForRows(
+      session.visibleRowIndices,
+    ),
     CsvExportScope.selected => session.textContentForRows(
-        session.selectedRows.toList()..sort(),
-      ),
+      session.selectedRows.toList()..sort(),
+    ),
   };
 
-  final result =
-      await actions.runExport(context, session, choice.target, content: content);
+  final result = await actions.runExport(
+    context,
+    session,
+    choice.target,
+    content: content,
+  );
   if (result == null || !context.mounted) return;
 
   final next = await showModalBottomSheet<_ExportNext>(
@@ -95,23 +100,29 @@ class _ExportPickerState extends State<_ExportPicker> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: Text(l10n.exportSheetTitle, style: theme.textTheme.titleMedium),
+            child: Text(
+              l10n.exportSheetTitle,
+              style: theme.textTheme.titleMedium,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SegmentedButton<CsvExportScope>(
               segments: [
                 ButtonSegment(
-                    value: CsvExportScope.all,
-                    label: Text(l10n.exportAllRows)),
+                  value: CsvExportScope.all,
+                  label: Text(l10n.exportAllRows),
+                ),
                 if (filtered)
                   ButtonSegment(
-                      value: CsvExportScope.filtered,
-                      label: Text(l10n.exportFilteredRows)),
+                    value: CsvExportScope.filtered,
+                    label: Text(l10n.exportFilteredRows),
+                  ),
                 if (hasSelection)
                   ButtonSegment(
-                      value: CsvExportScope.selected,
-                      label: Text(l10n.exportSelectedRows)),
+                    value: CsvExportScope.selected,
+                    label: Text(l10n.exportSelectedRows),
+                  ),
               ],
               selected: {_scope},
               onSelectionChanged: (s) => setState(() => _scope = s.first),
@@ -122,8 +133,7 @@ class _ExportPickerState extends State<_ExportPicker> {
             ListTile(
               leading: Icon(_iconFor(t)),
               title: Text(t.label),
-              onTap: () =>
-                  Navigator.of(context).pop(_ExportChoice(_scope, t)),
+              onTap: () => Navigator.of(context).pop(_ExportChoice(_scope, t)),
             ),
         ],
       ),
@@ -170,8 +180,10 @@ class _ExportDoneList extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: Text(l10n.exportCreated(name),
-                style: Theme.of(context).textTheme.titleMedium),
+            child: Text(
+              l10n.exportCreated(name),
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.share_outlined),

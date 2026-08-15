@@ -29,8 +29,12 @@ class TxtStats {
   });
 
   /// Empty-document stats (all zero).
-  static const TxtStats empty =
-      TxtStats(words: 0, characters: 0, charactersNoLineBreaks: 0, lines: 0);
+  static const TxtStats empty = TxtStats(
+    words: 0,
+    characters: 0,
+    charactersNoLineBreaks: 0,
+    lines: 0,
+  );
 
   /// Counts words, characters, and lines in [text].
   factory TxtStats.of(String text) {

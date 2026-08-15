@@ -47,10 +47,7 @@ void main() {
         // logging call (multi-line debugPrint), so scan a small window.
         final snippetForFile = allowed[rel];
         if (snippetForFile != null) {
-          final window = lines
-              .skip(i)
-              .take(4)
-              .join('\n');
+          final window = lines.skip(i).take(4).join('\n');
           if (window.contains(snippetForFile)) continue;
         }
 
@@ -61,7 +58,8 @@ void main() {
     expect(
       offenders,
       isEmpty,
-      reason: 'Unreviewed logging found (security-rules: never log secrets, '
+      reason:
+          'Unreviewed logging found (security-rules: never log secrets, '
           'payloads, keys, file contents). Review and, if truly secret-free, '
           'add to the allow-list in this test:\n${offenders.join('\n')}',
     );

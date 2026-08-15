@@ -60,8 +60,8 @@ class FakeSafService extends SafService {
     this.createResult,
     this.createError,
     Map<String, int> modifiedTimes = const {},
-  })  : contents = Map<String, Uint8List>.of(contents),
-        modifiedTimes = Map<String, int>.of(modifiedTimes);
+  }) : contents = Map<String, Uint8List>.of(contents),
+       modifiedTimes = Map<String, int>.of(modifiedTimes);
 
   /// Simulates another app writing [uri]: new content and a newer timestamp.
   void changeOnDisk(String uri, Uint8List bytes, {int? modifiedAt}) {
@@ -77,10 +77,14 @@ class FakeSafService extends SafService {
 
   @override
   Future<Uint8List> readBytes(String uri) async {
+    // A real SAF read hands back a fresh buffer the caller owns (see
+    // SafService.readBytes), so the fake copies instead of sharing its own — a
+    // caller is allowed to zero-fill what it gets back.
     if (uri == createResult?.uri && lastCreatedBytes != null) {
-      return lastCreatedBytes!;
+      return Uint8List.fromList(lastCreatedBytes!);
     }
-    return contents[uri] ?? Uint8List(0);
+    final bytes = contents[uri];
+    return bytes == null ? Uint8List(0) : Uint8List.fromList(bytes);
   }
 
   @override

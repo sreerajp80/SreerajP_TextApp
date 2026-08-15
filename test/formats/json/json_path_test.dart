@@ -5,7 +5,8 @@ import 'package:text_data/formats/json/json_path.dart';
 void main() {
   const parser = JsonParser();
 
-  const sample = '{"data": {"users": [{"name": "Ada"}, {"name": "Bea"}, '
+  const sample =
+      '{"data": {"users": [{"name": "Ada"}, {"name": "Bea"}, '
       '{"name": "Cy"}, {"name": "Dee"}]}}';
 
   test('pathOf builds a dotted path with array indexes', () {
@@ -33,8 +34,12 @@ void main() {
     test('a wildcard returns all elements', () {
       final root = parser.parse(sample).root!;
       final result = evaluateJsonPath(root, r'$.data.users[*].name');
-      expect(result.matches.map((n) => n.stringValue),
-          ['Ada', 'Bea', 'Cy', 'Dee']);
+      expect(result.matches.map((n) => n.stringValue), [
+        'Ada',
+        'Bea',
+        'Cy',
+        'Dee',
+      ]);
     });
 
     test('recursive descent finds a key at any depth', () {

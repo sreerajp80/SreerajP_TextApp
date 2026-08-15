@@ -1,4 +1,4 @@
-import 'json_parser.dart';
+import 'package:text_data/formats/json/json_parser.dart';
 
 /// One 1-tap repair the app can offer for a broken JSON file
 /// (roadmap §4.3.3).

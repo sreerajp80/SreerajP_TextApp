@@ -53,19 +53,21 @@ void main() {
       expect(release, isNot(contains('d')));
     });
 
-    test('a dirty tab beyond the budget is kept while clean ones are released',
-        () {
-      final release = pickReleasableSessions(
-        liveSessionIds: {'a', 'b', 'c', 'd', 'e'},
-        recencyOrder: ['a', 'b', 'c', 'd', 'e'],
-        activeId: 'a',
-        dirtyIds: {'e'},
-        keepAlive: 2,
-      );
-      // Budget 2 keeps a, b. Beyond it: c, d clean → released; e dirty → kept.
-      expect(release, ['c', 'd']);
-      expect(release, isNot(contains('e')));
-    });
+    test(
+      'a dirty tab beyond the budget is kept while clean ones are released',
+      () {
+        final release = pickReleasableSessions(
+          liveSessionIds: {'a', 'b', 'c', 'd', 'e'},
+          recencyOrder: ['a', 'b', 'c', 'd', 'e'],
+          activeId: 'a',
+          dirtyIds: {'e'},
+          keepAlive: 2,
+        );
+        // Budget 2 keeps a, b. Beyond it: c, d clean → released; e dirty → kept.
+        expect(release, ['c', 'd']);
+        expect(release, isNot(contains('e')));
+      },
+    );
 
     test('keepAlive below 1 is clamped to 1', () {
       final release = pickReleasableSessions(

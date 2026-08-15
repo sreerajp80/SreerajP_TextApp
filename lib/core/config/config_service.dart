@@ -5,7 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import 'app_config.dart';
+import 'package:text_data/core/config/app_config.dart';
 
 /// Loads the About config from the asset bundle and, optionally, cross-checks
 /// its version/build against the real package info (architecture.md §8.1).
@@ -19,7 +19,7 @@ class ConfigService {
   final Future<String> Function(String path) _loadAsset;
 
   ConfigService({Future<String> Function(String path)? loadAsset})
-      : _loadAsset = loadAsset ?? rootBundle.loadString;
+    : _loadAsset = loadAsset ?? rootBundle.loadString;
 
   /// Loads and parses the config. Returns [AppConfig.fallback] on any error.
   Future<AppConfig> load() async {

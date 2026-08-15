@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../sync_constants.dart';
-import '../sync_provider.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/sync/sync_constants.dart';
+import 'package:text_data/sync/sync_provider.dart';
 
 /// Shows the "added / kept / applied" summary after a client import
 /// (arch §9.6). Standalone so it is easy to test with a made-up [SyncSummary].
@@ -40,8 +40,9 @@ class SyncSummaryView extends StatelessWidget {
         Center(
           child: Text(
             l10n.syncAddedKept(summary.totalAdded, summary.totalKept),
-            style: theme.textTheme.bodyMedium
-                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           ),
         ),
         const SizedBox(height: 16),
@@ -59,7 +60,10 @@ class SyncSummaryView extends StatelessWidget {
           leading: const Icon(Icons.tune),
           title: Text(l10n.syncDisplaySettings),
           trailing: Text(
-            l10n.syncAppliedKept(summary.settings.applied, summary.settings.kept),
+            l10n.syncAppliedKept(
+              summary.settings.applied,
+              summary.settings.kept,
+            ),
           ),
         ),
       ],

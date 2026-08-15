@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'csv_chart.dart';
-import 'csv_chart_screen.dart';
-import 'csv_document_session.dart';
-import 'csv_insights.dart';
-import 'csv_types.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/csv/csv_chart.dart';
+import 'package:text_data/formats/csv/csv_chart_screen.dart';
+import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:text_data/formats/csv/csv_insights.dart';
+import 'package:text_data/formats/csv/csv_types.dart';
 
 /// A bottom sheet with read-only data insights for the CSV (task 7.4): pick a
 /// column to see its type, count / empty / unique, numeric min / max / sum /
@@ -119,10 +119,9 @@ class _InsightsBodyState extends State<_InsightsBody> {
           Expanded(child: Text(label)),
           Text(
             value,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(fontWeight: FontWeight.w600),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
         ],
       ),

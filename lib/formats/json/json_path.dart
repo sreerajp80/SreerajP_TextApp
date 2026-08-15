@@ -1,5 +1,5 @@
-import 'json_node.dart';
-import 'json_parser.dart';
+import 'package:text_data/formats/json/json_node.dart';
+import 'package:text_data/formats/json/json_parser.dart';
 
 /// The path of a node in dotted form, e.g. `data.users[3].name` (task 8.2).
 ///
@@ -89,7 +89,9 @@ class _ChildIndex implements _Step {
   @override
   void apply(JsonNode node, List<JsonNode> out) {
     if (node.kind != JsonKind.array) return;
-    if (index >= 0 && index < node.children.length) out.add(node.children[index]);
+    if (index >= 0 && index < node.children.length) {
+      out.add(node.children[index]);
+    }
   }
 }
 
@@ -137,7 +139,9 @@ List<_Step> _parseSteps(String query) {
           i++;
         } else {
           final name = _readName(query, i);
-          if (name.value.isEmpty) throw _QueryError('A name was expected after "..".');
+          if (name.value.isEmpty) {
+            throw _QueryError('A name was expected after "..".');
+          }
           steps.add(_Recursive(name.value));
           i = name.next;
         }
@@ -148,7 +152,9 @@ List<_Step> _parseSteps(String query) {
           i++;
         } else {
           final name = _readName(query, i);
-          if (name.value.isEmpty) throw _QueryError('A name was expected after ".".');
+          if (name.value.isEmpty) {
+            throw _QueryError('A name was expected after ".".');
+          }
           steps.add(_ChildKey(name.value));
           i = name.next;
         }
@@ -174,7 +180,9 @@ _Step _parseBracket(String inside) {
     return _ChildKey(inside.substring(1, inside.length - 1));
   }
   final index = int.tryParse(inside);
-  if (index == null) throw _QueryError('"$inside" is not a valid index or key.');
+  if (index == null) {
+    throw _QueryError('"$inside" is not a valid index or key.');
+  }
   return _ChildIndex(index);
 }
 
@@ -198,7 +206,8 @@ bool _isPlainIdentifier(String key) {
   if (key.isEmpty) return false;
   for (var i = 0; i < key.length; i++) {
     final c = key.codeUnitAt(i);
-    final ok = (c >= 0x41 && c <= 0x5A) ||
+    final ok =
+        (c >= 0x41 && c <= 0x5A) ||
         (c >= 0x61 && c <= 0x7A) ||
         c == 0x5F ||
         c == 0x24 ||

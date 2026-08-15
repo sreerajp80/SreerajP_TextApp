@@ -76,14 +76,20 @@ void main() {
   });
 
   group('big numbers', () {
-    test('keeps a high-precision number as exact text through a round-trip', () {
-      const big = '{"n": 123456789012345678901234567890.123456789}';
-      final root = parser.parse(big).root!;
-      final number = root.children.first;
-      expect(number.rawText, '123456789012345678901234567890.123456789');
-      // Re-emitting keeps the exact digits (dart:convert would have rounded).
-      expect(minifyJson(root), '{"n":123456789012345678901234567890.123456789}');
-    });
+    test(
+      'keeps a high-precision number as exact text through a round-trip',
+      () {
+        const big = '{"n": 123456789012345678901234567890.123456789}';
+        final root = parser.parse(big).root!;
+        final number = root.children.first;
+        expect(number.rawText, '123456789012345678901234567890.123456789');
+        // Re-emitting keeps the exact digits (dart:convert would have rounded).
+        expect(
+          minifyJson(root),
+          '{"n":123456789012345678901234567890.123456789}',
+        );
+      },
+    );
   });
 
   group('pretty / minify', () {

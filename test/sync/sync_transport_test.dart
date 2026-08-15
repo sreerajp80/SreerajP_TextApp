@@ -41,24 +41,32 @@ void main() {
     expect(host.hasClient, isFalse);
   });
 
-  test('host keeps listening after a wrong code, accepts a good one next',
-      () async {
-    final code = SyncCrypto.generatePairingCode();
-    final host = await SyncHost.start(code: code);
-    addTearDown(host.stop);
+  test(
+    'host keeps listening after a wrong code, accepts a good one next',
+    () async {
+      final code = SyncCrypto.generatePairingCode();
+      final host = await SyncHost.start(code: code);
+      addTearDown(host.stop);
 
-    await expectLater(
-      SyncClient.connect(
-          host: loopback, port: host.port, code: SyncCrypto.generatePairingCode()),
-      throwsA(isA<SyncTransportException>()),
-    );
+      await expectLater(
+        SyncClient.connect(
+          host: loopback,
+          port: host.port,
+          code: SyncCrypto.generatePairingCode(),
+        ),
+        throwsA(isA<SyncTransportException>()),
+      );
 
-    final client =
-        await SyncClient.connect(host: loopback, port: host.port, code: code);
-    addTearDown(client.close);
-    await host.clientConnected;
-    expect(host.hasClient, isTrue);
-  });
+      final client = await SyncClient.connect(
+        host: loopback,
+        port: host.port,
+        code: code,
+      );
+      addTearDown(client.close);
+      await host.clientConnected;
+      expect(host.hasClient, isTrue);
+    },
+  );
 
   test('sendToConnectedClient with no client throws', () async {
     final host = await SyncHost.start(code: SyncCrypto.generatePairingCode());

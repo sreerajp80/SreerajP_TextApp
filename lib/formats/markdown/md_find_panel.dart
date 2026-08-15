@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:re_editor/re_editor.dart';
 
-import '../../l10n/app_localizations.dart';
+import 'package:text_data/l10n/app_localizations.dart';
 
 /// The find / replace bar for the Markdown raw-source editor (task 6.4).
 ///
@@ -60,16 +60,27 @@ class MdFindPanel extends StatelessWidget implements PreferredSizeWidget {
                     hint: l10n.findFind,
                   ),
                 ),
-                _toggle(context, 'Aa', value.option.caseSensitive,
-                    controller.toggleCaseSensitive, l10n.findMatchCase),
-                _toggle(context, '.*', value.option.regex,
-                    controller.toggleRegex, l10n.findUseRegex),
+                _toggle(
+                  context,
+                  'Aa',
+                  value.option.caseSensitive,
+                  controller.toggleCaseSensitive,
+                  l10n.findMatchCase,
+                ),
+                _toggle(
+                  context,
+                  '.*',
+                  value.option.regex,
+                  controller.toggleRegex,
+                  l10n.findUseRegex,
+                ),
                 Text(result, style: theme.textTheme.labelSmall),
                 IconButton(
                   tooltip: l10n.findPreviousMatch,
                   icon: const Icon(Icons.keyboard_arrow_up),
-                  onPressed:
-                      value.result == null ? null : controller.previousMatch,
+                  onPressed: value.result == null
+                      ? null
+                      : controller.previousMatch,
                 ),
                 IconButton(
                   tooltip: l10n.findNextMatch,
@@ -103,8 +114,9 @@ class MdFindPanel extends StatelessWidget implements PreferredSizeWidget {
                   IconButton(
                     tooltip: l10n.findReplace,
                     icon: const Icon(Icons.done),
-                    onPressed:
-                        value.result == null ? null : controller.replaceMatch,
+                    onPressed: value.result == null
+                        ? null
+                        : controller.replaceMatch,
                   ),
                   IconButton(
                     tooltip: l10n.findReplaceAll,

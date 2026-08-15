@@ -3,7 +3,8 @@ import 'package:text_data/formats/markdown/md_front_matter.dart';
 
 void main() {
   test('parses title, author, and inline tags', () {
-    const source = '---\n'
+    const source =
+        '---\n'
         'title: My Notes\n'
         'author: Jane Doe\n'
         'tags: [draft, ideas]\n'
@@ -20,7 +21,8 @@ void main() {
   });
 
   test('parses a block (dash) tag list', () {
-    const source = '---\n'
+    const source =
+        '---\n'
         'title: T\n'
         'tags:\n'
         '  - one\n'
@@ -98,7 +100,8 @@ void main() {
     test('keeps lines the small parser does not understand', () {
       // A comment and a nested map are beyond this parser; an edit must not
       // silently drop them.
-      const source = '---\n'
+      const source =
+          '---\n'
           '# a note\n'
           'title: Old\n'
           'nested:\n'
@@ -151,8 +154,9 @@ void main() {
 
     test('a value holding a colon is quoted so it still reads back', () {
       const source = '---\ntitle: T\n---\nBody';
-      final result =
-          MdFrontMatter.applyEdits(source, {'title': 'Notes: part one'});
+      final result = MdFrontMatter.applyEdits(source, {
+        'title': 'Notes: part one',
+      });
       expect(MdFrontMatter.parse(result).title, 'Notes: part one');
     });
 
@@ -170,10 +174,11 @@ void main() {
 
     test('an edit round-trips through the parser', () {
       const source = '---\ntitle: Old\ntags: [x]\n---\nBody';
-      final result = MdFrontMatter.applyEdits(
-        source,
-        {'title': 'New', 'tags': 'x, y', 'author': 'Jane'},
-      );
+      final result = MdFrontMatter.applyEdits(source, {
+        'title': 'New',
+        'tags': 'x, y',
+        'author': 'Jane',
+      });
       final fm = MdFrontMatter.parse(result);
       expect(fm.title, 'New');
       expect(fm.tags, ['x', 'y']);
@@ -183,25 +188,26 @@ void main() {
 
     test('an unclosed fence is left alone rather than mangled', () {
       const source = '---\ntitle: T\nno closing fence';
-      expect(MdFrontMatter.applyEdits(source, {'title': 'New'}),
-          '---\ntitle: New\n---\n$source');
+      expect(
+        MdFrontMatter.applyEdits(source, {'title': 'New'}),
+        '---\ntitle: New\n---\n$source',
+      );
     });
   });
 
   group('renderBlock', () {
     test('writes a block that parses back', () {
-      final block = MdFrontMatter.renderBlock({
-        'title': 'T',
-        'tags': 'a, b',
-      });
+      final block = MdFrontMatter.renderBlock({'title': 'T', 'tags': 'a, b'});
       final fm = MdFrontMatter.parse('$block\nBody');
       expect(fm.title, 'T');
       expect(fm.tags, ['a', 'b']);
     });
 
     test('skips empty values', () {
-      expect(MdFrontMatter.renderBlock({'title': '', 'author': 'Jane'}),
-          '---\nauthor: Jane\n---');
+      expect(
+        MdFrontMatter.renderBlock({'title': '', 'author': 'Jane'}),
+        '---\nauthor: Jane\n---',
+      );
     });
   });
 }

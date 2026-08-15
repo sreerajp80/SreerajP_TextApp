@@ -24,21 +24,34 @@ void main() {
     });
 
     test('UTF-8 BOM is detected and stripped', () {
-      final bytes = Uint8List.fromList([0xEF, 0xBB, 0xBF, ...utf8.encode('hi')]);
+      final bytes = Uint8List.fromList([
+        0xEF,
+        0xBB,
+        0xBF,
+        ...utf8.encode('hi'),
+      ]);
       final result = codec.detectAndDecode(bytes);
       expect(result.encoding, TextEncodingType.utf8Bom);
       expect(result.text, 'hi');
     });
 
     test('UTF-16 LE with BOM', () {
-      final bytes = codec.encode('Hi ✓', TextEncodingType.utf16le, LineEndingStyle.lf);
+      final bytes = codec.encode(
+        'Hi ✓',
+        TextEncodingType.utf16le,
+        LineEndingStyle.lf,
+      );
       final result = codec.detectAndDecode(bytes);
       expect(result.encoding, TextEncodingType.utf16le);
       expect(result.text, 'Hi ✓');
     });
 
     test('UTF-16 BE with BOM', () {
-      final bytes = codec.encode('Hi ✓', TextEncodingType.utf16be, LineEndingStyle.lf);
+      final bytes = codec.encode(
+        'Hi ✓',
+        TextEncodingType.utf16be,
+        LineEndingStyle.lf,
+      );
       final result = codec.detectAndDecode(bytes);
       expect(result.encoding, TextEncodingType.utf16be);
       expect(result.text, 'Hi ✓');
@@ -110,7 +123,11 @@ void main() {
 
     test('windows-1252 special characters round-trip', () {
       const text = '“quote” €5 – dash';
-      final bytes = codec.encode(text, TextEncodingType.windows1252, LineEndingStyle.lf);
+      final bytes = codec.encode(
+        text,
+        TextEncodingType.windows1252,
+        LineEndingStyle.lf,
+      );
       final decoded = codec.detectAndDecode(bytes);
       expect(decoded.text, text);
     });

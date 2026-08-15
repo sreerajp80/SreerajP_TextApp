@@ -36,7 +36,7 @@ class BoundedLineReader {
   bool _done = false;
 
   BoundedLineReader(Stream<List<int>> stream, {required this.maxLineBytes})
-      : _sub = stream.listen(null) {
+    : _sub = stream.listen(null) {
     _sub
       ..onData(_onData)
       ..onError(_onError)
@@ -67,7 +67,9 @@ class BoundedLineReader {
 
   void _emit(String line) {
     // Strip a trailing CR so CRLF senders are tolerated.
-    final clean = line.endsWith('\r') ? line.substring(0, line.length - 1) : line;
+    final clean = line.endsWith('\r')
+        ? line.substring(0, line.length - 1)
+        : line;
     if (_waiters.isNotEmpty) {
       _waiters.removeAt(0).complete(clean);
     } else {

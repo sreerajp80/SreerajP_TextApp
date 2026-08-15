@@ -1,15 +1,26 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../core/fingerprint/content_fingerprint.dart';
-import '../core/storage/saf_exceptions.dart';
-import '../core/storage/saf_service.dart';
-import '../core/storage/storage_models.dart';
-import '../l10n/app_localizations.dart';
-import 'home/recents_controller.dart';
-import 'shell_providers.dart';
-import 'tabs/document_tab.dart';
-import 'tabs/tabs_controller.dart';
+import 'package:text_data/core/audit/audit_hooks.dart';
+import 'package:text_data/core/audit/audit_providers.dart';
+import 'package:text_data/core/audit/audit_service.dart';
+import 'package:text_data/core/audit/audit_settings.dart';
+import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
+import 'package:text_data/core/ephemeral/ephemeral_models.dart';
+import 'package:text_data/core/fingerprint/content_fingerprint.dart';
+import 'package:text_data/core/index/index_hooks.dart';
+import 'package:text_data/core/index/index_providers.dart';
+import 'package:text_data/core/index/search_index_service.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/core/storage/storage_models.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/home/recents_controller.dart';
+import 'package:text_data/shell/shell_providers.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/shell/tabs/tabs_controller.dart';
 
 /// The one path a file takes to become an open tab (used by the "Open a file"
 /// button and by tapping a recent). Coordinates SAF (Phase 1.1), the content
@@ -25,8 +36,42 @@ class OpenFileAction {
 
   SafService get _saf => ref.read(safServiceProvider);
 
+  /// The index service future, read while the ref is still valid. It resolves
+  /// only once the database is open; a failure here is handled by the hooks.
+  Future<SearchIndexService> _indexService() =>
+      ref.read(searchIndexServiceProvider.future);
+
+  /// The audit service future, read while the ref is still valid.
+  Future<AuditService> _auditService() => ref.read(auditServiceProvider.future);
+
+  /// Whether the user keeps the workspace index turned on. Falls back to `true`
+  /// when the settings store is not available (tests).
+  bool _indexEnabled() {
+    try {
+      return ref.read(workspaceIndexEnabledProvider);
+    } catch (_) {
+      return true;
+    }
+  }
+
+  /// Whether the user keeps the audit log turned on. Falls back to `true`
+  /// when the settings store is not available (tests).
+  bool _auditEnabled() {
+    try {
+      return ref.read(auditEnabledProvider);
+    } catch (_) {
+      return true;
+    }
+  }
+
   /// Opens the system picker, then opens the chosen file.
-  Future<void> pickAndOpen(BuildContext context) async {
+  ///
+  /// Pass [ephemeral] to open the file straight into a self-destructing tab
+  /// (Feature 9).
+  Future<void> pickAndOpen(
+    BuildContext context, {
+    EphemeralOption? ephemeral,
+  }) async {
     final messenger = ScaffoldMessenger.of(context);
     SafFile file;
     try {
@@ -38,7 +83,7 @@ class OpenFileAction {
       return;
     }
     if (!context.mounted) return;
-    await openFile(context, file);
+    await openFile(context, file, ephemeral: ephemeral);
   }
 
   /// Re-opens a recent entry from its saved URI.
@@ -54,10 +99,15 @@ class OpenFileAction {
 
   /// Opens an already selected or newly created SAF document through the one
   /// shared fingerprint, recents, tab, and navigation flow.
+  /// Pass [ephemeral] to open the file into a self-destructing tab (Feature 9).
+  /// The recents row and the search-index entry are then never written at all,
+  /// rather than written and cleaned up afterwards — the trace that is never
+  /// made is the one that cannot be missed on the way out.
   Future<void> openFile(
     BuildContext context,
     SafFile file, {
     TabViewMode initialViewMode = TabViewMode.view,
+    EphemeralOption? ephemeral,
   }) async {
     final messenger = ScaffoldMessenger.of(context);
     final l10n = AppLocalizations.of(context);
@@ -65,20 +115,55 @@ class OpenFileAction {
     // action. Capture every provider dependency while its WidgetRef is valid so
     // the rest of the open flow remains safe across asynchronous gaps.
     final saf = _saf;
+    final indexService = _indexService();
+    final auditService = _auditService();
+    // An ephemeral open never indexes: the index stores the document's own text.
+    final indexEnabled = ephemeral == null && _indexEnabled();
+    final auditEnabled = _auditEnabled();
     final recents = ref.read(recentsControllerProvider.notifier);
     final tabs = ref.read(tabsControllerProvider.notifier);
+    final ephemeralTabs = ref.read(ephemeralControllerProvider.notifier);
     final destination = ref.read(shellDestinationProvider.notifier);
     String fingerprintKey;
     try {
       final bytes = await saf.readBytes(file.uri);
-      fingerprintKey = ContentFingerprint.fromBytes(bytes).key;
+      final fp = ContentFingerprint.fromBytes(bytes);
+      fingerprintKey = fp.key;
+      // Add the file to the workspace search index while its bytes are already
+      // in hand. It runs alongside the rest of the open flow and never blocks
+      // it (Feature 11).
+      unawaited(
+        WorkspaceIndexHooks.indexBytes(
+          service: indexService,
+          enabled: indexEnabled,
+          fingerprint: fingerprintKey,
+          uri: file.uri,
+          displayName: file.displayName,
+          bytes: bytes,
+          mimeType: file.mimeType,
+          size: file.size,
+        ),
+      );
+      // Record file open in the audit log (Feature 8).
+      unawaited(
+        AuditHooks.onFileOpened(
+          service: auditService,
+          enabled: auditEnabled,
+          fileName: file.displayName,
+          fingerprint: fingerprintKey,
+          contentHash: fp.sha256Hex,
+        ),
+      );
     } on SafException catch (e) {
       messenger.showSnackBar(SnackBar(content: Text(e.message)));
       return;
     }
 
-    // Record it in recents (best-effort) and open the tab.
-    await recents.recordOpen(file, fingerprintKey);
+    // Record it in recents (best-effort) and open the tab. An ephemeral open
+    // skips recents entirely (Feature 9).
+    if (ephemeral == null) {
+      await recents.recordOpen(file, fingerprintKey);
+    }
 
     final outcome = tabs.openFile(
       file,
@@ -89,6 +174,13 @@ class OpenFileAction {
     if (outcome == OpenOutcome.cappedNeedsChoice) {
       messenger.showSnackBar(SnackBar(content: Text(l10n.openTooManyTabs)));
       return;
+    }
+
+    // Mark the freshly opened (now active) tab before anything can write a
+    // trace for it.
+    if (ephemeral != null) {
+      final opened = ref.read(tabsControllerProvider).activeTab;
+      if (opened != null) ephemeralTabs.mark(opened, ephemeral);
     }
 
     // Bring the workspace to the front.

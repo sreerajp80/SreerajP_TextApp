@@ -67,8 +67,9 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('turning Malayalam on with a missing voice offers the install',
-      (tester) async {
+  testWidgets('turning Malayalam on with a missing voice offers the install', (
+    tester,
+  ) async {
     final store = await inMemoryKeyValueStore();
     final installer = _FakeInstaller();
     // An engine exists (English installed) but the Malayalam voice is missing.
@@ -88,8 +89,9 @@ void main() {
     expect(installer.installCalls, 1);
   });
 
-  testWidgets('turning Malayalam on with no engine auto-disables the toggle',
-      (tester) async {
+  testWidgets('turning Malayalam on with no engine auto-disables the toggle', (
+    tester,
+  ) async {
     final store = await inMemoryKeyValueStore();
     await pump(
       tester,

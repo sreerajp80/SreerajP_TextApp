@@ -12,9 +12,7 @@ void main() {
 
     final offenders = <String>[];
     // Matches print(...), debugPrint(...), log(...), stdout/stderr writes.
-    final logCall = RegExp(
-      r'\b(print|debugPrint|log|stderr|stdout)\s*(\.|\()',
-    );
+    final logCall = RegExp(r'\b(print|debugPrint|log|stderr|stdout)\s*(\.|\()');
 
     for (final entity in dir.listSync(recursive: true)) {
       if (entity is! File || !entity.path.endsWith('.dart')) continue;
@@ -33,7 +31,8 @@ void main() {
     expect(
       offenders,
       isEmpty,
-      reason: 'No logging is allowed in lib/sync (security-rules). Found:\n'
+      reason:
+          'No logging is allowed in lib/sync (security-rules). Found:\n'
           '${offenders.join('\n')}',
     );
   });

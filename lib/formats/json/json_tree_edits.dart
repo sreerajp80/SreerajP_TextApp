@@ -1,5 +1,5 @@
-import 'json_node.dart';
-import 'json_parser.dart';
+import 'package:text_data/formats/json/json_node.dart';
+import 'package:text_data/formats/json/json_parser.dart';
 
 /// Pure text-span edits on a JSON source string (plan §3.3, task 8.5).
 ///
@@ -22,7 +22,10 @@ class JsonTreeEdits {
   String setKey(String source, JsonNode node, String newKey) {
     if (node.keyStart < 0) return source;
     return source.replaceRange(
-        node.keyStart, node.keyEnd, encodeJsonString(newKey));
+      node.keyStart,
+      node.keyEnd,
+      encodeJsonString(newKey),
+    );
   }
 
   /// Removes [node] (a member or an element) from its parent, taking one
@@ -53,10 +56,15 @@ class JsonTreeEdits {
 
   /// Adds a child to a container [node]. Pass [key] for an object member; omit it
   /// for an array element. [rawValue] is already-formatted JSON.
-  String addChild(String source, JsonNode node,
-      {String? key, required String rawValue}) {
-    final member =
-        key == null ? rawValue : '${encodeJsonString(key)}: $rawValue';
+  String addChild(
+    String source,
+    JsonNode node, {
+    String? key,
+    required String rawValue,
+  }) {
+    final member = key == null
+        ? rawValue
+        : '${encodeJsonString(key)}: $rawValue';
     if (node.children.isEmpty) {
       // Insert just after the opening bracket.
       return source.replaceRange(node.start + 1, node.start + 1, member);

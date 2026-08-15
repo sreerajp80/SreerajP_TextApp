@@ -23,24 +23,24 @@ class RecentFile {
   });
 
   Map<String, Object?> toRow() => {
-        'fingerprint': fingerprint,
-        'uri': uri,
-        'display_name': displayName,
-        'mime_type': mimeType,
-        'size': size,
-        'last_opened_at': lastOpenedAt,
-        'scroll_position': scrollPosition,
-      };
+    'fingerprint': fingerprint,
+    'uri': uri,
+    'display_name': displayName,
+    'mime_type': mimeType,
+    'size': size,
+    'last_opened_at': lastOpenedAt,
+    'scroll_position': scrollPosition,
+  };
 
   factory RecentFile.fromRow(Map<String, Object?> row) => RecentFile(
-        fingerprint: row['fingerprint'] as String,
-        uri: row['uri'] as String,
-        displayName: row['display_name'] as String,
-        mimeType: row['mime_type'] as String?,
-        size: (row['size'] as num?)?.toInt(),
-        lastOpenedAt: (row['last_opened_at'] as num).toInt(),
-        scrollPosition: (row['scroll_position'] as num?)?.toInt() ?? 0,
-      );
+    fingerprint: row['fingerprint'] as String,
+    uri: row['uri'] as String,
+    displayName: row['display_name'] as String,
+    mimeType: row['mime_type'] as String?,
+    size: (row['size'] as num?)?.toInt(),
+    lastOpenedAt: (row['last_opened_at'] as num).toInt(),
+    scrollPosition: (row['scroll_position'] as num?)?.toInt() ?? 0,
+  );
 }
 
 /// A saved position inside a file.
@@ -60,20 +60,20 @@ class Bookmark {
   });
 
   Map<String, Object?> toRow() => {
-        if (id != null) 'id': id,
-        'fingerprint': fingerprint,
-        'label': label,
-        'position': position,
-        'created_at': createdAt,
-      };
+    if (id != null) 'id': id,
+    'fingerprint': fingerprint,
+    'label': label,
+    'position': position,
+    'created_at': createdAt,
+  };
 
   factory Bookmark.fromRow(Map<String, Object?> row) => Bookmark(
-        id: (row['id'] as num?)?.toInt(),
-        fingerprint: row['fingerprint'] as String,
-        label: row['label'] as String,
-        position: (row['position'] as num).toInt(),
-        createdAt: (row['created_at'] as num).toInt(),
-      );
+    id: (row['id'] as num?)?.toInt(),
+    fingerprint: row['fingerprint'] as String,
+    label: row['label'] as String,
+    position: (row['position'] as num).toInt(),
+    createdAt: (row['created_at'] as num).toInt(),
+  );
 }
 
 /// A file the user marked as a favorite.
@@ -91,18 +91,18 @@ class Favorite {
   });
 
   Map<String, Object?> toRow() => {
-        'fingerprint': fingerprint,
-        'uri': uri,
-        'display_name': displayName,
-        'added_at': addedAt,
-      };
+    'fingerprint': fingerprint,
+    'uri': uri,
+    'display_name': displayName,
+    'added_at': addedAt,
+  };
 
   factory Favorite.fromRow(Map<String, Object?> row) => Favorite(
-        fingerprint: row['fingerprint'] as String,
-        uri: row['uri'] as String,
-        displayName: row['display_name'] as String,
-        addedAt: (row['added_at'] as num).toInt(),
-      );
+    fingerprint: row['fingerprint'] as String,
+    uri: row['uri'] as String,
+    displayName: row['display_name'] as String,
+    addedAt: (row['added_at'] as num).toInt(),
+  );
 }
 
 /// A pointer to an in-progress draft saved for crash recovery (Phase 3 writes
@@ -119,14 +119,14 @@ class DraftIndexEntry {
   });
 
   Map<String, Object?> toRow() => {
-        'fingerprint': fingerprint,
-        'draft_path': draftPath,
-        'updated_at': updatedAt,
-      };
+    'fingerprint': fingerprint,
+    'draft_path': draftPath,
+    'updated_at': updatedAt,
+  };
 
   factory DraftIndexEntry.fromRow(Map<String, Object?> row) => DraftIndexEntry(
-        fingerprint: row['fingerprint'] as String,
-        draftPath: row['draft_path'] as String,
-        updatedAt: (row['updated_at'] as num).toInt(),
-      );
+    fingerprint: row['fingerprint'] as String,
+    draftPath: row['draft_path'] as String,
+    updatedAt: (row['updated_at'] as num).toInt(),
+  );
 }

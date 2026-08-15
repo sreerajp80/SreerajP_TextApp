@@ -78,10 +78,7 @@ class _MarkdownRendererState extends State<MarkdownRenderer> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         for (final block in blocks)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: block,
-          ),
+          Padding(padding: const EdgeInsets.only(bottom: 10), child: block),
       ],
     );
   }
@@ -180,9 +177,7 @@ class _MarkdownRendererState extends State<MarkdownRenderer> {
   Widget _paragraph(List<md.Node> nodes) {
     final theme = Theme.of(context);
     final style = _bodyStyle(theme);
-    return Text.rich(
-      TextSpan(children: _inlineSpans(nodes, style)),
-    );
+    return Text.rich(TextSpan(children: _inlineSpans(nodes, style)));
   }
 
   Widget _blockquote(md.Element element) {
@@ -283,9 +278,10 @@ class _MarkdownRendererState extends State<MarkdownRenderer> {
   Widget _codeBlock(md.Element pre) {
     final theme = Theme.of(context);
     // <pre> wraps a single <code> whose text is the block body.
-    final code = (pre.children ?? const [])
-        .whereType<md.Element>()
-        .firstWhere((e) => e.tag == 'code', orElse: () => pre);
+    final code = (pre.children ?? const []).whereType<md.Element>().firstWhere(
+      (e) => e.tag == 'code',
+      orElse: () => pre,
+    );
     var text = code.textContent;
     if (text.endsWith('\n')) text = text.substring(0, text.length - 1);
 
@@ -316,14 +312,13 @@ class _MarkdownRendererState extends State<MarkdownRenderer> {
     final headerStyle = _bodyStyle(theme).copyWith(fontWeight: FontWeight.w700);
     final cellStyle = _bodyStyle(theme);
 
-    for (final section in (table.children ?? const []).whereType<md.Element>()) {
+    for (final section
+        in (table.children ?? const []).whereType<md.Element>()) {
       final isHeader = section.tag == 'thead';
-      for (final tr
-          in (section.children ?? const []).whereType<md.Element>()) {
+      for (final tr in (section.children ?? const []).whereType<md.Element>()) {
         if (tr.tag != 'tr') continue;
         final cells = <Widget>[];
-        for (final cell
-            in (tr.children ?? const []).whereType<md.Element>()) {
+        for (final cell in (tr.children ?? const []).whereType<md.Element>()) {
           cells.add(
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -352,8 +347,9 @@ class _MarkdownRendererState extends State<MarkdownRenderer> {
 
     if (rows.isEmpty) return const SizedBox.shrink();
     // Pad short rows so every TableRow has the same number of cells.
-    final columns =
-        rows.map((r) => r.children.length).fold<int>(0, (a, b) => a > b ? a : b);
+    final columns = rows
+        .map((r) => r.children.length)
+        .fold<int>(0, (a, b) => a > b ? a : b);
     final normalized = <TableRow>[
       for (final row in rows)
         if (row.children.length == columns)
@@ -373,10 +369,7 @@ class _MarkdownRendererState extends State<MarkdownRenderer> {
       scrollDirection: Axis.horizontal,
       child: Table(
         defaultColumnWidth: const IntrinsicColumnWidth(),
-        border: TableBorder.all(
-          color: theme.dividerColor,
-          width: 0.5,
-        ),
+        border: TableBorder.all(color: theme.dividerColor, width: 0.5),
         children: normalized,
       ),
     );
@@ -439,7 +432,12 @@ class _MarkdownRendererState extends State<MarkdownRenderer> {
       case 'img':
         return [WidgetSpan(child: _image(element))];
       case 'math':
-        return [WidgetSpan(child: _math(element), alignment: PlaceholderAlignment.middle)];
+        return [
+          WidgetSpan(
+            child: _math(element),
+            alignment: PlaceholderAlignment.middle,
+          ),
+        ];
       default:
         return _inlineSpans(element.children, style);
     }
@@ -510,14 +508,18 @@ class _MarkdownRendererState extends State<MarkdownRenderer> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.image_outlined,
-              size: 18, color: theme.colorScheme.onSurfaceVariant),
+          Icon(
+            Icons.image_outlined,
+            size: 18,
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
           const SizedBox(width: 6),
           Flexible(
             child: Text(
               alt.isEmpty ? 'Image' : alt,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
         ],

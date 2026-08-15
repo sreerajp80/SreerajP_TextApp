@@ -2,16 +2,16 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import '../../core/editor/encoding.dart';
-import '../../core/export/export_service.dart';
-import '../../core/export/export_target.dart';
-import '../../core/print/print_service.dart';
-import '../../core/share/share_service.dart';
-import '../../core/storage/saf_exceptions.dart';
-import '../../core/storage/saf_service.dart';
-import '../../core/zip/zip_service.dart';
-import '../../l10n/app_localizations.dart';
-import 'txt_document_session.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/core/export/export_service.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/core/print/print_service.dart';
+import 'package:text_data/core/share/share_service.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/core/zip/zip_service.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/txt/txt_document_session.dart';
 
 /// UI actions for the Phase 5 output services on a TXT document: share, share
 /// as zip, print, and export/convert. The services are shared and host-tested;
@@ -27,6 +27,11 @@ class TxtOutputActions {
   final SafService saf;
   final TextCodecService codec;
 
+  /// Called after a **successful** share, print, or export of this document.
+  /// Drives "burn after export" on a self-destructing tab (Feature 9), so a
+  /// cancelled or failed output can never destroy the document.
+  final void Function()? onOutputCompleted;
+
   const TxtOutputActions({
     required this.share,
     required this.zip,
@@ -34,15 +39,22 @@ class TxtOutputActions {
     required this.export,
     required this.saf,
     this.codec = const TextCodecService(),
+    this.onOutputCompleted,
   });
 
   /// The current text encoded to file bytes, preserving the session's encoding
   /// and line ending.
-  Uint8List _bytes(TxtDocumentSession session) =>
-      codec.encode(session.textContent.text, session.encoding, session.lineEnding);
+  Uint8List _bytes(TxtDocumentSession session) => codec.encode(
+    session.textContent.text,
+    session.encoding,
+    session.lineEnding,
+  );
 
   /// Shares the file (its current text) through the Android share sheet.
-  Future<void> shareFile(BuildContext context, TxtDocumentSession session) async {
+  Future<void> shareFile(
+    BuildContext context,
+    TxtDocumentSession session,
+  ) async {
     final messenger = ScaffoldMessenger.of(context);
     final l10n = AppLocalizations.of(context);
     try {
@@ -51,10 +63,9 @@ class TxtOutputActions {
         mimeType: session.tab.mimeType ?? 'text/plain',
         bytes: _bytes(session),
       );
+      onOutputCompleted?.call();
     } catch (_) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.outShareFileFailed)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.outShareFileFailed)));
     }
   }
 
@@ -73,10 +84,9 @@ class TxtOutputActions {
         mimeType: 'application/zip',
         bytes: zipped,
       );
+      onOutputCompleted?.call();
     } catch (_) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.outShareZipFailed)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.outShareZipFailed)));
     }
   }
 
@@ -94,10 +104,9 @@ class TxtOutputActions {
         session.textContent,
       );
       await print.printPdf(result.bytes, docName: session.textContent.baseName);
+      onOutputCompleted?.call();
     } catch (_) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.outPrintFailed)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.outPrintFailed)));
     }
   }
 
@@ -116,18 +125,13 @@ class TxtOutputActions {
       messenger.showSnackBar(SnackBar(content: Text(e.message)));
       return null;
     } catch (_) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.outExportFailed)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.outExportFailed)));
       return null;
     }
   }
 
   /// Saves an already-produced [result] to a new file the user picks.
-  Future<void> saveExport(
-    BuildContext context,
-    ExportResult result,
-  ) async {
+  Future<void> saveExport(BuildContext context, ExportResult result) async {
     final messenger = ScaffoldMessenger.of(context);
     final l10n = AppLocalizations.of(context);
     try {
@@ -139,6 +143,7 @@ class TxtOutputActions {
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.outSaved(file.displayName))),
       );
+      onOutputCompleted?.call();
     } on SafCancelled {
       // User backed out — nothing to report.
     } on SafException catch (e) {
@@ -147,10 +152,7 @@ class TxtOutputActions {
   }
 
   /// Shares an already-produced [result] through the share sheet.
-  Future<void> shareExport(
-    BuildContext context,
-    ExportResult result,
-  ) async {
+  Future<void> shareExport(BuildContext context, ExportResult result) async {
     final messenger = ScaffoldMessenger.of(context);
     final l10n = AppLocalizations.of(context);
     try {
@@ -159,6 +161,7 @@ class TxtOutputActions {
         mimeType: result.mimeType,
         bytes: result.bytes,
       );
+      onOutputCompleted?.call();
     } catch (_) {
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.outShareExportFailed)),

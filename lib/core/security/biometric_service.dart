@@ -29,7 +29,7 @@ class LocalAuthBiometricService implements BiometricService {
   final LocalAuthentication _auth;
 
   LocalAuthBiometricService([LocalAuthentication? auth])
-      : _auth = auth ?? LocalAuthentication();
+    : _auth = auth ?? LocalAuthentication();
 
   @override
   Future<bool> isAvailable() async {

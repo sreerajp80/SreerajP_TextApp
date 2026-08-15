@@ -1,4 +1,4 @@
-import 'json_node.dart';
+import 'package:text_data/formats/json/json_node.dart';
 
 /// Structural insights for a JSON document (task 8.6): key count, depth, array
 /// sizes, and a per-type breakdown. Pure Dart, no Flutter dependency.

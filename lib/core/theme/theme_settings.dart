@@ -1,4 +1,4 @@
-import 'app_theme_mode.dart';
+import 'package:text_data/core/theme/app_theme_mode.dart';
 
 /// All appearance preferences, in one immutable value (architecture.md §5, §8.1).
 ///
@@ -42,7 +42,8 @@ class ThemeSettings {
   static const String fontScaleKey = 'appearance.font_scale';
   static const String lineSpacingKey = 'appearance.line_spacing';
   static const String fontFamilyKey = 'appearance.font_family';
-  static const String malayalamFontFamilyKey = 'appearance.malayalam_font_family';
+  static const String malayalamFontFamilyKey =
+      'appearance.malayalam_font_family';
   static const String wordWrapKey = 'appearance.word_wrap';
 
   ThemeSettings copyWith({
@@ -68,10 +69,10 @@ class ThemeSettings {
   }
 
   static double _clampFontScale(double v) =>
-      v.clamp(minFontScale, maxFontScale).toDouble();
+      v.clamp(minFontScale, maxFontScale);
 
   static double _clampLineSpacing(double v) =>
-      v.clamp(minLineSpacing, maxLineSpacing).toDouble();
+      v.clamp(minLineSpacing, maxLineSpacing);
 
   @override
   bool operator ==(Object other) =>

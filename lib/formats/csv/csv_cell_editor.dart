@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
+import 'package:text_data/l10n/app_localizations.dart';
 
 /// A small dialog to edit one cell or a header name (task 7.5). Returns the new
 /// value, or null if the user cancels.
@@ -11,10 +11,8 @@ Future<String?> showCsvCellEditor(
 }) {
   return showDialog<String>(
     context: context,
-    builder: (context) => _CsvCellEditorDialog(
-      title: title,
-      initialValue: initialValue,
-    ),
+    builder: (context) =>
+        _CsvCellEditorDialog(title: title, initialValue: initialValue),
   );
 }
 
@@ -29,8 +27,9 @@ class _CsvCellEditorDialog extends StatefulWidget {
 }
 
 class _CsvCellEditorDialogState extends State<_CsvCellEditorDialog> {
-  late final TextEditingController _controller =
-      TextEditingController(text: widget.initialValue);
+  late final TextEditingController _controller = TextEditingController(
+    text: widget.initialValue,
+  );
 
   @override
   void dispose() {

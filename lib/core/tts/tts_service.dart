@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
-import 'tts_state.dart';
+import 'package:text_data/core/tts/tts_state.dart';
 
 /// The platform side of text-to-speech, behind an interface so the
 /// [TtsService] state machine stays host-testable (arch §12). The real

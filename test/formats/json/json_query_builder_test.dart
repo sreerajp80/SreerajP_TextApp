@@ -129,34 +129,36 @@ void main() {
 
   group('suggestions come from the document', () {
     test('the root offers its real keys', () {
-      final labels =
-          JsonQueryBuilder.suggestions(root, const []).map((c) => c.label);
+      final labels = JsonQueryBuilder.suggestions(
+        root,
+        const [],
+      ).map((c) => c.label);
       expect(labels, containsAll(['users', 'site name']));
     });
 
     test('an array offers element positions and the wildcard', () {
-      final labels = JsonQueryBuilder.suggestions(
-        root,
-        const [JsonQueryStep.key('users')],
-      ).map((c) => c.label).toList();
+      final labels = JsonQueryBuilder.suggestions(root, const [
+        JsonQueryStep.key('users'),
+      ]).map((c) => c.label).toList();
       expect(labels.first, '[*]');
       expect(labels, containsAll(['[0]', '[1]']));
     });
 
     test('an element offers the keys of that record', () {
-      final labels = JsonQueryBuilder.suggestions(
-        root,
-        const [JsonQueryStep.key('users'), JsonQueryStep.index(0)],
-      ).map((c) => c.label);
+      final labels = JsonQueryBuilder.suggestions(root, const [
+        JsonQueryStep.key('users'),
+        JsonQueryStep.index(0),
+      ]).map((c) => c.label);
       expect(labels, containsAll(['name', 'roles']));
     });
 
     test('positions are capped so a huge array stays usable', () {
       final big = parser.parse('[${List.filled(100, '1').join(',')}]').root!;
-      final positions = JsonQueryBuilder.suggestions(big, const [],
-              maxIndexChoices: 5)
-          .where((c) => c.label.startsWith('['))
-          .toList();
+      final positions = JsonQueryBuilder.suggestions(
+        big,
+        const [],
+        maxIndexChoices: 5,
+      ).where((c) => c.label.startsWith('[')).toList();
       // Five positions plus the leading wildcard chip.
       expect(positions.length, 6);
     });
@@ -180,13 +182,19 @@ void main() {
 
   group('deep key names', () {
     test('lists the key names below the selection, sorted', () {
-      expect(JsonQueryBuilder.deepKeys(root, const []),
-          ['name', 'roles', 'site name', 'users']);
+      expect(JsonQueryBuilder.deepKeys(root, const []), [
+        'name',
+        'roles',
+        'site name',
+        'users',
+      ]);
     });
 
     test('respects the limit', () {
-      expect(JsonQueryBuilder.deepKeys(root, const [], limit: 2).length,
-          lessThanOrEqualTo(2));
+      expect(
+        JsonQueryBuilder.deepKeys(root, const [], limit: 2).length,
+        lessThanOrEqualTo(2),
+      );
     });
   });
 }

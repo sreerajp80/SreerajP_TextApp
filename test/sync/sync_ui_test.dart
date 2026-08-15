@@ -10,28 +10,34 @@ import 'package:text_data/sync/ui/sync_summary_view.dart';
 import 'package:text_data/l10n/app_localizations.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: Scaffold(body: child),
-    );
+  localizationsDelegates: AppLocalizations.localizationsDelegates,
+  supportedLocales: AppLocalizations.supportedLocales,
+  home: Scaffold(body: child),
+);
 
 void main() {
   testWidgets('status chip reflects the host phase', (tester) async {
-    await tester.pumpWidget(_wrap(const SyncStatusChip(phase: HostPhase.listening)));
+    await tester.pumpWidget(
+      _wrap(const SyncStatusChip(phase: HostPhase.listening)),
+    );
     expect(find.text('Waiting for a device…'), findsOneWidget);
 
-    await tester.pumpWidget(_wrap(const SyncStatusChip(phase: HostPhase.connected)));
+    await tester.pumpWidget(
+      _wrap(const SyncStatusChip(phase: HostPhase.connected)),
+    );
     expect(find.text('Device connected'), findsOneWidget);
   });
 
   testWidgets('share actions are gated until connected', (tester) async {
     var fullSyncCalls = 0;
-    Widget chooser(bool connected) => _wrap(ShareChooser(
-          connected: connected,
-          sending: false,
-          onFullSync: () => fullSyncCalls++,
-          onSelective: (_, _) {},
-        ));
+    Widget chooser(bool connected) => _wrap(
+      ShareChooser(
+        connected: connected,
+        sending: false,
+        onFullSync: () => fullSyncCalls++,
+        onSelective: (_, _) {},
+      ),
+    );
 
     // Not connected: the Full sync button is disabled.
     await tester.pumpWidget(chooser(false));
@@ -52,16 +58,20 @@ void main() {
     expect(fullSyncCalls, 1);
   });
 
-  testWidgets('summary renders per-category and settings counts',
-      (tester) async {
-    final summary = SyncSummary(
+  testWidgets('summary renders per-category and settings counts', (
+    tester,
+  ) async {
+    const summary = SyncSummary(
       records: {
-        SyncConstants.categoryFavorites:
-            const RecordMergeResult(toAdd: [], added: 3, kept: 1),
+        SyncConstants.categoryFavorites: RecordMergeResult(
+          toAdd: [],
+          added: 3,
+          kept: 1,
+        ),
       },
-      settings: const SettingsMergeResult(toApply: {}, applied: 2, kept: 0),
+      settings: SettingsMergeResult(toApply: {}, applied: 2, kept: 0),
     );
-    await tester.pumpWidget(_wrap(SyncSummaryView(summary: summary)));
+    await tester.pumpWidget(_wrap(const SyncSummaryView(summary: summary)));
     expect(find.text('Sync complete'), findsOneWidget);
     expect(find.text('5 added · 1 kept'), findsOneWidget); // totals
     expect(find.text('3 added · 1 kept'), findsOneWidget); // favorites row

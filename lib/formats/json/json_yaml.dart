@@ -1,4 +1,4 @@
-import 'json_node.dart';
+import 'package:text_data/formats/json/json_node.dart';
 
 /// A small YAML emitter used by the JSON → YAML export target (task 8.6).
 ///
@@ -13,8 +13,12 @@ String jsonToYaml(JsonNode root) {
   return text.endsWith('\n') ? text : '$text\n';
 }
 
-void _emit(JsonNode node, StringBuffer out, int indent,
-    {required bool atLineStart}) {
+void _emit(
+  JsonNode node,
+  StringBuffer out,
+  int indent, {
+  required bool atLineStart,
+}) {
   switch (node.kind) {
     case JsonKind.object:
       if (node.children.isEmpty) {
@@ -78,8 +82,27 @@ bool _needsQuote(String s) {
   const reserved = {'true', 'false', 'null', 'yes', 'no', '~'};
   if (reserved.contains(s.toLowerCase())) return true;
   if (num.tryParse(s) != null) return true;
-  for (final ch in const [':', '#', '-', '?', '[', ']', '{', '}', ',', '&',
-    '*', '!', '|', '>', "'", '"', '%', '@', '`']) {
+  for (final ch in const [
+    ':',
+    '#',
+    '-',
+    '?',
+    '[',
+    ']',
+    '{',
+    '}',
+    ',',
+    '&',
+    '*',
+    '!',
+    '|',
+    '>',
+    "'",
+    '"',
+    '%',
+    '@',
+    '`',
+  ]) {
     if (s.contains(ch)) return true;
   }
   return false;

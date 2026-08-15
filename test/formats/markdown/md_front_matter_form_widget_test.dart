@@ -50,8 +50,10 @@ void main() {
       path: inMemoryDatabasePath,
       factory: databaseFactoryFfi,
     );
-    draftStore =
-        DraftStore(baseDir: tempDir, index: DraftsIndexRepository(database.db));
+    draftStore = DraftStore(
+      baseDir: tempDir,
+      index: DraftsIndexRepository(database.db),
+    );
   });
 
   tearDown(() async {
@@ -62,7 +64,7 @@ void main() {
   Future<MdDocumentSession> newSession(String text) async {
     final saf = _Saf(Uint8List.fromList(text.codeUnits));
     return MdDocumentSession(
-      tab: DocumentTab(
+      tab: const DocumentTab(
         id: 't',
         fingerprint: 'fp',
         uri: 'u',
@@ -100,8 +102,8 @@ void main() {
           home: Scaffold(
             body: Builder(
               builder: (context) => TextButton(
-                onPressed: () => showMdFrontMatterForm(context, session,
-                    readOnly: readOnly),
+                onPressed: () =>
+                    showMdFrontMatterForm(context, session, readOnly: readOnly),
                 child: const Text('open'),
               ),
             ),
@@ -115,20 +117,23 @@ void main() {
   }
 
   testWidgets('shows a field per front-matter entry', (tester) async {
-    final session =
-        await openForm(tester, '---\ntitle: T\nauthor: Jane\n---\n# Body');
+    final session = await openForm(
+      tester,
+      '---\ntitle: T\nauthor: Jane\n---\n# Body',
+    );
 
     expect(find.byKey(const Key('md-front-matter-title')), findsOneWidget);
     expect(find.byKey(const Key('md-front-matter-author')), findsOneWidget);
     session.dispose();
   });
 
-  testWidgets('editing a field writes it back to the document',
-      (tester) async {
+  testWidgets('editing a field writes it back to the document', (tester) async {
     final session = await openForm(tester, '---\ntitle: Old\n---\n# Body');
 
     await tester.enterText(
-        find.byKey(const Key('md-front-matter-title')), 'New');
+      find.byKey(const Key('md-front-matter-title')),
+      'New',
+    );
     await tester.tap(find.byKey(const Key('md-front-matter-save')));
     await tester.pumpAndSettle();
 
@@ -138,7 +143,8 @@ void main() {
   });
 
   testWidgets('an edit keeps YAML the form does not show', (tester) async {
-    const source = '---\n'
+    const source =
+        '---\n'
         '# a note\n'
         'title: Old\n'
         'nested:\n'
@@ -148,7 +154,9 @@ void main() {
     final session = await openForm(tester, source);
 
     await tester.enterText(
-        find.byKey(const Key('md-front-matter-title')), 'New');
+      find.byKey(const Key('md-front-matter-title')),
+      'New',
+    );
     await tester.tap(find.byKey(const Key('md-front-matter-save')));
     await tester.pumpAndSettle();
 
@@ -159,16 +167,16 @@ void main() {
     session.dispose();
   });
 
-  testWidgets('tags are shown as chips and one can be removed',
-      (tester) async {
-    final session =
-        await openForm(tester, '---\ntags: [draft, ideas]\n---\n# Body');
+  testWidgets('tags are shown as chips and one can be removed', (tester) async {
+    final session = await openForm(
+      tester,
+      '---\ntags: [draft, ideas]\n---\n# Body',
+    );
 
     expect(find.widgetWithText(InputChip, 'draft'), findsOneWidget);
     expect(find.widgetWithText(InputChip, 'ideas'), findsOneWidget);
 
-    await tester
-        .tap(find.byKey(const Key('md-front-matter-tag-remove-draft')));
+    await tester.tap(find.byKey(const Key('md-front-matter-tag-remove-draft')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('md-front-matter-save')));
     await tester.pumpAndSettle();
@@ -178,15 +186,18 @@ void main() {
     session.dispose();
   });
 
-  testWidgets('a file with no front matter offers the common fields',
-      (tester) async {
+  testWidgets('a file with no front matter offers the common fields', (
+    tester,
+  ) async {
     final session = await openForm(tester, '# Just a body');
 
     expect(find.byKey(const Key('md-front-matter-title')), findsOneWidget);
     expect(find.byKey(const Key('md-front-matter-date')), findsOneWidget);
 
     await tester.enterText(
-        find.byKey(const Key('md-front-matter-title')), 'Fresh');
+      find.byKey(const Key('md-front-matter-title')),
+      'Fresh',
+    );
     await tester.tap(find.byKey(const Key('md-front-matter-save')));
     await tester.pumpAndSettle();
 

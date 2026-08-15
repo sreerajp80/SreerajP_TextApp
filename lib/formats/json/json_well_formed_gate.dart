@@ -1,5 +1,5 @@
-import '../../core/editor/atomic_saver.dart';
-import 'json_parser.dart';
+import 'package:text_data/core/editor/atomic_saver.dart';
+import 'package:text_data/formats/json/json_parser.dart';
 
 /// The pre-save well-formedness gate for JSON (task 8.5).
 ///

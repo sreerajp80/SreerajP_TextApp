@@ -1,13 +1,22 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/editor/draft_store.dart';
-import '../../core/editor/editor_providers.dart';
-import '../../core/editor/editor_settings_controller.dart';
-import '../../core/storage/key_value_store.dart';
-import '../../core/storage/saf_service.dart';
-import '../../shell/tabs/document_tab.dart';
-import '../../shell/tabs/tabs_controller.dart';
-import 'xml_document_session.dart';
+import 'package:text_data/core/audit/audit_hooks.dart';
+import 'package:text_data/core/audit/audit_providers.dart';
+import 'package:text_data/core/audit/audit_settings.dart';
+
+import 'package:text_data/core/editor/draft_store.dart';
+import 'package:text_data/core/editor/editor_providers.dart';
+import 'package:text_data/core/editor/editor_settings_controller.dart';
+import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
+import 'package:text_data/core/index/index_hooks.dart';
+import 'package:text_data/core/index/index_providers.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/shell/tabs/tabs_controller.dart';
+import 'package:text_data/formats/xml/xml_document_session.dart';
 
 /// Owns the live [XmlDocumentSession] for each open XML tab.
 ///
@@ -40,6 +49,10 @@ class XmlSessionManager {
       defaultSaveLineEnding: editor.lineEndingDefault.resolve(),
       onDirtyChanged: (dirty) =>
           _ref.read(tabsControllerProvider.notifier).setDirty(tab.id, dirty),
+      onSaved: (text) {
+        _reindex(tab, text);
+        _auditSave(tab, text);
+      },
     );
     _sessions[tab.id] = session;
     session.load();
@@ -57,10 +70,48 @@ class XmlSessionManager {
   }
 
   void retainOnly(Set<String> openTabIds) {
-    final gone = _sessions.keys.where((id) => !openTabIds.contains(id)).toList();
+    final gone = _sessions.keys
+        .where((id) => !openTabIds.contains(id))
+        .toList();
     for (final id in gone) {
       _sessions.remove(id)?.dispose();
     }
+  }
+
+  /// Refreshes the workspace search index after a successful save, so a search
+  /// finds what the file says now (Feature 11). Best effort: any failure is
+  /// swallowed inside the hook.
+  void _reindex(DocumentTab tab, String text) {
+    // An ephemeral tab never feeds the workspace search index: that index stores
+    // the document's own text, which is exactly the trace the user asked the app
+    // not to keep (Feature 9).
+    if (_ref.read(ephemeralControllerProvider.notifier).isEphemeral(tab.id)) {
+      return;
+    }
+    unawaited(
+      WorkspaceIndexHooks.indexText(
+        service: _ref.read(searchIndexServiceProvider.future),
+        enabled: _ref.read(workspaceIndexEnabledProvider),
+        fingerprint: tab.fingerprint,
+        uri: tab.uri,
+        displayName: tab.displayName,
+        text: text,
+        mimeType: tab.mimeType,
+        size: tab.size,
+      ),
+    );
+  }
+
+  /// Records a file-save event in the audit log (Feature 8). Best effort.
+  void _auditSave(DocumentTab tab, String text) {
+    unawaited(
+      AuditHooks.onFileSaved(
+        service: _ref.read(auditServiceProvider.future),
+        enabled: _ref.read(auditEnabledProvider),
+        fileName: tab.displayName,
+        fingerprint: tab.fingerprint,
+      ),
+    );
   }
 
   void _disposeAll() {

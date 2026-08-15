@@ -1,5 +1,5 @@
-import '../storage/key_value_store.dart';
-import 'app_lock_hasher.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:text_data/core/security/app_lock_hasher.dart';
 
 /// Reads and writes the app-lock secrets — the PIN hash and the recovery-code
 /// hash — through [KeyValueStore], which routes both keys to Keystore-backed

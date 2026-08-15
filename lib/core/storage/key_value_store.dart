@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'preferences_store.dart';
-import 'secure_store.dart';
+import 'package:text_data/core/storage/preferences_store.dart';
+import 'package:text_data/core/storage/secure_store.dart';
 
 /// One place the rest of the app reads and writes simple settings.
 ///
@@ -19,12 +19,10 @@ class KeyValueStore {
   final Set<String> _sensitiveKeys;
 
   KeyValueStore({
-    required PreferencesStore prefs,
-    required SecureStore secure,
-    Set<String> sensitiveKeys = defaultSensitiveKeys,
-  })  : _prefs = prefs,
-        _secure = secure,
-        _sensitiveKeys = sensitiveKeys;
+    required this._prefs,
+    required this._secure,
+    this._sensitiveKeys = defaultSensitiveKeys,
+  });
 
   /// Opens preferences and builds a ready store backed by the real Keystore.
   ///
@@ -42,6 +40,7 @@ class KeyValueStore {
     'device_key', // Phase 12: this device's P2P encryption key.
     'app_lock_pin', // Phase 11/13: app-lock PIN hash (salted, never plaintext).
     'app_lock_recovery', // Phase 13: app-lock recovery-code hash (salted).
+    'vault_master_key', // Feature 4.5: Master AES-256 key for Per-Document Biometric Vault.
   };
 
   bool isSensitive(String key) => _sensitiveKeys.contains(key);
@@ -95,6 +94,14 @@ class KeyValueStore {
   double? getDouble(String key) => _prefs.getDouble(key);
   Future<void> setDouble(String key, double value) =>
       _prefs.setDouble(key, value);
+
+  /// Returns a snapshot of all stored non-sensitive preferences.
+  Map<String, Object?> getAllNonSensitiveSettings() =>
+      _prefs.getAllNonSensitive(_sensitiveKeys);
+
+  /// Restores non-sensitive preferences from a backup payload.
+  Future<void> restoreNonSensitiveSettings(Map<String, Object?> values) =>
+      _prefs.restoreAll(values, _sensitiveKeys);
 }
 
 /// Async provider that opens preferences and builds the facade. Later phases

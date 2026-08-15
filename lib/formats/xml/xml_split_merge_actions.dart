@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../core/editor/encoding.dart';
-import '../../core/storage/saf_exceptions.dart';
-import '../../core/storage/saf_service.dart';
-import '../../l10n/app_localizations.dart';
-import 'xml_convert.dart';
-import 'xml_document_session.dart';
-import 'xml_split_merge.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/xml/xml_convert.dart';
+import 'package:text_data/formats/xml/xml_document_session.dart';
+import 'package:text_data/formats/xml/xml_split_merge.dart';
 
 /// UI actions for splitting an XML document by a repeated child element and
 /// merging other XML files under a new wrapper root (task 9.6). The heavy lifting
@@ -52,16 +52,17 @@ class XmlSplitMergeActions {
       return;
     }
     if (parts.length < 2) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.xmlNothingToSplit)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.xmlNothingToSplit)));
       return;
     }
 
     final baseName = _stripExtension(session.tab.displayName);
     for (var i = 0; i < parts.length; i++) {
-      final bytes =
-          codec.encode(parts[i], session.encoding, session.lineEnding);
+      final bytes = codec.encode(
+        parts[i],
+        session.encoding,
+        session.lineEnding,
+      );
       try {
         await saf.createDocument(
           suggestedName: '$baseName.part${i + 1}.xml',
@@ -69,9 +70,9 @@ class XmlSplitMergeActions {
           mimeType: 'application/xml',
         );
       } on SafCancelled {
-        messenger.showSnackBar(SnackBar(
-          content: Text(l10n.splitStopped(i, parts.length)),
-        ));
+        messenger.showSnackBar(
+          SnackBar(content: Text(l10n.splitStopped(i, parts.length))),
+        );
         return;
       } on SafException catch (e) {
         messenger.showSnackBar(SnackBar(content: Text(e.message)));
@@ -101,7 +102,8 @@ class XmlSplitMergeActions {
     SafFile file;
     try {
       file = await saf.pickFile(
-          mimeTypes: const ['application/xml', 'text/xml', 'text/*']);
+        mimeTypes: const ['application/xml', 'text/xml', 'text/*'],
+      );
     } on SafCancelled {
       return;
     } on SafException catch (e) {
@@ -112,8 +114,10 @@ class XmlSplitMergeActions {
     try {
       final bytes = await saf.readBytes(file.uri);
       final decoded = codec.detectAndDecode(bytes);
-      final merged = splitMerge
-          .mergeUnderWrapper([code.text, decoded.text], wrapper.trim());
+      final merged = splitMerge.mergeUnderWrapper([
+        code.text,
+        decoded.text,
+      ], wrapper.trim());
       code.text = merged;
       session.setMode(XmlViewMode.edit);
       messenger.showSnackBar(
@@ -180,8 +184,9 @@ class XmlSplitMergeActions {
               child: Text(l10n.actionCancel),
             ),
             FilledButton(
-              onPressed: () => Navigator.of(context)
-                  .pop(int.tryParse(controller.text.trim())),
+              onPressed: () => Navigator.of(
+                context,
+              ).pop(int.tryParse(controller.text.trim())),
               child: Text(l10n.actionSplit),
             ),
           ],

@@ -28,7 +28,7 @@ devices with **no server and no internet**.
 
 ## Tech stack
 
-- **Flutter 3.41.9+ / Dart 3.11.5+**, **Material 3**.
+- **Flutter 3.44.8+ / Dart 3.12.2+**, **Material 3**.
 - **minSdk 26 (Android 8.0)**, phones and tablets, portrait and landscape.
 - **Open source only** — every library used is open source (Syncfusion and other
   commercial/source-available SDKs are not used).

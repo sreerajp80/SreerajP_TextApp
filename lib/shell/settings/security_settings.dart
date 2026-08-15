@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/storage/key_value_store.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
 
 /// Security preferences.
 ///

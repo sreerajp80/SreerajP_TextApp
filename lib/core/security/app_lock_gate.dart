@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../shell/settings/security_settings.dart';
-import 'app_lock_controller.dart';
-import 'lock_screen.dart';
-import 'security_providers.dart';
+import 'package:text_data/shell/settings/security_settings.dart';
+import 'package:text_data/core/security/app_lock_controller.dart';
+import 'package:text_data/core/security/lock_screen.dart';
+import 'package:text_data/core/security/security_providers.dart';
 
 /// Wraps the app: shows the [LockScreen] whenever app-lock is enabled and the
 /// session is locked, and otherwise shows [child]. Re-locks when the app goes to
@@ -47,9 +47,7 @@ class _AppLockGateState extends ConsumerState<AppLockGate>
     final enabled = ref.watch(
       securitySettingsProvider.select((s) => s.appLockEnabled),
     );
-    final locked = ref.watch(
-      appLockControllerProvider.select((s) => s.locked),
-    );
+    final locked = ref.watch(appLockControllerProvider.select((s) => s.locked));
     if (enabled && locked) {
       return const LockScreen();
     }

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:system_info2/system_info2.dart';
 
-import 'tab_cap.dart';
+import 'package:text_data/core/storage/tab_cap.dart';
 
 /// Reads total device RAM, used to compute the automatic tab cap
 /// (architecture.md §8.3). Behind an interface so tests inject sample values;
@@ -11,7 +11,8 @@ abstract class DeviceMemory {
   Future<int> totalPhysicalBytes();
 
   /// Convenience: the automatic tab cap for this device.
-  Future<int> autoTabCapForDevice() async => autoTabCap(await totalPhysicalBytes());
+  Future<int> autoTabCapForDevice() async =>
+      autoTabCap(await totalPhysicalBytes());
 }
 
 /// Real implementation backed by `system_info2`. Needs no Android permission.
@@ -43,5 +44,6 @@ class FakeDeviceMemory implements DeviceMemory {
   Future<int> autoTabCapForDevice() async => autoTabCap(bytes);
 }
 
-final deviceMemoryProvider =
-    Provider<DeviceMemory>((ref) => SystemInfoDeviceMemory());
+final deviceMemoryProvider = Provider<DeviceMemory>(
+  (ref) => SystemInfoDeviceMemory(),
+);

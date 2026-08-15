@@ -30,8 +30,9 @@ String _segmentFor(XmlNode node) {
     final name = node.name.qualified;
     final parent = node.parent;
     if (parent != null) {
-      final sameName =
-          parent.childElements.where((e) => e.name.qualified == name).toList();
+      final sameName = parent.childElements
+          .where((e) => e.name.qualified == name)
+          .toList();
       if (sameName.length > 1) {
         final index = sameName.indexWhere((e) => identical(e, node));
         return '$name[${index + 1}]';

@@ -73,8 +73,7 @@ void main() {
     });
 
     test('namespaces are listed', () {
-      const source =
-          '<root xmlns="urn:a" xmlns:x="urn:b"><x:child/></root>';
+      const source = '<root xmlns="urn:a" xmlns:x="urn:b"><x:child/></root>';
       final result = parser.parse(source);
       final ns = parser.namespaces(result.document!);
       expect(ns, containsAll(<String>['urn:a', 'urn:b']));

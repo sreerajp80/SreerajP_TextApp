@@ -9,8 +9,7 @@ void main() {
       final links = TxtLinkDetector.findLinks(
         'see http://a.com and https://b.org/x here',
       );
-      expect(links.map((l) => l.url),
-          ['http://a.com', 'https://b.org/x']);
+      expect(links.map((l) => l.url), ['http://a.com', 'https://b.org/x']);
     });
 
     test('trims trailing sentence punctuation', () {
@@ -28,31 +27,37 @@ void main() {
       WidgetTester tester, {
       required UrlOpener open,
     }) async {
-      await tester.pumpWidget(MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Scaffold(
-          body: Builder(
-            builder: (context) => TextButton(
-              onPressed: () => showLinkWarningDialog(
-                context,
-                'https://example.com',
-                open: open,
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Scaffold(
+            body: Builder(
+              builder: (context) => TextButton(
+                onPressed: () => showLinkWarningDialog(
+                  context,
+                  'https://example.com',
+                  open: open,
+                ),
+                child: const Text('tap'),
               ),
-              child: const Text('tap'),
             ),
           ),
         ),
-      ));
+      );
     }
 
-    testWidgets('shows the URL and only opens on explicit accept',
-        (tester) async {
+    testWidgets('shows the URL and only opens on explicit accept', (
+      tester,
+    ) async {
       Uri? opened;
-      await pumpTrigger(tester, open: (u) async {
-        opened = u;
-        return true;
-      });
+      await pumpTrigger(
+        tester,
+        open: (u) async {
+          opened = u;
+          return true;
+        },
+      );
 
       await tester.tap(find.text('tap'));
       await tester.pumpAndSettle();
@@ -68,10 +73,13 @@ void main() {
 
     testWidgets('cancel launches nothing', (tester) async {
       var launched = false;
-      await pumpTrigger(tester, open: (u) async {
-        launched = true;
-        return true;
-      });
+      await pumpTrigger(
+        tester,
+        open: (u) async {
+          launched = true;
+          return true;
+        },
+      );
 
       await tester.tap(find.text('tap'));
       await tester.pumpAndSettle();
@@ -83,10 +91,13 @@ void main() {
 
     testWidgets('copy does not launch', (tester) async {
       var launched = false;
-      await pumpTrigger(tester, open: (u) async {
-        launched = true;
-        return true;
-      });
+      await pumpTrigger(
+        tester,
+        open: (u) async {
+          launched = true;
+          return true;
+        },
+      );
 
       await tester.tap(find.text('tap'));
       await tester.pumpAndSettle();

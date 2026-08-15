@@ -74,8 +74,10 @@ void main() {
     expect(s.autoSaveInterval, Duration.zero);
 
     controller.setAutoSaveSeconds(10);
-    expect(container.read(editorSettingsProvider).autoSaveInterval,
-        const Duration(seconds: 10));
+    expect(
+      container.read(editorSettingsProvider).autoSaveInterval,
+      const Duration(seconds: 10),
+    );
   });
 
   test('auto-save seconds is clamped to a sane range', () {

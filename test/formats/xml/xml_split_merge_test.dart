@@ -26,15 +26,11 @@ void main() {
     final parts = splitMerge.splitByElement(source, 'item', 2);
     final merged = splitMerge.mergeUnderWrapper(parts, 'items');
 
-    final original = XmlDocument.parse(source)
-        .rootElement
-        .childElements
+    final original = XmlDocument.parse(source).rootElement.childElements
         .where((e) => e.name.qualified == 'item')
         .map((e) => e.innerText)
         .toList();
-    final result = XmlDocument.parse(merged)
-        .rootElement
-        .childElements
+    final result = XmlDocument.parse(merged).rootElement.childElements
         .where((e) => e.name.qualified == 'item')
         .map((e) => e.innerText)
         .toList();

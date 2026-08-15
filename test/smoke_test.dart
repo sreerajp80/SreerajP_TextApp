@@ -13,21 +13,22 @@ import 'package:text_data/shell/onboarding/onboarding_controller.dart';
 import 'support/test_support.dart';
 
 void main() {
-  testWidgets('App builds and shows the shell once onboarding is complete',
-      (tester) async {
-    final store = await inMemoryKeyValueStore(
-      {OnboardingController.completeKey: true},
-    );
+  testWidgets('App builds and shows the shell once onboarding is complete', (
+    tester,
+  ) async {
+    final store = await inMemoryKeyValueStore({
+      OnboardingController.completeKey: true,
+    });
 
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
           keyValueStoreSyncProvider.overrideWithValue(store),
           safServiceProvider.overrideWithValue(FakeSafService()),
-          deviceMemoryProvider
-              .overrideWithValue(const FakeDeviceMemory(4 * 1024 * 1024 * 1024)),
-          recentsControllerProvider
-              .overrideWith(() => StubRecentsController()),
+          deviceMemoryProvider.overrideWithValue(
+            const FakeDeviceMemory(4 * 1024 * 1024 * 1024),
+          ),
+          recentsControllerProvider.overrideWith(() => StubRecentsController()),
         ],
         child: const TextDataApp(),
       ),

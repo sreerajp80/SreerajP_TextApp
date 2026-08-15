@@ -33,7 +33,10 @@ class FakeSaveTarget implements SaveTarget {
   }
 
   @override
-  Future<SaveDestination> writeCopy(String suggestedName, Uint8List bytes) async {
+  Future<SaveDestination> writeCopy(
+    String suggestedName,
+    Uint8List bytes,
+  ) async {
     lastCopy = SaveDestination(
       uri: 'content://new/$suggestedName',
       displayName: suggestedName,
@@ -110,18 +113,20 @@ void main() {
     expect(utf8.decode(target.committed), 'ORIGINAL');
   });
 
-  test('save as a copy skips the gate and does not touch the original',
-      () async {
-    final target = FakeSaveTarget();
-    final result = await saver.saveAsCopy(
-      'this is BAD but saved as a copy',
-      target,
-      'copy.txt',
-      encoding: TextEncodingType.utf8,
-      lineEnding: LineEndingStyle.lf,
-    );
-    expect(result.outcome, SaveOutcome.savedAsCopy);
-    expect(result.destination?.displayName, 'copy.txt');
-    expect(utf8.decode(target.committed), 'ORIGINAL');
-  });
+  test(
+    'save as a copy skips the gate and does not touch the original',
+    () async {
+      final target = FakeSaveTarget();
+      final result = await saver.saveAsCopy(
+        'this is BAD but saved as a copy',
+        target,
+        'copy.txt',
+        encoding: TextEncodingType.utf8,
+        lineEnding: LineEndingStyle.lf,
+      );
+      expect(result.outcome, SaveOutcome.savedAsCopy);
+      expect(result.destination?.displayName, 'copy.txt');
+      expect(utf8.decode(target.committed), 'ORIGINAL');
+    },
+  );
 }

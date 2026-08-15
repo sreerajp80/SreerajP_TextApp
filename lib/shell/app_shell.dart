@@ -1,12 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../l10n/app_localizations.dart';
-import 'home/home_screen.dart';
-import 'settings/settings_screen.dart';
-import 'shell_providers.dart';
-import 'tabs/tabs_controller.dart';
-import 'tabs/tabs_workspace.dart';
+import 'package:text_data/core/index/index_providers.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/home/home_screen.dart';
+import 'package:text_data/shell/settings/settings_screen.dart';
+import 'package:text_data/shell/shell_providers.dart';
+import 'package:text_data/shell/tabs/tabs_controller.dart';
+import 'package:text_data/shell/tabs/tabs_workspace.dart';
 
 /// The adaptive frame the user lives in (task 2.2).
 ///
@@ -37,6 +40,9 @@ class _AppShellState extends ConsumerState<AppShell> {
     final tabs = ref.read(tabsControllerProvider.notifier);
     await tabs.resolveCap();
     final skipped = await tabs.restore();
+    // Fill the workspace search index for files opened before the index
+    // existed. It runs quietly in the background (Feature 11).
+    unawaited(runWorkspaceIndexBackfill(ref));
     if (!mounted) return;
     if (skipped > 0) {
       ScaffoldMessenger.of(context).showSnackBar(

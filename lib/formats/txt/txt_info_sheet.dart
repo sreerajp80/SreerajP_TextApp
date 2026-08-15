@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'txt_document_session.dart';
-import 'txt_encoding_labels.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/txt/txt_document_session.dart';
+import 'package:text_data/formats/txt/txt_encoding_labels.dart';
 
 /// A bottom sheet showing the file's stats and metadata (task 4.3): word /
 /// character / line counts plus size, dates, encoding, and line ending.
@@ -17,12 +17,16 @@ Future<void> showInfoSheet(BuildContext context, TxtDocumentSession session) {
       final rows = <MapEntry<String, String>>[
         MapEntry(l10n.txtInfoWords, '${stats.words}'),
         MapEntry(l10n.txtInfoCharacters, '${stats.characters}'),
-        MapEntry(l10n.txtInfoCharactersNoLineBreaks, '${stats.charactersNoLineBreaks}'),
+        MapEntry(
+          l10n.txtInfoCharactersNoLineBreaks,
+          '${stats.charactersNoLineBreaks}',
+        ),
         MapEntry(l10n.txtInfoLines, '${stats.lines}'),
         if (meta != null) ...[
           MapEntry(l10n.txtEncoding, session.encoding.label),
           MapEntry(l10n.txtLineEnding, session.lineEnding.label),
-          if (meta.size != null) MapEntry(l10n.txtInfoSize, _formatBytes(meta.size!)),
+          if (meta.size != null)
+            MapEntry(l10n.txtInfoSize, _formatBytes(meta.size!)),
           if (meta.modifiedAt != null)
             MapEntry(l10n.txtInfoModified, _formatDate(meta.modifiedAt!)),
         ],
@@ -34,8 +38,10 @@ Future<void> showInfoSheet(BuildContext context, TxtDocumentSession session) {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.txtInfoTitle,
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                l10n.txtInfoTitle,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 8),
               for (final row in rows)
                 Padding(
@@ -46,8 +52,8 @@ Future<void> showInfoSheet(BuildContext context, TxtDocumentSession session) {
                       Text(
                         row.value,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),

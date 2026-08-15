@@ -46,7 +46,9 @@ void main() {
       expect(names, contains('[Content_Types].xml'));
       expect(names, contains('word/document.xml'));
 
-      final doc = archive.files.firstWhere((f) => f.name == 'word/document.xml');
+      final doc = archive.files.firstWhere(
+        (f) => f.name == 'word/document.xml',
+      );
       final xml = utf8.decode(doc.content as List<int>);
       // Special chars must be escaped, not raw.
       expect(xml, contains('Hello &amp; welcome'));
@@ -55,8 +57,11 @@ void main() {
     });
 
     test('TXT→plainText returns the text verbatim', () async {
-      final result =
-          await service.export('txt', ExportTarget.plainText, content);
+      final result = await service.export(
+        'txt',
+        ExportTarget.plainText,
+        content,
+      );
       expect(utf8.decode(result.bytes), content.text);
     });
 

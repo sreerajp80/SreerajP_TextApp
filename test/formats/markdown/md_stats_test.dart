@@ -12,7 +12,8 @@ void main() {
   });
 
   test('counts words, lines, headings, and links', () {
-    const source = '# Title\n'
+    const source =
+        '# Title\n'
         '\n'
         'Some **bold** text with a [link](https://example.com).\n'
         '\n'

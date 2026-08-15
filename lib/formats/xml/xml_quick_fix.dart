@@ -233,7 +233,9 @@ class XmlQuickFixes {
 
   static String _nameOf(String inner) {
     var end = 0;
-    while (end < inner.length && inner[end].trim().isNotEmpty && inner[end] != '/') {
+    while (end < inner.length &&
+        inner[end].trim().isNotEmpty &&
+        inner[end] != '/') {
       end++;
     }
     return inner.substring(0, end);

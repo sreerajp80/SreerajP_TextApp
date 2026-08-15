@@ -57,8 +57,9 @@ String _directText(XmlElement element) {
 /// itself has children). Missing fields are blank.
 String xmlToCsv(XmlDocument document, String tag) {
   final root = document.rootElement;
-  final rows =
-      root.childElements.where((e) => e.name.qualified == tag).toList();
+  final rows = root.childElements
+      .where((e) => e.name.qualified == tag)
+      .toList();
 
   final headers = <String>[];
   final rowMaps = <Map<String, String>>[];

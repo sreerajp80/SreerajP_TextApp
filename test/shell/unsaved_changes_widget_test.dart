@@ -13,11 +13,11 @@ import '../support/test_support.dart';
 // exercise tab close / unsaved-prompt mechanics, not the TXT editor (which has
 // its own tests in test/formats/txt/).
 SafFile _file(String id) => SafFile(
-      uri: 'content://$id',
-      displayName: '$id.bin',
-      mimeType: 'application/octet-stream',
-      size: 10,
-    );
+  uri: 'content://$id',
+  displayName: '$id.bin',
+  mimeType: 'application/octet-stream',
+  size: 10,
+);
 
 Future<(ProviderContainer, TabsController)> _pumpWithDirtyTab(
   WidgetTester tester,
@@ -27,8 +27,9 @@ Future<(ProviderContainer, TabsController)> _pumpWithDirtyTab(
     overrides: [
       keyValueStoreSyncProvider.overrideWithValue(kv),
       safServiceProvider.overrideWithValue(FakeSafService()),
-      deviceMemoryProvider
-          .overrideWithValue(const FakeDeviceMemory(4 * 1024 * 1024 * 1024)),
+      deviceMemoryProvider.overrideWithValue(
+        const FakeDeviceMemory(4 * 1024 * 1024 * 1024),
+      ),
     ],
   );
   addTearDown(container.dispose);
@@ -51,8 +52,9 @@ Future<(ProviderContainer, TabsController)> _pumpWithDirtyTab(
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('closing a dirty tab shows the Save/Discard prompt (3.7)',
-      (tester) async {
+  testWidgets('closing a dirty tab shows the Save/Discard prompt (3.7)', (
+    tester,
+  ) async {
     await _pumpWithDirtyTab(tester);
 
     await tester.tap(find.byTooltip('Close'));
@@ -86,8 +88,9 @@ void main() {
     expect(container.read(tabsControllerProvider).tabs, hasLength(1));
   });
 
-  testWidgets('a read-only tab is offered a copy only (no Save)',
-      (tester) async {
+  testWidgets('a read-only tab is offered a copy only (no Save)', (
+    tester,
+  ) async {
     final (container, tabs) = await _pumpWithDirtyTab(tester);
     final id = container.read(tabsControllerProvider).activeTab!.id;
     tabs.setReadOnly(id, true);

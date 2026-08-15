@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import '../../core/export/export_target.dart';
-import '../../core/export/format_exporter.dart';
-import '../../core/export/html_writer.dart';
-import '../../core/export/pdf_writer.dart';
-import 'json_node.dart';
-import 'json_parser.dart';
-import 'json_yaml.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/core/export/format_exporter.dart';
+import 'package:text_data/core/export/html_writer.dart';
+import 'package:text_data/core/export/pdf_writer.dart';
+import 'package:text_data/formats/json/json_node.dart';
+import 'package:text_data/formats/json/json_parser.dart';
+import 'package:text_data/formats/json/json_yaml.dart';
 
 /// Export capability for JSON documents (task 8.6).
 ///
@@ -22,25 +22,23 @@ class JsonExporter implements FormatExporter {
   final JsonParser _parser;
 
   const JsonExporter({
-    PdfWriter pdf = const PdfWriter(),
-    HtmlWriter html = const HtmlWriter(),
-    JsonParser parser = const JsonParser(),
-  })  : _pdf = pdf,
-        _html = html,
-        _parser = parser;
+    this._pdf = const PdfWriter(),
+    this._html = const HtmlWriter(),
+    this._parser = const JsonParser(),
+  });
 
   @override
   String get formatId => 'json';
 
   @override
   Set<ExportTarget> get supportedTargets => const {
-        ExportTarget.json,
-        ExportTarget.csv,
-        ExportTarget.yaml,
-        ExportTarget.pdf,
-        ExportTarget.html,
-        ExportTarget.plainText,
-      };
+    ExportTarget.json,
+    ExportTarget.csv,
+    ExportTarget.yaml,
+    ExportTarget.pdf,
+    ExportTarget.html,
+    ExportTarget.plainText,
+  };
 
   @override
   Future<ExportResult> export(ExportTarget target, TextContent content) async {
@@ -75,7 +73,8 @@ class JsonExporter implements FormatExporter {
       case ExportTarget.docx:
       case ExportTarget.xlsx:
         throw UnsupportedExportException(
-            'JSON cannot export to ${target.label}.');
+          'JSON cannot export to ${target.label}.',
+        );
     }
     return ExportResult(
       bytes: bytes,
@@ -88,7 +87,8 @@ class JsonExporter implements FormatExporter {
   void _requireParsed(JsonNode? root, String targetName) {
     if (root == null) {
       throw UnsupportedExportException(
-          'Fix the JSON errors before exporting to $targetName.');
+        'Fix the JSON errors before exporting to $targetName.',
+      );
     }
   }
 }

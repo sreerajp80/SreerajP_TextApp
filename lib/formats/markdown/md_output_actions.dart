@@ -2,16 +2,16 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import '../../core/editor/encoding.dart';
-import '../../core/export/export_service.dart';
-import '../../core/export/export_target.dart';
-import '../../core/print/print_service.dart';
-import '../../core/share/share_service.dart';
-import '../../core/storage/saf_exceptions.dart';
-import '../../core/storage/saf_service.dart';
-import '../../core/zip/zip_service.dart';
-import '../../l10n/app_localizations.dart';
-import 'md_document_session.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/core/export/export_service.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/core/print/print_service.dart';
+import 'package:text_data/core/share/share_service.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/core/zip/zip_service.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/markdown/md_document_session.dart';
 
 /// UI actions for the shared output services on a Markdown document: share,
 /// share as zip, print, and export/convert (task 6.5). Mirrors
@@ -28,6 +28,11 @@ class MdOutputActions {
   final SafService saf;
   final TextCodecService codec;
 
+  /// Called after a **successful** share, print, or export of this document.
+  /// Drives "burn after export" on a self-destructing tab (Feature 9), so a
+  /// cancelled or failed output can never destroy the document.
+  final void Function()? onOutputCompleted;
+
   const MdOutputActions({
     required this.share,
     required this.zip,
@@ -35,13 +40,14 @@ class MdOutputActions {
     required this.export,
     required this.saf,
     this.codec = const TextCodecService(),
+    this.onOutputCompleted,
   });
 
   Uint8List _bytes(MdDocumentSession session) => codec.encode(
-        session.textContent.text,
-        session.encoding,
-        session.lineEnding,
-      );
+    session.textContent.text,
+    session.encoding,
+    session.lineEnding,
+  );
 
   Future<void> shareFile(
     BuildContext context,
@@ -55,10 +61,9 @@ class MdOutputActions {
         mimeType: session.tab.mimeType ?? 'text/markdown',
         bytes: _bytes(session),
       );
+      onOutputCompleted?.call();
     } catch (_) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.outShareFileFailed)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.outShareFileFailed)));
     }
   }
 
@@ -76,17 +81,13 @@ class MdOutputActions {
         mimeType: 'application/zip',
         bytes: zipped,
       );
+      onOutputCompleted?.call();
     } catch (_) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.outShareZipFailed)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.outShareZipFailed)));
     }
   }
 
-  Future<void> printDoc(
-    BuildContext context,
-    MdDocumentSession session,
-  ) async {
+  Future<void> printDoc(BuildContext context, MdDocumentSession session) async {
     final messenger = ScaffoldMessenger.of(context);
     final l10n = AppLocalizations.of(context);
     try {
@@ -96,10 +97,9 @@ class MdOutputActions {
         session.textContent,
       );
       await print.printPdf(result.bytes, docName: session.textContent.baseName);
+      onOutputCompleted?.call();
     } catch (_) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.outPrintFailed)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.outPrintFailed)));
     }
   }
 
@@ -116,9 +116,7 @@ class MdOutputActions {
       messenger.showSnackBar(SnackBar(content: Text(e.message)));
       return null;
     } catch (_) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.outExportFailed)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.outExportFailed)));
       return null;
     }
   }
@@ -135,6 +133,7 @@ class MdOutputActions {
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.outSaved(file.displayName))),
       );
+      onOutputCompleted?.call();
     } on SafCancelled {
       // User backed out — nothing to report.
     } on SafException catch (e) {
@@ -151,6 +150,7 @@ class MdOutputActions {
         mimeType: result.mimeType,
         bytes: result.bytes,
       );
+      onOutputCompleted?.call();
     } catch (_) {
       messenger.showSnackBar(
         SnackBar(content: Text(l10n.outShareExportFailed)),

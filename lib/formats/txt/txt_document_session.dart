@@ -3,19 +3,20 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:re_editor/re_editor.dart';
 
-import '../../core/editor/atomic_saver.dart';
-import '../../core/editor/draft_store.dart';
-import '../../core/editor/encoding.dart';
-import '../../core/editor/external_change.dart';
-import '../../core/editor/saf_save_target.dart';
-import '../../core/export/export_target.dart';
-import '../../core/metadata/file_metadata.dart';
-import '../../core/storage/key_value_store.dart';
-import '../../core/storage/saf_exceptions.dart';
-import '../../core/storage/saf_service.dart';
-import '../../shell/tabs/document_tab.dart';
-import 'txt_content_sniff.dart';
-import 'txt_stats.dart';
+import 'package:text_data/core/editor/atomic_saver.dart';
+import 'package:text_data/core/editor/draft_store.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/core/editor/external_change.dart';
+import 'package:text_data/core/editor/saf_save_target.dart';
+import 'package:text_data/core/ephemeral/secure_wipe.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/core/metadata/file_metadata.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/formats/txt/txt_content_sniff.dart';
+import 'package:text_data/formats/txt/txt_stats.dart';
 
 /// Loading lifecycle of one open TXT document.
 enum TxtLoadStatus { loading, ready, failed }
@@ -45,6 +46,11 @@ class TxtDocumentSession extends ChangeNotifier with ExternalChangeMixin {
   /// the tab (drives the close guard).
   final void Function(bool isDirty)? onDirtyChanged;
 
+  /// Called with the saved text right after a successful overwrite save, so the
+  /// shell can refresh the workspace search index (Feature 11). It must never
+  /// throw — the session ignores whatever it returns.
+  final void Function(String text)? onSaved;
+
   /// How often the auto-save draft is written while editing. [Duration.zero]
   /// (or less) turns auto-save off (task 11.2).
   final Duration autoSaveInterval;
@@ -63,24 +69,20 @@ class TxtDocumentSession extends ChangeNotifier with ExternalChangeMixin {
 
   TxtDocumentSession({
     required this.tab,
-    required SafService saf,
-    required TextCodecService codec,
-    required AtomicSaver saver,
-    required MetadataService metadata,
-    required KeyValueStore store,
+    required this._saf,
+    required this._codec,
+    required this._saver,
+    required this._metadata,
+    required this._store,
     required Future<DraftStore> draftStore,
     required Future<Directory> tempDir,
     this.onDirtyChanged,
+    this.onSaved,
     this.autoSaveInterval = const Duration(seconds: 5),
     this.initialWordWrap = true,
     this.defaultSaveEncoding,
     this.defaultSaveLineEnding,
-  }) : _saf = saf,
-       _codec = codec,
-       _saver = saver,
-       _metadata = metadata,
-       _store = store,
-       _draftStoreFuture = draftStore,
+  }) : _draftStoreFuture = draftStore,
        _tempDirFuture = tempDir,
        _viewMode = tab.viewMode;
 
@@ -430,6 +432,7 @@ class TxtDocumentSession extends ChangeNotifier with ExternalChangeMixin {
     _draftAvailable = false;
     // The file on disk is now ours again — never warn about our own write.
     await captureDiskBaseline();
+    onSaved?.call(text);
   }
 
   void undo() => _code?.undo();
@@ -501,12 +504,38 @@ class TxtDocumentSession extends ChangeNotifier with ExternalChangeMixin {
     notifyListeners();
   }
 
+  /// Drops this session's copies of the document from memory.
+  ///
+  /// The raw file bytes are a [Uint8List], which is mutable, so
+  /// [SecureWipe.zeroBytes] genuinely overwrites them. The decoded text is a
+  /// Dart [String] — immutable and garbage-collected — so the only thing
+  /// possible there is to drop every reference and let the collector reclaim
+  /// it. Nothing in the app claims more than that.
+  ///
+  /// Run on every dispose, not only for ephemeral tabs (Feature 9): it costs
+  /// almost nothing and it means a closed tab stops holding a document in RAM.
+  void scrubInMemory() {
+    SecureWipe.zeroBytes(_rawBytes);
+    _rawBytes = null;
+    _savedText = '';
+    try {
+      _code?.text = '';
+    } catch (_) {
+      // The controller may already be torn down; dropping the reference below
+      // is what matters, and a dispose path must never throw.
+    }
+  }
+
   @override
   void dispose() {
     _disposed = true;
     persistPosition();
     _autoSaver?.stop();
     _code?.removeListener(_onCodeChanged);
+    // Scrub while the controller is still alive but no longer feeding our
+    // listener, so clearing it cannot re-enter the dirty-flag path. Runs after
+    // persistPosition() above, which needs the caret.
+    scrubInMemory();
     _find?.dispose();
     _scroll?.dispose();
     _code?.dispose();

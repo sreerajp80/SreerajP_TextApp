@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'sync_client_screen.dart';
-import 'sync_host_screen.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/sync/ui/sync_client_screen.dart';
+import 'package:text_data/sync/ui/sync_host_screen.dart';
 
 /// Entry point for P2P LAN sync: pick Send (host) or Receive (client).
 ///
@@ -19,10 +19,7 @@ class SyncLandingScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text(
-            l10n.syncIntro,
-            style: theme.textTheme.bodyMedium,
-          ),
+          Text(l10n.syncIntro, style: theme.textTheme.bodyMedium),
           const SizedBox(height: 20),
           Card(
             child: ListTile(
@@ -30,9 +27,9 @@ class SyncLandingScreen extends StatelessWidget {
               title: Text(l10n.syncSend),
               subtitle: Text(l10n.syncSendSubtitle),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const SyncHostScreen()),
-              ),
+              onTap: () => Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (_) => const SyncHostScreen())),
             ),
           ),
           const SizedBox(height: 8),

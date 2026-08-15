@@ -1412,17 +1412,233 @@ abstract class AppLocalizations {
   /// **'Learn how app features work.'**
   String get helpCardSubtitle;
 
+  /// Hint in Help search bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Search help topics…'**
+  String get helpSearchFilterHint;
+
+  /// Empty state when search matches no help topics.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching help topics found.'**
+  String get helpNoTopicsFound;
+
+  /// Help topic title for LAN sync and live diff.
+  ///
+  /// In en, this message translates to:
+  /// **'LAN Sync & Live Diff'**
+  String get helpP2pSyncTitle;
+
+  /// Short subtitle for LAN sync and live diff.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync data and compare document versions live over Wi-Fi.'**
+  String get helpP2pSyncSubtitle;
+
+  /// Help text explaining LAN sync and live diff.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync favorites, bookmarks, recents, and display settings across devices on your local Wi-Fi without internet or external servers.\n\n• Live Diff & Delta Sync: Open any document, tap menu and select Live Diff to connect with a nearby device. View color-coded line-by-line differences and merge specific incoming changes directly.\n• Security: All sync communication is encrypted end-to-end using AES-256-GCM with a temporary pairing code. Nothing is ever sent over the internet.'**
+  String get helpP2pSyncBody;
+
+  /// Help topic title for air-gap QR transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Optical QR Transfer (AirQR)'**
+  String get helpQrSharingTitle;
+
+  /// Short subtitle for the QR-sharing help card.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer text and files visually without Wi-Fi, Bluetooth, or cables.'**
+  String get helpQrSharingSubtitle;
+
+  /// Help text explaining how QR sharing works.
+  ///
+  /// In en, this message translates to:
+  /// **'Send documents or selections between devices using animated high-density QR codes and camera scanning without any network connection.\n\n• How to Send: Open a document, tap the menu and choose \"Send by QR\" or \"Send selection by QR\". Adjust speed and density if needed.\n• How to Receive: Open the AirQR screen on the receiver and point the camera at the sender\'s screen.\n• Encryption: Enable encryption to protect transfers with an AES-256 session passphrase.'**
+  String get helpQrSharingBody;
+
+  /// Help topic title for Privacy Shield.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Shield & PII Scrubber'**
+  String get helpPrivacyShieldTitle;
+
+  /// Short subtitle for Privacy Shield.
+  ///
+  /// In en, this message translates to:
+  /// **'Detect and redact sensitive personal information completely offline.'**
+  String get helpPrivacyShieldSubtitle;
+
+  /// Help text explaining Privacy Shield.
+  ///
+  /// In en, this message translates to:
+  /// **'Protect personal and confidential information before sharing or saving.\n\n• Automatic Detection: Privacy Shield scans text offline for email addresses, phone numbers, credit card numbers, IPv4/IPv6 addresses, national IDs (SSN/Aadhaar), and secret API keys/tokens.\n• Redact & Mask: Preview detected items, select specific categories to mask, and replace them with standard redaction tokens (e.g. [EMAIL], [PHONE]) or asterisks.\n• Zero Network Leakage: All scanning and scrubbing is performed purely on your device.'**
+  String get helpPrivacyShieldBody;
+
+  /// Help topic title for Document Vault and Backups.
+  ///
+  /// In en, this message translates to:
+  /// **'Document Vault & Encrypted Backups'**
+  String get helpVaultBackupTitle;
+
+  /// Short subtitle for Document Vault and Backups.
+  ///
+  /// In en, this message translates to:
+  /// **'Store sensitive files in an encrypted vault and export .txdata archives.'**
+  String get helpVaultBackupSubtitle;
+
+  /// Help text explaining Document Vault and Backups.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep sensitive files secure with hardware-backed encryption.\n\n• Document Vault: Store private files in an isolated AES-256-GCM encrypted vault protected by your app PIN or biometric authentication.\n• Encrypted Backups (.txdata): Export multiple documents and settings into password-protected encrypted .txdata archive files.\n• Restore: Import .txdata backups at any time with the archive password.'**
+  String get helpVaultBackupBody;
+
+  /// Help topic title for SQL Query Engine.
+  ///
+  /// In en, this message translates to:
+  /// **'SQL Query Engine'**
+  String get helpSqlQueryTitle;
+
+  /// Short subtitle for SQL Query Engine.
+  ///
+  /// In en, this message translates to:
+  /// **'Query CSV, JSON, and XML files directly with local SQL statements.'**
+  String get helpSqlQuerySubtitle;
+
+  /// Help text explaining SQL Query Engine.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyze and transform tabular and structured data using standard SQL syntax directly on your device.\n\n• Supported Formats: Run queries on CSV, JSON, and XML documents.\n• Capabilities: Full SQL syntax including SELECT, WHERE, GROUP BY, HAVING, ORDER BY, and table JOINs across opened tabs.\n• Export Results: Save query output directly as new CSV or JSON files.'**
+  String get helpSqlQueryBody;
+
+  /// Help topic title for multi-cursor and column selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-Cursor & Column Editing'**
+  String get helpMultiCursorTitle;
+
+  /// Short subtitle for multi-cursor and column selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Simultaneously edit multiple lines and select vertical text columns.'**
+  String get helpMultiCursorSubtitle;
+
+  /// Help text explaining multi-cursor and column selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Boost editing speed on repetitive formatting and text transformation tasks.\n\n• Multi-Cursor: Tap and hold to place multiple independent cursors in the text editor. All cursors type, delete, and paste at the same time.\n• Column Selection: Select vertical columns of text across multiple lines to easily add prefixes, suffixes, or edit tabular text alignments.'**
+  String get helpMultiCursorBody;
+
+  /// Help topic title for search features.
+  ///
+  /// In en, this message translates to:
+  /// **'Search & Workspace Index'**
+  String get helpSearchTitle;
+
+  /// Short subtitle for the search help card.
+  ///
+  /// In en, this message translates to:
+  /// **'Find text inside documents or search across all files with SQLite FTS5.'**
+  String get helpSearchSubtitle;
+
+  /// Help text explaining search features.
+  ///
+  /// In en, this message translates to:
+  /// **'Find text rapidly across your documents:\n\n• In-Document Search: Use Find & Replace with case sensitivity, whole-word matching, and regular expressions.\n• Global Workspace Search: Tap the search icon on the Home screen to query the high-speed SQLite FTS5 full-text index covering all recent and favorite documents.\n• 100% Private: All indexing and search operations occur locally on your device.'**
+  String get helpSearchBody;
+
+  /// Help topic title for Tamper-Evident Audit Log.
+  ///
+  /// In en, this message translates to:
+  /// **'Tamper-Evident Audit Log'**
+  String get helpAuditLogTitle;
+
+  /// Short subtitle for Tamper-Evident Audit Log.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify file integrity with cryptographic SHA-256 hash chains.'**
+  String get helpAuditLogSubtitle;
+
+  /// Help text explaining Tamper-Evident Audit Log.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintain transparent and tamper-evident records of document operations.\n\n• Hash Chaining: Every file open, edit, save, export, and vault operation is logged with SHA-256 digests chained cryptographically to the previous entry.\n• Integrity Verification: Run verification from Settings → Audit Log to mathematically prove no log entries or file histories have been altered.'**
+  String get helpAuditLogBody;
+
+  /// Help topic title for Format Tools.
+  ///
+  /// In en, this message translates to:
+  /// **'Format-Specific Tools'**
+  String get helpFormatToolsTitle;
+
+  /// Short subtitle for Format Tools.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialized visual tools and editors for JSON, Markdown, CSV, XML, and TXT.'**
+  String get helpFormatToolsSubtitle;
+
+  /// Help text explaining Format Tools.
+  ///
+  /// In en, this message translates to:
+  /// **'TextData provides custom editors and visual tools tailored to each file type:\n\n• JSON: Interactive visual tree viewer, JSONPath query runner, schema validator, array splitter, and formatter.\n• Markdown: Live split-screen preview, visual table builder, YAML front-matter editor, and heading splitter.\n• CSV: Interactive spreadsheet grid, column sorting, formulas (SUM, AVG, MIN, MAX, COUNT), and delimiter converter.\n• XML: Hierarchical tree view, XPath query runner, XSD schema validator, and auto-beautifier.\n• TXT: Line splitting, word wrap toggling, line jump, and web link extractor.'**
+  String get helpFormatToolsBody;
+
+  /// Help topic title for speech features.
+  ///
+  /// In en, this message translates to:
+  /// **'Speech & Read Aloud'**
+  String get helpSpeechTitle;
+
+  /// Short subtitle for speech features.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen to documents read aloud in English and Malayalam.'**
+  String get helpSpeechSubtitle;
+
+  /// Help text explaining speech features.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen to documents hands-free using your device\'s built-in text-to-speech engine.\n\n• Supported Languages: English and Malayalam.\n• Voice Controls: Play, pause, stop, and configure speech rate and language from Settings → Speech.'**
+  String get helpSpeechBody;
+
   /// Help topic title for splitting a JSON array.
   ///
   /// In en, this message translates to:
   /// **'Split array'**
   String get helpSplitArrayTitle;
 
+  /// Short subtitle for the split-array help card.
+  ///
+  /// In en, this message translates to:
+  /// **'Break a JSON array into smaller numbered files.'**
+  String get helpSplitArraySubtitle;
+
   /// Help text explaining how Split array works.
   ///
   /// In en, this message translates to:
   /// **'Split array works when the top level of a JSON file is an array. Choose how many items each part should contain. The app then creates numbered files such as name.part1.json and asks where to save each one. The last part may contain fewer items. Your original file is not changed.'**
   String get helpSplitArrayBody;
+
+  /// Help topic title for backup and export.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & export'**
+  String get helpBackupTitle;
+
+  /// Short subtitle for the backup help card.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep copies of your files safe in other formats or locations.'**
+  String get helpBackupSubtitle;
+
+  /// Help text explaining backup and export features.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep copies of your files safe using Export and Save a copy. Open any document and tap the menu to find \"Export\" — this converts your file to another format such as PDF or plain text. Use \"Save a copy\" to save the document to a new location without changing the original. For extra safety, export important files regularly and store copies in a safe place such as a cloud folder, an SD card, or another device using LAN sync or QR sharing.'**
+  String get helpBackupBody;
 
   /// About settings section header.
   ///
@@ -4099,6 +4315,1757 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete row'**
   String get csvDeleteRow;
+
+  /// Title of the AirQR landing screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Air-gap transfer (QR)'**
+  String get airqrTitle;
+
+  /// Explains what optical air-gap transfer is.
+  ///
+  /// In en, this message translates to:
+  /// **'Move a document or a piece of text to another device using only the screen and the camera. Nothing is sent over Wi-Fi, Bluetooth, or the internet.'**
+  String get airqrIntro;
+
+  /// Start receiving an animated QR stream.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive'**
+  String get airqrReceive;
+
+  /// Subtitle for the receive option.
+  ///
+  /// In en, this message translates to:
+  /// **'Point the camera at the other device\'s screen'**
+  String get airqrReceiveSubtitle;
+
+  /// Heading for the send instructions card.
+  ///
+  /// In en, this message translates to:
+  /// **'How to send'**
+  String get airqrHowToSend;
+
+  /// Explains that sending starts from a document, not this screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the document you want to send, then choose \"Send by QR\" from its menu. To send only part of a document, select the text first.'**
+  String get airqrHowToSendBody;
+
+  /// Heading for the speed expectations card.
+  ///
+  /// In en, this message translates to:
+  /// **'This is slow on purpose'**
+  String get airqrSpeedNoteTitle;
+
+  /// Sets an honest expectation about optical transfer speed.
+  ///
+  /// In en, this message translates to:
+  /// **'A camera link carries about 15 KB each second. Short notes take a few seconds; a large file can take minutes. For anything big, use LAN sync instead.'**
+  String get airqrSpeedNoteBody;
+
+  /// Title of the AirQR send screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending by QR'**
+  String get airqrSendTitle;
+
+  /// Menu action to send the open document by QR.
+  ///
+  /// In en, this message translates to:
+  /// **'Send by QR'**
+  String get airqrSendByQr;
+
+  /// Menu action to send the selected text by QR.
+  ///
+  /// In en, this message translates to:
+  /// **'Send selection by QR'**
+  String get airqrSendSelectionByQr;
+
+  /// Instruction shown under the animated QR.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold both devices steady until the other device says it has every frame. The code below repeats until then.'**
+  String get airqrHoldSteady;
+
+  /// Label for the short session code.
+  ///
+  /// In en, this message translates to:
+  /// **'Session code'**
+  String get airqrCodeLabel;
+
+  /// Explains why the code travels separately from the QR stream.
+  ///
+  /// In en, this message translates to:
+  /// **'Read this code to the other person. It is not inside the QR code, so anyone who records the screen still cannot read your data without it.'**
+  String get airqrCodeHint;
+
+  /// Warning shown when a transfer is sent unsealed.
+  ///
+  /// In en, this message translates to:
+  /// **'This transfer is not protected. Anyone who can see this screen can read the data.'**
+  String get airqrUnsealedWarning;
+
+  /// How many frames make up the transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 frame} other{{count} frames}}'**
+  String airqrFrameCount(int count);
+
+  /// How many complete loops of the frame set have finished.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{First pass} =1{1 pass done} other{{count} passes done}}'**
+  String airqrPassCount(int count);
+
+  /// Estimated duration of a single pass.
+  ///
+  /// In en, this message translates to:
+  /// **'One full pass takes about {seconds} seconds.'**
+  String airqrOnePassTakes(int seconds);
+
+  /// Label for the animation speed slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed: {fps} frames per second'**
+  String airqrSpeedLabel(int fps);
+
+  /// Help text for the speed slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower this if the other device is missing frames.'**
+  String get airqrSpeedHelp;
+
+  /// Label for the QR density slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Detail: {bytes} bytes per frame'**
+  String airqrDensityLabel(int bytes);
+
+  /// Help text for the density slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower this for an easier-to-scan code on an older camera. It needs more frames.'**
+  String get airqrDensityHelp;
+
+  /// Title of the AirQR receive screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Receiving by QR'**
+  String get airqrReceiveTitle;
+
+  /// Screen reader label for the scanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera viewfinder for receiving an animated QR code'**
+  String get airqrScanSemantics;
+
+  /// Shown before the first frame is recognised.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking for a transfer…'**
+  String get airqrLookingForStream;
+
+  /// Live frame collection progress.
+  ///
+  /// In en, this message translates to:
+  /// **'{received} of {total} frames'**
+  String airqrFramesProgress(int received, int total);
+
+  /// Live capture rate.
+  ///
+  /// In en, this message translates to:
+  /// **'{rate} frames/second'**
+  String airqrFps(String rate);
+
+  /// Estimated time remaining.
+  ///
+  /// In en, this message translates to:
+  /// **'About {seconds}s left'**
+  String airqrRemaining(int seconds);
+
+  /// How many frames have still not arrived.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Waiting for 1 more frame} other{Waiting for {count} more frames}}'**
+  String airqrStillMissing(int count);
+
+  /// Shown while the payload is being reassembled.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking and rebuilding the data…'**
+  String get airqrAssembling;
+
+  /// Shown when collection is complete.
+  ///
+  /// In en, this message translates to:
+  /// **'All frames received'**
+  String get airqrAllFramesReceived;
+
+  /// Prompt for the session code.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the session code shown on the sending device.'**
+  String get airqrEnterCodePrompt;
+
+  /// Button that submits the session code.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock'**
+  String get airqrUnlock;
+
+  /// Discard everything collected and scan again.
+  ///
+  /// In en, this message translates to:
+  /// **'Start over'**
+  String get airqrStartOver;
+
+  /// Shown when a payload has been received and verified.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer complete'**
+  String get airqrReceivedTitle;
+
+  /// Size of the received text.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 character} other{{count} characters}}'**
+  String airqrCharacterCount(int count);
+
+  /// Heading above the received content preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get airqrPreview;
+
+  /// Copy the received text to the clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy text'**
+  String get airqrCopyText;
+
+  /// Confirmation that the text was copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied to the clipboard'**
+  String get airqrCopied;
+
+  /// Save the received text through the system file picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as a file'**
+  String get airqrUseThis;
+
+  /// Fallback failure message.
+  ///
+  /// In en, this message translates to:
+  /// **'The transfer could not be completed.'**
+  String get airqrFailedGeneric;
+
+  /// Confirmation that a received document was saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved as {name}'**
+  String airqrSavedAs(String name);
+
+  /// Confirmation that a received snippet was pasted in.
+  ///
+  /// In en, this message translates to:
+  /// **'Text inserted into the open document'**
+  String get airqrInsertedIntoDocument;
+
+  /// Title of the hard-cap refusal dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Too large for QR transfer'**
+  String get airqrTooLargeTitle;
+
+  /// Explains why an oversized transfer is refused.
+  ///
+  /// In en, this message translates to:
+  /// **'This is {size}, and QR transfer stops at {limit}. At camera speed it would take far too long. Use LAN sync instead.'**
+  String airqrTooLargeBody(String size, String limit);
+
+  /// Title of the soft-cap warning dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'This will take a while'**
+  String get airqrSlowTitle;
+
+  /// Warns about a slow transfer and offers an alternative.
+  ///
+  /// In en, this message translates to:
+  /// **'This is {size}, which takes {duration} by QR code. You will need to hold both devices steady for that long. LAN sync would be much faster.'**
+  String airqrSlowBody(String size, String duration);
+
+  /// Proceed with a slow transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Send anyway'**
+  String get airqrSendAnyway;
+
+  /// A duration in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes, plural, =1{about 1 minute} other{about {minutes} minutes}}'**
+  String airqrAboutMinutes(int minutes);
+
+  /// A duration in seconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{seconds, plural, =1{about 1 second} other{about {seconds} seconds}}'**
+  String airqrAboutSeconds(int seconds);
+
+  /// Shown when a send is attempted with no content.
+  ///
+  /// In en, this message translates to:
+  /// **'There is nothing to send.'**
+  String get airqrNothingToSend;
+
+  /// Title of the workspace-wide search screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Search all files'**
+  String get searchWorkspaceTitle;
+
+  /// Tooltip on the workspace search action.
+  ///
+  /// In en, this message translates to:
+  /// **'Search all files'**
+  String get searchWorkspaceTooltip;
+
+  /// Hint text in the workspace search field.
+  ///
+  /// In en, this message translates to:
+  /// **'Search recent and favorite files'**
+  String get searchWorkspaceHint;
+
+  /// Title of the start state before anything is typed.
+  ///
+  /// In en, this message translates to:
+  /// **'Search inside your files'**
+  String get searchWorkspaceStartTitle;
+
+  /// Body of the start state on the search screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a word to find it in the files you opened or marked as favorites. Everything is searched on this device only.'**
+  String get searchWorkspaceStartBody;
+
+  /// Shown when a search returns nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches found'**
+  String get searchWorkspaceNoResults;
+
+  /// Help text under the no-results message.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a shorter word, or open the file once so it gets indexed.'**
+  String get searchWorkspaceNoResultsBody;
+
+  /// Shown when the index setting is turned off.
+  ///
+  /// In en, this message translates to:
+  /// **'Workspace search is off'**
+  String get searchWorkspaceOffTitle;
+
+  /// Help text when the index is off.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn it on in Settings › Files & Tabs to search across your files.'**
+  String get searchWorkspaceOffBody;
+
+  /// Tooltip on the clear-query button.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get searchWorkspaceClear;
+
+  /// Filter chip that clears the format filters.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get searchWorkspaceAll;
+
+  /// Note on a result whose file was indexed only in part.
+  ///
+  /// In en, this message translates to:
+  /// **'Long file — only the first part is searched'**
+  String get searchWorkspacePartial;
+
+  /// Shown on a result whose file can no longer be opened.
+  ///
+  /// In en, this message translates to:
+  /// **'File not available — remove from search'**
+  String get searchWorkspaceUnavailable;
+
+  /// How many files matched.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 file} other{{count} files}}'**
+  String searchWorkspaceResults(int count);
+
+  /// Settings switch that turns the search index on or off.
+  ///
+  /// In en, this message translates to:
+  /// **'Workspace search index'**
+  String get filesIndexTitle;
+
+  /// Subtitle when the index is on.
+  ///
+  /// In en, this message translates to:
+  /// **'Files you open are indexed on this device so you can search inside all of them.'**
+  String get filesIndexOn;
+
+  /// Subtitle when the index is off.
+  ///
+  /// In en, this message translates to:
+  /// **'New files are not indexed. Search only finds what was stored before.'**
+  String get filesIndexOff;
+
+  /// How many files are in the search index.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No files indexed} =1{1 file indexed} other{{count} files indexed}}'**
+  String filesIndexCount(int count);
+
+  /// Settings action that empties the index.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search index'**
+  String get filesIndexClear;
+
+  /// Confirmation body for clearing the index.
+  ///
+  /// In en, this message translates to:
+  /// **'This deletes the stored text of every indexed file. Files themselves are not touched.'**
+  String get filesIndexClearBody;
+
+  /// Snackbar after the index is cleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Search index cleared'**
+  String get filesIndexCleared;
+
+  /// Settings action that re-reads favorites and recents.
+  ///
+  /// In en, this message translates to:
+  /// **'Rebuild search index'**
+  String get filesIndexRebuild;
+
+  /// Snackbar while the rebuild runs.
+  ///
+  /// In en, this message translates to:
+  /// **'Rebuilding the search index…'**
+  String get filesIndexRebuilding;
+
+  /// Snackbar after a rebuild finishes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing new to index} =1{1 file indexed} other{{count} files indexed}}'**
+  String filesIndexRebuilt(int count);
+
+  /// Tooltip on the countdown badge of an ephemeral tab.
+  ///
+  /// In en, this message translates to:
+  /// **'This tab self-destructs in {time}'**
+  String ephemeralBadgeTimerTooltip(String time);
+
+  /// Tooltip on an ephemeral tab with no timer.
+  ///
+  /// In en, this message translates to:
+  /// **'This tab self-destructs after the next export or share'**
+  String get ephemeralBadgeOutputTooltip;
+
+  /// Title of the ephemeral options sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Make this tab self-destruct'**
+  String get ephemeralSheetTitle;
+
+  /// Explains what a burn removes.
+  ///
+  /// In en, this message translates to:
+  /// **'When it burns, the app forgets this document: the auto-save draft, the recent entry, favourites, bookmarks, its reading position, and its text in the workspace search index.'**
+  String get ephemeralSheetWhatIsWiped;
+
+  /// States that the user's own file survives a burn.
+  ///
+  /// In en, this message translates to:
+  /// **'Your file itself is not deleted. The app only clears what it stores about it.'**
+  String get ephemeralSheetFileKept;
+
+  /// Warns that a burn skips the unsaved-changes prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsaved edits in this tab are thrown away when it burns, with no further prompt.'**
+  String get ephemeralSheetUnsavedWarning;
+
+  /// Heading above the timer choices.
+  ///
+  /// In en, this message translates to:
+  /// **'Self-destruct after'**
+  String get ephemeralSheetTimerLabel;
+
+  /// Label of the custom minutes field.
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes'**
+  String get ephemeralSheetCustomMinutes;
+
+  /// Switch that burns the tab after one output action.
+  ///
+  /// In en, this message translates to:
+  /// **'Burn after export or share'**
+  String get ephemeralSheetBurnAfterOutput;
+
+  /// Explains the burn-after-export switch.
+  ///
+  /// In en, this message translates to:
+  /// **'The first successful export, share, or print destroys the tab. A cancelled or failed one does not.'**
+  String get ephemeralSheetBurnAfterOutputHint;
+
+  /// Shown when the chosen options would do nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a timer, turn on burn after export, or both.'**
+  String get ephemeralSheetNothingChosen;
+
+  /// Confirm button of the ephemeral sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Make ephemeral'**
+  String get ephemeralSheetConfirm;
+
+  /// Ephemeral timer choice.
+  ///
+  /// In en, this message translates to:
+  /// **'15 minutes'**
+  String get ephemeralDuration15Minutes;
+
+  /// Ephemeral timer choice.
+  ///
+  /// In en, this message translates to:
+  /// **'1 hour'**
+  String get ephemeralDuration1Hour;
+
+  /// Ephemeral timer choice.
+  ///
+  /// In en, this message translates to:
+  /// **'4 hours'**
+  String get ephemeralDuration4Hours;
+
+  /// Ephemeral timer choice.
+  ///
+  /// In en, this message translates to:
+  /// **'24 hours'**
+  String get ephemeralDuration24Hours;
+
+  /// Ephemeral timer choice with a typed number of minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get ephemeralDurationCustom;
+
+  /// Ephemeral choice with no countdown.
+  ///
+  /// In en, this message translates to:
+  /// **'No timer'**
+  String get ephemeralDurationNone;
+
+  /// Tab menu item that opens the ephemeral sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Make self-destructing…'**
+  String get tabMakeEphemeral;
+
+  /// Tab menu item for a tab that is already ephemeral.
+  ///
+  /// In en, this message translates to:
+  /// **'Change self-destruct…'**
+  String get tabChangeEphemeral;
+
+  /// Tab menu item that removes the ephemeral mark.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep this tab'**
+  String get tabCancelEphemeral;
+
+  /// Tab menu item that burns the tab immediately.
+  ///
+  /// In en, this message translates to:
+  /// **'Burn now'**
+  String get tabBurnNow;
+
+  /// Snackbar after a tab is marked ephemeral.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} will self-destruct'**
+  String ephemeralMarked(String name);
+
+  /// Snackbar after the ephemeral mark is removed.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is a normal tab again'**
+  String ephemeralCancelled(String name);
+
+  /// Snackbar after a tab self-destructs.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} was burned'**
+  String ephemeralBurned(String name);
+
+  /// Snackbar when part of the wipe failed.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} was closed, but some stored traces could not be removed'**
+  String ephemeralBurnedPartly(String name);
+
+  /// Title of the burn-now confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Burn this tab?'**
+  String get ephemeralBurnNowTitle;
+
+  /// Body of the burn-now confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'The tab closes and the app forgets this document. Unsaved edits are lost. Your file itself is not deleted.'**
+  String get ephemeralBurnNowBody;
+
+  /// Confirm button that destroys an ephemeral tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Burn'**
+  String get actionBurn;
+
+  /// Long-press action that opens a file straight into an ephemeral tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Open as self-destructing…'**
+  String get ephemeralOpenAsEphemeral;
+
+  /// Settings group heading.
+  ///
+  /// In en, this message translates to:
+  /// **'Self-destructing documents'**
+  String get ephemeralSettingsTitle;
+
+  /// Settings row for the pre-selected timer.
+  ///
+  /// In en, this message translates to:
+  /// **'Default timer'**
+  String get ephemeralSettingsDefaultDuration;
+
+  /// Settings switch preselecting burn-after-export.
+  ///
+  /// In en, this message translates to:
+  /// **'Default to burn after export'**
+  String get ephemeralSettingsBurnAfterOutput;
+
+  /// Explains the default burn-after-export setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Pre-selects the switch in the self-destruct sheet. It does not change any tab on its own.'**
+  String get ephemeralSettingsBurnAfterOutputHint;
+
+  /// Settings action that burns every ephemeral tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Burn all self-destructing tabs now'**
+  String get ephemeralSettingsBurnAll;
+
+  /// How many ephemeral tabs are open right now.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No self-destructing tabs are open} =1{1 self-destructing tab is open} other{{count} self-destructing tabs are open}}'**
+  String ephemeralSettingsOpenCount(int count);
+
+  /// Snackbar after burning every ephemeral tab.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing to burn} =1{1 tab burned} other{{count} tabs burned}}'**
+  String ephemeralSettingsBurnAllDone(int count);
+
+  /// Honest note about what zero-fill wiping does and does not promise.
+  ///
+  /// In en, this message translates to:
+  /// **'A burn overwrites the app\'s stored copy with zeros before deleting it. On flash storage that is a strong extra step, not a guarantee — Android\'s own app encryption is the real protection.'**
+  String get ephemeralSettingsWipeNote;
+
+  /// Overflow menu item that opens the SQL query screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Run SQL query…'**
+  String get sqlMenuAction;
+
+  /// Title of the SQL query screen.
+  ///
+  /// In en, this message translates to:
+  /// **'SQL query'**
+  String get sqlQueryTitle;
+
+  /// Placeholder shown in the empty SQL box.
+  ///
+  /// In en, this message translates to:
+  /// **'SELECT * FROM data LIMIT 100'**
+  String get sqlQueryHint;
+
+  /// Button that runs the typed query.
+  ///
+  /// In en, this message translates to:
+  /// **'Run'**
+  String get sqlRunAction;
+
+  /// Shown while a query is running.
+  ///
+  /// In en, this message translates to:
+  /// **'Running…'**
+  String get sqlRunning;
+
+  /// Shown while the document is being copied into the query engine.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading the data…'**
+  String get sqlLoadingData;
+
+  /// Heading of the schema panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tables'**
+  String get sqlTablesHeading;
+
+  /// Size of one loaded table.
+  ///
+  /// In en, this message translates to:
+  /// **'{rows} rows · {columns} columns'**
+  String sqlTableSummary(int rows, int columns);
+
+  /// Note under a column whose name had to be changed to be usable in SQL.
+  ///
+  /// In en, this message translates to:
+  /// **'was “{original}”'**
+  String sqlColumnRenamed(String original);
+
+  /// Stands in for a column header that was empty in the file.
+  ///
+  /// In en, this message translates to:
+  /// **'(blank)'**
+  String get sqlColumnBlankName;
+
+  /// Warning when a large document was cut down to the row cap.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the first {count} rows of this file were loaded.'**
+  String sqlRowsCapped(int count);
+
+  /// Action that loads another open document as a second table for a JOIN.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a table'**
+  String get sqlAddTable;
+
+  /// Title of the extra-table picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Add another open document'**
+  String get sqlAddTableTitle;
+
+  /// Shown when there is nothing to join with.
+  ///
+  /// In en, this message translates to:
+  /// **'No other CSV or JSON tab is open.'**
+  String get sqlAddTableEmpty;
+
+  /// Shown when a picked document holds no tabular data.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} has nothing that can be loaded as a table.'**
+  String sqlAddTableFailed(String name);
+
+  /// Confirms an extra table was loaded and says what to call it.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is now the table {table}.'**
+  String sqlTableAdded(String name, String table);
+
+  /// Removes an added table from the query engine.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get sqlRemoveTable;
+
+  /// Heading of the ready-made query list.
+  ///
+  /// In en, this message translates to:
+  /// **'Starter queries'**
+  String get sqlPresetsHeading;
+
+  /// Starter query: select everything with a limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the first rows'**
+  String get sqlPresetSelectAll;
+
+  /// Starter query: COUNT(*).
+  ///
+  /// In en, this message translates to:
+  /// **'Count the rows'**
+  String get sqlPresetCountRows;
+
+  /// Starter query: GROUP BY with a count and a sum.
+  ///
+  /// In en, this message translates to:
+  /// **'Group and total'**
+  String get sqlPresetGroupCount;
+
+  /// Starter query: ORDER BY a numeric column.
+  ///
+  /// In en, this message translates to:
+  /// **'Highest values first'**
+  String get sqlPresetOrderBy;
+
+  /// Starter query: JOIN two loaded tables.
+  ///
+  /// In en, this message translates to:
+  /// **'Join the two tables'**
+  String get sqlPresetJoin;
+
+  /// How big the result is and how long it took.
+  ///
+  /// In en, this message translates to:
+  /// **'{rows} rows in {ms} ms'**
+  String sqlResultSummary(int rows, int ms);
+
+  /// Warning that the result was cut down to the display cap.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing the first {count} rows of the result.'**
+  String sqlResultTruncated(int count);
+
+  /// Shown when a valid query returns nothing.
+  ///
+  /// In en, this message translates to:
+  /// **'The query ran, but no rows matched.'**
+  String get sqlResultEmpty;
+
+  /// Shown before the first query is run.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a query and tap Run, or pick a starter query.'**
+  String get sqlResultPlaceholder;
+
+  /// Copies the result grid to the clipboard as CSV.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy result as CSV'**
+  String get sqlCopyResult;
+
+  /// Confirms the clipboard copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Result copied as CSV'**
+  String get sqlCopiedResult;
+
+  /// Saves the result through the system file picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Save result as CSV…'**
+  String get sqlSaveResult;
+
+  /// Confirms the result file was written.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved {name}'**
+  String sqlSavedResult(String name);
+
+  /// Shown when a save or copy is asked for before a query has run.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no result to save yet.'**
+  String get sqlNoResultYet;
+
+  /// Re-copies the documents into the query engine.
+  ///
+  /// In en, this message translates to:
+  /// **'Reload data'**
+  String get sqlReloadData;
+
+  /// Confirms the reload.
+  ///
+  /// In en, this message translates to:
+  /// **'Data reloaded from the open documents.'**
+  String get sqlReloadedData;
+
+  /// Explains that the query engine holds a snapshot, not the live buffer.
+  ///
+  /// In en, this message translates to:
+  /// **'Queries run over a copy taken when this screen opened. Reload after editing the document.'**
+  String get sqlSnapshotNote;
+
+  /// Shown when the open document holds no rows and columns.
+  ///
+  /// In en, this message translates to:
+  /// **'This document has nothing that can be queried as a table.'**
+  String get sqlNoData;
+
+  /// Shown when copying the document into SQLite failed.
+  ///
+  /// In en, this message translates to:
+  /// **'The data could not be loaded for querying.'**
+  String get sqlLoadFailed;
+
+  /// The SQL box was empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a query first.'**
+  String get sqlErrorEmpty;
+
+  /// The statement was not a read-only query.
+  ///
+  /// In en, this message translates to:
+  /// **'Only a query that starts with SELECT or WITH can run here.'**
+  String get sqlErrorNotSelect;
+
+  /// More than one statement was typed.
+  ///
+  /// In en, this message translates to:
+  /// **'Type one statement only.'**
+  String get sqlErrorMultiple;
+
+  /// A blocked SQL word was used.
+  ///
+  /// In en, this message translates to:
+  /// **'“{keyword}” is not allowed — this screen only reads data.'**
+  String sqlErrorForbidden(String keyword);
+
+  /// Reassures the user that querying is safe.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a read-only copy of your data. A query can never change or delete your file.'**
+  String get sqlReadOnlyNote;
+
+  /// Title of the Audit Log settings card and section.
+  ///
+  /// In en, this message translates to:
+  /// **'Audit Log'**
+  String get auditSectionTitle;
+
+  /// Subtitle on the Audit Log card on the settings menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Cryptographic SHA-256 chain log of workspace activity'**
+  String get auditCardSubtitle;
+
+  /// Title of the enable audit log switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Record workspace audit log'**
+  String get auditEnableTitle;
+
+  /// Subtitle of the enable audit log switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Chains SHA-256 hashes of document edits, exports, sync, and security events.'**
+  String get auditEnableSubtitle;
+
+  /// Label before the audit chain status badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Chain status'**
+  String get auditChainStatusLabel;
+
+  /// Menu tile opening the full audit log screen.
+  ///
+  /// In en, this message translates to:
+  /// **'View audit log'**
+  String get auditViewLogTitle;
+
+  /// Number of entries in the audit log.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No recorded entries} =1{1 recorded entry} other{{count} recorded entries}}'**
+  String auditEntryCount(int count);
+
+  /// Title of the audit log screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Workspace Audit Log'**
+  String get auditLogTitle;
+
+  /// App bar action to re-verify the hash chain.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify chain'**
+  String get auditVerifyAction;
+
+  /// App bar action to export signed audit certificate.
+  ///
+  /// In en, this message translates to:
+  /// **'Export certificate'**
+  String get auditExportAction;
+
+  /// Subject line when sharing the audit certificate.
+  ///
+  /// In en, this message translates to:
+  /// **'TextData Audit Certificate'**
+  String get auditExportSubject;
+
+  /// Snackbar shown when certificate export fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not export the audit certificate.'**
+  String get auditExportFailed;
+
+  /// Button to clear the audit log.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear audit log'**
+  String get auditClearAction;
+
+  /// Subtitle on the clear audit log tile.
+  ///
+  /// In en, this message translates to:
+  /// **'Deletes all audit records and resets the cryptographic chain.'**
+  String get auditClearSubtitle;
+
+  /// Title of the clear audit log confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear audit log?'**
+  String get auditClearTitle;
+
+  /// Body of the clear audit log confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'This will delete all activity records. The cryptographic hash chain will restart with a new genesis entry.'**
+  String get auditClearConfirmation;
+
+  /// Snackbar confirming audit log clearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Audit log cleared.'**
+  String get auditClearSuccess;
+
+  /// Shown on the audit log screen when empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No audit entries recorded yet.'**
+  String get auditEmptyState;
+
+  /// Text in the verified status badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Chain Verified'**
+  String get auditBadgeVerified;
+
+  /// Text in the corrupted status badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Chain Corrupted'**
+  String get auditBadgeCorrupted;
+
+  /// Text in the empty status badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Empty'**
+  String get auditBadgeEmpty;
+
+  /// Text in the verifying status badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Verifying…'**
+  String get auditBadgeVerifying;
+
+  /// Text in the error status badge.
+  ///
+  /// In en, this message translates to:
+  /// **'Check Failed'**
+  String get auditBadgeError;
+
+  /// Banner text when the audit chain is fully verified.
+  ///
+  /// In en, this message translates to:
+  /// **'Tamper-Proof Chain Verified ({count} entries)'**
+  String auditChainVerifiedBanner(int count);
+
+  /// Banner text when tampering is detected at a specific entry.
+  ///
+  /// In en, this message translates to:
+  /// **'Audit Chain Corrupted at Entry #{index}'**
+  String auditChainCorruptedBanner(int index);
+
+  /// Banner text when the audit log has no entries.
+  ///
+  /// In en, this message translates to:
+  /// **'No audit log entries to verify.'**
+  String get auditChainEmptyBanner;
+
+  /// Title of the backup settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & Restore'**
+  String get backupSectionTitle;
+
+  /// Subtitle on the backup settings card.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted archive export and restore (.txdata)'**
+  String get backupCardSubtitle;
+
+  /// Overview text in the backup settings section.
+  ///
+  /// In en, this message translates to:
+  /// **'Export or restore your files, recents, favorites, bookmarks, and settings in a single AES-256 encrypted .txdata bundle.'**
+  String get backupSectionDescription;
+
+  /// Title of the backup manager menu item.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Archive Manager'**
+  String get backupManageTitle;
+
+  /// Subtitle of the backup manager menu item.
+  ///
+  /// In en, this message translates to:
+  /// **'Create password-sealed backups or restore from existing .txdata archives.'**
+  String get backupManageSubtitle;
+
+  /// Explanatory note about zero-knowledge encryption.
+  ///
+  /// In en, this message translates to:
+  /// **'Zero-Knowledge Protection: Archives are sealed with AES-256-GCM using keys derived via PBKDF2-HMAC-SHA256 (200,000 iterations). Your password is never stored or transmitted. If forgotten, encrypted backups cannot be recovered.'**
+  String get backupZeroKnowledgeNote;
+
+  /// App bar title of the backup screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & Restore (.txdata)'**
+  String get backupScreenTitle;
+
+  /// Header title on the backup screen overview card.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted Backup Archives'**
+  String get backupHeroTitle;
+
+  /// Body text on the backup screen overview card.
+  ///
+  /// In en, this message translates to:
+  /// **'Bundle your workspace data and settings into a tamper-evident, password-sealed AES-256 archive. Fully offline with zero cloud access.'**
+  String get backupHeroBody;
+
+  /// Title on the export backup card.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Encrypted Backup'**
+  String get backupExportCardTitle;
+
+  /// Description on the export backup card.
+  ///
+  /// In en, this message translates to:
+  /// **'Select workspace items and seal them under a chosen password into a .txdata file.'**
+  String get backupExportCardBody;
+
+  /// Button to start the export backup flow.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Backup (.txdata)'**
+  String get backupExportButton;
+
+  /// Title on the restore backup card.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore From Backup'**
+  String get backupRestoreCardTitle;
+
+  /// Description on the restore backup card.
+  ///
+  /// In en, this message translates to:
+  /// **'Open an existing .txdata file, verify your password, and selectively restore items.'**
+  String get backupRestoreCardBody;
+
+  /// Button to start the restore backup flow.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Backup File (.txdata)'**
+  String get backupRestoreButton;
+
+  /// Action to save backup archive file.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to device (SAF)'**
+  String get backupSaveToDevice;
+
+  /// Action to share backup archive file.
+  ///
+  /// In en, this message translates to:
+  /// **'Share archive file'**
+  String get backupShareArchive;
+
+  /// Snackbar shown when backup file is successfully saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup archive saved as {fileName}'**
+  String backupExportSaved(String fileName);
+
+  /// Error prefix when backup creation fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create backup'**
+  String get backupExportError;
+
+  /// Error prefix when restore fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to restore backup'**
+  String get backupRestoreError;
+
+  /// Title when password verification fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot Unlock Backup'**
+  String get backupUnlockFailedTitle;
+
+  /// Snackbar shown upon successful restore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restored {recents} recents, {favorites} favorites, {bookmarks} bookmarks, {settings} settings.'**
+  String backupRestoreSuccessSummary(
+    int recents,
+    int favorites,
+    int bookmarks,
+    int settings,
+  );
+
+  /// Title of the export options dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Encrypted Backup'**
+  String get backupExportTitle;
+
+  /// Header for backup items checklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Select components to include:'**
+  String get backupExportSelectItems;
+
+  /// Checkbox to include recents.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent files history'**
+  String get backupIncludeRecents;
+
+  /// Checkbox to include favorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite files list'**
+  String get backupIncludeFavorites;
+
+  /// Checkbox to include bookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Document bookmarks'**
+  String get backupIncludeBookmarks;
+
+  /// Checkbox to include settings.
+  ///
+  /// In en, this message translates to:
+  /// **'App settings & preferences'**
+  String get backupIncludeSettings;
+
+  /// Checkbox to include attached files.
+  ///
+  /// In en, this message translates to:
+  /// **'Open documents ({count} files)'**
+  String backupIncludeFiles(int count);
+
+  /// Header for password input.
+  ///
+  /// In en, this message translates to:
+  /// **'Encryption Password:'**
+  String get backupPasswordHeader;
+
+  /// Label for password text field.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get backupPasswordLabel;
+
+  /// Label for confirm password field.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get backupConfirmPasswordLabel;
+
+  /// Validation message for short passwords.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters.'**
+  String get backupPasswordTooShort;
+
+  /// Validation message when passwords differ.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match.'**
+  String get backupPasswordsDoNotMatch;
+
+  /// Warning notice in the password dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep this password safe. If forgotten, this backup archive cannot be decrypted.'**
+  String get backupPasswordWarning;
+
+  /// Button to confirm backup creation.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Backup'**
+  String get backupCreateAction;
+
+  /// Title of the password prompt dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Backup Archive'**
+  String get backupEnterPasswordTitle;
+
+  /// Prompt text in password dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the password used to encrypt this .txdata archive:'**
+  String get backupEnterPasswordPrompt;
+
+  /// Button to decrypt backup.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock & Inspect'**
+  String get backupUnlockAction;
+
+  /// Title of the restore confirmation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Backup Archive'**
+  String get backupRestoreTitle;
+
+  /// Creation timestamp in restore dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive created on {date}'**
+  String backupCreatedOn(String date);
+
+  /// Header for restore items checklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Select items to restore:'**
+  String get backupSelectRestoreItems;
+
+  /// Recent files item count in restore dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent files ({count} items)'**
+  String backupRecentsCount(int count);
+
+  /// Favorite files item count in restore dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite files ({count} items)'**
+  String backupFavoritesCount(int count);
+
+  /// Bookmarks item count in restore dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Document bookmarks ({count} items)'**
+  String backupBookmarksCount(int count);
+
+  /// Settings count in restore dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'App settings ({count} preferences)'**
+  String backupSettingsCount(int count);
+
+  /// Files count in restore dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Attached document files ({count} files)'**
+  String backupFilesCount(int count);
+
+  /// Title of merge mode switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge with existing data'**
+  String get backupMergeModeTitle;
+
+  /// Subtitle when merge mode is on.
+  ///
+  /// In en, this message translates to:
+  /// **'Preserves existing records and adds missing ones.'**
+  String get backupMergeModeSubtitle;
+
+  /// Subtitle when merge mode is off.
+  ///
+  /// In en, this message translates to:
+  /// **'Replaces existing records with items from this backup.'**
+  String get backupReplaceModeSubtitle;
+
+  /// Button to confirm restore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Data'**
+  String get backupRestoreAction;
+
+  /// Title of biometric vault feature.
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Vault'**
+  String get vaultTitle;
+
+  /// Menu action to lock file in biometric vault.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock in Biometric Vault'**
+  String get vaultLockAction;
+
+  /// Button to unlock encrypted vault document.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Document'**
+  String get vaultUnlockAction;
+
+  /// Title of P2P direct document file transfer tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Document Transfer'**
+  String get p2pFileTransferTitle;
+
+  /// Title of the column block and multi-cursor editing sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Column & Multi-Cursor Edit'**
+  String get columnSelectionTitle;
+
+  /// Action item in editor selection toolbar to open column editing.
+  ///
+  /// In en, this message translates to:
+  /// **'Column / Multi-Cursor'**
+  String get columnSelectionAction;
+
+  /// Selected line range description in column editing.
+  ///
+  /// In en, this message translates to:
+  /// **'Lines {start} to {end} ({count} lines)'**
+  String columnSelectionLines(int start, int end, int count);
+
+  /// Start line input label.
+  ///
+  /// In en, this message translates to:
+  /// **'Start line'**
+  String get columnSelectionStartLine;
+
+  /// End line input label.
+  ///
+  /// In en, this message translates to:
+  /// **'End line'**
+  String get columnSelectionEndLine;
+
+  /// Preset button to select all lines in document.
+  ///
+  /// In en, this message translates to:
+  /// **'All lines'**
+  String get columnSelectionAllLines;
+
+  /// Preset button to select only the current selection lines.
+  ///
+  /// In en, this message translates to:
+  /// **'Selection'**
+  String get columnSelectionCurrentLines;
+
+  /// Mode tab for prefixing and suffixing lines.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefix / Suffix'**
+  String get columnModePrefixSuffix;
+
+  /// Mode tab for vertical column block slicing.
+  ///
+  /// In en, this message translates to:
+  /// **'Column Block'**
+  String get columnModeBlock;
+
+  /// Mode tab for multi-cursor insertion at a specific column.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert at Column'**
+  String get columnModeInsertAtCol;
+
+  /// Mode tab for auto-incrementing line numbering.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbering'**
+  String get columnModeNumbering;
+
+  /// Input label for prefix text.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefix (start of line)'**
+  String get columnPrefixLabel;
+
+  /// Input label for suffix text.
+  ///
+  /// In en, this message translates to:
+  /// **'Suffix (end of line)'**
+  String get columnSuffixLabel;
+
+  /// Start column index label.
+  ///
+  /// In en, this message translates to:
+  /// **'Start column'**
+  String get columnStartColLabel;
+
+  /// End column index label.
+  ///
+  /// In en, this message translates to:
+  /// **'End column'**
+  String get columnEndColLabel;
+
+  /// Column position to insert text.
+  ///
+  /// In en, this message translates to:
+  /// **'Column index'**
+  String get columnInsertColLabel;
+
+  /// Input label for text to insert across lines.
+  ///
+  /// In en, this message translates to:
+  /// **'Text to insert'**
+  String get columnInsertTextLabel;
+
+  /// Checkbox to pad short lines up to the target column.
+  ///
+  /// In en, this message translates to:
+  /// **'Pad shorter lines with spaces'**
+  String get columnPadShorterLines;
+
+  /// Initial number in sequence.
+  ///
+  /// In en, this message translates to:
+  /// **'Start number'**
+  String get columnNumberStart;
+
+  /// Increment step per line.
+  ///
+  /// In en, this message translates to:
+  /// **'Step'**
+  String get columnNumberStep;
+
+  /// Format string with %d placeholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Format template (%d)'**
+  String get columnNumberFormat;
+
+  /// Minimum digits for zero-padded numbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Zero padding digits'**
+  String get columnNumberPadding;
+
+  /// Header for the live diff preview panel.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Preview'**
+  String get columnLivePreview;
+
+  /// Button to commit bulk column edits.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply Edits'**
+  String get columnApplyAction;
+
+  /// Button to copy the rectangular column block to clipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Block'**
+  String get columnCopyBlockAction;
+
+  /// Button to cut the rectangular column block.
+  ///
+  /// In en, this message translates to:
+  /// **'Cut Block'**
+  String get columnCutBlockAction;
+
+  /// Button to delete the rectangular column block.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Block'**
+  String get columnDeleteBlockAction;
+
+  /// Snackbar message when column block is copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Column block copied to clipboard'**
+  String get columnBlockCopied;
+
+  /// Snackbar message after applying column edits.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied bulk edits across {count} lines'**
+  String columnEditsApplied(int count);
+
+  /// Chip to trim leading and trailing spaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Trim whitespace'**
+  String get columnTrimWhitespace;
+
+  /// Title of the Privacy Shield sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline Privacy Shield'**
+  String get privacyShieldTitle;
+
+  /// Subtitle describing offline scanning.
+  ///
+  /// In en, this message translates to:
+  /// **'On-device PII & secret credentials scanner'**
+  String get privacyShieldSubtitle;
+
+  /// Toolbar overflow menu item.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Shield & Scrubbing'**
+  String get privacyShieldAction;
+
+  /// Masking mode: redact.
+  ///
+  /// In en, this message translates to:
+  /// **'Redact'**
+  String get privacyModeRedact;
+
+  /// Masking mode: salted SHA-256 hash.
+  ///
+  /// In en, this message translates to:
+  /// **'Salted Hash'**
+  String get privacyModeHash;
+
+  /// Masking mode: pseudo-anonymize.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymize'**
+  String get privacyModeAnonymize;
+
+  /// Filter chip to select all detected items.
+  ///
+  /// In en, this message translates to:
+  /// **'All Items'**
+  String get privacySelectAll;
+
+  /// Tab label for list of detections.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected Items'**
+  String get privacyTabDetections;
+
+  /// Tab label for scrubbed text preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Preview'**
+  String get privacyTabPreview;
+
+  /// Title when document has no PII matches.
+  ///
+  /// In en, this message translates to:
+  /// **'No Sensitive Data Detected'**
+  String get privacyCleanTitle;
+
+  /// Description when no sensitive items are found.
+  ///
+  /// In en, this message translates to:
+  /// **'No emails, phone numbers, cards, IP addresses, or secret keys found in this file.'**
+  String get privacyCleanDescription;
+
+  /// Button to apply redactions to the active editor.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply to Document'**
+  String get privacyApplyToBuffer;
+
+  /// Button to share scrubbed copy without altering original.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Scrubbed'**
+  String get privacyShareScrubbed;
+
+  /// Button to export scrubbed copy to a new file.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Scrubbed'**
+  String get privacyExportScrubbed;
+
+  /// Error snackbar when sharing scrubbed copy fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not share the scrubbed document.'**
+  String get privacyShareFailed;
+
+  /// Title of the Live Diff screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Diff & Delta Sync'**
+  String get liveDiffTitle;
+
+  /// Toolbar overflow menu item.
+  ///
+  /// In en, this message translates to:
+  /// **'Live P2P Diff & Sync'**
+  String get liveDiffAction;
+
+  /// Button to auto-merge non-conflicting changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-Merge'**
+  String get liveDiffAutoMerge;
+
+  /// Option to accept all local changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept All Mine'**
+  String get liveDiffAcceptMine;
+
+  /// Option to accept all remote peer changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept All Peer'**
+  String get liveDiffAcceptPeer;
+
+  /// Segment button for side-by-side view.
+  ///
+  /// In en, this message translates to:
+  /// **'Side-by-Side'**
+  String get liveDiffSideBySide;
+
+  /// Segment button for unified diff view.
+  ///
+  /// In en, this message translates to:
+  /// **'Unified Diff'**
+  String get liveDiffUnified;
+
+  /// Segment button for merge result preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge Preview'**
+  String get liveDiffPreview;
+
+  /// Tooltip for pushing live delta to peer.
+  ///
+  /// In en, this message translates to:
+  /// **'Push My Edits to Peer'**
+  String get liveDiffPushToPeer;
+
+  /// Button to save merged result.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Merged Document'**
+  String get liveDiffSaveMerged;
 }
 
 class _AppLocalizationsDelegate

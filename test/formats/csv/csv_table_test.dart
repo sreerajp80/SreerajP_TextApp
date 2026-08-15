@@ -7,13 +7,13 @@ void main() {
   const dialect = CsvDialect(hasHeader: true, lineEnding: LineEndingStyle.lf);
 
   CsvTable sample() => CsvTable(
-        header: ['name', 'age'],
-        rows: [
-          ['Ada', '36'],
-          ['Bob', '40'],
-        ],
-        hasHeader: true,
-      );
+    header: ['name', 'age'],
+    rows: [
+      ['Ada', '36'],
+      ['Bob', '40'],
+    ],
+    hasHeader: true,
+  );
 
   test('setCell returns a new table with the value changed', () {
     final t = sample().setCell(0, 1, '37');
@@ -76,15 +76,15 @@ void main() {
 
   group('duplicate rows', () {
     CsvTable withDups() => CsvTable(
-          header: ['id', 'name'],
-          rows: [
-            ['1', 'Ada'],
-            ['2', 'Bob'],
-            ['1', 'Ada'], // exact duplicate
-            ['3', 'Ada'], // duplicate name, different id
-          ],
-          hasHeader: true,
-        );
+      header: ['id', 'name'],
+      rows: [
+        ['1', 'Ada'],
+        ['2', 'Bob'],
+        ['1', 'Ada'], // exact duplicate
+        ['3', 'Ada'], // duplicate name, different id
+      ],
+      hasHeader: true,
+    );
 
     test('detects and removes whole-row duplicates', () {
       final t = withDups();

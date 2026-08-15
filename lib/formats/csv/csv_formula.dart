@@ -1,5 +1,5 @@
-import 'csv_table.dart';
-import 'csv_types.dart';
+import 'package:text_data/formats/csv/csv_table.dart';
+import 'package:text_data/formats/csv/csv_types.dart';
 
 /// The outcome of evaluating one formula for one row (roadmap §4.2.2).
 ///
@@ -21,7 +21,10 @@ class FormulaResult {
     if (v == null) return '#ERROR';
     if (v is int) return v.toString();
     if (v == v.roundToDouble() && v.abs() < 1e15) return v.toInt().toString();
-    return v.toStringAsFixed(4).replaceFirst(RegExp(r'0+$'), '').replaceFirst(RegExp(r'\.$'), '');
+    return v
+        .toStringAsFixed(4)
+        .replaceFirst(RegExp(r'0+$'), '')
+        .replaceFirst(RegExp(r'\.$'), '');
   }
 }
 
@@ -56,7 +59,9 @@ class CsvFormula {
     int? selfColumn,
   }) {
     final source = formula.trim();
-    if (source.isEmpty) return const FormulaResult.failure('The formula is empty.');
+    if (source.isEmpty) {
+      return const FormulaResult.failure('The formula is empty.');
+    }
     final body = source.startsWith('=') ? source.substring(1) : source;
     try {
       final parser = _Parser(body, table, row, selfColumn);
@@ -74,11 +79,7 @@ class CsvFormula {
   /// Checks a formula once without needing a row — used to show the user a
   /// problem while they are typing. Returns null when it looks usable, or a
   /// friendly message when it does not.
-  static String? validate(
-    CsvTable table,
-    String formula, {
-    int? selfColumn,
-  }) {
+  static String? validate(CsvTable table, String formula, {int? selfColumn}) {
     final result = evaluate(table, formula, 0, selfColumn: selfColumn);
     return result.ok ? null : result.error;
   }
@@ -246,11 +247,15 @@ class _Parser {
         pos++;
       }
       final endLetters = src.substring(endStart, pos);
-      if (endLetters.isEmpty) throw _FormulaError('A column is missing after ":".');
+      if (endLetters.isEmpty) {
+        throw _FormulaError('A column is missing after ":".');
+      }
       final second = _readReferenceTail(endLetters);
       final values = _rangeValues(first, second);
       if (values.length != 1) {
-        throw _FormulaError('A range needs to be inside SUM, AVG, MIN, MAX, COUNT or PRODUCT.');
+        throw _FormulaError(
+          'A range needs to be inside SUM, AVG, MIN, MAX, COUNT or PRODUCT.',
+        );
       }
       return values.first;
     }
@@ -272,7 +277,9 @@ class _Parser {
     if (start == pos) return _Ref(column, null);
     final number = int.tryParse(src.substring(start, pos));
     if (number == null || number < 1) {
-      throw _FormulaError('"${src.substring(start, pos)}" is not a row number.');
+      throw _FormulaError(
+        '"${src.substring(start, pos)}" is not a row number.',
+      );
     }
     return _Ref(column, number - 1);
   }
@@ -342,7 +349,9 @@ class _Parser {
       pos++;
     }
     final endLetters = src.substring(endStart, pos);
-    if (endLetters.isEmpty) throw _FormulaError('A column is missing after ":".');
+    if (endLetters.isEmpty) {
+      throw _FormulaError('A column is missing after ":".');
+    }
     final second = _readReferenceTail(endLetters);
     return _rangeValues(first, second);
   }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'json_document_session.dart';
-import 'json_table.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/json/json_document_session.dart';
+import 'package:text_data/formats/json/json_table.dart';
 
 /// A JSON array shown as a read-only grid (roadmap §4.3.1).
 ///
@@ -34,14 +34,18 @@ class JsonTableView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.table_rows_outlined,
-                  size: 48, color: theme.colorScheme.onSurfaceVariant),
+              Icon(
+                Icons.table_rows_outlined,
+                size: 48,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
               const SizedBox(height: 12),
               Text(
                 l10n.jsonTableNothingToShow,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ],
           ),
@@ -74,11 +78,13 @@ class JsonTableView extends StatelessWidget {
               ),
               backgroundDecoration: index == 0
                   ? TableSpanDecoration(
-                      color: theme.colorScheme.surfaceContainerHighest)
+                      color: theme.colorScheme.surfaceContainerHighest,
+                    )
                   : (index.isEven
-                      ? TableSpanDecoration(
-                          color: theme.colorScheme.surfaceContainerLow)
-                      : null),
+                        ? TableSpanDecoration(
+                            color: theme.colorScheme.surfaceContainerLow,
+                          )
+                        : null),
             ),
             cellBuilder: (context, vicinity) =>
                 _cell(context, vicinity, table, order),
@@ -131,10 +137,10 @@ class JsonTableView extends StatelessWidget {
       final icon = !sorted
           ? null
           : (session.tableSortDirection == JsonSortDirection.ascending
-              ? Icons.arrow_upward
-              : session.tableSortDirection == JsonSortDirection.descending
-                  ? Icons.arrow_downward
-                  : null);
+                ? Icons.arrow_upward
+                : session.tableSortDirection == JsonSortDirection.descending
+                ? Icons.arrow_downward
+                : null);
       return TableViewCell(
         child: Container(
           decoration: BoxDecoration(border: border),
@@ -147,8 +153,9 @@ class JsonTableView extends StatelessWidget {
                   child: Text(
                     table.columns[col],
                     overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.labelMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 if (icon != null) Icon(icon, size: 14),

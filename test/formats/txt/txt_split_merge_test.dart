@@ -35,8 +35,11 @@ void main() {
   group('splitBySize', () {
     test('breaks on line boundaries within the byte cap', () {
       // Each of these lines is 3 bytes; a 7-byte cap fits two lines + the join.
-      final parts = sm.splitBySize('abc\ndef\nghi', 7,
-          encoding: TextEncodingType.utf8);
+      final parts = sm.splitBySize(
+        'abc\ndef\nghi',
+        7,
+        encoding: TextEncodingType.utf8,
+      );
       expect(sm.merge(parts), 'abc\ndef\nghi');
       for (final p in parts.take(parts.length - 1)) {
         expect(p.length <= 7, isTrue);

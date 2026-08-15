@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'document_tab.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
 
 /// Temporary body shown inside a tab until the real per-format viewer/editor
 /// lands (Phase 3 gives the editor core, Phase 4 the first TXT viewer).
@@ -37,8 +37,9 @@ class PlaceholderDocumentView extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               _details(l10n),
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),

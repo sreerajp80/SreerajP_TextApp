@@ -1,6 +1,6 @@
 import 'package:xml/xml.dart';
 
-import 'xml_parser.dart';
+import 'package:text_data/formats/xml/xml_parser.dart';
 
 /// Thrown when split / merge cannot work on the given input. Carries a friendly
 /// message for the UI.
@@ -30,18 +30,16 @@ class XmlSplitMerge {
       throw const XmlSplitMergeException('Choose at least one item per part.');
     }
     final root = _rootOf(source);
-    final matches =
-        root.childElements.where((e) => e.name.qualified == tag).toList();
+    final matches = root.childElements
+        .where((e) => e.name.qualified == tag)
+        .toList();
     if (matches.isEmpty) {
       throw XmlSplitMergeException('No <$tag> elements were found to split.');
     }
 
     final parts = <String>[];
     for (var i = 0; i < matches.length; i += perPart) {
-      final slice = matches.sublist(
-        i,
-        (i + perPart).clamp(0, matches.length),
-      );
+      final slice = matches.sublist(i, (i + perPart).clamp(0, matches.length));
       final wrapper = XmlElement(
         root.name.copy(),
         root.attributes.map((a) => a.copy()),
@@ -72,7 +70,8 @@ class XmlSplitMerge {
     final result = parser.parse(source);
     if (!result.ok || result.document == null) {
       throw XmlSplitMergeException(
-          result.errorMessage ?? 'The XML could not be read.');
+        result.errorMessage ?? 'The XML could not be read.',
+      );
     }
     return result.document!.rootElement;
   }

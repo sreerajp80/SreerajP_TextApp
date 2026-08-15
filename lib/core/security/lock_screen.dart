@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../../shell/settings/security_settings.dart';
-import 'app_lock_controller.dart';
-import 'app_lock_hasher.dart';
-import 'biometric_service.dart';
-import 'recovery_code_screen.dart';
-import 'set_pin_screen.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/settings/security_settings.dart';
+import 'package:text_data/core/security/app_lock_controller.dart';
+import 'package:text_data/core/security/app_lock_hasher.dart';
+import 'package:text_data/core/security/biometric_service.dart';
+import 'package:text_data/core/security/recovery_code_screen.dart';
+import 'package:text_data/core/security/set_pin_screen.dart';
 
 /// The unlock screen shown while the app is locked (task 13.2). Offers PIN
 /// entry, biometric unlock (if available), and a forgot-PIN recovery flow that
@@ -33,12 +33,11 @@ class _LockScreenState extends ConsumerState<LockScreen> {
   }
 
   Future<void> _initBiometric() async {
-    final allowed = ref
-        .read(securitySettingsProvider)
-        .biometricUnlockEnabled;
+    final allowed = ref.read(securitySettingsProvider).biometricUnlockEnabled;
     if (!allowed) return;
-    final available =
-        await ref.read(appLockControllerProvider.notifier).biometricAvailable();
+    final available = await ref
+        .read(appLockControllerProvider.notifier)
+        .biometricAvailable();
     if (!mounted) return;
     setState(() => _biometricAvailable = available);
     if (available) _tryBiometric();
@@ -107,9 +106,7 @@ class _LockScreenState extends ConsumerState<LockScreen> {
     if (!mounted) return;
     // Show the new recovery code once; then the gate reveals the app (unlocked).
     await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => RecoveryCodeScreen(code: newRecovery),
-      ),
+      MaterialPageRoute(builder: (_) => RecoveryCodeScreen(code: newRecovery)),
     );
   }
 
@@ -125,7 +122,11 @@ class _LockScreenState extends ConsumerState<LockScreen> {
             shrinkWrap: true,
             padding: const EdgeInsets.all(24),
             children: [
-              Icon(Icons.lock_outline, size: 56, color: theme.colorScheme.primary),
+              Icon(
+                Icons.lock_outline,
+                size: 56,
+                color: theme.colorScheme.primary,
+              ),
               const SizedBox(height: 16),
               Text(
                 l10n.lockEnterPin,
@@ -218,9 +219,9 @@ class _RecoveryCodeEntryDialogState extends State<_RecoveryCodeEntryDialog> {
           child: Text(l10n.actionCancel),
         ),
         FilledButton(
-          onPressed: () => Navigator.of(context).pop(
-            AppLockHasher.normalizeRecoveryCode(_controller.text),
-          ),
+          onPressed: () => Navigator.of(
+            context,
+          ).pop(AppLockHasher.normalizeRecoveryCode(_controller.text)),
           child: Text(l10n.actionContinue),
         ),
       ],

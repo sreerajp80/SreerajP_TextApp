@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../core/storage/key_value_store.dart';
-import 'sync_constants.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:text_data/sync/sync_constants.dart';
 
 /// Which record categories are **pre-checked** when the user starts a share
 /// (task 11.5).
@@ -18,8 +18,9 @@ class SyncSharePrefs {
   const SyncSharePrefs({required this.enabledCategories});
 
   /// The default: every category pre-selected.
-  static final SyncSharePrefs defaults =
-      SyncSharePrefs(enabledCategories: {...SyncConstants.allCategories});
+  static const SyncSharePrefs defaults = SyncSharePrefs(
+    enabledCategories: {...SyncConstants.allCategories},
+  );
 
   /// Preference key for one category (`sync.share.<category>`).
   static String keyFor(String category) => 'sync.share.$category';
@@ -33,8 +34,7 @@ class SyncSharePrefs {
       other.enabledCategories.containsAll(enabledCategories);
 
   @override
-  int get hashCode =>
-      Object.hashAllUnordered(enabledCategories);
+  int get hashCode => Object.hashAllUnordered(enabledCategories);
 }
 
 /// Remembers the default share selection (task 11.5). Follows the settings
@@ -69,5 +69,5 @@ class SyncSharePrefsController extends Notifier<SyncSharePrefs> {
 
 final syncSharePrefsProvider =
     NotifierProvider<SyncSharePrefsController, SyncSharePrefs>(
-  SyncSharePrefsController.new,
-);
+      SyncSharePrefsController.new,
+    );

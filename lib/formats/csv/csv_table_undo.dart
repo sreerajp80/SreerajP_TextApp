@@ -1,4 +1,4 @@
-import 'csv_table.dart';
+import 'package:text_data/formats/csv/csv_table.dart';
 
 /// Undo/redo for grid edits (task 7.5). The [CsvTable] model is small enough to
 /// snapshot per edit, so this keeps a bounded stack of whole-table snapshots

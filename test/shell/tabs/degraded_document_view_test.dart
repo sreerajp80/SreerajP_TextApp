@@ -24,13 +24,13 @@ class _FailSaf extends SafService {
 }
 
 DocumentTab _tab() => const DocumentTab(
-      id: 't',
-      fingerprint: 'fp',
-      uri: 'u',
-      displayName: 'big.txt',
-      size: 60 * 1024 * 1024,
-      lastActiveAt: 1,
-    );
+  id: 't',
+  fingerprint: 'fp',
+  uri: 'u',
+  displayName: 'big.txt',
+  size: 60 * 1024 * 1024,
+  lastActiveAt: 1,
+);
 
 Future<void> _pump(WidgetTester tester, SafService saf) async {
   final store = await inMemoryKeyValueStore();
@@ -53,16 +53,18 @@ Future<void> _pump(WidgetTester tester, SafService saf) async {
 void main() {
   final text = List.generate(12, (i) => 'line$i').join('\n');
 
-  testWidgets('shows the large-file read-only banner and first page',
-      (tester) async {
+  testWidgets('shows the large-file read-only banner and first page', (
+    tester,
+  ) async {
     await _pump(tester, _OkSaf(Uint8List.fromList(text.codeUnits)));
 
     expect(find.textContaining('read-only mode'), findsOneWidget);
     // 12 lines / 5 per page = 3 pages.
     expect(find.textContaining('of 3'), findsOneWidget);
 
-    final page = tester
-        .widget<SelectableText>(find.byKey(const Key('degraded-page-text')));
+    final page = tester.widget<SelectableText>(
+      find.byKey(const Key('degraded-page-text')),
+    );
     expect(page.data, contains('line0'));
     expect(page.data, contains('line4'));
     expect(page.data, isNot(contains('line5')));
@@ -74,8 +76,9 @@ void main() {
     await tester.tap(find.byKey(const Key('degraded-next-page')));
     await tester.pumpAndSettle();
 
-    final page = tester
-        .widget<SelectableText>(find.byKey(const Key('degraded-page-text')));
+    final page = tester.widget<SelectableText>(
+      find.byKey(const Key('degraded-page-text')),
+    );
     expect(page.data, contains('line5'));
     expect(page.data, contains('line9'));
     expect(page.data, isNot(contains('line4')));
@@ -88,8 +91,9 @@ void main() {
     expect(find.byType(TextField), findsOneWidget); // just the page jump
   });
 
-  testWidgets('read failure shows a friendly state, never a crash',
-      (tester) async {
+  testWidgets('read failure shows a friendly state, never a crash', (
+    tester,
+  ) async {
     await _pump(tester, _FailSaf());
     expect(find.text('Try again'), findsOneWidget);
     expect(find.byKey(const Key('degraded-page-text')), findsNothing);

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'document_tab.dart';
-import 'tabs_controller.dart';
+import 'package:text_data/core/ephemeral/ephemeral_badge.dart';
+import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
+import 'package:text_data/core/ephemeral/ephemeral_sheet.dart';
+import 'package:text_data/core/ephemeral/ephemeral_settings.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/shell/tabs/tabs_controller.dart';
 
 /// The horizontal strip of open-document tabs (architecture.md §5).
 ///
@@ -22,6 +26,7 @@ class TabStrip extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(tabsControllerProvider);
     final controller = ref.read(tabsControllerProvider.notifier);
+    final ephemeral = ref.watch(ephemeralControllerProvider);
     final theme = Theme.of(context);
 
     if (state.tabs.isEmpty) return const SizedBox.shrink();
@@ -43,6 +48,7 @@ class TabStrip extends ConsumerWidget {
           return _TabChip(
             tab: tab,
             selected: selected,
+            isEphemeral: ephemeral.marks.containsKey(tab.id),
             onTap: () => controller.setActive(tab.id),
             onClose: () async {
               if (tab.isDirty) {
@@ -66,7 +72,9 @@ class TabStrip extends ConsumerWidget {
     _TabMenuAction action,
   ) async {
     final controller = ref.read(tabsControllerProvider.notifier);
+    final ephemeral = ref.read(ephemeralControllerProvider.notifier);
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalizations.of(context);
     switch (action) {
       case _TabMenuAction.closeOthers:
         final blocked = controller.closeOthers(tab.id);
@@ -76,7 +84,65 @@ class TabStrip extends ConsumerWidget {
         final blocked = controller.closeAll();
         _notifyBlocked(messenger, blocked.length);
         break;
+      case _TabMenuAction.ephemeral:
+        final option = await showEphemeralSheet(
+          context,
+          fileName: tab.displayName,
+          // Seed the sheet with the tab's own settings when it is already
+          // ephemeral, so "change" starts from what is in force.
+          initial: ref.read(ephemeralSettingsProvider),
+        );
+        if (option == null) return;
+        ephemeral.mark(tab, option);
+        messenger.showSnackBar(
+          SnackBar(content: Text(l10n.ephemeralMarked(tab.displayName))),
+        );
+        break;
+      case _TabMenuAction.keepTab:
+        ephemeral.cancel(tab.id);
+        messenger.showSnackBar(
+          SnackBar(content: Text(l10n.ephemeralCancelled(tab.displayName))),
+        );
+        break;
+      case _TabMenuAction.burnNow:
+        final confirmed = await _confirmBurn(context, tab.displayName);
+        if (!confirmed) return;
+        final failures = await ephemeral.burn(tab.id);
+        messenger.showSnackBar(
+          SnackBar(
+            content: Text(
+              failures.isEmpty
+                  ? l10n.ephemeralBurned(tab.displayName)
+                  : l10n.ephemeralBurnedPartly(tab.displayName),
+            ),
+          ),
+        );
+        break;
     }
+  }
+
+  /// Confirms a manual burn. Destroying a document on one menu tap, with unsaved
+  /// edits going with it, is worth one question.
+  Future<bool> _confirmBurn(BuildContext context, String fileName) async {
+    final l10n = AppLocalizations.of(context);
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.ephemeralBurnNowTitle),
+        content: Text(l10n.ephemeralBurnNowBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.actionCancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.actionBurn),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
   }
 
   void _notifyBlocked(ScaffoldMessengerState messenger, int count) {
@@ -92,11 +158,29 @@ class TabStrip extends ConsumerWidget {
   }
 }
 
-enum _TabMenuAction { closeOthers, closeAll }
+enum _TabMenuAction {
+  closeOthers,
+  closeAll,
+
+  /// Open the self-destruct sheet (Feature 9) — for a normal tab, or to change
+  /// the settings of one that is already ephemeral.
+  ephemeral,
+
+  /// Drop the ephemeral mark and keep the tab as a normal one.
+  keepTab,
+
+  /// Burn the tab right now.
+  burnNow,
+}
 
 class _TabChip extends StatelessWidget {
   final DocumentTab tab;
   final bool selected;
+
+  /// Whether this tab is marked to self-destruct (Feature 9). Drives which
+  /// items the long-press menu offers.
+  final bool isEphemeral;
+
   final VoidCallback onTap;
   final VoidCallback onClose;
   final void Function(_TabMenuAction action) onMenu;
@@ -104,6 +188,7 @@ class _TabChip extends StatelessWidget {
   const _TabChip({
     required this.tab,
     required this.selected,
+    required this.isEphemeral,
     required this.onTap,
     required this.onClose,
     required this.onMenu,
@@ -113,8 +198,9 @@ class _TabChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final color =
-        selected ? theme.colorScheme.primary : theme.colorScheme.onSurface;
+    final color = selected
+        ? theme.colorScheme.primary
+        : theme.colorScheme.onSurface;
     return InkWell(
       onTap: onTap,
       child: GestureDetector(
@@ -125,7 +211,9 @@ class _TabChip extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: selected ? theme.colorScheme.primary : Colors.transparent,
+                color: selected
+                    ? theme.colorScheme.primary
+                    : Colors.transparent,
                 width: 2,
               ),
             ),
@@ -138,14 +226,15 @@ class _TabChip extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 6),
                   child: Icon(Icons.circle, size: 8, color: color),
                 ),
+              // Draws nothing unless the tab is ephemeral (Feature 9).
+              EphemeralBadge(tabId: tab.id),
               Flexible(
                 child: Text(
                   tab.displayName,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: color,
-                    fontWeight:
-                        selected ? FontWeight.w600 : FontWeight.normal,
+                    fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
                   ),
                 ),
               ),
@@ -189,6 +278,23 @@ class _TabChip extends StatelessWidget {
           value: _TabMenuAction.closeAll,
           child: Text(l10n.tabCloseAll),
         ),
+        const PopupMenuDivider(),
+        PopupMenuItem(
+          value: _TabMenuAction.ephemeral,
+          child: Text(
+            isEphemeral ? l10n.tabChangeEphemeral : l10n.tabMakeEphemeral,
+          ),
+        ),
+        if (isEphemeral) ...[
+          PopupMenuItem(
+            value: _TabMenuAction.keepTab,
+            child: Text(l10n.tabCancelEphemeral),
+          ),
+          PopupMenuItem(
+            value: _TabMenuAction.burnNow,
+            child: Text(l10n.tabBurnNow),
+          ),
+        ],
       ],
     );
     if (action != null) onMenu(action);

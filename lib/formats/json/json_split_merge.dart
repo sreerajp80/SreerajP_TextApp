@@ -1,5 +1,5 @@
-import 'json_node.dart';
-import 'json_parser.dart';
+import 'package:text_data/formats/json/json_node.dart';
+import 'package:text_data/formats/json/json_parser.dart';
 
 /// Thrown when split / merge is asked to work on something that is not a
 /// top-level JSON array. Carries a friendly message for the UI.
@@ -63,11 +63,13 @@ class JsonSplitMerge {
     final result = parser.parse(source, lenient: true);
     if (!result.ok || result.root == null) {
       throw JsonSplitMergeException(
-          result.errorMessage ?? 'The JSON could not be read.');
+        result.errorMessage ?? 'The JSON could not be read.',
+      );
     }
     if (result.root!.kind != JsonKind.array) {
       throw const JsonSplitMergeException(
-          'This works only on a top-level JSON array.');
+        'This works only on a top-level JSON array.',
+      );
     }
     return result.root!;
   }

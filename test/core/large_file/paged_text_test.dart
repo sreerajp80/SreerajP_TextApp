@@ -39,8 +39,9 @@ void main() {
     test('concatenating every page reproduces the original text', () {
       final text = List.generate(23, (i) => 'row $i').join('\n');
       final p = PagedText(text, linesPerPage: 7);
-      final rebuilt =
-          [for (var i = 0; i < p.pageCount; i++) p.page(i)].join('\n');
+      final rebuilt = [
+        for (var i = 0; i < p.pageCount; i++) p.page(i),
+      ].join('\n');
       expect(rebuilt, text);
       expect(p.pageCount, 4); // 7 + 7 + 7 + 2
     });

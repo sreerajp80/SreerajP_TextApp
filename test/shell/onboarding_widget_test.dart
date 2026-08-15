@@ -21,10 +21,10 @@ void main() {
         overrides: [
           keyValueStoreSyncProvider.overrideWithValue(store),
           safServiceProvider.overrideWithValue(FakeSafService()),
-          deviceMemoryProvider
-              .overrideWithValue(const FakeDeviceMemory(4 * 1024 * 1024 * 1024)),
-          recentsControllerProvider
-              .overrideWith(() => StubRecentsController()),
+          deviceMemoryProvider.overrideWithValue(
+            const FakeDeviceMemory(4 * 1024 * 1024 * 1024),
+          ),
+          recentsControllerProvider.overrideWith(() => StubRecentsController()),
         ],
         child: const TextDataApp(),
       ),
@@ -41,8 +41,9 @@ void main() {
     expect(find.byType(AppShell), findsNothing);
   });
 
-  testWidgets('finishing onboarding moves to the shell and persists',
-      (tester) async {
+  testWidgets('finishing onboarding moves to the shell and persists', (
+    tester,
+  ) async {
     final store = await inMemoryKeyValueStore();
     await pumpApp(tester, store: store);
 
@@ -56,9 +57,9 @@ void main() {
   });
 
   testWidgets('onboarding is hidden once complete', (tester) async {
-    final store = await inMemoryKeyValueStore(
-      {OnboardingController.completeKey: true},
-    );
+    final store = await inMemoryKeyValueStore({
+      OnboardingController.completeKey: true,
+    });
     await pumpApp(tester, store: store);
 
     expect(find.byType(OnboardingScreen), findsNothing);

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/editor/external_change.dart';
-import '../../formats/csv/csv_session_manager.dart';
-import '../../formats/format_dispatch.dart';
-import '../../formats/json/json_session_manager.dart';
-import '../../formats/markdown/md_session_manager.dart';
-import '../../formats/txt/txt_session_manager.dart';
-import '../../formats/xml/xml_session_manager.dart';
-import '../../l10n/app_localizations.dart';
-import 'document_tab.dart';
+import 'package:text_data/core/editor/external_change.dart';
+import 'package:text_data/formats/csv/csv_session_manager.dart';
+import 'package:text_data/formats/format_dispatch.dart';
+import 'package:text_data/formats/json/json_session_manager.dart';
+import 'package:text_data/formats/markdown/md_session_manager.dart';
+import 'package:text_data/formats/txt/txt_session_manager.dart';
+import 'package:text_data/formats/xml/xml_session_manager.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
 
 /// Warns that the file behind the active tab changed on disk, and offers to load
 /// the fresh content.
@@ -35,11 +35,7 @@ class FileChangedBanner extends ConsumerStatefulWidget {
   final ReloadableDocument? Function(WidgetRef ref, DocumentTab tab)?
   resolveDocument;
 
-  const FileChangedBanner({
-    super.key,
-    required this.tab,
-    this.resolveDocument,
-  });
+  const FileChangedBanner({super.key, required this.tab, this.resolveDocument});
 
   @override
   ConsumerState<FileChangedBanner> createState() => _FileChangedBannerState();

@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'storage_models.dart';
+import 'package:text_data/core/storage/storage_models.dart';
 
 /// CRUD for favorite files.
 class FavoritesRepository {
@@ -37,5 +37,9 @@ class FavoritesRepository {
       where: 'fingerprint = ?',
       whereArgs: [fingerprint],
     );
+  }
+
+  Future<void> clear() async {
+    await _db.delete('favorites');
   }
 }

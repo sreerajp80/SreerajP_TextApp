@@ -17,8 +17,10 @@ void main() {
     });
 
     test('two generated codes differ', () {
-      expect(SyncCrypto.generatePairingCode(),
-          isNot(SyncCrypto.generatePairingCode()));
+      expect(
+        SyncCrypto.generatePairingCode(),
+        isNot(SyncCrypto.generatePairingCode()),
+      );
     });
 
     test('normalize strips spaces/dashes and upper-cases', () {
@@ -48,8 +50,10 @@ void main() {
       final good = SyncCrypto.deriveKey('RIGHT', salt);
       final bad = SyncCrypto.deriveKey('WRONG', salt);
       final wire = SyncCrypto.encryptWire(good, 'secret payload');
-      expect(() => SyncCrypto.decryptWire(bad, wire),
-          throwsA(isA<SyncCryptoException>()));
+      expect(
+        () => SyncCrypto.decryptWire(bad, wire),
+        throwsA(isA<SyncCryptoException>()),
+      );
     });
 
     test('a tampered ciphertext throws', () {
@@ -58,16 +62,22 @@ void main() {
       final raw = base64.decode(wire);
       raw[raw.length - 1] ^= 0xFF; // flip a tag byte
       final tampered = base64.encode(raw);
-      expect(() => SyncCrypto.decryptWire(key, tampered),
-          throwsA(isA<SyncCryptoException>()));
+      expect(
+        () => SyncCrypto.decryptWire(key, tampered),
+        throwsA(isA<SyncCryptoException>()),
+      );
     });
 
     test('malformed wire throws', () {
       final key = SyncCrypto.deriveKey('CODE', SyncCrypto.randomBytes(16));
-      expect(() => SyncCrypto.decryptWire(key, 'not base64!!'),
-          throwsA(isA<SyncCryptoException>()));
-      expect(() => SyncCrypto.decryptWire(key, base64.encode([1, 2, 3])),
-          throwsA(isA<SyncCryptoException>()));
+      expect(
+        () => SyncCrypto.decryptWire(key, 'not base64!!'),
+        throwsA(isA<SyncCryptoException>()),
+      );
+      expect(
+        () => SyncCrypto.decryptWire(key, base64.encode([1, 2, 3])),
+        throwsA(isA<SyncCryptoException>()),
+      );
     });
   });
 
@@ -75,7 +85,8 @@ void main() {
     test('build then parse round-trips', () {
       final code = SyncCrypto.generatePairingCode();
       final uri = SyncCrypto.buildQrUri(
-          QrPairing(host: '192.168.1.5', port: 45123, code: code));
+        QrPairing(host: '192.168.1.5', port: 45123, code: code),
+      );
       final parsed = SyncCrypto.parseQrUri(uri);
       expect(parsed.isOk, isTrue);
       expect(parsed.pairing!.host, '192.168.1.5');
@@ -90,7 +101,7 @@ void main() {
     });
 
     test('rejects a malformed code', () {
-      final uri =
+      const uri =
           '${SyncConstants.qrScheme}://${SyncConstants.qrHost}?v=1&h=1.2.3.4&p=45000&c=SHORT';
       expect(SyncCrypto.parseQrUri(uri).isOk, isFalse);
     });
@@ -129,8 +140,10 @@ void main() {
         sessionKey: sessionKey,
       );
       // The wire form must not decrypt under the device key.
-      expect(() => SyncCrypto.decryptWire(deviceKey, onWire),
-          throwsA(isA<SyncCryptoException>()));
+      expect(
+        () => SyncCrypto.decryptWire(deviceKey, onWire),
+        throwsA(isA<SyncCryptoException>()),
+      );
       // Client re-encrypts under its own device key.
       final backAtRest = SecretResealer.toDevice(
         sessionKeyWire: onWire,

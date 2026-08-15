@@ -22,10 +22,10 @@ void main() {
         overrides: [
           keyValueStoreSyncProvider.overrideWithValue(store),
           safServiceProvider.overrideWithValue(FakeSafService()),
-          deviceMemoryProvider
-              .overrideWithValue(const FakeDeviceMemory(4 * 1024 * 1024 * 1024)),
-          recentsControllerProvider
-              .overrideWith(() => StubRecentsController()),
+          deviceMemoryProvider.overrideWithValue(
+            const FakeDeviceMemory(4 * 1024 * 1024 * 1024),
+          ),
+          recentsControllerProvider.overrideWith(() => StubRecentsController()),
         ],
         child: const TextDataApp(),
       ),

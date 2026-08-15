@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:re_editor/re_editor.dart';
 
-import '../../core/editor/editor_selection_toolbar.dart';
-import '../../core/theme/theme_controller.dart';
-import 'csv_document_session.dart';
-import 'csv_find_panel.dart';
+import 'package:text_data/airqr/ui/airqr_send_action.dart';
+import 'package:text_data/core/editor/editor_selection_toolbar.dart';
+import 'package:text_data/core/theme/theme_controller.dart';
+import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:text_data/formats/csv/csv_find_panel.dart';
 
 /// The `re_editor` surface for the CSV **raw delimited text** (task 7.3, 7.5).
 ///
@@ -18,11 +19,7 @@ class CsvRawView extends ConsumerStatefulWidget {
   final CsvDocumentSession session;
   final bool readOnly;
 
-  const CsvRawView({
-    super.key,
-    required this.session,
-    required this.readOnly,
-  });
+  const CsvRawView({super.key, required this.session, required this.readOnly});
 
   @override
   ConsumerState<CsvRawView> createState() => _CsvRawViewState();
@@ -31,8 +28,16 @@ class CsvRawView extends ConsumerStatefulWidget {
 class _CsvRawViewState extends ConsumerState<CsvRawView> {
   static const double _baseFontSize = 14;
 
-  late final SelectionToolbarController _toolbar =
-      createEditorSelectionToolbar(() => widget.readOnly);
+  late final SelectionToolbarController _toolbar = createEditorSelectionToolbar(
+    () => widget.readOnly,
+    // Sending a selection is allowed even in read-only mode: it copies text
+    // out of the document, it never edits it.
+    onSendSelection: (selected) => AirqrSendAction.sendSnippet(
+      context: context,
+      name: widget.session.tab.displayName,
+      content: selected,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -65,15 +70,15 @@ class _CsvRawViewState extends ConsumerState<CsvRawView> {
       ),
       indicatorBuilder:
           (context, editingController, chunkController, notifier) {
-        return Row(
-          children: [
-            DefaultCodeLineNumber(
-              controller: editingController,
-              notifier: notifier,
-            ),
-          ],
-        );
-      },
+            return Row(
+              children: [
+                DefaultCodeLineNumber(
+                  controller: editingController,
+                  notifier: notifier,
+                ),
+              ],
+            );
+          },
       findBuilder: (context, controller, readOnly) =>
           CsvFindPanel(controller: controller, readOnly: readOnly),
     );

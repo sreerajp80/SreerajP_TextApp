@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../core/config/app_config.dart';
-import '../../../core/config/config_service.dart';
-import '../../../l10n/app_localizations.dart';
-import 'settings_widgets.dart';
+import 'package:text_data/core/config/app_config.dart';
+import 'package:text_data/core/config/config_service.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/settings/sections/settings_widgets.dart';
 
 /// About settings (task 11.7). Every value comes from `app_config.json` via
 /// [appConfigProvider] — editing the config changes this screen with no code

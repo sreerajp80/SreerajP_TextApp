@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../storage/key_value_store.dart';
-import 'app_theme_mode.dart';
-import 'theme_settings.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:text_data/core/theme/app_theme_mode.dart';
+import 'package:text_data/core/theme/theme_settings.dart';
 
 /// The one place the app changes and remembers its appearance
 /// (architecture.md §5). Wraps [ThemeSettings], hydrating from and saving to the
@@ -23,15 +23,18 @@ class ThemeController extends Notifier<ThemeSettings> {
       mode: AppThemeMode.fromPrefValue(
         store.getPlainString(ThemeSettings.modeKey),
       ),
-      fontScale: store.getDouble(ThemeSettings.fontScaleKey) ??
+      fontScale:
+          store.getDouble(ThemeSettings.fontScaleKey) ??
           ThemeSettings.defaults.fontScale,
-      lineSpacing: store.getDouble(ThemeSettings.lineSpacingKey) ??
+      lineSpacing:
+          store.getDouble(ThemeSettings.lineSpacingKey) ??
           ThemeSettings.defaults.lineSpacing,
       fontFamily: store.getPlainString(ThemeSettings.fontFamilyKey),
       malayalamFontFamily: store.getPlainString(
         ThemeSettings.malayalamFontFamilyKey,
       ),
-      wordWrap: store.getBool(ThemeSettings.wordWrapKey) ??
+      wordWrap:
+          store.getBool(ThemeSettings.wordWrapKey) ??
           ThemeSettings.defaults.wordWrap,
     );
   }

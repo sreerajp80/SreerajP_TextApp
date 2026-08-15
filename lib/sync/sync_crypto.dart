@@ -20,7 +20,7 @@ import 'dart:typed_data';
 import 'package:encrypt/encrypt.dart' as enc;
 import 'package:pointycastle/export.dart' as pc;
 
-import 'sync_constants.dart';
+import 'package:text_data/sync/sync_constants.dart';
 
 /// Thrown when a wire message cannot be decrypted or is malformed. Carries no
 /// secret material — the message is user-safe.
@@ -73,9 +73,9 @@ class SyncCrypto {
   /// alphabet.
   static String generatePairingCode() {
     const alphabet = SyncConstants.codeAlphabet;
-    final n = alphabet.length; // 31
+    const n = alphabet.length; // 31
     // Largest multiple of n that fits in a byte, for unbiased sampling.
-    final limit = 256 - (256 % n);
+    const limit = 256 - (256 % n);
     final buf = StringBuffer();
     while (buf.length < SyncConstants.codeLength) {
       final b = _secure.nextInt(256);
@@ -93,15 +93,13 @@ class SyncCrypto {
   /// character a person mistypes is simply invalid and is caught by
   /// [isValidCode].
   static String normalizeCode(String raw) {
-    return raw
-        .toUpperCase()
-        .replaceAll(RegExp(r'[\s\-]'), '');
+    return raw.toUpperCase().replaceAll(RegExp(r'[\s\-]'), '');
   }
 
   /// Groups the code for display only (e.g. `ABCD-EFGH-...`). Does not change
   /// the code's value.
   static String formatCode(String code) {
-    final g = SyncConstants.codeDisplayGroup;
+    const g = SyncConstants.codeDisplayGroup;
     final parts = <String>[];
     for (var i = 0; i < code.length; i += g) {
       parts.add(code.substring(i, i + g > code.length ? code.length : i + g));
@@ -125,11 +123,13 @@ class SyncCrypto {
   /// with PBKDF2-HMAC-SHA256.
   static Uint8List deriveKey(String code, Uint8List salt) {
     final derivator = pc.PBKDF2KeyDerivator(pc.HMac(pc.SHA256Digest(), 64))
-      ..init(pc.Pbkdf2Parameters(
-        salt,
-        SyncConstants.pbkdf2Iterations,
-        SyncConstants.keyLengthBytes,
-      ));
+      ..init(
+        pc.Pbkdf2Parameters(
+          salt,
+          SyncConstants.pbkdf2Iterations,
+          SyncConstants.keyLengthBytes,
+        ),
+      );
     return derivator.process(Uint8List.fromList(utf8.encode(code)));
   }
 
@@ -148,7 +148,11 @@ class SyncCrypto {
     );
     final out = Uint8List(nonce.length + sealed.bytes.length)
       ..setRange(0, nonce.length, nonce)
-      ..setRange(nonce.length, nonce.length + sealed.bytes.length, sealed.bytes);
+      ..setRange(
+        nonce.length,
+        nonce.length + sealed.bytes.length,
+        sealed.bytes,
+      );
     return base64.encode(out);
   }
 
@@ -162,7 +166,7 @@ class SyncCrypto {
     } catch (_) {
       throw const SyncCryptoException('malformed wire line');
     }
-    final nonceLen = SyncConstants.gcmNonceLength;
+    const nonceLen = SyncConstants.gcmNonceLength;
     if (raw.length <= nonceLen) {
       throw const SyncCryptoException('wire line too short');
     }
@@ -172,7 +176,10 @@ class SyncCrypto {
       enc.AES(enc.Key(Uint8List.fromList(key)), mode: enc.AESMode.gcm),
     );
     try {
-      final bytes = encrypter.decryptBytes(enc.Encrypted(body), iv: enc.IV(nonce));
+      final bytes = encrypter.decryptBytes(
+        enc.Encrypted(body),
+        iv: enc.IV(nonce),
+      );
       return utf8.decode(bytes);
     } catch (_) {
       // A wrong key or a tampered message fails the GCM tag here.
@@ -208,18 +215,23 @@ class SyncCrypto {
     } catch (_) {
       return const QrParseResult.fail('This is not a valid pairing code.');
     }
-    if (uri.scheme != SyncConstants.qrScheme || uri.host != SyncConstants.qrHost) {
+    if (uri.scheme != SyncConstants.qrScheme ||
+        uri.host != SyncConstants.qrHost) {
       return const QrParseResult.fail('This QR is not from this app.');
     }
     final v = int.tryParse(uri.queryParameters['v'] ?? '');
     if (v != SyncConstants.protocolVersion) {
-      return const QrParseResult.fail('This pairing code is a different version.');
+      return const QrParseResult.fail(
+        'This pairing code is a different version.',
+      );
     }
     final host = uri.queryParameters['h'];
     final port = int.tryParse(uri.queryParameters['p'] ?? '');
     final code = uri.queryParameters['c'];
     if (host == null || host.isEmpty) {
-      return const QrParseResult.fail('The pairing code is missing the address.');
+      return const QrParseResult.fail(
+        'The pairing code is missing the address.',
+      );
     }
     if (port == null || port < 1 || port > 65535) {
       return const QrParseResult.fail('The pairing code has a bad port.');

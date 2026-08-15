@@ -54,7 +54,9 @@ void main() {
 
     test('an any-depth step uses //', () {
       expect(
-        XmlQueryBuilder.buildQuery(const [XmlQueryStep.anyDepthElement('title')]),
+        XmlQueryBuilder.buildQuery(const [
+          XmlQueryStep.anyDepthElement('title'),
+        ]),
         '//title',
       );
     });
@@ -127,36 +129,34 @@ void main() {
 
   group('suggestions come from the document', () {
     test('the document offers its root element', () {
-      final labels =
-          XmlQueryBuilder.suggestions(document, const []).map((c) => c.label);
+      final labels = XmlQueryBuilder.suggestions(
+        document,
+        const [],
+      ).map((c) => c.label);
       expect(labels, contains('catalog'));
     });
 
     test('an element offers its child element names', () {
-      final labels = XmlQueryBuilder.suggestions(
-        document,
-        const [XmlQueryStep.element('catalog')],
-      ).map((c) => c.label).toList();
+      final labels = XmlQueryBuilder.suggestions(document, const [
+        XmlQueryStep.element('catalog'),
+      ]).map((c) => c.label).toList();
       expect(labels, containsAll(['book', 'note']));
     });
 
     test('several matches offer positions to narrow with', () {
-      final labels = XmlQueryBuilder.suggestions(
-        document,
-        const [XmlQueryStep.element('catalog'), XmlQueryStep.element('book')],
-      ).map((c) => c.label).toList();
+      final labels = XmlQueryBuilder.suggestions(document, const [
+        XmlQueryStep.element('catalog'),
+        XmlQueryStep.element('book'),
+      ]).map((c) => c.label).toList();
       expect(labels, containsAll(['[1]', '[2]']));
     });
 
     test('a single element offers its attributes', () {
-      final labels = XmlQueryBuilder.suggestions(
-        document,
-        const [
-          XmlQueryStep.element('catalog'),
-          XmlQueryStep.element('book'),
-          XmlQueryStep.position(1),
-        ],
-      ).map((c) => c.label).toList();
+      final labels = XmlQueryBuilder.suggestions(document, const [
+        XmlQueryStep.element('catalog'),
+        XmlQueryStep.element('book'),
+        XmlQueryStep.position(1),
+      ]).map((c) => c.label).toList();
       expect(labels, contains('@id'));
       // Already narrowed, so no more position chips.
       expect(labels.any((l) => l.startsWith('[')), isFalse);
@@ -174,8 +174,12 @@ void main() {
 
   group('deep element names', () {
     test('lists the names below the selection, sorted', () {
-      expect(XmlQueryBuilder.deepElementNames(document, const []),
-          ['book', 'catalog', 'note', 'title']);
+      expect(XmlQueryBuilder.deepElementNames(document, const []), [
+        'book',
+        'catalog',
+        'note',
+        'title',
+      ]);
     });
 
     test('respects the limit', () {

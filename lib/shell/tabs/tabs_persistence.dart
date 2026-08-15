@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import '../../core/storage/key_value_store.dart';
-import '../../core/storage/saf_service.dart';
-import 'document_tab.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
 
 /// The open-tab set restored on the next launch (task 2.8).
 class RestoredTabs {
@@ -39,8 +39,18 @@ class TabsPersistence {
       _store.setBool(restoreEnabledKey, enabled);
 
   /// Writes the current [tabs] to storage. A no-op-safe empty list clears it.
-  Future<void> save(List<DocumentTab> tabs) async {
-    final list = tabs.map(_toJson).toList(growable: false);
+  ///
+  /// Tab ids in [excludeIds] are left out. That is how ephemeral tabs stay off
+  /// disk (Feature 9): their name and URI are never written, so they cannot come
+  /// back on the next launch.
+  Future<void> save(
+    List<DocumentTab> tabs, {
+    Set<String> excludeIds = const {},
+  }) async {
+    final list = tabs
+        .where((t) => !excludeIds.contains(t.id))
+        .map(_toJson)
+        .toList(growable: false);
     await _store.setPlainString(openTabsKey, jsonEncode(list));
   }
 
@@ -81,14 +91,14 @@ class TabsPersistence {
   }
 
   Map<String, Object?> _toJson(DocumentTab tab) => {
-        'id': tab.id,
-        'fingerprint': tab.fingerprint,
-        'uri': tab.uri,
-        'displayName': tab.displayName,
-        'mimeType': tab.mimeType,
-        'size': tab.size,
-        'scrollPosition': tab.scrollPosition,
-      };
+    'id': tab.id,
+    'fingerprint': tab.fingerprint,
+    'uri': tab.uri,
+    'displayName': tab.displayName,
+    'mimeType': tab.mimeType,
+    'size': tab.size,
+    'scrollPosition': tab.scrollPosition,
+  };
 
   DocumentTab? _fromJson(Object? entry) {
     if (entry is! Map) return null;
@@ -103,7 +113,9 @@ class TabsPersistence {
       fingerprint: fingerprint,
       uri: uri,
       displayName: displayName,
-      mimeType: entry['mimeType'] is String ? entry['mimeType'] as String : null,
+      mimeType: entry['mimeType'] is String
+          ? entry['mimeType'] as String
+          : null,
       size: (entry['size'] as num?)?.toInt(),
       scrollPosition: (entry['scrollPosition'] as num?)?.toInt() ?? 0,
       // Restored tabs come back clean and in stored order; give them an

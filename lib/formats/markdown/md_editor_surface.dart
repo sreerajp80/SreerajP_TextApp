@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:re_editor/re_editor.dart';
 
-import '../../core/editor/editor_selection_toolbar.dart';
-import '../../core/theme/app_fonts.dart';
-import '../../core/theme/theme_controller.dart';
-import 'md_document_session.dart';
-import 'md_find_panel.dart';
+import 'package:text_data/airqr/ui/airqr_send_action.dart';
+import 'package:text_data/core/editor/editor_selection_toolbar.dart';
+import 'package:text_data/core/theme/app_fonts.dart';
+import 'package:text_data/core/theme/theme_controller.dart';
+import 'package:text_data/formats/markdown/md_document_session.dart';
+import 'package:text_data/formats/markdown/md_find_panel.dart';
 
 /// The `re_editor` surface for the Markdown **raw source** — used both for the
 /// read-only raw view and the source editor (tasks 6.1, 6.4). It renders the
@@ -34,8 +35,16 @@ class _MdEditorSurfaceState extends ConsumerState<MdEditorSurface>
     with WidgetsBindingObserver {
   static const double _baseFontSize = 15;
 
-  late final SelectionToolbarController _toolbar =
-      createEditorSelectionToolbar(() => widget.readOnly);
+  late final SelectionToolbarController _toolbar = createEditorSelectionToolbar(
+    () => widget.readOnly,
+    // Sending a selection is allowed even in read-only mode: it copies text
+    // out of the document, it never edits it.
+    onSendSelection: (selected) => AirqrSendAction.sendSnippet(
+      context: context,
+      name: widget.session.tab.displayName,
+      content: selected,
+    ),
+  );
 
   @override
   void initState() {
@@ -99,15 +108,15 @@ class _MdEditorSurfaceState extends ConsumerState<MdEditorSurface>
       ),
       indicatorBuilder:
           (context, editingController, chunkController, notifier) {
-        return Row(
-          children: [
-            DefaultCodeLineNumber(
-              controller: editingController,
-              notifier: notifier,
-            ),
-          ],
-        );
-      },
+            return Row(
+              children: [
+                DefaultCodeLineNumber(
+                  controller: editingController,
+                  notifier: notifier,
+                ),
+              ],
+            );
+          },
       findBuilder: (context, controller, readOnly) =>
           MdFindPanel(controller: controller, readOnly: readOnly),
     );

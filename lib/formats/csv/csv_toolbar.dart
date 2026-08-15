@@ -1,24 +1,35 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/editor/editor_providers.dart';
-import '../../core/output/output_providers.dart';
-import '../../core/storage/saf_service.dart';
-import '../../l10n/app_localizations.dart';
-import '../../shell/tabs/document_tab.dart';
-import '../../shell/tabs/read_only_lock_button.dart';
-import 'csv_chart_screen.dart';
-import 'csv_columns_sheet.dart';
-import 'csv_conditional_format_sheet.dart';
-import 'csv_document_session.dart';
-import 'csv_export_sheet.dart';
-import 'csv_info_sheet.dart';
-import 'csv_insights_sheet.dart';
-import 'csv_output_actions.dart';
-import 'csv_save_options_sheet.dart';
-import 'csv_session_manager.dart';
-import 'csv_sort_sheet.dart';
-import 'csv_split_merge_actions.dart';
+import 'package:text_data/core/editor/editor_providers.dart';
+import 'package:text_data/core/privacy/ui/privacy_shield_sheet.dart';
+import 'package:text_data/sync/diff/diff_dialog_helper.dart';
+import 'package:text_data/airqr/ui/airqr_send_action.dart';
+import 'package:text_data/core/output/output_providers.dart';
+import 'package:text_data/core/sql/sql_query_screen.dart';
+import 'package:text_data/core/sql/sql_source.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/shell/tabs/read_only_lock_button.dart';
+import 'package:text_data/formats/sql_sources.dart';
+import 'package:text_data/formats/csv/csv_chart_screen.dart';
+import 'package:text_data/formats/csv/csv_sql_source.dart';
+import 'package:text_data/formats/csv/csv_columns_sheet.dart';
+import 'package:text_data/formats/csv/csv_conditional_format_sheet.dart';
+import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:text_data/formats/csv/csv_export_sheet.dart';
+import 'package:text_data/formats/csv/csv_info_sheet.dart';
+import 'package:text_data/formats/csv/csv_insights_sheet.dart';
+import 'package:text_data/formats/csv/csv_output_actions.dart';
+import 'package:text_data/formats/csv/csv_parse.dart';
+import 'package:text_data/formats/csv/csv_save_options_sheet.dart';
+import 'package:text_data/formats/csv/csv_session_manager.dart';
+import 'package:text_data/formats/csv/csv_sort_sheet.dart';
+import 'package:text_data/formats/csv/csv_split_merge_actions.dart';
 
 /// The action bar for an open CSV document (tasks 7.2–7.6): the table / raw
 /// toggle, undo / redo, row filter (table) or find (raw), jump-to-row, columns &
@@ -71,7 +82,8 @@ class _CsvToolbarState extends ConsumerState<CsvToolbar> {
                     selectedIcon: const Icon(Icons.code),
                     onPressed: ready
                         ? () => session.setViewMode(
-                            isTable ? CsvViewMode.raw : CsvViewMode.table)
+                            isTable ? CsvViewMode.raw : CsvViewMode.table,
+                          )
                         : null,
                   ),
                   if (canEdit) ...[
@@ -107,36 +119,43 @@ class _CsvToolbarState extends ConsumerState<CsvToolbar> {
                       tooltip: l10n.csvSortLevels,
                       isSelected: session.sortSpecs.isNotEmpty,
                       icon: const Icon(Icons.sort),
-                      onPressed:
-                          ready ? () => showCsvSortSheet(context, session) : null,
+                      onPressed: ready
+                          ? () => showCsvSortSheet(context, session)
+                          : null,
                     ),
                   if (isTable)
                     IconButton(
                       tooltip: l10n.csvJumpToRow,
                       icon: const Icon(Icons.numbers),
-                      onPressed:
-                          ready ? () => _jumpToRow(context, session) : null,
+                      onPressed: ready
+                          ? () => _jumpToRow(context, session)
+                          : null,
                     ),
                   IconButton(
                     tooltip: l10n.csvColumnsView,
                     icon: const Icon(Icons.view_column_outlined),
                     onPressed: ready
-                        ? () => showCsvColumnsSheet(context, session,
-                            editable: canEdit)
+                        ? () => showCsvColumnsSheet(
+                            context,
+                            session,
+                            editable: canEdit,
+                          )
                         : null,
                   ),
                   IconButton(
                     tooltip: l10n.csvInsights,
                     icon: const Icon(Icons.insights_outlined),
-                    onPressed:
-                        ready ? () => showCsvInsightsSheet(context, session) : null,
+                    onPressed: ready
+                        ? () => showCsvInsightsSheet(context, session)
+                        : null,
                   ),
                   IconButton(
                     key: const Key('csv-save-button'),
                     tooltip: l10n.actionSave,
                     icon: const Icon(Icons.save_outlined),
-                    onPressed:
-                        ready ? () => saveCsvDirect(context, session) : null,
+                    onPressed: ready
+                        ? () => saveCsvDirect(context, session)
+                        : null,
                   ),
                   _OverflowMenu(
                     tab: widget.tab,
@@ -195,8 +214,7 @@ class _CsvToolbarState extends ConsumerState<CsvToolbar> {
             labelText: l10n.csvRowNumberLabel(session.table.rowCount),
             border: const OutlineInputBorder(),
           ),
-          onSubmitted: (v) =>
-              Navigator.of(context).pop(int.tryParse(v.trim())),
+          onSubmitted: (v) => Navigator.of(context).pop(int.tryParse(v.trim())),
         ),
         actions: [
           TextButton(
@@ -223,10 +241,14 @@ enum _MenuAction {
   info,
   highlights,
   chart,
+  sqlQuery,
   dedup,
   split,
   merge,
   share,
+  privacyShield,
+  liveDiff,
+  sendByQr,
   shareZip,
   print,
   export,
@@ -290,6 +312,13 @@ class _OverflowMenu extends ConsumerWidget {
             title: Text(l10n.csvChartTitle),
           ),
         ),
+        PopupMenuItem(
+          value: _MenuAction.sqlQuery,
+          child: ListTile(
+            leading: const Icon(Icons.terminal),
+            title: Text(l10n.sqlMenuAction),
+          ),
+        ),
         if (canEdit)
           PopupMenuItem(
             value: _MenuAction.dedup,
@@ -319,6 +348,27 @@ class _OverflowMenu extends ConsumerWidget {
           child: ListTile(
             leading: const Icon(Icons.share_outlined),
             title: Text(l10n.actionShare),
+          ),
+        ),
+        PopupMenuItem(
+          value: _MenuAction.privacyShield,
+          child: ListTile(
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: Text(l10n.privacyShieldAction),
+          ),
+        ),
+        const PopupMenuItem(
+          value: _MenuAction.liveDiff,
+          child: ListTile(
+            leading: Icon(Icons.difference_outlined),
+            title: Text('Live P2P Diff & Sync'),
+          ),
+        ),
+        PopupMenuItem(
+          value: _MenuAction.sendByQr,
+          child: ListTile(
+            leading: const Icon(Icons.qr_code_2),
+            title: Text(l10n.airqrSendByQr),
           ),
         ),
         PopupMenuItem(
@@ -367,6 +417,24 @@ class _OverflowMenu extends ConsumerWidget {
       case _MenuAction.chart:
         await CsvChartScreen.open(context, session);
         break;
+      case _MenuAction.sqlQuery:
+        // The table is snapshotted when the screen loads, so a query always runs
+        // over the whole document rather than the filtered grid (Feature 4).
+        await SqlQueryScreen.open(
+          context,
+          primary: SqlSource(
+            tabId: tab.id,
+            displayName: tab.displayName,
+            suggestedTableName: 'data',
+            build: () async => csvSqlDataset(
+              session.table,
+              tableName: 'data',
+              sourceLabel: tab.displayName,
+            ),
+          ),
+          otherSources: () => sqlSourcesForOpenTabs(ref, excludeTabId: tab.id),
+        );
+        break;
       case _MenuAction.dedup:
         await _dedup(context);
         break;
@@ -378,6 +446,52 @@ class _OverflowMenu extends ConsumerWidget {
         break;
       case _MenuAction.share:
         await _output(ref).shareFile(context, session);
+        break;
+      case _MenuAction.privacyShield:
+        await PrivacyShieldSheet.show(
+          context,
+          text: session.currentText,
+          documentTitle: session.tab.displayName,
+          mimeType: session.tab.mimeType ?? 'text/csv',
+          onApplyToEditor: canEdit
+              ? (newText) {
+                  if (session.mode == CsvViewMode.raw && session.code != null) {
+                    session.code!.text = newText;
+                  } else {
+                    final parsed = CsvParse.parse(newText, session.dialect);
+                    session.replaceTable(parsed);
+                  }
+                }
+              : null,
+          shareService: ref.read(shareServiceProvider),
+          safService: ref.read(safServiceProvider),
+        );
+        break;
+      case _MenuAction.liveDiff:
+        await LiveDiffLauncher.showDiffOptions(
+          context: context,
+          ref: ref,
+          tab: session.tab,
+          content: session.currentText,
+          onApplyToEditor: canEdit
+              ? (newText) {
+                  if (session.mode == CsvViewMode.raw && session.code != null) {
+                    session.code!.text = newText;
+                  } else {
+                    final parsed = CsvParse.parse(newText, session.dialect);
+                    session.replaceTable(parsed);
+                  }
+                }
+              : null,
+        );
+        break;
+      case _MenuAction.sendByQr:
+        await AirqrSendAction.sendDocument(
+          context: context,
+          name: session.tab.displayName,
+          mimeType: session.tab.mimeType ?? 'text/csv',
+          content: session.currentText,
+        );
         break;
       case _MenuAction.shareZip:
         await _output(ref).shareAsZip(context, session);
@@ -412,8 +526,10 @@ class _OverflowMenu extends ConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-              child: Text(l10n.csvMatchDuplicatesBy,
-                  style: Theme.of(context).textTheme.titleMedium),
+              child: Text(
+                l10n.csvMatchDuplicatesBy,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.table_rows_outlined),
@@ -423,9 +539,11 @@ class _OverflowMenu extends ConsumerWidget {
             for (var c = 0; c < session.table.columnCount; c++)
               ListTile(
                 leading: const Icon(Icons.view_column_outlined),
-                title: Text(session.table.header[c].isEmpty
-                    ? l10n.csvColumnN(c + 1)
-                    : session.table.header[c]),
+                title: Text(
+                  session.table.header[c].isEmpty
+                      ? l10n.csvColumnN(c + 1)
+                      : session.table.header[c],
+                ),
                 onTap: () => Navigator.pop(context, c),
               ),
           ],
@@ -437,9 +555,7 @@ class _OverflowMenu extends ConsumerWidget {
     final key = keyColumn < 0 ? null : keyColumn;
     final count = session.duplicateCount(keyColumn: key);
     if (count == 0) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.csvNoDuplicates)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.csvNoDuplicates)));
       return;
     }
     session.removeDuplicateRows(keyColumn: key);
@@ -449,16 +565,22 @@ class _OverflowMenu extends ConsumerWidget {
   }
 
   CsvSplitMergeActions _actions(WidgetRef ref) => CsvSplitMergeActions(
-        saf: ref.read(safServiceProvider),
-        codec: ref.read(textCodecServiceProvider),
-      );
+    saf: ref.read(safServiceProvider),
+    codec: ref.read(textCodecServiceProvider),
+  );
 
   CsvOutputActions _output(WidgetRef ref) => CsvOutputActions(
-        share: ref.read(shareServiceProvider),
-        zip: ref.read(zipServiceProvider),
-        print: ref.read(printServiceProvider),
-        export: ref.read(exportServiceProvider),
-        saf: ref.read(safServiceProvider),
-        codec: ref.read(textCodecServiceProvider),
-      );
+    share: ref.read(shareServiceProvider),
+    zip: ref.read(zipServiceProvider),
+    print: ref.read(printServiceProvider),
+    export: ref.read(exportServiceProvider),
+    saf: ref.read(safServiceProvider),
+    codec: ref.read(textCodecServiceProvider),
+    // Burns this tab when it was marked "burn after export" (Feature 9).
+    onOutputCompleted: () => unawaited(
+      ref
+          .read(ephemeralControllerProvider.notifier)
+          .notifyOutputCompleted(tab.id),
+    ),
+  );
 }

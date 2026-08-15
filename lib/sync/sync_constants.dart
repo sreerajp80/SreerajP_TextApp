@@ -135,6 +135,22 @@ class SyncConstants {
   /// Current payload version (independent of the wire [protocolVersion]).
   static const int payloadVersion = 1;
 
+  // --- Payload types --------------------------------------------------------
+
+  static const String payloadTypeMetadata = 'metadata';
+  static const String payloadTypeFileTransfer = 'file_transfer';
+  static const String payloadTypeDiffSession = 'diff_session';
+
+  static const String keyPayloadType = 'type';
+  static const String keyFileName = 'fileName';
+  static const String keyMimeType = 'mimeType';
+  static const String keyFileSizeBytes = 'fileSizeBytes';
+  static const String keyFileContent = 'fileContent';
+  static const String keyFileEncoding = 'fileEncoding';
+
+  /// Maximum file size supported for P2P direct file streaming (50 MB).
+  static const int maxFileTransferBytes = 50 * 1024 * 1024;
+
   // --- Sync modes -----------------------------------------------------------
 
   static const String syncModeFull = 'full';

@@ -50,7 +50,7 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('all eight settings cards render', (tester) async {
+  testWidgets('all nine settings cards render', (tester) async {
     final store = await inMemoryKeyValueStore();
     await pumpSettings(
       tester,
@@ -65,6 +65,7 @@ void main() {
       'Speech (read aloud)',
       'Sync',
       'Security',
+      'Audit Log',
       'Help',
       'About',
     ]) {
@@ -72,7 +73,7 @@ void main() {
     }
   });
 
-  testWidgets('Help shows the Split array topic card', (tester) async {
+  testWidgets('Help shows topics and detail pages', (tester) async {
     final store = await inMemoryKeyValueStore();
     await pumpSettings(
       tester,
@@ -83,12 +84,36 @@ void main() {
     await tester.tap(find.text('Help'));
     await tester.pumpAndSettle();
 
+    expect(find.text('LAN Sync & Live Diff'), findsOneWidget);
+    expect(find.text('Privacy Shield & PII Scrubber'), findsOneWidget);
+    expect(find.text('Document Vault & Encrypted Backups'), findsOneWidget);
+    expect(find.text('SQL Query Engine'), findsOneWidget);
+    expect(find.text('Multi-Cursor & Column Editing'), findsOneWidget);
     expect(find.text('Split array'), findsOneWidget);
-    expect(
-      find.textContaining('Choose how many items each part should contain'),
-      findsOneWidget,
-    );
-    expect(find.textContaining('original file is not changed'), findsOneWidget);
+
+    // Tapping a topic opens its detail screen
+    await tester.tap(find.text('Privacy Shield & PII Scrubber'));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('Zero Network Leakage'), findsOneWidget);
+    expect(find.textContaining('Automatic Detection'), findsOneWidget);
+
+    // Back to Help list
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    // Test search filter
+    await tester.enterText(find.byType(TextField), 'SQL');
+    await tester.pumpAndSettle();
+
+    expect(find.text('SQL Query Engine'), findsOneWidget);
+    expect(find.text('Privacy Shield & PII Scrubber'), findsNothing);
+
+    // Search with no results
+    await tester.enterText(find.byType(TextField), 'nonexistent_topic_xyz');
+    await tester.pumpAndSettle();
+
+    expect(find.text('No matching help topics found.'), findsOneWidget);
   });
 
   testWidgets('About shows the values from the config', (tester) async {
@@ -98,6 +123,7 @@ void main() {
       store: store,
       config: configWithVersion('1.0.0'),
     );
+    await tester.ensureVisible(find.text('About'));
     await tester.tap(find.text('About'));
     await tester.pumpAndSettle();
 
@@ -115,6 +141,7 @@ void main() {
       store: store,
       config: configWithVersion('2.5.0'),
     );
+    await tester.ensureVisible(find.text('About'));
     await tester.tap(find.text('About'));
     await tester.pumpAndSettle();
 

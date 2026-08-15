@@ -19,7 +19,7 @@ library;
 
 import 'dart:convert';
 
-import 'sync_constants.dart';
+import 'package:text_data/sync/sync_constants.dart';
 
 /// Thrown when a payload is malformed or breaks a cap. User-safe message.
 class PayloadException implements Exception {
@@ -47,12 +47,12 @@ class SyncPayload {
   bool get isFull => syncMode == SyncConstants.syncModeFull;
 
   Map<String, Object?> toJson() => {
-        SyncConstants.keyApp: SyncConstants.appId,
-        SyncConstants.keyPayloadVersion: SyncConstants.payloadVersion,
-        SyncConstants.keySyncMode: syncMode,
-        SyncConstants.keyRecords: records,
-        SyncConstants.keySettings: settings,
-      };
+    SyncConstants.keyApp: SyncConstants.appId,
+    SyncConstants.keyPayloadVersion: SyncConstants.payloadVersion,
+    SyncConstants.keySyncMode: syncMode,
+    SyncConstants.keyRecords: records,
+    SyncConstants.keySettings: settings,
+  };
 
   /// One-line JSON string ready to be sealed and sent.
   String toWireJson() => jsonEncode(toJson());
@@ -81,7 +81,7 @@ class SyncPayload {
     final safeSettings = <String, Object?>{};
     for (final entry in settings.entries) {
       if (SyncConstants.neverSyncKeys.contains(entry.key)) {
-        throw PayloadException('Refusing to sync a protected key.');
+        throw const PayloadException('Refusing to sync a protected key.');
       }
       if (SyncConstants.syncableSettingKeys.contains(entry.key)) {
         safeSettings[entry.key] = entry.value;
@@ -112,7 +112,9 @@ class SyncPayload {
     }
     final version = map[SyncConstants.keyPayloadVersion];
     if (version is! int || version > SyncConstants.payloadVersion) {
-      throw const PayloadException('This data is a newer, unsupported version.');
+      throw const PayloadException(
+        'This data is a newer, unsupported version.',
+      );
     }
     final mode = map[SyncConstants.keySyncMode];
     if (mode != SyncConstants.syncModeFull &&
@@ -164,7 +166,9 @@ class SyncPayload {
       for (final entry in rawSettings.entries) {
         if (SyncConstants.neverSyncKeys.contains(entry.key)) {
           // A hostile payload trying to push a protected key — reject outright.
-          throw const PayloadException('The data tried to change protected settings.');
+          throw const PayloadException(
+            'The data tried to change protected settings.',
+          );
         }
         if (!SyncConstants.syncableSettingKeys.contains(entry.key)) {
           continue; // silently drop anything not on the allow-list

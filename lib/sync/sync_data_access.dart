@@ -10,12 +10,12 @@
 // writes settings strictly through the allow-list (security-rules).
 library;
 
-import '../core/storage/bookmarks_repository.dart';
-import '../core/storage/favorites_repository.dart';
-import '../core/storage/key_value_store.dart';
-import '../core/storage/recents_repository.dart';
-import '../core/storage/storage_models.dart';
-import 'sync_constants.dart';
+import 'package:text_data/core/storage/bookmarks_repository.dart';
+import 'package:text_data/core/storage/favorites_repository.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:text_data/core/storage/recents_repository.dart';
+import 'package:text_data/core/storage/storage_models.dart';
+import 'package:text_data/sync/sync_constants.dart';
 
 /// What the sync engine needs from the app's data layer.
 abstract class SyncDataAccess {
@@ -60,34 +60,40 @@ class RepositorySyncDataAccess implements SyncDataAccess {
       case SyncConstants.categoryFavorites:
         final all = await favorites.all();
         return all
-            .map((f) => {
-                  'fingerprint': f.fingerprint,
-                  'uri': f.uri,
-                  'displayName': f.displayName,
-                  'addedAt': f.addedAt,
-                })
+            .map(
+              (f) => {
+                'fingerprint': f.fingerprint,
+                'uri': f.uri,
+                'displayName': f.displayName,
+                'addedAt': f.addedAt,
+              },
+            )
             .toList(growable: false);
       case SyncConstants.categoryBookmarks:
         final all = await bookmarks.all();
         return all
-            .map((b) => {
-                  'fingerprint': b.fingerprint,
-                  'label': b.label,
-                  'position': b.position,
-                  'createdAt': b.createdAt,
-                })
+            .map(
+              (b) => {
+                'fingerprint': b.fingerprint,
+                'label': b.label,
+                'position': b.position,
+                'createdAt': b.createdAt,
+              },
+            )
             .toList(growable: false);
       case SyncConstants.categoryRecents:
         final all = await recents.all();
         return all
-            .map((r) => {
-                  'fingerprint': r.fingerprint,
-                  'uri': r.uri,
-                  'displayName': r.displayName,
-                  'mimeType': r.mimeType,
-                  'size': r.size,
-                  'lastOpenedAt': r.lastOpenedAt,
-                })
+            .map(
+              (r) => {
+                'fingerprint': r.fingerprint,
+                'uri': r.uri,
+                'displayName': r.displayName,
+                'mimeType': r.mimeType,
+                'size': r.size,
+                'lastOpenedAt': r.lastOpenedAt,
+              },
+            )
             .toList(growable: false);
       default:
         return const [];
@@ -115,39 +121,47 @@ class RepositorySyncDataAccess implements SyncDataAccess {
 
   @override
   Future<void> addRecords(
-      String category, List<Map<String, Object?>> records) async {
+    String category,
+    List<Map<String, Object?>> records,
+  ) async {
     switch (category) {
       case SyncConstants.categoryFavorites:
         for (final r in records) {
-          await favorites.add(Favorite(
-            fingerprint: r['fingerprint'] as String,
-            uri: (r['uri'] as String?) ?? '',
-            displayName: (r['displayName'] as String?) ?? '',
-            addedAt: (r['addedAt'] as num?)?.toInt() ?? 0,
-          ));
+          await favorites.add(
+            Favorite(
+              fingerprint: r['fingerprint'] as String,
+              uri: (r['uri'] as String?) ?? '',
+              displayName: (r['displayName'] as String?) ?? '',
+              addedAt: (r['addedAt'] as num?)?.toInt() ?? 0,
+            ),
+          );
         }
         break;
       case SyncConstants.categoryBookmarks:
         for (final r in records) {
           // Drop any incoming id; the local DB assigns its own.
-          await bookmarks.add(Bookmark(
-            fingerprint: r['fingerprint'] as String,
-            label: (r['label'] as String?) ?? '',
-            position: (r['position'] as num?)?.toInt() ?? 0,
-            createdAt: (r['createdAt'] as num?)?.toInt() ?? 0,
-          ));
+          await bookmarks.add(
+            Bookmark(
+              fingerprint: r['fingerprint'] as String,
+              label: (r['label'] as String?) ?? '',
+              position: (r['position'] as num?)?.toInt() ?? 0,
+              createdAt: (r['createdAt'] as num?)?.toInt() ?? 0,
+            ),
+          );
         }
         break;
       case SyncConstants.categoryRecents:
         for (final r in records) {
-          await recents.upsert(RecentFile(
-            fingerprint: r['fingerprint'] as String,
-            uri: (r['uri'] as String?) ?? '',
-            displayName: (r['displayName'] as String?) ?? '',
-            mimeType: r['mimeType'] as String?,
-            size: (r['size'] as num?)?.toInt(),
-            lastOpenedAt: (r['lastOpenedAt'] as num?)?.toInt() ?? 0,
-          ));
+          await recents.upsert(
+            RecentFile(
+              fingerprint: r['fingerprint'] as String,
+              uri: (r['uri'] as String?) ?? '',
+              displayName: (r['displayName'] as String?) ?? '',
+              mimeType: r['mimeType'] as String?,
+              size: (r['size'] as num?)?.toInt(),
+              lastOpenedAt: (r['lastOpenedAt'] as num?)?.toInt() ?? 0,
+            ),
+          );
         }
         break;
     }

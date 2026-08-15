@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/security/app_lock_controller.dart';
-import '../../../core/security/recovery_code_screen.dart';
-import '../../../core/security/set_pin_screen.dart';
-import '../../../l10n/app_localizations.dart';
-import '../security_settings.dart';
-import 'settings_widgets.dart';
+import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
+import 'package:text_data/core/ephemeral/ephemeral_models.dart';
+import 'package:text_data/core/ephemeral/ephemeral_settings.dart';
+import 'package:text_data/core/security/app_lock_controller.dart';
+import 'package:text_data/core/security/recovery_code_screen.dart';
+import 'package:text_data/core/security/set_pin_screen.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/settings/security_settings.dart';
+import 'package:text_data/shell/settings/sections/settings_widgets.dart';
 
 /// Security settings (tasks 11.6 + 13.2). The toggles are now enforced:
 /// app-lock gates the app on launch/resume (PIN + optional biometric, with a
@@ -61,6 +64,7 @@ class SecuritySection extends ConsumerWidget {
           value: settings.screenshotProtection,
           onChanged: controller.setScreenshotProtection,
         ),
+        const _EphemeralSettingsGroup(),
       ],
     );
   }
@@ -141,5 +145,128 @@ class SecuritySection extends ConsumerWidget {
     await Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => RecoveryCodeScreen(code: recovery)),
     );
+  }
+}
+
+/// Defaults for self-destructing documents, plus a burn-everything action
+/// (Feature 9).
+///
+/// These rows only pre-fill the sheet the user sees when they mark a tab. None
+/// of them makes a tab ephemeral on its own — a setting that quietly started
+/// destroying documents would be a trap.
+class _EphemeralSettingsGroup extends ConsumerWidget {
+  const _EphemeralSettingsGroup();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
+    final defaults = ref.watch(ephemeralSettingsProvider);
+    final settings = ref.read(ephemeralSettingsProvider.notifier);
+    final openCount = ref.watch(ephemeralControllerProvider).marks.length;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(height: 24),
+        SettingsSectionHeader(title: l10n.ephemeralSettingsTitle),
+        ListTile(
+          leading: const Icon(Icons.timer_outlined),
+          title: Text(l10n.ephemeralSettingsDefaultDuration),
+          subtitle: Text(_durationLabel(l10n, defaults.duration)),
+          onTap: () => _pickDuration(context, settings, defaults.duration),
+        ),
+        SwitchListTile(
+          secondary: const Icon(Icons.local_fire_department_outlined),
+          title: Text(l10n.ephemeralSettingsBurnAfterOutput),
+          subtitle: Text(l10n.ephemeralSettingsBurnAfterOutputHint),
+          value: defaults.burnAfterOutput,
+          onChanged: settings.setBurnAfterOutput,
+        ),
+        ListTile(
+          leading: const Icon(Icons.delete_forever_outlined),
+          title: Text(l10n.ephemeralSettingsBurnAll),
+          subtitle: Text(l10n.ephemeralSettingsOpenCount(openCount)),
+          enabled: openCount > 0,
+          onTap: openCount == 0 ? null : () => _burnAll(context, ref),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+          child: Text(
+            l10n.ephemeralSettingsWipeNote,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _pickDuration(
+    BuildContext context,
+    EphemeralSettingsController settings,
+    EphemeralDuration current,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final chosen = await showModalBottomSheet<EphemeralDuration>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (final choice in EphemeralDuration.values)
+              ListTile(
+                title: Text(_durationLabel(l10n, choice)),
+                trailing: choice == current ? const Icon(Icons.check) : null,
+                onTap: () => Navigator.of(context).pop(choice),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (chosen != null) settings.setDuration(chosen);
+  }
+
+  Future<void> _burnAll(BuildContext context, WidgetRef ref) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final controller = ref.read(ephemeralControllerProvider.notifier);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.ephemeralBurnNowTitle),
+        content: Text(l10n.ephemeralBurnNowBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.actionCancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.actionBurn),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    // Count before burning — the marks are gone by the time it returns.
+    final count = ref.read(ephemeralControllerProvider).marks.length;
+    await controller.burnAll();
+    messenger.showSnackBar(
+      SnackBar(content: Text(l10n.ephemeralSettingsBurnAllDone(count))),
+    );
+  }
+
+  String _durationLabel(AppLocalizations l10n, EphemeralDuration choice) {
+    return switch (choice) {
+      EphemeralDuration.fifteenMinutes => l10n.ephemeralDuration15Minutes,
+      EphemeralDuration.oneHour => l10n.ephemeralDuration1Hour,
+      EphemeralDuration.fourHours => l10n.ephemeralDuration4Hours,
+      EphemeralDuration.twentyFourHours => l10n.ephemeralDuration24Hours,
+      EphemeralDuration.custom => l10n.ephemeralDurationCustom,
+      EphemeralDuration.none => l10n.ephemeralDurationNone,
+    };
   }
 }

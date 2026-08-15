@@ -11,7 +11,9 @@ void main() {
 
     test('detects semicolon', () {
       expect(
-          CsvDialect.detectDelimiter('a;b;c\n1;2;3'), CsvDelimiter.semicolon);
+        CsvDialect.detectDelimiter('a;b;c\n1;2;3'),
+        CsvDelimiter.semicolon,
+      );
     });
 
     test('detects tab', () {
@@ -63,8 +65,10 @@ void main() {
     });
 
     test('without a header, synthesizes column names', () {
-      const noHeader =
-          CsvDialect(hasHeader: false, lineEnding: LineEndingStyle.lf);
+      const noHeader = CsvDialect(
+        hasHeader: false,
+        lineEnding: LineEndingStyle.lf,
+      );
       final table = CsvParse.parse('1,2\n3,4', noHeader);
       expect(table.hasHeader, isFalse);
       expect(table.header, ['Column 1', 'Column 2']);

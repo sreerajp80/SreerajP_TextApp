@@ -33,8 +33,10 @@ void main() {
       expect(fixIds('{a: 1}'), contains(JsonQuickFixes.quoteKeys));
       expect(fixIds("{'a': 1}"), contains(JsonQuickFixes.doubleQuotes));
       expect(fixIds('{"a": 1,}'), contains(JsonQuickFixes.trailingCommas));
-      expect(fixIds('{"a": 1} // note'),
-          contains(JsonQuickFixes.removeComments));
+      expect(
+        fixIds('{"a": 1} // note'),
+        contains(JsonQuickFixes.removeComments),
+      );
       expect(fixIds('{"a": True}'), contains(JsonQuickFixes.pythonLiterals));
     });
   });
@@ -45,8 +47,7 @@ void main() {
     });
 
     test('quotes several keys, nested too', () {
-      final fixed =
-          JsonQuickFixes.quoteUnquotedKeys('{a: 1, b: {c: 2}}');
+      final fixed = JsonQuickFixes.quoteUnquotedKeys('{a: 1, b: {c: 2}}');
       expect(fixed, '{"a": 1, "b": {"c": 2}}');
       expect(isValid(fixed), isTrue);
     });
@@ -61,13 +62,17 @@ void main() {
     });
 
     test('does not touch words inside an array', () {
-      expect(JsonQuickFixes.quoteUnquotedKeys('[true, false]'),
-          '[true, false]');
+      expect(
+        JsonQuickFixes.quoteUnquotedKeys('[true, false]'),
+        '[true, false]',
+      );
     });
 
     test('does not touch text that only looks like a key inside a string', () {
-      expect(JsonQuickFixes.quoteUnquotedKeys('{"a": "b: 1"}'),
-          '{"a": "b: 1"}');
+      expect(
+        JsonQuickFixes.quoteUnquotedKeys('{"a": "b: 1"}'),
+        '{"a": "b: 1"}',
+      );
     });
   });
 
@@ -79,13 +84,17 @@ void main() {
     });
 
     test('escapes a double quote that was inside', () {
-      expect(JsonQuickFixes.useDoubleQuotes("{'a': 'say \"hi\"'}"),
-          r'{"a": "say \"hi\""}');
+      expect(
+        JsonQuickFixes.useDoubleQuotes("{'a': 'say \"hi\"'}"),
+        r'{"a": "say \"hi\""}',
+      );
     });
 
     test('leaves a single quote inside a double-quoted string alone', () {
-      expect(JsonQuickFixes.useDoubleQuotes('{"a": "it\'s"}'),
-          '{"a": "it\'s"}');
+      expect(
+        JsonQuickFixes.useDoubleQuotes('{"a": "it\'s"}'),
+        '{"a": "it\'s"}',
+      );
     });
   });
 
@@ -121,8 +130,10 @@ void main() {
     });
 
     test('leaves a slash inside a string alone', () {
-      expect(JsonQuickFixes.stripComments('{"url": "http://x"}'),
-          '{"url": "http://x"}');
+      expect(
+        JsonQuickFixes.stripComments('{"url": "http://x"}'),
+        '{"url": "http://x"}',
+      );
     });
 
     test('an unterminated block comment does not crash', () {
@@ -132,15 +143,18 @@ void main() {
 
   group('Python literals', () {
     test('swaps True, False and None', () {
-      final fixed =
-          JsonQuickFixes.usePythonLiterals('{"a": True, "b": False, "c": None}');
+      final fixed = JsonQuickFixes.usePythonLiterals(
+        '{"a": True, "b": False, "c": None}',
+      );
       expect(fixed, '{"a": true, "b": false, "c": null}');
       expect(isValid(fixed), isTrue);
     });
 
     test('leaves the words alone inside a string', () {
-      expect(JsonQuickFixes.usePythonLiterals('{"a": "True"}'),
-          '{"a": "True"}');
+      expect(
+        JsonQuickFixes.usePythonLiterals('{"a": "True"}'),
+        '{"a": "True"}',
+      );
     });
   });
 
@@ -162,8 +176,10 @@ void main() {
     });
 
     test('an unterminated string does not crash the scanners', () {
-      expect(() => JsonQuickFixes.forSource('{"a": "unterminated'),
-          returnsNormally);
+      expect(
+        () => JsonQuickFixes.forSource('{"a": "unterminated'),
+        returnsNormally,
+      );
     });
   });
 }

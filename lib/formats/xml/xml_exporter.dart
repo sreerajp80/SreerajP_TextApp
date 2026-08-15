@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import '../../core/export/export_target.dart';
-import '../../core/export/format_exporter.dart';
-import '../../core/export/html_writer.dart';
-import '../../core/export/pdf_writer.dart';
-import 'xml_convert.dart';
-import 'xml_parser.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/core/export/format_exporter.dart';
+import 'package:text_data/core/export/html_writer.dart';
+import 'package:text_data/core/export/pdf_writer.dart';
+import 'package:text_data/formats/xml/xml_convert.dart';
+import 'package:text_data/formats/xml/xml_parser.dart';
 
 /// Export capability for XML documents (task 9.6).
 ///
@@ -22,31 +22,28 @@ class XmlExporter implements FormatExporter {
   final XmlDocumentParser _parser;
 
   const XmlExporter({
-    PdfWriter pdf = const PdfWriter(),
-    HtmlWriter html = const HtmlWriter(),
-    XmlDocumentParser parser = const XmlDocumentParser(),
-  })  : _pdf = pdf,
-        _html = html,
-        _parser = parser;
+    this._pdf = const PdfWriter(),
+    this._html = const HtmlWriter(),
+    this._parser = const XmlDocumentParser(),
+  });
 
   @override
   String get formatId => 'xml';
 
   @override
   Set<ExportTarget> get supportedTargets => const {
-        ExportTarget.json,
-        ExportTarget.csv,
-        ExportTarget.pdf,
-        ExportTarget.html,
-        ExportTarget.plainText,
-      };
+    ExportTarget.json,
+    ExportTarget.csv,
+    ExportTarget.pdf,
+    ExportTarget.html,
+    ExportTarget.plainText,
+  };
 
   @override
   Future<ExportResult> export(ExportTarget target, TextContent content) async {
     final parsed = _parser.parse(content.text);
     final document = parsed.document;
-    final pretty =
-        document != null ? _parser.pretty(document) : content.text;
+    final pretty = document != null ? _parser.pretty(document) : content.text;
 
     final Uint8List bytes;
     switch (target) {
@@ -73,7 +70,8 @@ class XmlExporter implements FormatExporter {
       case ExportTarget.yaml:
       case ExportTarget.xlsx:
         throw UnsupportedExportException(
-            'XML cannot export to ${target.label}.');
+          'XML cannot export to ${target.label}.',
+        );
     }
     return ExportResult(
       bytes: bytes,
@@ -86,7 +84,8 @@ class XmlExporter implements FormatExporter {
   void _requireParsed(bool ok, String targetName) {
     if (!ok) {
       throw UnsupportedExportException(
-          'Fix the XML errors before exporting to $targetName.');
+        'Fix the XML errors before exporting to $targetName.',
+      );
     }
   }
 }

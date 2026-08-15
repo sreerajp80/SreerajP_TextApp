@@ -13,8 +13,10 @@ void main() {
 
     final merged = splitMerge.mergeArrays(parts);
     // Compare by minified form so whitespace does not matter.
-    expect(minifyJson(parser.parse(merged).root!),
-        minifyJson(parser.parse(source).root!));
+    expect(
+      minifyJson(parser.parse(merged).root!),
+      minifyJson(parser.parse(source).root!),
+    );
   });
 
   test('split rejects a non-array document', () {

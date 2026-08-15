@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import 'csv_chart_data.dart';
-import 'csv_types.dart';
+import 'package:text_data/formats/csv/csv_chart_data.dart';
+import 'package:text_data/formats/csv/csv_types.dart';
 
 /// A simple bar chart for one CSV column (task 7.4), drawn with `fl_chart`
 /// (MIT). A numeric column plots each row's value (first [maxBars] rows); a
@@ -25,8 +25,7 @@ class CsvColumnChart extends StatelessWidget {
     final type = inferColumnType(values);
     final numeric = type == ColumnType.number || type == ColumnType.currency;
 
-    final List<_Bar> bars =
-        numeric ? _numericBars() : _categoryBars();
+    final List<_Bar> bars = numeric ? _numericBars() : _categoryBars();
     if (bars.isEmpty) {
       return Padding(
         padding: const EdgeInsets.all(16),
@@ -56,10 +55,12 @@ class CsvColumnChart extends StatelessWidget {
               borderData: FlBorderData(show: false),
               gridData: const FlGridData(show: true, drawVerticalLine: false),
               titlesData: FlTitlesData(
-                topTitles:
-                    const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                rightTitles:
-                    const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                topTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                rightTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
                 leftTitles: const AxisTitles(
                   sideTitles: SideTitles(showTitles: true, reservedSize: 40),
                 ),
@@ -164,8 +165,9 @@ class CsvChartView extends StatelessWidget {
           child: Text(
             emptyMessage,
             textAlign: TextAlign.center,
-            style: theme.textTheme.bodyMedium
-                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
           ),
         ),
       );
@@ -209,10 +211,11 @@ class CsvChartView extends StatelessWidget {
         gridData: const FlGridData(show: true, drawVerticalLine: false),
         barTouchData: BarTouchData(
           touchTooltipData: BarTouchTooltipData(
-            getTooltipItem: (group, groupIndex, rod, rodIndex) => BarTooltipItem(
-              '${series.points[group.x].label}\n${_format(rod.toY)}',
-              theme.textTheme.labelMedium ?? const TextStyle(),
-            ),
+            getTooltipItem: (group, groupIndex, rod, rodIndex) =>
+                BarTooltipItem(
+                  '${series.points[group.x].label}\n${_format(rod.toY)}',
+                  theme.textTheme.labelMedium ?? const TextStyle(),
+                ),
           ),
         ),
         titlesData: _titles(context),
@@ -288,8 +291,9 @@ class CsvChartView extends StatelessWidget {
                     title: total <= 0
                         ? ''
                         : '${(series.points[i].value / total * 100).round()}%',
-                    titleStyle: theme.textTheme.labelSmall
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    titleStyle: theme.textTheme.labelSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
               ],
             ),

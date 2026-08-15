@@ -101,7 +101,7 @@ Material 3 base, so every later phase has a home.
 
 **0.1 Create the Flutter project and pin tool versions.**
 - Acceptance: `flutter run` builds and shows a blank Material 3 home on an Android
-  emulator (minSdk 26). Flutter ≥ 3.41.9, Dart ≥ 3.11.5 pinned.
+  emulator (minSdk 26). Flutter ≥ 3.44.8, Dart ≥ 3.12.2 pinned.
 - Test: CI/`flutter analyze` passes with zero issues; `flutter test` runs (even with one
   placeholder test).
 - Files: `pubspec.yaml`, `lib/main.dart`, `lib/app.dart`, `android/app/build.gradle`

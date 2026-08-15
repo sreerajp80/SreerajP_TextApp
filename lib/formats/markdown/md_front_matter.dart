@@ -89,13 +89,13 @@ class MdFrontMatter {
 
   /// Empty front matter whose body is the whole [source].
   factory MdFrontMatter.none(String source) => MdFrontMatter(
-        present: false,
-        title: null,
-        author: null,
-        tags: const [],
-        fields: const {},
-        body: source,
-      );
+    present: false,
+    title: null,
+    author: null,
+    tags: const [],
+    fields: const {},
+    body: source,
+  );
 
   /// Splits [source] into its front matter (if any) and body.
   factory MdFrontMatter.parse(String source) {
@@ -122,9 +122,7 @@ class MdFrontMatter {
     final block = lines.sublist(1, close);
     final body = lines.sublist(close + 1).join('\n');
     final parsed = _parseBlock(block);
-    final fields = {
-      for (final field in parsed) field.lowerKey: field.value,
-    };
+    final fields = {for (final field in parsed) field.lowerKey: field.value};
 
     return MdFrontMatter(
       present: true,
@@ -149,13 +147,15 @@ class MdFrontMatter {
 
     void flushList() {
       if (listKey != null) {
-        fields.add(MdFrontMatterField(
-          key: listKeyOriginal!,
-          lowerKey: listKey!,
-          value: listValues.join(', '),
-          isList: true,
-          lineIndices: List<int>.from(listLines),
-        ));
+        fields.add(
+          MdFrontMatterField(
+            key: listKeyOriginal!,
+            lowerKey: listKey!,
+            value: listValues.join(', '),
+            isList: true,
+            lineIndices: List<int>.from(listLines),
+          ),
+        );
         listKey = null;
         listKeyOriginal = null;
         listValues.clear();
@@ -190,13 +190,15 @@ class MdFrontMatter {
         listKeyOriginal = original;
         listLines.add(i);
       } else {
-        fields.add(MdFrontMatterField(
-          key: original,
-          lowerKey: key,
-          value: _joinInline(value),
-          isList: value.startsWith('[') && value.endsWith(']'),
-          lineIndices: [i],
-        ));
+        fields.add(
+          MdFrontMatterField(
+            key: original,
+            lowerKey: key,
+            value: _joinInline(value),
+            isList: value.startsWith('[') && value.endsWith(']'),
+            lineIndices: [i],
+          ),
+        );
       }
     }
     flushList();
@@ -277,11 +279,7 @@ class MdFrontMatter {
       rebuilt.add(_renderField(entry.key, entry.value, listKeys));
     }
 
-    return [
-      lines[0],
-      ...rebuilt,
-      ...lines.sublist(close),
-    ].join('\n');
+    return [lines[0], ...rebuilt, ...lines.sublist(close)].join('\n');
   }
 
   /// The `---` block text alone, used to preview an edit.
@@ -308,23 +306,22 @@ class MdFrontMatter {
     return '$block\n$source';
   }
 
-  static String _renderField(
-    String key,
-    String value,
-    Set<String> listKeys,
-  ) {
+  static String _renderField(String key, String value, Set<String> listKeys) {
     if (listKeys.contains(key.toLowerCase())) {
       final items = _splitList(value);
       return '$key: [${items.join(', ')}]';
     }
     // A value with a `:` or a leading special character needs quoting to stay
     // readable as YAML.
-    final needsQuotes = value.contains(': ') ||
+    final needsQuotes =
+        value.contains(': ') ||
         value.trimLeft().startsWith('#') ||
         value.trimLeft().startsWith('[') ||
         value.trimLeft().startsWith('&') ||
         value.trimLeft().startsWith('*');
-    return needsQuotes ? '$key: "${value.replaceAll('"', r'\"')}"' : '$key: $value';
+    return needsQuotes
+        ? '$key: "${value.replaceAll('"', r'\"')}"'
+        : '$key: $value';
   }
 
   /// Turns an inline value into its stored form: `[a, b]` → `a, b`, quotes

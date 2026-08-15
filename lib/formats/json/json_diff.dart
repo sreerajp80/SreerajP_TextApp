@@ -1,5 +1,5 @@
-import 'json_node.dart';
-import 'json_parser.dart';
+import 'package:text_data/formats/json/json_node.dart';
+import 'package:text_data/formats/json/json_parser.dart';
 
 /// The difference between two JSON documents (task 8.6): the paths that were
 /// added, removed, or changed going from the first document to the second.
@@ -38,8 +38,14 @@ class JsonDiff {
     return JsonDiffResult(added: added, removed: removed, changed: changed);
   }
 
-  void _walk(JsonNode a, JsonNode b, String path, List<String> added,
-      List<String> removed, List<String> changed) {
+  void _walk(
+    JsonNode a,
+    JsonNode b,
+    String path,
+    List<String> added,
+    List<String> removed,
+    List<String> changed,
+  ) {
     if (a.kind != b.kind) {
       changed.add(path);
       return;
@@ -68,10 +74,18 @@ class JsonDiff {
         }
         break;
       case JsonKind.array:
-        final shared = a.childCount < b.childCount ? a.childCount : b.childCount;
+        final shared = a.childCount < b.childCount
+            ? a.childCount
+            : b.childCount;
         for (var i = 0; i < shared; i++) {
-          _walk(a.children[i], b.children[i], '$path[$i]', added, removed,
-              changed);
+          _walk(
+            a.children[i],
+            b.children[i],
+            '$path[$i]',
+            added,
+            removed,
+            changed,
+          );
         }
         for (var i = shared; i < a.childCount; i++) {
           removed.add('$path[$i]');
@@ -100,7 +114,8 @@ class JsonDiff {
     if (key.isEmpty) return false;
     for (var i = 0; i < key.length; i++) {
       final c = key.codeUnitAt(i);
-      final ok = (c >= 0x41 && c <= 0x5A) ||
+      final ok =
+          (c >= 0x41 && c <= 0x5A) ||
           (c >= 0x61 && c <= 0x7A) ||
           c == 0x5F ||
           c == 0x24 ||

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../l10n/app_localizations.dart';
+import 'package:text_data/l10n/app_localizations.dart';
 
 /// Collects a new app-lock PIN (enter + confirm). Pops the chosen PIN string on
 /// success, or null if the user backs out. Used when enabling app-lock, changing
@@ -13,11 +13,7 @@ class SetPinScreen extends StatefulWidget {
   final String? title;
   final String? subtitle;
 
-  const SetPinScreen({
-    super.key,
-    this.title,
-    this.subtitle,
-  });
+  const SetPinScreen({super.key, this.title, this.subtitle});
 
   @override
   State<SetPinScreen> createState() => _SetPinScreenState();
@@ -98,10 +94,7 @@ class _SetPinScreenState extends State<SetPinScreen> {
             ),
           ],
           const SizedBox(height: 24),
-          FilledButton(
-            onPressed: _submit,
-            child: Text(l10n.setPinSave),
-          ),
+          FilledButton(onPressed: _submit, child: Text(l10n.setPinSave)),
         ],
       ),
     );

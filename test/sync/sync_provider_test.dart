@@ -53,137 +53,156 @@ void main() {
     if (tempDir.existsSync()) tempDir.deleteSync(recursive: true);
   });
 
-  test('full loopback flow: connect -> push -> import summary + DB writes',
-      () async {
-    // Seed the host with data to share.
-    final hostFav = FavoritesRepository(hostDb.db);
-    final hostBook = BookmarksRepository(hostDb.db);
-    await hostFav.add(const Favorite(
-      fingerprint: 'fp1',
-      uri: 'content://1',
-      displayName: 'one.txt',
-      addedAt: 100,
-    ));
-    await hostBook.add(const Bookmark(
-      fingerprint: 'fp1',
-      label: 'Chapter 1',
-      position: 42,
-      createdAt: 200,
-    ));
+  test(
+    'full loopback flow: connect -> push -> import summary + DB writes',
+    () async {
+      // Seed the host with data to share.
+      final hostFav = FavoritesRepository(hostDb.db);
+      final hostBook = BookmarksRepository(hostDb.db);
+      await hostFav.add(
+        const Favorite(
+          fingerprint: 'fp1',
+          uri: 'content://1',
+          displayName: 'one.txt',
+          addedAt: 100,
+        ),
+      );
+      await hostBook.add(
+        const Bookmark(
+          fingerprint: 'fp1',
+          label: 'Chapter 1',
+          position: 42,
+          createdAt: 200,
+        ),
+      );
 
-    final hostStore = await _store();
-    // Use the real namespaced storage keys the app actually writes, across two
-    // namespaces (appearance.* and tabs.*), so the round-trip proves settings
-    // sync with the true key names — not a bare test-only key.
-    await hostStore.setPlainString('appearance.theme_mode', 'dark');
-    await hostStore.setPlainString('tabs.over_limit', 'close_lru');
+      final hostStore = await _store();
+      // Use the real namespaced storage keys the app actually writes, across two
+      // namespaces (appearance.* and tabs.*), so the round-trip proves settings
+      // sync with the true key names — not a bare test-only key.
+      await hostStore.setPlainString('appearance.theme_mode', 'dark');
+      await hostStore.setPlainString('tabs.over_limit', 'close_lru');
 
-    final hostAccess = RepositorySyncDataAccess(
-      favorites: hostFav,
-      bookmarks: hostBook,
-      recents: RecentsRepository(hostDb.db),
-      store: hostStore,
-    );
+      final hostAccess = RepositorySyncDataAccess(
+        favorites: hostFav,
+        bookmarks: hostBook,
+        recents: RecentsRepository(hostDb.db),
+        store: hostStore,
+      );
 
-    // Client starts empty.
-    final clientFav = FavoritesRepository(clientDb.db);
-    final clientBook = BookmarksRepository(clientDb.db);
-    final clientStore = await _store();
-    final clientAccess = RepositorySyncDataAccess(
-      favorites: clientFav,
-      bookmarks: clientBook,
-      recents: RecentsRepository(clientDb.db),
-      store: clientStore,
-    );
+      // Client starts empty.
+      final clientFav = FavoritesRepository(clientDb.db);
+      final clientBook = BookmarksRepository(clientDb.db);
+      final clientStore = await _store();
+      final clientAccess = RepositorySyncDataAccess(
+        favorites: clientFav,
+        bookmarks: clientBook,
+        recents: RecentsRepository(clientDb.db),
+        store: clientStore,
+      );
 
-    final host = SyncController(dataAccess: hostAccess, store: hostStore);
-    final client = SyncController(dataAccess: clientAccess, store: clientStore);
-    addTearDown(host.dispose);
-    addTearDown(client.dispose);
+      final host = SyncController(dataAccess: hostAccess, store: hostStore);
+      final client = SyncController(
+        dataAccess: clientAccess,
+        store: clientStore,
+      );
+      addTearDown(host.dispose);
+      addTearDown(client.dispose);
 
-    await host.startHost();
-    expect(host.pairingCode, isNotNull);
-    final code = host.pairingCode!;
-    final port = host.port!;
+      await host.startHost();
+      expect(host.pairingCode, isNotNull);
+      final code = host.pairingCode!;
+      final port = host.port!;
 
-    // Client connects; when the host sees the client, it pushes a full sync.
-    final clientFuture =
-        client.connectManual(host: '127.0.0.1', port: port, code: code);
+      // Client connects; when the host sees the client, it pushes a full sync.
+      final clientFuture = client.connectManual(
+        host: '127.0.0.1',
+        port: port,
+        code: code,
+      );
 
-    // Wait until the host reports a connected client, then push.
-    await _until(() => host.hostConnected);
-    await host.pushFullSync();
+      // Wait until the host reports a connected client, then push.
+      await _until(() => host.hostConnected);
+      await host.pushFullSync();
 
-    await clientFuture;
+      await clientFuture;
 
-    expect(client.clientPhase, ClientPhase.done);
-    final summary = client.summary!;
-    expect(summary.records[SyncConstants.categoryFavorites]!.added, 1);
-    expect(summary.records[SyncConstants.categoryBookmarks]!.added, 1);
-    expect(summary.settings.applied, greaterThanOrEqualTo(1));
+      expect(client.clientPhase, ClientPhase.done);
+      final summary = client.summary!;
+      expect(summary.records[SyncConstants.categoryFavorites]!.added, 1);
+      expect(summary.records[SyncConstants.categoryBookmarks]!.added, 1);
+      expect(summary.settings.applied, greaterThanOrEqualTo(1));
 
-    // The data really landed in the client DB / store.
-    expect((await clientFav.all()).single.fingerprint, 'fp1');
-    expect((await clientBook.all()).single.label, 'Chapter 1');
-    expect(clientStore.getPlainString('appearance.theme_mode'), 'dark');
-    expect(clientStore.getPlainString('tabs.over_limit'), 'close_lru');
-  });
+      // The data really landed in the client DB / store.
+      expect((await clientFav.all()).single.fingerprint, 'fp1');
+      expect((await clientBook.all()).single.label, 'Chapter 1');
+      expect(clientStore.getPlainString('appearance.theme_mode'), 'dark');
+      expect(clientStore.getPlainString('tabs.over_limit'), 'close_lru');
+    },
+  );
 
-  test('onApplied fires once with the summary after a successful receive',
-      () async {
-    // Seed the host with a recent so the payload has records to import.
-    final hostRecents = RecentsRepository(hostDb.db);
-    await hostRecents.upsert(const RecentFile(
-      fingerprint: 'rfp1',
-      uri: 'content://recent/1',
-      displayName: 'backup.json',
-      mimeType: 'application/json',
-      size: 12,
-      lastOpenedAt: 500,
-    ));
+  test(
+    'onApplied fires once with the summary after a successful receive',
+    () async {
+      // Seed the host with a recent so the payload has records to import.
+      final hostRecents = RecentsRepository(hostDb.db);
+      await hostRecents.upsert(
+        const RecentFile(
+          fingerprint: 'rfp1',
+          uri: 'content://recent/1',
+          displayName: 'backup.json',
+          mimeType: 'application/json',
+          size: 12,
+          lastOpenedAt: 500,
+        ),
+      );
 
-    final hostStore = await _store();
-    final hostAccess = RepositorySyncDataAccess(
-      favorites: FavoritesRepository(hostDb.db),
-      bookmarks: BookmarksRepository(hostDb.db),
-      recents: hostRecents,
-      store: hostStore,
-    );
-    final clientStore = await _store();
-    final clientAccess = RepositorySyncDataAccess(
-      favorites: FavoritesRepository(clientDb.db),
-      bookmarks: BookmarksRepository(clientDb.db),
-      recents: RecentsRepository(clientDb.db),
-      store: clientStore,
-    );
+      final hostStore = await _store();
+      final hostAccess = RepositorySyncDataAccess(
+        favorites: FavoritesRepository(hostDb.db),
+        bookmarks: BookmarksRepository(hostDb.db),
+        recents: hostRecents,
+        store: hostStore,
+      );
+      final clientStore = await _store();
+      final clientAccess = RepositorySyncDataAccess(
+        favorites: FavoritesRepository(clientDb.db),
+        bookmarks: BookmarksRepository(clientDb.db),
+        recents: RecentsRepository(clientDb.db),
+        store: clientStore,
+      );
 
-    var callCount = 0;
-    SyncSummary? applied;
-    final host = SyncController(dataAccess: hostAccess, store: hostStore);
-    final client = SyncController(
-      dataAccess: clientAccess,
-      store: clientStore,
-      onApplied: (summary) {
-        callCount++;
-        applied = summary;
-      },
-    );
-    addTearDown(host.dispose);
-    addTearDown(client.dispose);
+      var callCount = 0;
+      SyncSummary? applied;
+      final host = SyncController(dataAccess: hostAccess, store: hostStore);
+      final client = SyncController(
+        dataAccess: clientAccess,
+        store: clientStore,
+        onApplied: (summary) {
+          callCount++;
+          applied = summary;
+        },
+      );
+      addTearDown(host.dispose);
+      addTearDown(client.dispose);
 
-    await host.startHost();
-    final clientFuture = client.connectManual(
-        host: '127.0.0.1', port: host.port!, code: host.pairingCode!);
-    await _until(() => host.hostConnected);
-    await host.pushFullSync();
-    await clientFuture;
+      await host.startHost();
+      final clientFuture = client.connectManual(
+        host: '127.0.0.1',
+        port: host.port!,
+        code: host.pairingCode!,
+      );
+      await _until(() => host.hostConnected);
+      await host.pushFullSync();
+      await clientFuture;
 
-    expect(client.clientPhase, ClientPhase.done);
-    expect(callCount, 1);
-    // The callback gets the same summary the UI shows, with the imported recent.
-    expect(identical(applied, client.summary), isTrue);
-    expect(applied!.records[SyncConstants.categoryRecents]!.added, 1);
-  });
+      expect(client.clientPhase, ClientPhase.done);
+      expect(callCount, 1);
+      // The callback gets the same summary the UI shows, with the imported recent.
+      expect(identical(applied, client.summary), isTrue);
+      expect(applied!.records[SyncConstants.categoryRecents]!.added, 1);
+    },
+  );
 
   test('onApplied does not fire when the receive fails (wrong code)', () async {
     final hostStore = await _store();
@@ -213,7 +232,11 @@ void main() {
 
     await host.startHost();
     final wrong = 'A' * SyncConstants.codeLength;
-    await client.connectManual(host: '127.0.0.1', port: host.port!, code: wrong);
+    await client.connectManual(
+      host: '127.0.0.1',
+      port: host.port!,
+      code: wrong,
+    );
 
     expect(client.clientPhase, ClientPhase.error);
     expect(callCount, 0);
@@ -243,7 +266,11 @@ void main() {
     await host.startHost();
     // Type a valid-shaped but wrong code.
     final wrong = 'A' * SyncConstants.codeLength;
-    await client.connectManual(host: '127.0.0.1', port: host.port!, code: wrong);
+    await client.connectManual(
+      host: '127.0.0.1',
+      port: host.port!,
+      code: wrong,
+    );
     expect(client.clientPhase, ClientPhase.error);
     expect(host.hostConnected, isFalse);
   });

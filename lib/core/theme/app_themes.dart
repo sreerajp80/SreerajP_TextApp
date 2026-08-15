@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'app_fonts.dart';
-import 'theme_settings.dart';
+import 'package:text_data/core/theme/app_fonts.dart';
+import 'package:text_data/core/theme/theme_settings.dart';
 
 /// Builds the Material 3 [ThemeData] for each look from the app's appearance
 /// settings (architecture.md §5).
@@ -38,12 +38,11 @@ class AppThemes {
     final scheme = ColorScheme.fromSeed(
       seedColor: _sepiaSeed,
       brightness: Brightness.light,
-    ).copyWith(
-      surface: _sepiaSurface,
-    );
-    return _build(scheme, settings).copyWith(
-      scaffoldBackgroundColor: _sepiaBackground,
-    );
+    ).copyWith(surface: _sepiaSurface);
+    return _build(
+      scheme,
+      settings,
+    ).copyWith(scaffoldBackgroundColor: _sepiaBackground);
   }
 
   /// Applies the shared shape, and the user's font scale / line spacing to the

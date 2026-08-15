@@ -1,4 +1,4 @@
-import 'undo_redo.dart';
+import 'package:text_data/core/editor/undo_redo.dart';
 
 /// A selected span of text, as caret offsets into the document. When [start]
 /// equals [end] it is a plain caret (no selection). Offsets are always
@@ -9,9 +9,7 @@ class EditorSelection {
 
   const EditorSelection(this.start, this.end);
 
-  const EditorSelection.collapsed(int offset)
-      : start = offset,
-        end = offset;
+  const EditorSelection.collapsed(int offset) : start = offset, end = offset;
 
   bool get isCollapsed => start == end;
   int get length => end - start;
@@ -49,13 +47,12 @@ class EditorController {
   EditorController({
     String text = '',
     EditorSelection? selection,
-    bool readOnly = false,
+    this._readOnly = false,
     bool coalesceUndo = true,
-  })  : _text = text,
-        _savedText = text,
-        _selection = selection ?? EditorSelection.collapsed(text.length),
-        _readOnly = readOnly,
-        _history = UndoRedoStack(coalesce: coalesceUndo);
+  }) : _text = text,
+       _savedText = text,
+       _selection = selection ?? EditorSelection.collapsed(text.length),
+       _history = UndoRedoStack(coalesce: coalesceUndo);
 
   String get text => _text;
   EditorSelection get selection => _selection;
@@ -91,7 +88,9 @@ class EditorController {
     final lo = start < end ? start : end;
     final hi = start < end ? end : start;
     if (lo < 0 || hi > _text.length) {
-      throw RangeError('replace range [$lo, $hi) is outside 0..${_text.length}');
+      throw RangeError(
+        'replace range [$lo, $hi) is outside 0..${_text.length}',
+      );
     }
     final removed = _text.substring(lo, hi);
     if (removed.isEmpty && replacement.isEmpty) return;
@@ -160,7 +159,10 @@ class EditorController {
     final max = _text.length;
     final start = s.start.clamp(0, max);
     final end = s.end.clamp(0, max);
-    return EditorSelection(start < end ? start : end, start < end ? end : start);
+    return EditorSelection(
+      start < end ? start : end,
+      start < end ? end : start,
+    );
   }
 
   void _notify() => onChanged?.call();

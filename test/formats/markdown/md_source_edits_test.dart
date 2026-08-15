@@ -68,10 +68,7 @@ void main() {
     test('table inserts a starter grid with the first cell selected', () {
       final e = MdSourceEdits.table('', 0, 0);
       expect(e.text.startsWith('| Column 1 | Column 2 |'), isTrue);
-      expect(
-        e.text.substring(e.selectionStart, e.selectionEnd),
-        'Column 1',
-      );
+      expect(e.text.substring(e.selectionStart, e.selectionEnd), 'Column 1');
     });
 
     test('link with a selection uses it as the text and selects url', () {

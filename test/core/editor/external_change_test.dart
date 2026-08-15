@@ -94,26 +94,28 @@ void main() {
     expect(notifications, 1);
   });
 
-  test('dismiss hides the warning and does not report the same change again',
-      () async {
-    final doc = documentWith(modifiedAt: 1000);
-    await doc.captureDiskBaseline();
-    doc.saf.changeOnDisk(uri, _bytes('changed'));
-    await doc.checkForExternalChange();
+  test(
+    'dismiss hides the warning and does not report the same change again',
+    () async {
+      final doc = documentWith(modifiedAt: 1000);
+      await doc.captureDiskBaseline();
+      doc.saf.changeOnDisk(uri, _bytes('changed'));
+      await doc.checkForExternalChange();
 
-    doc.dismissExternalChange();
-    expect(doc.externalChangeDetected, isFalse);
+      doc.dismissExternalChange();
+      expect(doc.externalChangeDetected, isFalse);
 
-    // The baseline moved forward, so the same change is old news...
-    await Future<void>.delayed(Duration.zero);
-    await doc.checkForExternalChange();
-    expect(doc.externalChangeDetected, isFalse);
+      // The baseline moved forward, so the same change is old news...
+      await Future<void>.delayed(Duration.zero);
+      await doc.checkForExternalChange();
+      expect(doc.externalChangeDetected, isFalse);
 
-    // ...but a later change warns again.
-    doc.saf.changeOnDisk(uri, _bytes('changed twice'));
-    await doc.checkForExternalChange();
-    expect(doc.externalChangeDetected, isTrue);
-  });
+      // ...but a later change warns again.
+      doc.saf.changeOnDisk(uri, _bytes('changed twice'));
+      await doc.checkForExternalChange();
+      expect(doc.externalChangeDetected, isTrue);
+    },
+  );
 
   test('after a reload the same change is not reported again', () async {
     final doc = documentWith(modifiedAt: 1000);

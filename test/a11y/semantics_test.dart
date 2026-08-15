@@ -16,8 +16,9 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          recentsControllerProvider
-              .overrideWith(() => StubRecentsController(const [])),
+          recentsControllerProvider.overrideWith(
+            () => StubRecentsController(const []),
+          ),
           safServiceProvider.overrideWithValue(FakeSafService()),
         ],
         child: localizedApp(home: const HomeScreen()),
@@ -48,8 +49,9 @@ void main() {
     handle.dispose();
   });
 
-  testWidgets('respects a large system text scale without overriding it',
-      (tester) async {
+  testWidgets('respects a large system text scale without overriding it', (
+    tester,
+  ) async {
     tester.platformDispatcher.textScaleFactorTestValue = 2.0;
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
 

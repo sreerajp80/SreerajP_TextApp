@@ -1,4 +1,4 @@
-import 'json_node.dart';
+import 'package:text_data/formats/json/json_node.dart';
 
 /// Which way a [JsonTable] column is sorted.
 enum JsonSortDirection { none, ascending, descending }
@@ -32,8 +32,11 @@ class JsonTable {
     this.isValueList = false,
   });
 
-  static const JsonTable empty =
-      JsonTable(columns: [], rows: [], isValueList: false);
+  static const JsonTable empty = JsonTable(
+    columns: [],
+    rows: [],
+    isValueList: false,
+  );
 
   int get columnCount => columns.length;
   int get rowCount => rows.length;
@@ -54,7 +57,9 @@ class JsonTable {
   static bool isTabular(JsonNode? node) {
     if (node == null || node.kind != JsonKind.array) return false;
     if (node.children.isEmpty) return false;
-    final objects = node.children.where((c) => c.kind == JsonKind.object).length;
+    final objects = node.children
+        .where((c) => c.kind == JsonKind.object)
+        .length;
     // Either mostly objects (a record list) or no objects at all (a value list).
     return objects == node.children.length || objects == 0;
   }

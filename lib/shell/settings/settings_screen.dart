@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'sections/about_section.dart';
-import 'sections/appearance_section.dart';
-import 'sections/editor_section.dart';
-import 'sections/files_tabs_section.dart';
-import 'sections/help_section.dart';
-import 'sections/security_section.dart';
-import 'sections/speech_section.dart';
-import 'sections/sync_section.dart';
-import 'settings_detail_screen.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/settings/sections/about_section.dart';
+import 'package:text_data/shell/settings/sections/appearance_section.dart';
+import 'package:text_data/shell/settings/sections/audit_section.dart';
+import 'package:text_data/shell/settings/sections/backup_section.dart';
+import 'package:text_data/shell/settings/sections/editor_section.dart';
+import 'package:text_data/shell/settings/sections/files_tabs_section.dart';
+import 'package:text_data/shell/settings/sections/help_section.dart';
+import 'package:text_data/shell/settings/sections/security_section.dart';
+import 'package:text_data/shell/settings/sections/speech_section.dart';
+import 'package:text_data/shell/settings/sections/sync_section.dart';
+import 'package:text_data/shell/settings/settings_detail_screen.dart';
 
 /// The Settings screen (Phase 11; card layout).
 ///
@@ -63,6 +65,18 @@ class SettingsScreen extends ConsumerWidget {
         builder: () => const SecuritySection(showHeader: false),
       ),
       _SettingsCardData(
+        icon: Icons.verified_user_outlined,
+        title: l10n.auditSectionTitle,
+        subtitle: l10n.auditCardSubtitle,
+        builder: () => const AuditSection(showHeader: false),
+      ),
+      _SettingsCardData(
+        icon: Icons.archive_outlined,
+        title: l10n.backupSectionTitle,
+        subtitle: l10n.backupCardSubtitle,
+        builder: () => const BackupSection(showHeader: false),
+      ),
+      _SettingsCardData(
         icon: Icons.help_outline,
         title: l10n.helpSectionTitle,
         subtitle: l10n.helpCardSubtitle,
@@ -78,9 +92,17 @@ class SettingsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsTitle)),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        children: [for (final card in cards) _SettingsCard(data: card)],
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.only(
+            left: 12,
+            right: 12,
+            top: 8,
+            bottom: 24,
+          ),
+          children: [for (final card in cards) _SettingsCard(data: card)],
+        ),
       ),
     );
   }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../l10n/app_localizations.dart';
-import '../../../sync/sync_constants.dart';
-import '../../../sync/sync_share_prefs.dart';
-import '../../../sync/ui/sync_landing_screen.dart';
-import 'settings_widgets.dart';
+import 'package:text_data/airqr/ui/airqr_landing_screen.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/sync/sync_constants.dart';
+import 'package:text_data/sync/sync_share_prefs.dart';
+import 'package:text_data/sync/ui/sync_landing_screen.dart';
+import 'package:text_data/shell/settings/sections/settings_widgets.dart';
 
 /// Sync settings (task 11.5). Lets the user choose which record categories are
 /// pre-checked when they share, opens the sync flow, and states plainly that no
@@ -74,6 +75,19 @@ class SyncSection extends ConsumerWidget {
             ),
             icon: const Icon(Icons.sync),
             label: Text(l10n.syncOpenSync),
+          ),
+        ),
+        // Optical transfer sits next to LAN sync because it answers the same
+        // question — "get this onto the other device" — for places where even
+        // LAN traffic is not allowed.
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          child: OutlinedButton.icon(
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const AirqrLandingScreen()),
+            ),
+            icon: const Icon(Icons.qr_code_2),
+            label: Text(l10n.airqrTitle),
           ),
         ),
       ],

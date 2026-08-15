@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../../shell/tabs/document_tab.dart';
-import 'txt_document_session.dart';
-import 'txt_editor_surface.dart';
-import 'txt_session_manager.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/formats/txt/txt_document_session.dart';
+import 'package:text_data/formats/txt/txt_editor_surface.dart';
+import 'package:text_data/formats/txt/txt_session_manager.dart';
 
 /// The body shown inside a TXT tab: it loads the document and then shows the
 /// viewer/editor, a friendly failure screen, or a loading spinner — never a
@@ -30,8 +30,7 @@ class _TxtDocumentViewState extends ConsumerState<TxtDocumentView> {
 
   @override
   Widget build(BuildContext context) {
-    final session =
-        ref.read(txtSessionManagerProvider).sessionFor(widget.tab);
+    final session = ref.read(txtSessionManagerProvider).sessionFor(widget.tab);
     return ListenableBuilder(
       listenable: session,
       builder: (context, _) {
@@ -40,7 +39,8 @@ class _TxtDocumentViewState extends ConsumerState<TxtDocumentView> {
             return const Center(child: CircularProgressIndicator());
           case TxtLoadStatus.failed:
             return _FailureView(
-              message: session.errorMessage ??
+              message:
+                  session.errorMessage ??
                   AppLocalizations.of(context).failCannotOpen,
               onRetry: _retry,
             );
@@ -60,8 +60,7 @@ class _ReadyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final readOnly =
-        tab.isReadOnly || session.viewMode == TabViewMode.view;
+    final readOnly = tab.isReadOnly || session.viewMode == TabViewMode.view;
     return Column(
       children: [
         if (session.binaryWarning) const _BinaryWarningBanner(),
@@ -90,19 +89,22 @@ class _FailureView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.error_outline,
-                size: 56, color: theme.colorScheme.error),
+            Icon(Icons.error_outline, size: 56, color: theme.colorScheme.error),
             const SizedBox(height: 12),
-            Text(l10n.failCantOpenTitle,
-                style: theme.textTheme.titleMedium),
+            Text(l10n.failCantOpenTitle, style: theme.textTheme.titleMedium),
             const SizedBox(height: 4),
-            Text(message,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant)),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
             const SizedBox(height: 16),
             FilledButton.tonal(
-                onPressed: onRetry, child: Text(l10n.actionRetry)),
+              onPressed: onRetry,
+              child: Text(l10n.actionRetry),
+            ),
           ],
         ),
       ),
@@ -122,14 +124,18 @@ class _BinaryWarningBanner extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: Row(
         children: [
-          Icon(Icons.warning_amber,
-              size: 18, color: theme.colorScheme.onErrorContainer),
+          Icon(
+            Icons.warning_amber,
+            size: 18,
+            color: theme.colorScheme.onErrorContainer,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               AppLocalizations.of(context).txtBinaryWarning,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onErrorContainer),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onErrorContainer,
+              ),
             ),
           ),
         ],
@@ -153,14 +159,18 @@ class _DraftBanner extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
       child: Row(
         children: [
-          Icon(Icons.history,
-              size: 18, color: theme.colorScheme.onTertiaryContainer),
+          Icon(
+            Icons.history,
+            size: 18,
+            color: theme.colorScheme.onTertiaryContainer,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               l10n.draftBannerText,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onTertiaryContainer),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onTertiaryContainer,
+              ),
             ),
           ),
           TextButton(

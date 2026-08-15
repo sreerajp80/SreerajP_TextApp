@@ -25,18 +25,22 @@ void main() {
   group('RecentsRepository', () {
     test('insert, read, update position, delete', () async {
       final repo = RecentsRepository(database.db);
-      await repo.upsert(const RecentFile(
-        fingerprint: '10-aaa',
-        uri: 'content://1',
-        displayName: 'a.txt',
-        lastOpenedAt: 100,
-      ));
-      await repo.upsert(const RecentFile(
-        fingerprint: '20-bbb',
-        uri: 'content://2',
-        displayName: 'b.txt',
-        lastOpenedAt: 200,
-      ));
+      await repo.upsert(
+        const RecentFile(
+          fingerprint: '10-aaa',
+          uri: 'content://1',
+          displayName: 'a.txt',
+          lastOpenedAt: 100,
+        ),
+      );
+      await repo.upsert(
+        const RecentFile(
+          fingerprint: '20-bbb',
+          uri: 'content://2',
+          displayName: 'b.txt',
+          lastOpenedAt: 200,
+        ),
+      );
 
       final all = await repo.all();
       expect(all.length, 2);
@@ -56,73 +60,92 @@ void main() {
 
     test('upsert replaces on the same fingerprint', () async {
       final repo = RecentsRepository(database.db);
-      await repo.upsert(const RecentFile(
-        fingerprint: '10-aaa',
-        uri: 'content://1',
-        displayName: 'a.txt',
-        lastOpenedAt: 100,
-      ));
-      await repo.upsert(const RecentFile(
-        fingerprint: '10-aaa',
-        uri: 'content://1b',
-        displayName: 'a-renamed.txt',
-        lastOpenedAt: 300,
-      ));
+      await repo.upsert(
+        const RecentFile(
+          fingerprint: '10-aaa',
+          uri: 'content://1',
+          displayName: 'a.txt',
+          lastOpenedAt: 100,
+        ),
+      );
+      await repo.upsert(
+        const RecentFile(
+          fingerprint: '10-aaa',
+          uri: 'content://1b',
+          displayName: 'a-renamed.txt',
+          lastOpenedAt: 300,
+        ),
+      );
       final all = await repo.all();
       expect(all.length, 1);
       expect(all.first.displayName, 'a-renamed.txt');
     });
 
-    test('removeOtherUris drops same-uri rows with a different fingerprint',
-        () async {
-      final repo = RecentsRepository(database.db);
-      // Two rows for the same file (its content, so its fingerprint, changed
-      // after an edit), plus an unrelated file.
-      await repo.upsert(const RecentFile(
-        fingerprint: '10-old',
-        uri: 'content://same',
-        displayName: 'edited.txt',
-        lastOpenedAt: 100,
-      ));
-      await repo.upsert(const RecentFile(
-        fingerprint: '20-new',
-        uri: 'content://same',
-        displayName: 'edited.txt',
-        lastOpenedAt: 200,
-      ));
-      await repo.upsert(const RecentFile(
-        fingerprint: '30-other',
-        uri: 'content://other',
-        displayName: 'other.txt',
-        lastOpenedAt: 300,
-      ));
+    test(
+      'removeOtherUris drops same-uri rows with a different fingerprint',
+      () async {
+        final repo = RecentsRepository(database.db);
+        // Two rows for the same file (its content, so its fingerprint, changed
+        // after an edit), plus an unrelated file.
+        await repo.upsert(
+          const RecentFile(
+            fingerprint: '10-old',
+            uri: 'content://same',
+            displayName: 'edited.txt',
+            lastOpenedAt: 100,
+          ),
+        );
+        await repo.upsert(
+          const RecentFile(
+            fingerprint: '20-new',
+            uri: 'content://same',
+            displayName: 'edited.txt',
+            lastOpenedAt: 200,
+          ),
+        );
+        await repo.upsert(
+          const RecentFile(
+            fingerprint: '30-other',
+            uri: 'content://other',
+            displayName: 'other.txt',
+            lastOpenedAt: 300,
+          ),
+        );
 
-      await repo.removeOtherUris('content://same', '20-new');
+        await repo.removeOtherUris('content://same', '20-new');
 
-      final all = await repo.all();
-      // The stale old-content row is gone; the current one and the unrelated
-      // file remain.
-      expect(all.map((r) => r.fingerprint), containsAll(['20-new', '30-other']));
-      expect(all.map((r) => r.fingerprint), isNot(contains('10-old')));
-      expect(all.where((r) => r.uri == 'content://same').length, 1);
-    });
+        final all = await repo.all();
+        // The stale old-content row is gone; the current one and the unrelated
+        // file remain.
+        expect(
+          all.map((r) => r.fingerprint),
+          containsAll(['20-new', '30-other']),
+        );
+        expect(all.map((r) => r.fingerprint), isNot(contains('10-old')));
+        expect(all.where((r) => r.uri == 'content://same').length, 1);
+      },
+    );
   });
 
   group('BookmarksRepository', () {
     test('add assigns id, list in order, remove', () async {
       final repo = BookmarksRepository(database.db);
-      final b1 = await repo.add(const Bookmark(
-        fingerprint: 'fp',
-        label: 'second',
-        position: 20,
-        createdAt: 2,
-      ));
-      await repo.add(const Bookmark(
-        fingerprint: 'fp',
-        label: 'first',
-        position: 10,
-        createdAt: 1,
-      ));
+      final b1 = await repo.add(
+        const Bookmark(
+          fingerprint: 'fp',
+          label: 'second',
+          position: 20,
+          createdAt: 2,
+        ),
+      );
+      await repo.add(
+        const Bookmark(
+          fingerprint: 'fp',
+          label: 'first',
+          position: 10,
+          createdAt: 1,
+        ),
+      );
       expect(b1.id, isNotNull);
 
       final list = await repo.forFile('fp');
@@ -139,12 +162,14 @@ void main() {
   group('FavoritesRepository', () {
     test('add, isFavorite, list, remove', () async {
       final repo = FavoritesRepository(database.db);
-      await repo.add(const Favorite(
-        fingerprint: 'fp1',
-        uri: 'content://1',
-        displayName: 'x',
-        addedAt: 1,
-      ));
+      await repo.add(
+        const Favorite(
+          fingerprint: 'fp1',
+          uri: 'content://1',
+          displayName: 'x',
+          addedAt: 1,
+        ),
+      );
       expect(await repo.isFavorite('fp1'), isTrue);
       expect(await repo.isFavorite('nope'), isFalse);
       expect((await repo.all()).length, 1);
@@ -156,11 +181,13 @@ void main() {
   group('DraftsIndexRepository', () {
     test('upsert, read, list, remove', () async {
       final repo = DraftsIndexRepository(database.db);
-      await repo.upsert(const DraftIndexEntry(
-        fingerprint: 'fp',
-        draftPath: '/drafts/fp.tmp',
-        updatedAt: 5,
-      ));
+      await repo.upsert(
+        const DraftIndexEntry(
+          fingerprint: 'fp',
+          draftPath: '/drafts/fp.tmp',
+          updatedAt: 5,
+        ),
+      );
       final entry = await repo.byFingerprint('fp');
       expect(entry!.draftPath, '/drafts/fp.tmp');
       expect((await repo.all()).length, 1);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../txt/txt_encoding_labels.dart';
-import 'md_document_session.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/txt/txt_encoding_labels.dart';
+import 'package:text_data/formats/markdown/md_document_session.dart';
 
 /// A bottom sheet showing the Markdown file's stats and metadata (task 6.5):
 /// word / heading / link counts plus front-matter fields, size, dates, encoding,
@@ -42,8 +42,10 @@ Future<void> showMdInfoSheet(BuildContext context, MdDocumentSession session) {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.infoTitle,
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                l10n.infoTitle,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 8),
               for (final row in rows)
                 Padding(
@@ -55,9 +57,7 @@ Future<void> showMdInfoSheet(BuildContext context, MdDocumentSession session) {
                         child: Text(
                           row.value,
                           textAlign: TextAlign.right,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
+                          style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                       ),

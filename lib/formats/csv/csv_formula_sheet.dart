@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'csv_document_session.dart';
-import 'csv_formula.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:text_data/formats/csv/csv_formula.dart';
 
 /// A sheet to set, change or clear the formula on a calculated column
 /// (roadmap §4.2.2).
@@ -19,7 +19,9 @@ Future<void> showCsvFormulaSheet(
     showDragHandle: true,
     isScrollControlled: true,
     builder: (context) => Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: _FormulaBody(session: session, column: column),
     ),
   );
@@ -109,7 +111,8 @@ class _FormulaBodyState extends State<_FormulaBody> {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
     final header = widget.session.table.header;
-    final name = widget.column < header.length && header[widget.column].isNotEmpty
+    final name =
+        widget.column < header.length && header[widget.column].isNotEmpty
         ? header[widget.column]
         : l10n.csvColumnN(widget.column + 1);
     final hasFormula = widget.session.columnFormula(widget.column) != null;
@@ -122,12 +125,16 @@ class _FormulaBodyState extends State<_FormulaBody> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(l10n.csvFormulaTitle(name), style: theme.textTheme.titleMedium),
+            Text(
+              l10n.csvFormulaTitle(name),
+              style: theme.textTheme.titleMedium,
+            ),
             const SizedBox(height: 4),
             Text(
               l10n.csvFormulaHelp,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: 12),
             TextField(
@@ -145,7 +152,10 @@ class _FormulaBodyState extends State<_FormulaBody> {
               ),
             ),
             const SizedBox(height: 12),
-            Text(l10n.csvFormulaColumnLetters, style: theme.textTheme.labelMedium),
+            Text(
+              l10n.csvFormulaColumnLetters,
+              style: theme.textTheme.labelMedium,
+            ),
             const SizedBox(height: 4),
             Wrap(
               spacing: 6,
@@ -162,8 +172,9 @@ class _FormulaBodyState extends State<_FormulaBody> {
                       onPressed: () {
                         final insert = CsvFormula.columnLetters(c);
                         final text = _controller.text;
-                        _controller.text =
-                            text.isEmpty ? '=$insert' : '$text$insert';
+                        _controller.text = text.isEmpty
+                            ? '=$insert'
+                            : '$text$insert';
                         _controller.selection = TextSelection.collapsed(
                           offset: _controller.text.length,
                         );

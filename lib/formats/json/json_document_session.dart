@@ -4,23 +4,24 @@ import 'dart:typed_data';
 import 'package:flutter/widgets.dart';
 import 'package:re_editor/re_editor.dart';
 
-import '../../core/editor/atomic_saver.dart';
-import '../../core/editor/draft_store.dart';
-import '../../core/editor/encoding.dart';
-import '../../core/editor/external_change.dart';
-import '../../core/editor/saf_save_target.dart';
-import '../../core/export/export_target.dart';
-import '../../core/metadata/file_metadata.dart';
-import '../../core/storage/key_value_store.dart';
-import '../../core/storage/saf_exceptions.dart';
-import '../../core/storage/saf_service.dart';
-import '../../shell/tabs/document_tab.dart';
-import 'json_node.dart';
-import 'json_parser.dart';
-import 'json_path.dart';
-import 'json_stats.dart';
-import 'json_table.dart';
-import 'json_well_formed_gate.dart';
+import 'package:text_data/core/editor/atomic_saver.dart';
+import 'package:text_data/core/editor/draft_store.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/core/editor/external_change.dart';
+import 'package:text_data/core/editor/saf_save_target.dart';
+import 'package:text_data/core/ephemeral/secure_wipe.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/core/metadata/file_metadata.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/formats/json/json_node.dart';
+import 'package:text_data/formats/json/json_parser.dart';
+import 'package:text_data/formats/json/json_path.dart';
+import 'package:text_data/formats/json/json_stats.dart';
+import 'package:text_data/formats/json/json_table.dart';
+import 'package:text_data/formats/json/json_well_formed_gate.dart';
 
 /// Loading lifecycle of one open JSON document.
 enum JsonLoadStatus { loading, ready, failed }
@@ -80,6 +81,11 @@ class JsonDocumentSession extends ChangeNotifier with ExternalChangeMixin {
 
   final void Function(bool isDirty)? onDirtyChanged;
 
+  /// Called with the saved text right after a successful overwrite save, so the
+  /// shell can refresh the workspace search index (Feature 11). It must never
+  /// throw — the session ignores whatever it returns.
+  final void Function(String text)? onSaved;
+
   /// How often the auto-save draft is written. [Duration.zero] turns it off.
   final Duration autoSaveInterval;
 
@@ -92,24 +98,20 @@ class JsonDocumentSession extends ChangeNotifier with ExternalChangeMixin {
 
   JsonDocumentSession({
     required this.tab,
-    required SafService saf,
-    required TextCodecService codec,
-    required AtomicSaver saver,
-    required MetadataService metadata,
-    required KeyValueStore store,
+    required this._saf,
+    required this._codec,
+    required this._saver,
+    required this._metadata,
+    required this._store,
     required Future<DraftStore> draftStore,
     required Future<Directory> tempDir,
     this.onDirtyChanged,
+    this.onSaved,
     this.autoSaveInterval = const Duration(seconds: 5),
     this.defaultSaveEncoding,
     this.defaultSaveLineEnding,
-  })  : _saf = saf,
-        _codec = codec,
-        _saver = saver,
-        _metadata = metadata,
-        _store = store,
-        _draftStoreFuture = draftStore,
-        _tempDirFuture = tempDir;
+  }) : _draftStoreFuture = draftStore,
+       _tempDirFuture = tempDir;
 
   // --- state ---------------------------------------------------------------
 
@@ -469,6 +471,7 @@ class JsonDocumentSession extends ChangeNotifier with ExternalChangeMixin {
     _draftAvailable = false;
     // The file on disk is now ours again — never warn about our own write.
     await captureDiskBaseline();
+    onSaved?.call(text);
   }
 
   // --- drafts --------------------------------------------------------------
@@ -740,18 +743,33 @@ class JsonDocumentSession extends ChangeNotifier with ExternalChangeMixin {
     final store = _draftStore;
     final code = _code;
     if (store == null || code == null) return;
-    _autoSaver = AutoSaver(
-      store: store,
-      fingerprint: tab.fingerprint,
-      getContent: () => code.text,
-    )
-      ..markSaved(_savedText)
-      ..start(autoSaveInterval);
+    _autoSaver =
+        AutoSaver(
+            store: store,
+            fingerprint: tab.fingerprint,
+            getContent: () => code.text,
+          )
+          ..markSaved(_savedText)
+          ..start(autoSaveInterval);
   }
 
   void _safeNotify() {
     if (_disposed) return;
     notifyListeners();
+  }
+
+  /// Drops this session's copies of the document from memory. See
+  /// `TxtDocumentSession.scrubInMemory` for what this can and cannot promise
+  /// (Feature 9).
+  void scrubInMemory() {
+    SecureWipe.zeroBytes(_rawBytes);
+    _rawBytes = null;
+    _savedText = '';
+    try {
+      _code?.text = '';
+    } catch (_) {
+      // A dispose path must never throw; dropping the references is the point.
+    }
   }
 
   @override
@@ -760,6 +778,9 @@ class JsonDocumentSession extends ChangeNotifier with ExternalChangeMixin {
     persistPosition();
     _autoSaver?.stop();
     _code?.removeListener(_onCodeChanged);
+    // Scrub while the controller is alive but detached from our listener, so
+    // clearing it cannot re-enter the dirty-flag path.
+    scrubInMemory();
     _find?.dispose();
     _scroll?.dispose();
     _code?.dispose();

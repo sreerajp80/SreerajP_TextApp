@@ -1,24 +1,35 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/editor/editor_providers.dart';
-import '../../core/output/output_providers.dart';
-import '../../core/storage/saf_service.dart';
-import '../../l10n/app_localizations.dart';
-import '../../shell/tabs/document_tab.dart';
-import '../../shell/tabs/read_only_lock_button.dart';
-import 'json_document_session.dart';
-import 'json_export_sheet.dart';
-import 'json_info_sheet.dart';
-import 'json_output_actions.dart';
-import 'json_parser.dart';
-import 'json_query_builder_sheet.dart';
-import 'json_read_aloud_button.dart';
-import 'json_save_options_sheet.dart';
-import 'json_session_manager.dart';
-import 'json_split_merge_actions.dart';
-import 'json_tools_sheets.dart';
+import 'package:text_data/core/editor/column_selection_sheet.dart';
+import 'package:text_data/core/editor/editor_providers.dart';
+import 'package:text_data/core/privacy/ui/privacy_shield_sheet.dart';
+import 'package:text_data/sync/diff/diff_dialog_helper.dart';
+import 'package:text_data/airqr/ui/airqr_send_action.dart';
+import 'package:text_data/core/output/output_providers.dart';
+import 'package:text_data/core/sql/sql_query_screen.dart';
+import 'package:text_data/core/sql/sql_source.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/shell/tabs/read_only_lock_button.dart';
+import 'package:text_data/formats/json/json_document_session.dart';
+import 'package:text_data/formats/json/json_export_sheet.dart';
+import 'package:text_data/formats/json/json_info_sheet.dart';
+import 'package:text_data/formats/json/json_output_actions.dart';
+import 'package:text_data/formats/json/json_parser.dart';
+import 'package:text_data/formats/json/json_query_builder_sheet.dart';
+import 'package:text_data/formats/json/json_read_aloud_button.dart';
+import 'package:text_data/formats/json/json_save_options_sheet.dart';
+import 'package:text_data/formats/json/json_session_manager.dart';
+import 'package:text_data/formats/json/json_split_merge_actions.dart';
+import 'package:text_data/formats/json/json_sql_source.dart';
+import 'package:text_data/formats/sql_sources.dart';
+import 'package:text_data/formats/json/json_tools_sheets.dart';
 
 /// The action bar for an open JSON document (tasks 8.1–8.6): the
 /// pretty/tree/raw/minified/edit view controls, undo/redo, find, format/minify,
@@ -39,7 +50,8 @@ class JsonToolbar extends ConsumerWidget {
         final ready = session.status == JsonLoadStatus.ready;
         final canEdit = ready && !tab.isReadOnly;
         final editing = session.mode == JsonViewMode.edit && !tab.isReadOnly;
-        final showingSource = session.mode == JsonViewMode.raw ||
+        final showingSource =
+            session.mode == JsonViewMode.raw ||
             session.mode == JsonViewMode.edit;
         final inTree = session.mode == JsonViewMode.tree;
         final hasTree = ready && session.root != null;
@@ -145,19 +157,20 @@ class JsonToolbar extends ConsumerWidget {
                 ),
                 onPressed: ready
                     ? () => showJsonValidateSheet(
-                          context,
-                          session,
-                          ref.read(safServiceProvider),
-                          ref.read(textCodecServiceProvider),
-                        )
+                        context,
+                        session,
+                        ref.read(safServiceProvider),
+                        ref.read(textCodecServiceProvider),
+                      )
                     : null,
               ),
               IconButton(
                 key: const Key('json-save-button'),
                 tooltip: l10n.actionSave,
                 icon: const Icon(Icons.save_outlined),
-                onPressed:
-                    ready ? () => saveJsonDirect(context, session) : null,
+                onPressed: ready
+                    ? () => saveJsonDirect(context, session)
+                    : null,
               ),
               if (ready) JsonReadAloudButton(session: session),
               _OverflowMenu(tab: tab, session: session, enabled: ready),
@@ -204,8 +217,10 @@ class _ViewButton extends StatelessWidget {
 enum _MenuAction {
   saveAs,
   replace,
+  columnEdit,
   jsonPath,
   queryBuilder,
+  sqlQuery,
   info,
   diff,
   split,
@@ -213,6 +228,9 @@ enum _MenuAction {
   copyFull,
   copyMinified,
   share,
+  privacyShield,
+  liveDiff,
+  sendByQr,
   shareZip,
   print,
   export,
@@ -245,7 +263,7 @@ class _OverflowMenu extends ConsumerWidget {
             title: Text(l10n.actionSaveAs),
           ),
         ),
-        if (editing)
+        if (editing) ...[
           PopupMenuItem(
             value: _MenuAction.replace,
             child: ListTile(
@@ -253,6 +271,14 @@ class _OverflowMenu extends ConsumerWidget {
               title: Text(l10n.actionFindReplace),
             ),
           ),
+          PopupMenuItem(
+            value: _MenuAction.columnEdit,
+            child: ListTile(
+              leading: const Icon(Icons.view_column_rounded),
+              title: Text(l10n.columnSelectionTitle),
+            ),
+          ),
+        ],
         PopupMenuItem(
           value: _MenuAction.jsonPath,
           child: ListTile(
@@ -265,6 +291,17 @@ class _OverflowMenu extends ConsumerWidget {
           child: ListTile(
             leading: const Icon(Icons.account_tree_outlined),
             title: Text(l10n.jsonQueryBuilderTitle),
+          ),
+        ),
+        // Needs an array of records to load as a table, so it is greyed out on a
+        // document that has none (Feature 4).
+        PopupMenuItem(
+          value: _MenuAction.sqlQuery,
+          enabled: session.hasTabularArray,
+          child: ListTile(
+            enabled: session.hasTabularArray,
+            leading: const Icon(Icons.terminal),
+            title: Text(l10n.sqlMenuAction),
           ),
         ),
         PopupMenuItem(
@@ -319,6 +356,27 @@ class _OverflowMenu extends ConsumerWidget {
           ),
         ),
         PopupMenuItem(
+          value: _MenuAction.privacyShield,
+          child: ListTile(
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: Text(l10n.privacyShieldAction),
+          ),
+        ),
+        const PopupMenuItem(
+          value: _MenuAction.liveDiff,
+          child: ListTile(
+            leading: Icon(Icons.difference_outlined),
+            title: Text('Live P2P Diff & Sync'),
+          ),
+        ),
+        PopupMenuItem(
+          value: _MenuAction.sendByQr,
+          child: ListTile(
+            leading: const Icon(Icons.qr_code_2),
+            title: Text(l10n.airqrSendByQr),
+          ),
+        ),
+        PopupMenuItem(
           value: _MenuAction.shareZip,
           child: ListTile(
             leading: const Icon(Icons.folder_zip_outlined),
@@ -355,6 +413,12 @@ class _OverflowMenu extends ConsumerWidget {
       case _MenuAction.replace:
         session.openReplace();
         break;
+      case _MenuAction.columnEdit:
+        final code = session.code;
+        if (code != null) {
+          await ColumnSelectionSheet.show(context: context, controller: code);
+        }
+        break;
       case _MenuAction.jsonPath:
         await showJsonPathSheet(context, session);
         break;
@@ -364,6 +428,24 @@ class _OverflowMenu extends ConsumerWidget {
         // The builder only writes the query; running it stays the JSONPath
         // sheet's job, so there is one place that shows matches.
         await showJsonPathSheet(context, session, initialQuery: query);
+        break;
+      case _MenuAction.sqlQuery:
+        // The array the table view is pointed at is what gets queried, so
+        // drilling into a nested array first also narrows the SQL table.
+        await SqlQueryScreen.open(
+          context,
+          primary: SqlSource(
+            tabId: tab.id,
+            displayName: tab.displayName,
+            suggestedTableName: 'data',
+            build: () async => jsonSqlDataset(
+              session.jsonTable,
+              tableName: 'data',
+              sourceLabel: tab.displayName,
+            ),
+          ),
+          otherSources: () => sqlSourcesForOpenTabs(ref, excludeTabId: tab.id),
+        );
         break;
       case _MenuAction.info:
         await showJsonInfoSheet(context, session);
@@ -394,6 +476,50 @@ class _OverflowMenu extends ConsumerWidget {
       case _MenuAction.share:
         await _output(ref).shareFile(context, session);
         break;
+      case _MenuAction.privacyShield:
+        final editing = session.mode == JsonViewMode.edit && !tab.isReadOnly;
+        await PrivacyShieldSheet.show(
+          context,
+          text: session.textContent.text,
+          documentTitle: session.tab.displayName,
+          mimeType: session.tab.mimeType ?? 'application/json',
+          onApplyToEditor: editing
+              ? (newText) {
+                  final code = session.code;
+                  if (code != null) {
+                    code.text = newText;
+                  }
+                }
+              : null,
+          shareService: ref.read(shareServiceProvider),
+          safService: ref.read(safServiceProvider),
+        );
+        break;
+      case _MenuAction.liveDiff:
+        final editing = session.mode == JsonViewMode.edit && !tab.isReadOnly;
+        await LiveDiffLauncher.showDiffOptions(
+          context: context,
+          ref: ref,
+          tab: session.tab,
+          content: session.textContent.text,
+          onApplyToEditor: editing
+              ? (newText) {
+                  final code = session.code;
+                  if (code != null) {
+                    code.text = newText;
+                  }
+                }
+              : null,
+        );
+        break;
+      case _MenuAction.sendByQr:
+        await AirqrSendAction.sendDocument(
+          context: context,
+          name: session.tab.displayName,
+          mimeType: session.tab.mimeType ?? 'application/json',
+          content: session.textContent.text,
+        );
+        break;
       case _MenuAction.shareZip:
         await _output(ref).shareAsZip(context, session);
         break;
@@ -412,16 +538,22 @@ class _OverflowMenu extends ConsumerWidget {
   }
 
   JsonSplitMergeActions _actions(WidgetRef ref) => JsonSplitMergeActions(
-        saf: ref.read(safServiceProvider),
-        codec: ref.read(textCodecServiceProvider),
-      );
+    saf: ref.read(safServiceProvider),
+    codec: ref.read(textCodecServiceProvider),
+  );
 
   JsonOutputActions _output(WidgetRef ref) => JsonOutputActions(
-        share: ref.read(shareServiceProvider),
-        zip: ref.read(zipServiceProvider),
-        print: ref.read(printServiceProvider),
-        export: ref.read(exportServiceProvider),
-        saf: ref.read(safServiceProvider),
-        codec: ref.read(textCodecServiceProvider),
-      );
+    share: ref.read(shareServiceProvider),
+    zip: ref.read(zipServiceProvider),
+    print: ref.read(printServiceProvider),
+    export: ref.read(exportServiceProvider),
+    saf: ref.read(safServiceProvider),
+    codec: ref.read(textCodecServiceProvider),
+    // Burns this tab when it was marked "burn after export" (Feature 9).
+    onOutputCompleted: () => unawaited(
+      ref
+          .read(ephemeralControllerProvider.notifier)
+          .notifyOutputCompleted(tab.id),
+    ),
+  );
 }

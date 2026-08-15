@@ -1,4 +1,4 @@
-import 'encoding.dart';
+import 'package:text_data/core/editor/encoding.dart';
 
 /// How the editor picks the **line ending** when it saves a file.
 ///
@@ -161,10 +161,10 @@ class EditorSettings {
 
   @override
   int get hashCode => Object.hash(
-        lineEndingDefault,
-        encodingDefault,
-        confirmOverwrite,
-        autoSaveSeconds,
-        openReadOnlyByDefault,
-      );
+    lineEndingDefault,
+    encodingDefault,
+    confirmOverwrite,
+    autoSaveSeconds,
+    openReadOnlyByDefault,
+  );
 }

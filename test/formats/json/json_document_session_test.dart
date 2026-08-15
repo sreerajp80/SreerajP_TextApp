@@ -32,7 +32,10 @@ class RecordingSafService extends SafService {
   @override
   Future<Uint8List> readBytes(String uri) async {
     if (failRead) throw const SafUriStale();
-    return contents[uri] ?? Uint8List(0);
+    // A real SAF read hands back a fresh buffer the caller owns (see
+    // SafService.readBytes), so the fake copies instead of sharing its own.
+    final bytes = contents[uri];
+    return bytes == null ? Uint8List(0) : Uint8List.fromList(bytes);
   }
 
   @override
@@ -72,13 +75,13 @@ void main() {
   });
 
   DocumentTab tabFor(String uri, {String name = 'data.json'}) => DocumentTab(
-        id: 'tab-1',
-        fingerprint: 'fp-1',
-        uri: uri,
-        displayName: name,
-        mimeType: 'application/json',
-        lastActiveAt: 1,
-      );
+    id: 'tab-1',
+    fingerprint: 'fp-1',
+    uri: uri,
+    displayName: name,
+    mimeType: 'application/json',
+    lastActiveAt: 1,
+  );
 
   Future<JsonDocumentSession> build(
     RecordingSafService saf, {
@@ -203,24 +206,28 @@ void main() {
     session.dispose();
   });
 
-  test('read-only file cannot overwrite; save reports it needs a copy',
-      () async {
-    final saf = RecordingSafService(
-      contents: {'u': Uint8List.fromList('{"a": 1}'.codeUnits)},
-      writableUris: const {},
-    );
-    final session = await build(saf);
-    await session.load();
+  test(
+    'read-only file cannot overwrite; save reports it needs a copy',
+    () async {
+      final saf = RecordingSafService(
+        contents: {'u': Uint8List.fromList('{"a": 1}'.codeUnits)},
+        writableUris: const {},
+      );
+      final session = await build(saf);
+      await session.load();
 
-    expect(session.isWritable, isFalse);
-    final result = await session.save();
-    expect(result.outcome, SaveOutcome.readOnlyNeedsCopy);
-    session.dispose();
-  });
+      expect(session.isWritable, isFalse);
+      final result = await session.save();
+      expect(result.outcome, SaveOutcome.readOnlyNeedsCopy);
+      session.dispose();
+    },
+  );
 
   test('NDJSON is detected and shown as a record list', () async {
     final saf = RecordingSafService(
-      contents: {'u': Uint8List.fromList('{"a":1}\n{"a":2}\n{"a":3}'.codeUnits)},
+      contents: {
+        'u': Uint8List.fromList('{"a":1}\n{"a":2}\n{"a":3}'.codeUnits),
+      },
       writableUris: {'u'},
     );
     final session = await build(saf);

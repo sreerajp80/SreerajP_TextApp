@@ -4,14 +4,14 @@ import 'package:text_data/formats/csv/csv_table.dart';
 
 void main() {
   CsvTable table() => CsvTable(
-        header: ['name', 'age'],
-        rows: [
-          ['Ada', '36'],
-          ['Bob', '40'],
-          ['Cid', '8'],
-        ],
-        hasHeader: true,
-      );
+    header: ['name', 'age'],
+    rows: [
+      ['Ada', '36'],
+      ['Bob', '40'],
+      ['Cid', '8'],
+    ],
+    hasHeader: true,
+  );
 
   test('filter returns matching row indices (case-insensitive)', () {
     final t = table();
@@ -44,51 +44,66 @@ void main() {
   group('multi-column sort (roadmap 4.2.1)', () {
     // Department, then salary — the roadmap's own example.
     CsvTable staff() => CsvTable(
-          header: ['dept', 'salary', 'name'],
-          rows: [
-            ['Sales', '500', 'Ada'],
-            ['Eng', '900', 'Bob'],
-            ['Sales', '700', 'Cid'],
-            ['Eng', '400', 'Dee'],
-            ['Sales', '700', 'Eve'],
-          ],
-          hasHeader: true,
-        );
+      header: ['dept', 'salary', 'name'],
+      rows: [
+        ['Sales', '500', 'Ada'],
+        ['Eng', '900', 'Bob'],
+        ['Sales', '700', 'Cid'],
+        ['Eng', '400', 'Dee'],
+        ['Sales', '700', 'Eve'],
+      ],
+      hasHeader: true,
+    );
 
     test('sorts by department ascending, then salary descending', () {
       final t = staff();
-      final result = CsvFilterSort.sortMulti(t, [0, 1, 2, 3, 4], const [
-        CsvSortSpec(0, SortDirection.ascending),
-        CsvSortSpec(1, SortDirection.descending),
-      ]);
+      final result = CsvFilterSort.sortMulti(
+        t,
+        [0, 1, 2, 3, 4],
+        const [
+          CsvSortSpec(0, SortDirection.ascending),
+          CsvSortSpec(1, SortDirection.descending),
+        ],
+      );
       // Eng 900 (Bob), Eng 400 (Dee), Sales 700 (Cid), Sales 700 (Eve), Sales 500 (Ada)
       expect(result, [1, 3, 2, 4, 0]);
     });
 
     test('later levels only break ties left by earlier ones', () {
       final t = staff();
-      final result = CsvFilterSort.sortMulti(t, [0, 1, 2, 3, 4], const [
-        CsvSortSpec(0, SortDirection.ascending),
-        CsvSortSpec(2, SortDirection.ascending),
-      ]);
+      final result = CsvFilterSort.sortMulti(
+        t,
+        [0, 1, 2, 3, 4],
+        const [
+          CsvSortSpec(0, SortDirection.ascending),
+          CsvSortSpec(2, SortDirection.ascending),
+        ],
+      );
       expect(result, [1, 3, 0, 2, 4]);
     });
 
     test('is stable when every level ties', () {
       final t = staff();
       // Cid and Eve both earn 700; the incoming order decides.
-      final result =
-          CsvFilterSort.sortMulti(t, [4, 2], const [CsvSortSpec(1, SortDirection.ascending)]);
+      final result = CsvFilterSort.sortMulti(
+        t,
+        [4, 2],
+        const [CsvSortSpec(1, SortDirection.ascending)],
+      );
       expect(result, [4, 2]);
     });
 
     test('skips levels that are none or name a missing column', () {
       final t = staff();
-      final result = CsvFilterSort.sortMulti(t, [0, 1, 2, 3, 4], const [
-        CsvSortSpec(9, SortDirection.ascending),
-        CsvSortSpec(0, SortDirection.none),
-        CsvSortSpec(1, SortDirection.ascending),
-      ]);
+      final result = CsvFilterSort.sortMulti(
+        t,
+        [0, 1, 2, 3, 4],
+        const [
+          CsvSortSpec(9, SortDirection.ascending),
+          CsvSortSpec(0, SortDirection.none),
+          CsvSortSpec(1, SortDirection.ascending),
+        ],
+      );
       expect(result, [3, 0, 2, 4, 1]); // 400, 500, 700, 700, 900
     });
 
@@ -100,7 +115,9 @@ void main() {
     test('does not mutate the list it was given', () {
       final t = staff();
       final input = [0, 1, 2, 3, 4];
-      CsvFilterSort.sortMulti(t, input, const [CsvSortSpec(1, SortDirection.ascending)]);
+      CsvFilterSort.sortMulti(t, input, const [
+        CsvSortSpec(1, SortDirection.ascending),
+      ]);
       expect(input, [0, 1, 2, 3, 4]);
     });
 
@@ -115,7 +132,10 @@ void main() {
         hasHeader: true,
       );
       final result = CsvFilterSort.sortMulti(
-          t, [0, 1, 2], const [CsvSortSpec(0, SortDirection.ascending)]);
+        t,
+        [0, 1, 2],
+        const [CsvSortSpec(0, SortDirection.ascending)],
+      );
       expect(result, [2, 0, 1]);
     });
   });

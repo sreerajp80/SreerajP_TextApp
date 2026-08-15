@@ -33,13 +33,16 @@ class RecordingSafService extends SafService {
     this.writableUris = const {},
     this.failRead = false,
     Map<String, int> modifiedTimes = const {},
-  })  : contents = Map<String, Uint8List>.of(contents),
-        modifiedTimes = Map<String, int>.of(modifiedTimes);
+  }) : contents = Map<String, Uint8List>.of(contents),
+       modifiedTimes = Map<String, int>.of(modifiedTimes);
 
   @override
   Future<Uint8List> readBytes(String uri) async {
     if (failRead) throw const SafUriStale();
-    return contents[uri] ?? Uint8List(0);
+    // A real SAF read hands back a fresh buffer the caller owns (see
+    // SafService.readBytes), so the fake copies instead of sharing its own.
+    final bytes = contents[uri];
+    return bytes == null ? Uint8List(0) : Uint8List.fromList(bytes);
   }
 
   @override

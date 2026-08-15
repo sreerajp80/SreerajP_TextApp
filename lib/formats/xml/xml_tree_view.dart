@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xml/xml.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'xml_document_session.dart';
-import 'xml_path.dart';
-import 'xml_tree_edits.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/xml/xml_document_session.dart';
+import 'package:text_data/formats/xml/xml_path.dart';
+import 'package:text_data/formats/xml/xml_tree_edits.dart';
 
 /// The collapsible **element tree** view of an XML document (tasks 9.2, 9.5).
 ///
@@ -20,11 +20,7 @@ class XmlTreeView extends ConsumerWidget {
   final XmlDocumentSession session;
   final bool editing;
 
-  const XmlTreeView({
-    super.key,
-    required this.session,
-    required this.editing,
-  });
+  const XmlTreeView({super.key, required this.session, required this.editing});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,17 +52,19 @@ class XmlTreeView extends ConsumerWidget {
     final path = xmlPathOf(node);
     final childNodes = _renderableChildren(node);
     final expandable = childNodes.isNotEmpty;
-    final expanded = filter.isNotEmpty ? true : session.isExpanded(path);
+    final expanded = filter.isNotEmpty || session.isExpanded(path);
 
-    out.add(_TreeRow(
-      session: session,
-      node: node,
-      path: path,
-      depth: depth,
-      expandable: expandable,
-      expanded: expanded,
-      editing: editing,
-    ));
+    out.add(
+      _TreeRow(
+        session: session,
+        node: node,
+        path: path,
+        depth: depth,
+        expandable: expandable,
+        expanded: expanded,
+        editing: editing,
+      ),
+    );
 
     if (expandable && expanded) {
       for (final child in childNodes) {
@@ -167,8 +165,9 @@ class _TreeRow extends StatelessWidget {
         TextSpan(
           text: '<!-- comment -->',
           style: TextStyle(
-              color: theme.colorScheme.onSurfaceVariant,
-              fontStyle: FontStyle.italic),
+            color: theme.colorScheme.onSurfaceVariant,
+            fontStyle: FontStyle.italic,
+          ),
         ),
       ];
     }
@@ -194,24 +193,30 @@ class _TreeRow extends StatelessWidget {
       final attrs = element.attributes
           .map((a) => '${a.name.qualified}="${a.value}"')
           .join(' ');
-      spans.add(TextSpan(
-        text: '  $attrs',
-        style: TextStyle(color: theme.colorScheme.secondary),
-      ));
+      spans.add(
+        TextSpan(
+          text: '  $attrs',
+          style: TextStyle(color: theme.colorScheme.secondary),
+        ),
+      );
     }
     if (element.childElements.isEmpty) {
       final text = element.innerText.trim();
       if (text.isNotEmpty) {
-        spans.add(TextSpan(
-          text: '  $text',
-          style: TextStyle(color: theme.colorScheme.onSurface),
-        ));
+        spans.add(
+          TextSpan(
+            text: '  $text',
+            style: TextStyle(color: theme.colorScheme.onSurface),
+          ),
+        );
       }
     } else {
-      spans.add(TextSpan(
-        text: '  · ${element.childElements.length}',
-        style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
-      ));
+      spans.add(
+        TextSpan(
+          text: '  · ${element.childElements.length}',
+          style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+        ),
+      );
     }
     return spans;
   }
@@ -255,28 +260,47 @@ class _RowMenu extends StatelessWidget {
       tooltip: l10n.xmlNodeActions,
       onSelected: (a) => _handle(context, a),
       itemBuilder: (context) => [
-        PopupMenuItem(value: _RowAction.copyPath, child: Text(l10n.xmlCopyPath)),
         PopupMenuItem(
-            value: _RowAction.copyValue, child: Text(l10n.xmlCopyText)),
+          value: _RowAction.copyPath,
+          child: Text(l10n.xmlCopyPath),
+        ),
         PopupMenuItem(
-            value: _RowAction.copySubtree, child: Text(l10n.xmlCopyXml)),
+          value: _RowAction.copyValue,
+          child: Text(l10n.xmlCopyText),
+        ),
+        PopupMenuItem(
+          value: _RowAction.copySubtree,
+          child: Text(l10n.xmlCopyXml),
+        ),
         if (editing && _isElement) ...[
           const PopupMenuDivider(),
           if (_isLeafElement)
             PopupMenuItem(
-                value: _RowAction.editText, child: Text(l10n.xmlEditText)),
+              value: _RowAction.editText,
+              child: Text(l10n.xmlEditText),
+            ),
           PopupMenuItem(
-              value: _RowAction.setAttribute, child: Text(l10n.xmlSetAttribute)),
+            value: _RowAction.setAttribute,
+            child: Text(l10n.xmlSetAttribute),
+          ),
           PopupMenuItem(
-              value: _RowAction.removeAttribute,
-              child: Text(l10n.xmlRemoveAttribute)),
+            value: _RowAction.removeAttribute,
+            child: Text(l10n.xmlRemoveAttribute),
+          ),
           PopupMenuItem(value: _RowAction.rename, child: Text(l10n.xmlRename)),
           PopupMenuItem(
-              value: _RowAction.addChild, child: Text(l10n.xmlAddChild)),
+            value: _RowAction.addChild,
+            child: Text(l10n.xmlAddChild),
+          ),
           if (_canMove) ...[
-            PopupMenuItem(value: _RowAction.moveUp, child: Text(l10n.xmlMoveUp)),
             PopupMenuItem(
-                value: _RowAction.moveDown, child: Text(l10n.xmlMoveDown)),
+              value: _RowAction.moveUp,
+              child: Text(l10n.xmlMoveUp),
+            ),
+            PopupMenuItem(
+              value: _RowAction.moveDown,
+              child: Text(l10n.xmlMoveDown),
+            ),
           ],
         ],
         if (editing && node.parent != null && node.parent is! XmlDocument)
@@ -299,8 +323,7 @@ class _RowMenu extends StatelessWidget {
         messenger.showSnackBar(SnackBar(content: Text(l10n.xmlPathCopied)));
         break;
       case _RowAction.copyValue:
-        final value =
-            element != null ? element.innerText : (node.value ?? '');
+        final value = element != null ? element.innerText : (node.value ?? '');
         await Clipboard.setData(ClipboardData(text: value));
         messenger.showSnackBar(SnackBar(content: Text(l10n.xmlTextCopied)));
         break;
@@ -310,8 +333,11 @@ class _RowMenu extends StatelessWidget {
         break;
       case _RowAction.editText:
         if (element == null) return;
-        final input = await _prompt(context, l10n.xmlEditTextTitle,
-            initial: element.innerText.trim());
+        final input = await _prompt(
+          context,
+          l10n.xmlEditTextTitle,
+          initial: element.innerText.trim(),
+        );
         if (input == null) return;
         session.applySource(edits.setText(document, element, input));
         break;
@@ -323,13 +349,13 @@ class _RowMenu extends StatelessWidget {
         final value = await _prompt(context, l10n.xmlAttributeValue);
         if (value == null) return;
         session.applySource(
-            edits.setAttribute(document, element, name.trim(), value));
+          edits.setAttribute(document, element, name.trim(), value),
+        );
         break;
       case _RowAction.removeAttribute:
         if (element == null) return;
         if (element.attributes.isEmpty) {
-          messenger.showSnackBar(
-              SnackBar(content: Text(l10n.xmlNoAttributes)));
+          messenger.showSnackBar(SnackBar(content: Text(l10n.xmlNoAttributes)));
           return;
         }
         final name = await _pickAttribute(context, element);
@@ -338,8 +364,11 @@ class _RowMenu extends StatelessWidget {
         break;
       case _RowAction.rename:
         if (element == null) return;
-        final name = await _prompt(context, l10n.xmlRenameElementTitle,
-            initial: element.name.qualified);
+        final name = await _prompt(
+          context,
+          l10n.xmlRenameElementTitle,
+          initial: element.name.qualified,
+        );
         if (name == null) return;
         session.applySource(edits.renameElement(document, element, name));
         break;
@@ -350,7 +379,8 @@ class _RowMenu extends StatelessWidget {
         if (!context.mounted) return;
         final text = await _prompt(context, l10n.xmlTextOptional);
         session.applySource(
-            edits.addChild(document, element, name.trim(), text: text ?? ''));
+          edits.addChild(document, element, name.trim(), text: text ?? ''),
+        );
         break;
       case _RowAction.delete:
         session.applySource(edits.deleteNode(document, node));
@@ -382,8 +412,11 @@ class _RowMenu extends StatelessWidget {
     );
   }
 
-  Future<String?> _prompt(BuildContext context, String title,
-      {String initial = ''}) {
+  Future<String?> _prompt(
+    BuildContext context,
+    String title, {
+    String initial = '',
+  }) {
     final controller = TextEditingController(text: initial);
     return showDialog<String>(
       context: context,

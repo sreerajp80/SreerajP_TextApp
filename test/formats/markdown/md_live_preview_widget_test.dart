@@ -49,8 +49,10 @@ void main() {
       path: inMemoryDatabasePath,
       factory: databaseFactoryFfi,
     );
-    draftStore =
-        DraftStore(baseDir: tempDir, index: DraftsIndexRepository(database.db));
+    draftStore = DraftStore(
+      baseDir: tempDir,
+      index: DraftsIndexRepository(database.db),
+    );
   });
 
   tearDown(() async {
@@ -61,7 +63,7 @@ void main() {
   Future<MdDocumentSession> newSession(String text) async {
     final saf = _Saf(Uint8List.fromList(text.codeUnits));
     return MdDocumentSession(
-      tab: DocumentTab(
+      tab: const DocumentTab(
         id: 't',
         fingerprint: 'fp',
         uri: 'u',
@@ -115,8 +117,9 @@ void main() {
     return session;
   }
 
-  testWidgets('landscape puts the source and preview side by side',
-      (tester) async {
+  testWidgets('landscape puts the source and preview side by side', (
+    tester,
+  ) async {
     final session = await pumpSplit(tester, size: const Size(900, 500));
     expect(session.livePreview, isTrue);
 
@@ -151,16 +154,21 @@ void main() {
     session.dispose();
   });
 
-  testWidgets('the split also works when the source is read-only',
-      (tester) async {
-    final session =
-        await pumpSplit(tester, size: const Size(900, 500), readOnly: true);
+  testWidgets('the split also works when the source is read-only', (
+    tester,
+  ) async {
+    final session = await pumpSplit(
+      tester,
+      size: const Size(900, 500),
+      readOnly: true,
+    );
     expect(find.byKey(const Key('md-split-divider')), findsOneWidget);
     session.dispose();
   });
 
-  testWidgets('dragging the divider changes how much each pane gets',
-      (tester) async {
+  testWidgets('dragging the divider changes how much each pane gets', (
+    tester,
+  ) async {
     final session = await pumpSplit(tester, size: const Size(900, 500));
     final before = session.splitRatio;
 

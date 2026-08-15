@@ -5,9 +5,10 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../storage/drafts_index_repository.dart';
-import '../storage/storage_models.dart';
-import '../storage/storage_providers.dart';
+import 'package:text_data/core/ephemeral/secure_wipe.dart';
+import 'package:text_data/core/storage/drafts_index_repository.dart';
+import 'package:text_data/core/storage/storage_models.dart';
+import 'package:text_data/core/storage/storage_providers.dart';
 
 /// Persists in-progress edits so a crash or a killed process never loses work
 /// (architecture.md §6). Each draft is a small file in the app's **private**
@@ -23,12 +24,10 @@ class DraftStore {
   final int Function() _now;
 
   DraftStore({
-    required Directory baseDir,
-    required DraftsIndexRepository index,
+    required this._baseDir,
+    required this._index,
     int Function()? now,
-  })  : _baseDir = baseDir,
-        _index = index,
-        _now = now ?? _wallClockMillis;
+  }) : _now = now ?? _wallClockMillis;
 
   static int _wallClockMillis() => DateTime.now().millisecondsSinceEpoch;
 
@@ -49,11 +48,13 @@ class DraftStore {
     await temp.writeAsString(content, flush: true);
     await temp.rename(file.path);
 
-    await _index.upsert(DraftIndexEntry(
-      fingerprint: fingerprint,
-      draftPath: file.path,
-      updatedAt: _now(),
-    ));
+    await _index.upsert(
+      DraftIndexEntry(
+        fingerprint: fingerprint,
+        draftPath: file.path,
+        updatedAt: _now(),
+      ),
+    );
   }
 
   /// Returns the saved draft text for [fingerprint], or null when there is none
@@ -98,6 +99,21 @@ class DraftStore {
     await _index.remove(fingerprint);
   }
 
+  /// Like [discard], but zero-fills the draft before deleting it, for a document
+  /// the user asked the app to forget (Feature 9). See [SecureWipe] for what
+  /// that overwrite does and does not guarantee.
+  ///
+  /// Also wipes any leftover `.tmp` sibling from an interrupted [save].
+  Future<void> wipe(String fingerprint) async {
+    final entry = await _index.byFingerprint(fingerprint);
+    final file = entry == null
+        ? _draftFileFor(fingerprint)
+        : File(entry.draftPath);
+    await SecureWipe.wipeFile(file);
+    await SecureWipe.wipeFile(File('${file.path}.tmp'));
+    await _index.remove(fingerprint);
+  }
+
   File _draftFileFor(String fingerprint) {
     // The fingerprint key is `<size>-<hex>` — already filename-safe. Base64-url
     // encode defensively in case a caller passes an unusual key.
@@ -121,12 +137,10 @@ class AutoSaver {
   Timer? _timer;
 
   AutoSaver({
-    required DraftStore store,
-    required String fingerprint,
-    required String Function() getContent,
-  })  : _store = store,
-        _fingerprint = fingerprint,
-        _getContent = getContent;
+    required this._store,
+    required this._fingerprint,
+    required this._getContent,
+  });
 
   /// Saves a draft only when the content changed since the last write, to avoid
   /// churning the disk. Returns true when it wrote.

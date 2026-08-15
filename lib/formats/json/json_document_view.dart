@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../../shell/tabs/document_tab.dart';
-import 'json_document_session.dart';
-import 'json_editor_surface.dart';
-import 'json_pretty_view.dart';
-import 'json_session_manager.dart';
-import 'json_table_view.dart';
-import 'json_tree_view.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/formats/json/json_document_session.dart';
+import 'package:text_data/formats/json/json_editor_surface.dart';
+import 'package:text_data/formats/json/json_pretty_view.dart';
+import 'package:text_data/formats/json/json_session_manager.dart';
+import 'package:text_data/formats/json/json_table_view.dart';
+import 'package:text_data/formats/json/json_tree_view.dart';
 
 /// The body shown inside a JSON tab: it loads the document then shows the
 /// pretty / tree / raw / minified / editor view — never a crash (CLAUDE.md §3.4).
@@ -41,7 +41,8 @@ class _JsonDocumentViewState extends ConsumerState<JsonDocumentView> {
             return const Center(child: CircularProgressIndicator());
           case JsonLoadStatus.failed:
             return _FailureView(
-              message: session.errorMessage ??
+              message:
+                  session.errorMessage ??
                   AppLocalizations.of(context).failCannotOpen,
               onRetry: _retry,
             );
@@ -115,7 +116,9 @@ class _TreeWithSearch extends StatelessWidget {
             onChanged: session.setTreeFilter,
           ),
         ),
-        Expanded(child: JsonTreeView(session: session, editing: editing)),
+        Expanded(
+          child: JsonTreeView(session: session, editing: editing),
+        ),
       ],
     );
   }
@@ -134,14 +137,18 @@ class _NdjsonBanner extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: Row(
         children: [
-          Icon(Icons.view_stream_outlined,
-              size: 18, color: theme.colorScheme.onSecondaryContainer),
+          Icon(
+            Icons.view_stream_outlined,
+            size: 18,
+            color: theme.colorScheme.onSecondaryContainer,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               AppLocalizations.of(context).jsonNdjsonBanner(count),
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onSecondaryContainer),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSecondaryContainer,
+              ),
             ),
           ),
         ],
@@ -163,14 +170,18 @@ class _LenientBanner extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
       child: Row(
         children: [
-          Icon(Icons.info_outline,
-              size: 18, color: theme.colorScheme.onTertiaryContainer),
+          Icon(
+            Icons.info_outline,
+            size: 18,
+            color: theme.colorScheme.onTertiaryContainer,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               AppLocalizations.of(context).jsonLenientBanner,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onTertiaryContainer),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onTertiaryContainer,
+              ),
             ),
           ),
           TextButton(
@@ -198,14 +209,18 @@ class _DraftBanner extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
       child: Row(
         children: [
-          Icon(Icons.history,
-              size: 18, color: theme.colorScheme.onTertiaryContainer),
+          Icon(
+            Icons.history,
+            size: 18,
+            color: theme.colorScheme.onTertiaryContainer,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               l10n.draftBannerText,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onTertiaryContainer),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onTertiaryContainer,
+              ),
             ),
           ),
           TextButton(
@@ -245,12 +260,15 @@ class _FailureView extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: 16),
             FilledButton.tonal(
-                onPressed: onRetry, child: Text(l10n.actionRetry)),
+              onPressed: onRetry,
+              child: Text(l10n.actionRetry),
+            ),
           ],
         ),
       ),

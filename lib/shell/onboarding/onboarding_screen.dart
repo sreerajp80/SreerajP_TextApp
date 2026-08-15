@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'onboarding_controller.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/onboarding/onboarding_controller.dart';
 
 /// A short, skippable first-run intro (task 2.4).
 ///
@@ -22,22 +22,22 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   static const int _pageCount = 3;
 
   List<_IntroPage> _pages(AppLocalizations l10n) => [
-        _IntroPage(
-          icon: Icons.edit_document,
-          title: l10n.onboarding1Title,
-          body: l10n.onboarding1Body,
-        ),
-        _IntroPage(
-          icon: Icons.lock_outline,
-          title: l10n.onboarding2Title,
-          body: l10n.onboarding2Body,
-        ),
-        _IntroPage(
-          icon: Icons.sync_alt,
-          title: l10n.onboarding3Title,
-          body: l10n.onboarding3Body,
-        ),
-      ];
+    _IntroPage(
+      icon: Icons.edit_document,
+      title: l10n.onboarding1Title,
+      body: l10n.onboarding1Body,
+    ),
+    _IntroPage(
+      icon: Icons.lock_outline,
+      title: l10n.onboarding2Title,
+      body: l10n.onboarding2Body,
+    ),
+    _IntroPage(
+      icon: Icons.sync_alt,
+      title: l10n.onboarding3Title,
+      body: l10n.onboarding3Body,
+    ),
+  ];
 
   @override
   void dispose() {
@@ -122,14 +122,17 @@ class _IntroPage extends StatelessWidget {
         children: [
           Icon(icon, size: 96, color: theme.colorScheme.primary),
           const SizedBox(height: 32),
-          Text(title,
-              style: theme.textTheme.headlineSmall,
-              textAlign: TextAlign.center),
+          Text(
+            title,
+            style: theme.textTheme.headlineSmall,
+            textAlign: TextAlign.center,
+          ),
           const SizedBox(height: 16),
           Text(
             body,
-            style: theme.textTheme.bodyLarge
-                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
         ],

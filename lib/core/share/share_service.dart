@@ -77,17 +77,14 @@ class ShareService {
     required Uint8List bytes,
     String? subject,
   }) {
-    return _launcher.shareFiles(
-      [
-        ShareFileRequest(
-          name: name,
-          mimeType: mimeType,
-          bytes: bytes,
-          subject: subject,
-        ),
-      ],
-      subject: subject,
-    );
+    return _launcher.shareFiles([
+      ShareFileRequest(
+        name: name,
+        mimeType: mimeType,
+        bytes: bytes,
+        subject: subject,
+      ),
+    ], subject: subject);
   }
 
   /// Shares plain text with no attached file.

@@ -1,4 +1,4 @@
-import '../../core/editor/encoding.dart';
+import 'package:text_data/core/editor/encoding.dart';
 
 /// Splits and merges plain-text content (task 4.5).
 ///
@@ -22,15 +22,19 @@ class TxtSplitMerge {
   List<String> splitByLines(String text, int linesPerPart) {
     if (linesPerPart < 1) {
       throw ArgumentError.value(
-          linesPerPart, 'linesPerPart', 'must be at least 1');
+        linesPerPart,
+        'linesPerPart',
+        'must be at least 1',
+      );
     }
     if (text.isEmpty) return const [''];
 
     final segments = text.split('\n');
     final parts = <String>[];
     for (var i = 0; i < segments.length; i += linesPerPart) {
-      final end =
-          (i + linesPerPart) < segments.length ? i + linesPerPart : segments.length;
+      final end = (i + linesPerPart) < segments.length
+          ? i + linesPerPart
+          : segments.length;
       parts.add(segments.sublist(i, end).join('\n'));
     }
     return parts;

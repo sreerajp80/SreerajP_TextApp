@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../../shell/tabs/document_tab.dart';
-import 'csv_document_session.dart';
-import 'csv_grid.dart';
-import 'csv_raw_view.dart';
-import 'csv_session_manager.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:text_data/formats/csv/csv_grid.dart';
+import 'package:text_data/formats/csv/csv_raw_view.dart';
+import 'package:text_data/formats/csv/csv_session_manager.dart';
 
 /// The body shown inside a CSV tab: it loads the document then shows the data
 /// grid or the raw delimited text — never a crash (CLAUDE.md §3.4).
@@ -39,7 +39,8 @@ class _CsvDocumentViewState extends ConsumerState<CsvDocumentView> {
             return const Center(child: CircularProgressIndicator());
           case CsvLoadStatus.failed:
             return _FailureView(
-              message: session.errorMessage ??
+              message:
+                  session.errorMessage ??
                   AppLocalizations.of(context).failCannotOpen,
               onRetry: _retry,
             );
@@ -66,8 +67,10 @@ class _ReadyView extends StatelessWidget {
         Expanded(
           child: switch (session.mode) {
             CsvViewMode.table => CsvGrid(session: session, editable: editable),
-            CsvViewMode.raw =>
-              CsvRawView(session: session, readOnly: !editable),
+            CsvViewMode.raw => CsvRawView(
+              session: session,
+              readOnly: !editable,
+            ),
           },
         ),
       ],
@@ -90,14 +93,18 @@ class _DraftBanner extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
       child: Row(
         children: [
-          Icon(Icons.history,
-              size: 18, color: theme.colorScheme.onTertiaryContainer),
+          Icon(
+            Icons.history,
+            size: 18,
+            color: theme.colorScheme.onTertiaryContainer,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               l10n.draftBannerText,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onTertiaryContainer),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onTertiaryContainer,
+              ),
             ),
           ),
           TextButton(
@@ -137,12 +144,15 @@ class _FailureView extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: 16),
             FilledButton.tonal(
-                onPressed: onRetry, child: Text(l10n.actionRetry)),
+              onPressed: onRetry,
+              child: Text(l10n.actionRetry),
+            ),
           ],
         ),
       ),

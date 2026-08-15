@@ -21,8 +21,9 @@ void main() {
       );
       expect(LargeFilePolicy.classifyBySize(10 * mb), FileSizeClass.large);
       expect(
-        LargeFilePolicy
-            .classifyBySize(LargeFilePolicy.oversizedThresholdBytes - 1),
+        LargeFilePolicy.classifyBySize(
+          LargeFilePolicy.oversizedThresholdBytes - 1,
+        ),
         FileSizeClass.large,
       );
     });

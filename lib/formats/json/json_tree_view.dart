@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'json_document_session.dart';
-import 'json_node.dart';
-import 'json_parser.dart';
-import 'json_path.dart';
-import 'json_table.dart';
-import 'json_tree_edits.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/json/json_document_session.dart';
+import 'package:text_data/formats/json/json_node.dart';
+import 'package:text_data/formats/json/json_parser.dart';
+import 'package:text_data/formats/json/json_path.dart';
+import 'package:text_data/formats/json/json_table.dart';
+import 'package:text_data/formats/json/json_tree_edits.dart';
 
 /// The collapsible **tree** view of a JSON document (tasks 8.2, 8.5).
 ///
@@ -21,11 +21,7 @@ class JsonTreeView extends ConsumerWidget {
   final JsonDocumentSession session;
   final bool editing;
 
-  const JsonTreeView({
-    super.key,
-    required this.session,
-    required this.editing,
-  });
+  const JsonTreeView({super.key, required this.session, required this.editing});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -52,20 +48,28 @@ class JsonTreeView extends ConsumerWidget {
     );
   }
 
-  void _build(BuildContext context, WidgetRef ref, JsonNode node, int depth,
-      String filter, List<Widget> out) {
+  void _build(
+    BuildContext context,
+    WidgetRef ref,
+    JsonNode node,
+    int depth,
+    String filter,
+    List<Widget> out,
+  ) {
     if (!_passesFilter(node, filter)) return;
     final path = pathOf(node);
-    final expanded = filter.isNotEmpty ? true : session.isExpanded(path);
+    final expanded = filter.isNotEmpty || session.isExpanded(path);
 
-    out.add(_TreeRow(
-      session: session,
-      node: node,
-      path: path,
-      depth: depth,
-      expanded: expanded,
-      editing: editing,
-    ));
+    out.add(
+      _TreeRow(
+        session: session,
+        node: node,
+        path: path,
+        depth: depth,
+        expanded: expanded,
+        editing: editing,
+      ),
+    );
 
     if (node.isContainer && expanded) {
       for (final child in node.children) {
@@ -140,7 +144,9 @@ class _TreeRow extends StatelessWidget {
                     if (node.isContainer)
                       TextSpan(
                         text: '  ${node.kind.label} · ${node.childCount}',
-                        style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+                        style: TextStyle(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
                       )
                     else
                       TextSpan(
@@ -192,27 +198,44 @@ class _RowMenu extends StatelessWidget {
         // Roadmap §4.3.1: a uniform array is one tap from a sortable grid.
         if (JsonTable.isTabular(node))
           PopupMenuItem(
-              value: _RowAction.viewAsTable, child: Text(l10n.jsonViewAsTable)),
-        PopupMenuItem(value: _RowAction.copyPath, child: Text(l10n.xmlCopyPath)),
+            value: _RowAction.viewAsTable,
+            child: Text(l10n.jsonViewAsTable),
+          ),
+        PopupMenuItem(
+          value: _RowAction.copyPath,
+          child: Text(l10n.xmlCopyPath),
+        ),
         if (!node.isContainer)
           PopupMenuItem(
-              value: _RowAction.copyValue, child: Text(l10n.jsonCopyValue)),
+            value: _RowAction.copyValue,
+            child: Text(l10n.jsonCopyValue),
+          ),
         PopupMenuItem(
-            value: _RowAction.copySubtree, child: Text(l10n.jsonCopyJson)),
+          value: _RowAction.copySubtree,
+          child: Text(l10n.jsonCopyJson),
+        ),
         if (editing) ...[
           const PopupMenuDivider(),
           if (!node.isContainer)
             PopupMenuItem(
-                value: _RowAction.editValue, child: Text(l10n.jsonEditValue)),
+              value: _RowAction.editValue,
+              child: Text(l10n.jsonEditValue),
+            ),
           if (node.key != null)
             PopupMenuItem(
-                value: _RowAction.editKey, child: Text(l10n.jsonEditKey)),
+              value: _RowAction.editKey,
+              child: Text(l10n.jsonEditKey),
+            ),
           if (node.isContainer)
             PopupMenuItem(
-                value: _RowAction.addChild, child: Text(l10n.xmlAddChild)),
+              value: _RowAction.addChild,
+              child: Text(l10n.xmlAddChild),
+            ),
           if (node.parent != null)
             PopupMenuItem(
-                value: _RowAction.delete, child: Text(l10n.xmlDelete)),
+              value: _RowAction.delete,
+              child: Text(l10n.xmlDelete),
+            ),
         ],
       ],
     );
@@ -244,19 +267,27 @@ class _RowMenu extends StatelessWidget {
         messenger.showSnackBar(SnackBar(content: Text(l10n.jsonJsonCopied)));
         break;
       case _RowAction.editValue:
-        final input = await _prompt(context, l10n.jsonEditValue,
-            initial: node.rawText, hint: l10n.jsonValueHint);
+        final input = await _prompt(
+          context,
+          l10n.jsonEditValue,
+          initial: node.rawText,
+          hint: l10n.jsonValueHint,
+        );
         if (input == null) return;
         if (!_isValidValue(input)) {
           messenger.showSnackBar(
-              SnackBar(content: Text(l10n.jsonInvalidValue)));
+            SnackBar(content: Text(l10n.jsonInvalidValue)),
+          );
           return;
         }
         session.applySource(edits.setScalarValue(source, node, input));
         break;
       case _RowAction.editKey:
-        final input =
-            await _prompt(context, l10n.jsonEditKey, initial: node.key ?? '');
+        final input = await _prompt(
+          context,
+          l10n.jsonEditKey,
+          initial: node.key ?? '',
+        );
         if (input == null) return;
         session.applySource(edits.setKey(source, node, input));
         break;
@@ -270,30 +301,46 @@ class _RowMenu extends StatelessWidget {
   }
 
   Future<void> _addChild(
-      BuildContext context, JsonTreeEdits edits, String source) async {
+    BuildContext context,
+    JsonTreeEdits edits,
+    String source,
+  ) async {
     final messenger = ScaffoldMessenger.of(context);
     final l10n = AppLocalizations.of(context);
     String? key;
     if (node.kind == JsonKind.object) {
-      key = await _prompt(context, l10n.jsonNewKey, hint: l10n.jsonMemberKeyHint);
+      key = await _prompt(
+        context,
+        l10n.jsonNewKey,
+        hint: l10n.jsonMemberKeyHint,
+      );
       if (key == null) return;
     }
     if (!context.mounted) return;
-    final value = await _prompt(context, l10n.jsonNewValue,
-        initial: 'null', hint: l10n.jsonValueHint);
+    final value = await _prompt(
+      context,
+      l10n.jsonNewValue,
+      initial: 'null',
+      hint: l10n.jsonValueHint,
+    );
     if (value == null) return;
     if (!_isValidValue(value)) {
-      messenger.showSnackBar(
-          SnackBar(content: Text(l10n.jsonInvalidValue)));
+      messenger.showSnackBar(SnackBar(content: Text(l10n.jsonInvalidValue)));
       return;
     }
-    session.applySource(edits.addChild(source, node, key: key, rawValue: value));
+    session.applySource(
+      edits.addChild(source, node, key: key, rawValue: value),
+    );
   }
 
   bool _isValidValue(String text) => const JsonParser().parse(text).ok;
 
-  Future<String?> _prompt(BuildContext context, String title,
-      {String initial = '', String? hint}) {
+  Future<String?> _prompt(
+    BuildContext context,
+    String title, {
+    String initial = '',
+    String? hint,
+  }) {
     final controller = TextEditingController(text: initial);
     return showDialog<String>(
       context: context,
@@ -305,7 +352,9 @@ class _RowMenu extends StatelessWidget {
             controller: controller,
             autofocus: true,
             decoration: InputDecoration(
-                hintText: hint, border: const OutlineInputBorder()),
+              hintText: hint,
+              border: const OutlineInputBorder(),
+            ),
           ),
           actions: [
             TextButton(

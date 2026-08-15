@@ -17,11 +17,7 @@ class SearchOptions {
     this.regex = false,
   });
 
-  SearchOptions copyWith({
-    bool? caseSensitive,
-    bool? wholeWord,
-    bool? regex,
-  }) {
+  SearchOptions copyWith({bool? caseSensitive, bool? wholeWord, bool? regex}) {
     return SearchOptions(
       caseSensitive: caseSensitive ?? this.caseSensitive,
       wholeWord: wholeWord ?? this.wholeWord,

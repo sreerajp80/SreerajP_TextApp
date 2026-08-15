@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../txt/txt_encoding_labels.dart';
-import 'json_document_session.dart';
-import 'json_node.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/txt/txt_encoding_labels.dart';
+import 'package:text_data/formats/json/json_document_session.dart';
+import 'package:text_data/formats/json/json_node.dart';
 
 /// A bottom sheet showing the JSON file's insights and metadata (task 8.6):
 /// top-level type, item / key counts, depth, array sizes, a type breakdown, plus
 /// size, dates, encoding, and line ending.
 Future<void> showJsonInfoSheet(
-    BuildContext context, JsonDocumentSession session) {
+  BuildContext context,
+  JsonDocumentSession session,
+) {
   return showModalBottomSheet<void>(
     context: context,
     showDragHandle: true,
@@ -19,8 +21,10 @@ Future<void> showJsonInfoSheet(
       final meta = session.metadata;
 
       final rows = <MapEntry<String, String>>[
-        MapEntry(l10n.jsonInfoValid,
-            session.isWellFormed ? l10n.commonYes : l10n.commonNo),
+        MapEntry(
+          l10n.jsonInfoValid,
+          session.isWellFormed ? l10n.commonYes : l10n.commonNo,
+        ),
         if (stats != null) ...[
           MapEntry(l10n.jsonInfoTopType, stats.topLevelType.label),
           MapEntry(l10n.jsonInfoTopItems, '${stats.topLevelItemCount}'),
@@ -47,8 +51,10 @@ Future<void> showJsonInfoSheet(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.infoTitle,
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                l10n.infoTitle,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 8),
               for (final row in rows)
                 Padding(
@@ -61,9 +67,7 @@ Future<void> showJsonInfoSheet(
                         child: Text(
                           row.value,
                           textAlign: TextAlign.right,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
+                          style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                       ),

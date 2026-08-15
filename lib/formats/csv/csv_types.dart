@@ -26,8 +26,10 @@ extension ColumnTypeInfo on ColumnType {
 ///
 /// Pure Dart, host-tested.
 ColumnType inferColumnType(Iterable<String> values) {
-  final nonEmpty =
-      values.map((v) => v.trim()).where((v) => v.isNotEmpty).toList();
+  final nonEmpty = values
+      .map((v) => v.trim())
+      .where((v) => v.isNotEmpty)
+      .toList();
   if (nonEmpty.isEmpty) return ColumnType.text;
 
   if (nonEmpty.every(_isBoolean)) return ColumnType.boolean;
@@ -58,10 +60,14 @@ num? parseCurrency(String v) {
   var s = v.trim();
   if (s.isEmpty) return null;
   // A leading or trailing currency symbol makes it a currency value.
-  final hasSymbol = _currencySymbols.contains(s[0]) ||
+  final hasSymbol =
+      _currencySymbols.contains(s[0]) ||
       _currencySymbols.contains(s[s.length - 1]);
   if (!hasSymbol) return null;
-  s = s.replaceAll(RegExp('[$_currencySymbols]'), '').replaceAll(',', '').trim();
+  s = s
+      .replaceAll(RegExp('[$_currencySymbols]'), '')
+      .replaceAll(',', '')
+      .trim();
   return num.tryParse(s);
 }
 

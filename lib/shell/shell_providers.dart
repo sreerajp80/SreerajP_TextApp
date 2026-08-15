@@ -28,5 +28,5 @@ class ShellDestinationController extends Notifier<ShellDestination> {
 
 final shellDestinationProvider =
     NotifierProvider<ShellDestinationController, ShellDestination>(
-  ShellDestinationController.new,
-);
+      ShellDestinationController.new,
+    );

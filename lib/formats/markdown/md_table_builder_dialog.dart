@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'md_table_source.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/markdown/md_table_source.dart';
 
 /// The visual Markdown table builder (roadmap §4.4.2).
 ///
@@ -109,8 +109,9 @@ class _TableBuilderDialogState extends State<_TableBuilderDialog> {
             children: [
               Text(
                 l10n.mdTableBuilderHelp,
-                style: theme.textTheme.bodySmall
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
               const SizedBox(height: 12),
               SingleChildScrollView(
@@ -163,7 +164,10 @@ class _TableBuilderDialogState extends State<_TableBuilderDialog> {
                     _table.toMarkdown(),
                     key: const Key('md-table-preview'),
                     style: const TextStyle(
-                        fontFamily: 'monospace', fontSize: 12, height: 1.4),
+                      fontFamily: 'monospace',
+                      fontSize: 12,
+                      height: 1.4,
+                    ),
                   ),
                 ),
               ),
@@ -288,8 +292,10 @@ class _TableBuilderDialogState extends State<_TableBuilderDialog> {
             isDense: true,
             labelText: label,
             border: const OutlineInputBorder(),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: 8,
+            ),
           ),
           onChanged: (value) => setState(() {
             if (row < 0) {

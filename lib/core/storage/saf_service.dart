@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
 
 /// A file the user picked through the system picker, with the info the app needs
 /// to list and re-open it. [uri] is the persisted SAF URI used as the fast path
@@ -38,7 +38,7 @@ class SafService {
   final MethodChannel _channel;
 
   SafService([MethodChannel? channel])
-      : _channel = channel ?? const MethodChannel(channelName);
+    : _channel = channel ?? const MethodChannel(channelName);
 
   /// Opens the system picker so the user can choose one file, and takes a
   /// persistable read/write permission on it.
@@ -46,10 +46,9 @@ class SafService {
   /// Throws [SafCancelled] if the user backs out, or another [SafException] on
   /// failure.
   Future<SafFile> pickFile({List<String> mimeTypes = const ['*/*']}) async {
-    final result = await _invoke<Map<Object?, Object?>>(
-      'pickFile',
-      {'mimeTypes': mimeTypes},
-    );
+    final result = await _invoke<Map<Object?, Object?>>('pickFile', {
+      'mimeTypes': mimeTypes,
+    });
     if (result == null) {
       // Native returned null → user cancelled.
       throw const SafCancelled();
@@ -58,6 +57,12 @@ class SafService {
   }
 
   /// Reads the whole file at [uri] as bytes.
+  ///
+  /// **The caller owns the returned buffer.** Every read crosses the platform
+  /// channel and produces a fresh [Uint8List] that nothing else holds, so a
+  /// caller may modify it — including zero-filling it to scrub the content from
+  /// memory (Feature 9). Any test double must copy for the same reason: handing
+  /// back a shared buffer would let one reader corrupt the next read.
   ///
   /// Throws [SafPermissionDenied] / [SafUriStale] / [SafIoFailure] as
   /// appropriate — never a raw platform error.

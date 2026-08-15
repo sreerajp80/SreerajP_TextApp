@@ -179,7 +179,8 @@ void main() {
   });
 
   group('finding the table under the cursor', () {
-    const document = 'Intro text\n\n'
+    const document =
+        'Intro text\n\n'
         '| a | b |\n'
         '| --- | --- |\n'
         '| 1 | 2 |\n\n'
@@ -195,7 +196,10 @@ void main() {
 
     test('finds it from the header line too', () {
       final span = MdTableData.findTableAt(document, document.indexOf('| a'))!;
-      expect(document.substring(span.start, span.end).startsWith('| a'), isTrue);
+      expect(
+        document.substring(span.start, span.end).startsWith('| a'),
+        isTrue,
+      );
     });
 
     test('gives null when the cursor is in ordinary text', () {

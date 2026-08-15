@@ -49,12 +49,12 @@ class MdTableData {
 
   /// A blank table to start from: [columns] columns and [rows] body rows.
   factory MdTableData.blank({int columns = 3, int rows = 2}) => MdTableData(
-        header: [for (var c = 0; c < columns; c++) 'Column ${c + 1}'],
-        rows: [
-          for (var r = 0; r < rows; r++) [for (var c = 0; c < columns; c++) ''],
-        ],
-        alignments: List.filled(columns, MdColumnAlign.none),
-      );
+    header: [for (var c = 0; c < columns; c++) 'Column ${c + 1}'],
+    rows: [
+      for (var r = 0; r < rows; r++) [for (var c = 0; c < columns; c++) ''],
+    ],
+    alignments: List.filled(columns, MdColumnAlign.none),
+  );
 
   int get columnCount => header.length;
   int get rowCount => rows.length;
@@ -66,10 +66,10 @@ class MdTableData {
   }
 
   MdTableData copy() => MdTableData(
-        header: List<String>.from(header),
-        rows: rows.map((r) => List<String>.from(r)).toList(),
-        alignments: List<MdColumnAlign>.from(alignments),
-      );
+    header: List<String>.from(header),
+    rows: rows.map((r) => List<String>.from(r)).toList(),
+    alignments: List<MdColumnAlign>.from(alignments),
+  );
 
   // --- edits (each changes this instance; the dialog owns a working copy) ---
 
@@ -145,16 +145,24 @@ class MdTableData {
     }
 
     final buffer = StringBuffer();
-    buffer.writeln(_line([
-      for (var c = 0; c < columnCount; c++) headerCells[c].padRight(widths[c]),
-    ]));
-    buffer.writeln(_line([
-      for (var c = 0; c < columnCount; c++) alignments[c].separator(widths[c]),
-    ]));
+    buffer.writeln(
+      _line([
+        for (var c = 0; c < columnCount; c++)
+          headerCells[c].padRight(widths[c]),
+      ]),
+    );
+    buffer.writeln(
+      _line([
+        for (var c = 0; c < columnCount; c++)
+          alignments[c].separator(widths[c]),
+      ]),
+    );
     for (final row in bodyCells) {
-      buffer.writeln(_line([
-        for (var c = 0; c < columnCount; c++) row[c].padRight(widths[c]),
-      ]));
+      buffer.writeln(
+        _line([
+          for (var c = 0; c < columnCount; c++) row[c].padRight(widths[c]),
+        ]),
+      );
     }
     return buffer.toString().trimRight();
   }
@@ -164,8 +172,7 @@ class MdTableData {
   static String _escape(String value) =>
       value.replaceAll('|', r'\|').replaceAll('\n', '<br>').trim();
 
-  static String _unescape(String value) =>
-      value.replaceAll(r'\|', '|').trim();
+  static String _unescape(String value) => value.replaceAll(r'\|', '|').trim();
 
   // --- parsing -------------------------------------------------------------
 

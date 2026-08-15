@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../core/editor/encoding.dart';
-import '../../core/storage/saf_exceptions.dart';
-import '../../core/storage/saf_service.dart';
-import '../../l10n/app_localizations.dart';
-import 'json_document_session.dart';
-import 'json_split_merge.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/json/json_document_session.dart';
+import 'package:text_data/formats/json/json_split_merge.dart';
 
 /// UI actions for splitting a top-level JSON array into parts and merging other
 /// JSON arrays into this one (task 8.6). The heavy lifting is the pure
@@ -41,16 +41,17 @@ class JsonSplitMergeActions {
       return;
     }
     if (parts.length < 2) {
-      messenger.showSnackBar(
-        SnackBar(content: Text(l10n.jsonNothingToSplit)),
-      );
+      messenger.showSnackBar(SnackBar(content: Text(l10n.jsonNothingToSplit)));
       return;
     }
 
     final baseName = _stripExtension(session.tab.displayName);
     for (var i = 0; i < parts.length; i++) {
-      final bytes =
-          codec.encode(parts[i], session.encoding, session.lineEnding);
+      final bytes = codec.encode(
+        parts[i],
+        session.encoding,
+        session.lineEnding,
+      );
       try {
         await saf.createDocument(
           suggestedName: '$baseName.part${i + 1}.json',
@@ -58,9 +59,9 @@ class JsonSplitMergeActions {
           mimeType: 'application/json',
         );
       } on SafCancelled {
-        messenger.showSnackBar(SnackBar(
-          content: Text(l10n.splitStopped(i, parts.length)),
-        ));
+        messenger.showSnackBar(
+          SnackBar(content: Text(l10n.splitStopped(i, parts.length))),
+        );
         return;
       } on SafException catch (e) {
         messenger.showSnackBar(SnackBar(content: Text(e.message)));
@@ -84,7 +85,9 @@ class JsonSplitMergeActions {
     final l10n = AppLocalizations.of(context);
     SafFile file;
     try {
-      file = await saf.pickFile(mimeTypes: const ['application/json', 'text/*']);
+      file = await saf.pickFile(
+        mimeTypes: const ['application/json', 'text/*'],
+      );
     } on SafCancelled {
       return;
     } on SafException catch (e) {
@@ -131,8 +134,9 @@ class JsonSplitMergeActions {
               child: Text(l10n.actionCancel),
             ),
             FilledButton(
-              onPressed: () => Navigator.of(context)
-                  .pop(int.tryParse(controller.text.trim())),
+              onPressed: () => Navigator.of(
+                context,
+              ).pop(int.tryParse(controller.text.trim())),
               child: Text(l10n.actionSplit),
             ),
           ],

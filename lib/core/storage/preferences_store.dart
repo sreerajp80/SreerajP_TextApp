@@ -29,4 +29,41 @@ class PreferencesStore {
 
   bool contains(String key) => _prefs.containsKey(key);
   Future<void> remove(String key) => _prefs.remove(key);
+
+  /// Returns all stored non-sensitive preferences, strictly excluding any key
+  /// present in [sensitiveKeys].
+  Map<String, Object?> getAllNonSensitive(Set<String> sensitiveKeys) {
+    final result = <String, Object?>{};
+    for (final key in _prefs.getKeys()) {
+      if (!sensitiveKeys.contains(key)) {
+        result[key] = _prefs.get(key);
+      }
+    }
+    return result;
+  }
+
+  /// Restores preferences from [values], ignoring any key in [sensitiveKeys].
+  Future<void> restoreAll(
+    Map<String, Object?> values,
+    Set<String> sensitiveKeys,
+  ) async {
+    for (final entry in values.entries) {
+      if (sensitiveKeys.contains(entry.key)) continue;
+      final val = entry.value;
+      if (val is bool) {
+        await _prefs.setBool(entry.key, val);
+      } else if (val is int) {
+        await _prefs.setInt(entry.key, val);
+      } else if (val is double) {
+        await _prefs.setDouble(entry.key, val);
+      } else if (val is String) {
+        await _prefs.setString(entry.key, val);
+      } else if (val is List<Object?>) {
+        await _prefs.setStringList(
+          entry.key,
+          val.map((e) => e?.toString() ?? '').toList(),
+        );
+      }
+    }
+  }
 }

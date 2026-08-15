@@ -10,11 +10,11 @@ import 'package:text_data/shell/tabs/tabs_persistence.dart';
 import '../../support/test_support.dart';
 
 SafFile file(String id) => SafFile(
-      uri: 'content://$id',
-      displayName: '$id.txt',
-      mimeType: 'text/plain',
-      size: 10,
-    );
+  uri: 'content://$id',
+  displayName: '$id.txt',
+  mimeType: 'text/plain',
+  size: 10,
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -24,8 +24,9 @@ void main() {
       overrides: [
         keyValueStoreSyncProvider.overrideWithValue(kv),
         safServiceProvider.overrideWithValue(FakeSafService()),
-        deviceMemoryProvider
-            .overrideWithValue(const FakeDeviceMemory(4 * 1024 * 1024 * 1024)),
+        deviceMemoryProvider.overrideWithValue(
+          const FakeDeviceMemory(4 * 1024 * 1024 * 1024),
+        ),
       ],
     );
     addTearDown(container.dispose);
@@ -77,6 +78,9 @@ void main() {
     final tabs = container.read(tabsControllerProvider.notifier);
 
     tabs.openFile(file('a'), '10-a');
-    expect(container.read(tabsControllerProvider).tabs.single.isReadOnly, isTrue);
+    expect(
+      container.read(tabsControllerProvider).tabs.single.isReadOnly,
+      isTrue,
+    );
   });
 }

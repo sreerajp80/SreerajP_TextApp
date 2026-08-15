@@ -131,7 +131,12 @@ class TextCodecService {
       case TextEncodingType.utf16be:
         return _encodeUtf16(withEndings, bigEndian: true, bom: true);
       case TextEncodingType.utf8Bom:
-        return Uint8List.fromList([0xEF, 0xBB, 0xBF, ...utf8.encode(withEndings)]);
+        return Uint8List.fromList([
+          0xEF,
+          0xBB,
+          0xBF,
+          ...utf8.encode(withEndings),
+        ]);
       case TextEncodingType.utf8:
         return Uint8List.fromList(utf8.encode(withEndings));
     }
@@ -186,16 +191,24 @@ class TextCodecService {
         if (i + 1 >= n || !_isCont(b[i + 1])) return false;
         i += 2;
       } else if (c == 0xE0) {
-        if (i + 2 >= n || b[i + 1] < 0xA0 || b[i + 1] > 0xBF || !_isCont(b[i + 2])) {
+        if (i + 2 >= n ||
+            b[i + 1] < 0xA0 ||
+            b[i + 1] > 0xBF ||
+            !_isCont(b[i + 2])) {
           return false;
         }
         i += 3;
       } else if (c >= 0xE1 && c <= 0xEC || c == 0xEE || c == 0xEF) {
-        if (i + 2 >= n || !_isCont(b[i + 1]) || !_isCont(b[i + 2])) return false;
+        if (i + 2 >= n || !_isCont(b[i + 1]) || !_isCont(b[i + 2])) {
+          return false;
+        }
         i += 3;
       } else if (c == 0xED) {
         // Exclude UTF-16 surrogate range.
-        if (i + 2 >= n || b[i + 1] < 0x80 || b[i + 1] > 0x9F || !_isCont(b[i + 2])) {
+        if (i + 2 >= n ||
+            b[i + 1] < 0x80 ||
+            b[i + 1] > 0x9F ||
+            !_isCont(b[i + 2])) {
           return false;
         }
         i += 3;
@@ -209,7 +222,10 @@ class TextCodecService {
         }
         i += 4;
       } else if (c >= 0xF1 && c <= 0xF3) {
-        if (i + 3 >= n || !_isCont(b[i + 1]) || !_isCont(b[i + 2]) || !_isCont(b[i + 3])) {
+        if (i + 3 >= n ||
+            !_isCont(b[i + 1]) ||
+            !_isCont(b[i + 2]) ||
+            !_isCont(b[i + 3])) {
           return false;
         }
         i += 4;
@@ -339,7 +355,11 @@ class TextCodecService {
     return Uint8List.fromList(bytes);
   }
 
-  Uint8List _encodeUtf16(String s, {required bool bigEndian, required bool bom}) {
+  Uint8List _encodeUtf16(
+    String s, {
+    required bool bigEndian,
+    required bool bom,
+  }) {
     final units = s.codeUnits;
     final out = Uint8List((bom ? 1 : 0) * 2 + units.length * 2);
     var p = 0;

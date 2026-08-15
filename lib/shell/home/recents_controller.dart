@@ -1,9 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/storage/recents_repository.dart';
-import '../../core/storage/saf_service.dart';
-import '../../core/storage/storage_models.dart';
-import '../../core/storage/storage_providers.dart';
+import 'package:text_data/core/index/index_hooks.dart';
+import 'package:text_data/core/index/index_providers.dart';
+import 'package:text_data/core/storage/recents_repository.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/core/storage/storage_models.dart';
+import 'package:text_data/core/storage/storage_providers.dart';
 
 /// A recent file plus whether its saved URI is still reachable. A stale entry
 /// (moved / deleted / permission revoked) is shown as unavailable with a remove
@@ -57,28 +59,39 @@ class RecentsController extends AsyncNotifier<List<RecentEntry>> {
     // fingerprint, may have changed since it was last opened) so the list keeps
     // one entry per file instead of a new one per edit.
     await repo.removeOtherUris(file.uri, fingerprint);
-    await repo.upsert(RecentFile(
-      fingerprint: fingerprint,
-      uri: file.uri,
-      displayName: file.displayName,
-      mimeType: file.mimeType,
-      size: file.size,
-      lastOpenedAt: DateTime.now().millisecondsSinceEpoch,
-    ));
+    await repo.upsert(
+      RecentFile(
+        fingerprint: fingerprint,
+        uri: file.uri,
+        displayName: file.displayName,
+        mimeType: file.mimeType,
+        size: file.size,
+        lastOpenedAt: DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
     await refreshList();
   }
 
-  /// Removes one recent entry.
+  /// Removes one recent entry. Its workspace-index entry goes with it, so a
+  /// file the user dropped stops showing up in search results.
   Future<void> remove(String fingerprint) async {
     final repo = await _repository();
     await repo.remove(fingerprint);
+    await WorkspaceIndexHooks.remove(
+      service: ref.read(searchIndexServiceProvider.future),
+      fingerprint: fingerprint,
+    );
     await refreshList();
   }
 
-  /// Clears the whole recents list.
+  /// Clears the whole recents list, and with it every index entry that is not
+  /// kept as a favorite.
   Future<void> clearAll() async {
     final repo = await _repository();
     await repo.clear();
+    await WorkspaceIndexHooks.removeUnpinned(
+      service: ref.read(searchIndexServiceProvider.future),
+    );
     await refreshList();
   }
 
@@ -91,5 +104,5 @@ class RecentsController extends AsyncNotifier<List<RecentEntry>> {
 
 final recentsControllerProvider =
     AsyncNotifierProvider<RecentsController, List<RecentEntry>>(
-  RecentsController.new,
-);
+      RecentsController.new,
+    );

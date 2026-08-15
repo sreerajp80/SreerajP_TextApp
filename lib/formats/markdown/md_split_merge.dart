@@ -55,8 +55,7 @@ class MdSplitMerge {
     return parts.where((p) => p.isNotEmpty).join('\n\n');
   }
 
-  static bool _isTopHeading(String line) =>
-      RegExp(r'^#\s+\S').hasMatch(line);
+  static bool _isTopHeading(String line) => RegExp(r'^#\s+\S').hasMatch(line);
 
   static bool _isFence(String line) {
     final trimmed = line.trimLeft();

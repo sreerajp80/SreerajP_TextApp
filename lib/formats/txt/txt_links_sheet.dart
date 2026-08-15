@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'txt_document_session.dart';
-import 'txt_link_warning_dialog.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/txt/txt_document_session.dart';
+import 'package:text_data/formats/txt/txt_link_warning_dialog.dart';
 
 /// A bottom sheet listing every link found in the document (task 4.1).
 ///
@@ -47,7 +47,11 @@ Future<void> showLinksSheet(BuildContext context, TxtDocumentSession session) {
                   for (final url in ordered)
                     ListTile(
                       leading: const Icon(Icons.link),
-                      title: Text(url, maxLines: 2, overflow: TextOverflow.ellipsis),
+                      title: Text(
+                        url,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                       onTap: () => showLinkWarningDialog(context, url),
                     ),
                 ],

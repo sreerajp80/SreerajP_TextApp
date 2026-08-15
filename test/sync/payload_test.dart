@@ -12,7 +12,7 @@ void main() {
         categories: [SyncConstants.categoryFavorites],
         recordsByCategory: {
           SyncConstants.categoryFavorites: [
-            {'fingerprint': 'fp1', 'displayName': 'a'}
+            {'fingerprint': 'fp1', 'displayName': 'a'},
           ],
         },
         settings: {'appearance.theme_mode': 'dark', 'not_allowed': 'x'},
@@ -37,21 +37,23 @@ void main() {
 
   group('validateAndParse', () {
     String wrap(Map<String, Object?> extra) => jsonEncode({
-          SyncConstants.keyApp: SyncConstants.appId,
-          SyncConstants.keyPayloadVersion: SyncConstants.payloadVersion,
-          SyncConstants.keySyncMode: SyncConstants.syncModeFull,
-          ...extra,
-        });
+      SyncConstants.keyApp: SyncConstants.appId,
+      SyncConstants.keyPayloadVersion: SyncConstants.payloadVersion,
+      SyncConstants.keySyncMode: SyncConstants.syncModeFull,
+      ...extra,
+    });
 
     test('parses a well-formed payload', () {
-      final payload = SyncPayload.validateAndParse(wrap({
-        SyncConstants.keyRecords: {
-          SyncConstants.categoryFavorites: [
-            {'fingerprint': 'fp1'}
-          ],
-        },
-        SyncConstants.keySettings: {'appearance.theme_mode': 'dark'},
-      }));
+      final payload = SyncPayload.validateAndParse(
+        wrap({
+          SyncConstants.keyRecords: {
+            SyncConstants.categoryFavorites: [
+              {'fingerprint': 'fp1'},
+            ],
+          },
+          SyncConstants.keySettings: {'appearance.theme_mode': 'dark'},
+        }),
+      );
       expect(payload.records[SyncConstants.categoryFavorites], hasLength(1));
       expect(payload.settings['appearance.theme_mode'], 'dark');
     });
@@ -62,13 +64,17 @@ void main() {
         SyncConstants.keyPayloadVersion: 1,
         SyncConstants.keySyncMode: SyncConstants.syncModeFull,
       });
-      expect(() => SyncPayload.validateAndParse(json),
-          throwsA(isA<PayloadException>()));
+      expect(
+        () => SyncPayload.validateAndParse(json),
+        throwsA(isA<PayloadException>()),
+      );
     });
 
     test('rejects malformed JSON', () {
-      expect(() => SyncPayload.validateAndParse('{not json'),
-          throwsA(isA<PayloadException>()));
+      expect(
+        () => SyncPayload.validateAndParse('{not json'),
+        throwsA(isA<PayloadException>()),
+      );
     });
 
     test('rejects an unknown sync mode', () {
@@ -77,8 +83,10 @@ void main() {
         SyncConstants.keyPayloadVersion: 1,
         SyncConstants.keySyncMode: 'sideways',
       });
-      expect(() => SyncPayload.validateAndParse(json),
-          throwsA(isA<PayloadException>()));
+      expect(
+        () => SyncPayload.validateAndParse(json),
+        throwsA(isA<PayloadException>()),
+      );
     });
 
     test('caps records per category', () {
@@ -87,9 +95,13 @@ void main() {
         (i) => {'fingerprint': 'fp$i'},
       );
       expect(
-        () => SyncPayload.validateAndParse(wrap({
-          SyncConstants.keyRecords: {SyncConstants.categoryFavorites: tooMany},
-        })),
+        () => SyncPayload.validateAndParse(
+          wrap({
+            SyncConstants.keyRecords: {
+              SyncConstants.categoryFavorites: tooMany,
+            },
+          }),
+        ),
         throwsA(isA<PayloadException>()),
       );
     });
@@ -97,42 +109,55 @@ void main() {
     test('rejects an over-long field', () {
       final big = 'x' * (SyncConstants.maxFieldLength + 1);
       expect(
-        () => SyncPayload.validateAndParse(wrap({
-          SyncConstants.keyRecords: {
-            SyncConstants.categoryFavorites: [
-              {'fingerprint': 'fp1', 'displayName': big}
-            ],
-          },
-        })),
+        () => SyncPayload.validateAndParse(
+          wrap({
+            SyncConstants.keyRecords: {
+              SyncConstants.categoryFavorites: [
+                {'fingerprint': 'fp1', 'displayName': big},
+              ],
+            },
+          }),
+        ),
         throwsA(isA<PayloadException>()),
       );
     });
 
-    test('drops unknown categories and unknown settings, keeps allow-listed',
-        () {
-      final payload = SyncPayload.validateAndParse(wrap({
-        SyncConstants.keyRecords: {
-          'ghosts': [
-            {'x': 1}
-          ],
-          SyncConstants.categoryFavorites: [
-            {'fingerprint': 'fp1'}
-          ],
-        },
-        SyncConstants.keySettings: {'appearance.theme_mode': 'dark', 'weird': 1},
-      }));
-      expect(payload.records.containsKey('ghosts'), isFalse);
-      expect(payload.records.containsKey(SyncConstants.categoryFavorites),
-          isTrue);
-      expect(payload.settings.containsKey('weird'), isFalse);
-      expect(payload.settings['appearance.theme_mode'], 'dark');
-    });
+    test(
+      'drops unknown categories and unknown settings, keeps allow-listed',
+      () {
+        final payload = SyncPayload.validateAndParse(
+          wrap({
+            SyncConstants.keyRecords: {
+              'ghosts': [
+                {'x': 1},
+              ],
+              SyncConstants.categoryFavorites: [
+                {'fingerprint': 'fp1'},
+              ],
+            },
+            SyncConstants.keySettings: {
+              'appearance.theme_mode': 'dark',
+              'weird': 1,
+            },
+          }),
+        );
+        expect(payload.records.containsKey('ghosts'), isFalse);
+        expect(
+          payload.records.containsKey(SyncConstants.categoryFavorites),
+          isTrue,
+        );
+        expect(payload.settings.containsKey('weird'), isFalse);
+        expect(payload.settings['appearance.theme_mode'], 'dark');
+      },
+    );
 
     test('rejects a payload trying to push a protected setting', () {
       expect(
-        () => SyncPayload.validateAndParse(wrap({
-          SyncConstants.keySettings: {'device_key': 'leak'},
-        })),
+        () => SyncPayload.validateAndParse(
+          wrap({
+            SyncConstants.keySettings: {'device_key': 'leak'},
+          }),
+        ),
         throwsA(isA<PayloadException>()),
       );
     });
@@ -181,7 +206,10 @@ void main() {
   group('mergeSettings', () {
     test('full sync applies everything (overwrite)', () {
       final result = mergeSettings(
-        incoming: {'appearance.theme_mode': 'dark', 'appearance.font_scale': 1.2},
+        incoming: {
+          'appearance.theme_mode': 'dark',
+          'appearance.font_scale': 1.2,
+        },
         existingKeys: {'appearance.theme_mode'},
         isFull: true,
       );
@@ -191,7 +219,10 @@ void main() {
 
     test('incremental applies fill-only', () {
       final result = mergeSettings(
-        incoming: {'appearance.theme_mode': 'dark', 'appearance.font_scale': 1.2},
+        incoming: {
+          'appearance.theme_mode': 'dark',
+          'appearance.font_scale': 1.2,
+        },
         existingKeys: {'appearance.theme_mode'},
         isFull: false,
       );

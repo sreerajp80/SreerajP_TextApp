@@ -22,9 +22,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'bounded_line_reader.dart';
-import 'sync_constants.dart';
-import 'sync_crypto.dart';
+import 'package:text_data/sync/bounded_line_reader.dart';
+import 'package:text_data/sync/sync_constants.dart';
+import 'package:text_data/sync/sync_crypto.dart';
 
 /// Host-side phases surfaced to the UI/provider.
 enum HostPhase { listening, connected, denied, stopped, error }
@@ -90,7 +90,10 @@ class SyncHost {
       return;
     }
     _client = socket;
-    final reader = BoundedLineReader(socket, maxLineBytes: SyncConstants.handshakeLineCap);
+    final reader = BoundedLineReader(
+      socket,
+      maxLineBytes: SyncConstants.handshakeLineCap,
+    );
     _reader = reader;
     try {
       // 1. Send the salt in the clear.
@@ -98,8 +101,9 @@ class SyncHost {
       await socket.flush();
 
       // 2. Read the client's HELLO and verify by decrypting it.
-      final helloWire =
-          await reader.readLineWithTimeout(SyncConstants.socketTimeout);
+      final helloWire = await reader.readLineWithTimeout(
+        SyncConstants.socketTimeout,
+      );
       String hello;
       try {
         hello = SyncCrypto.decryptWire(_sessionKey, helloWire);
@@ -120,8 +124,11 @@ class SyncHost {
       }
 
       // 3. Good auth — accept immediately and hold open.
-      socket.add(utf8.encode(
-          '${SyncCrypto.encryptWire(_sessionKey, SyncConstants.acceptSync)}\n'));
+      socket.add(
+        utf8.encode(
+          '${SyncCrypto.encryptWire(_sessionKey, SyncConstants.acceptSync)}\n',
+        ),
+      );
       await socket.flush();
       _authenticated = true;
       _emit(HostPhase.connected);
@@ -193,26 +200,36 @@ class SyncClient {
     required int port,
     required String code,
   }) async {
-    final socket = await Socket.connect(host, port,
-        timeout: SyncConstants.connectTimeout);
+    final socket = await Socket.connect(
+      host,
+      port,
+      timeout: SyncConstants.connectTimeout,
+    );
     // The payload can be large, so read with the payload cap from the start.
-    final reader =
-        BoundedLineReader(socket, maxLineBytes: SyncConstants.payloadLineCap);
+    final reader = BoundedLineReader(
+      socket,
+      maxLineBytes: SyncConstants.payloadLineCap,
+    );
     try {
       // 1. Read the salt (clear).
-      final saltLine =
-          await reader.readLineWithTimeout(SyncConstants.socketTimeout);
+      final saltLine = await reader.readLineWithTimeout(
+        SyncConstants.socketTimeout,
+      );
       final salt = base64.decode(saltLine.trim());
       final key = SyncCrypto.deriveKey(code, Uint8List.fromList(salt));
 
       // 2. Send HELLO sealed under the derived key.
-      socket.add(utf8.encode(
-          '${SyncCrypto.encryptWire(key, SyncConstants.helloSync)}\n'));
+      socket.add(
+        utf8.encode(
+          '${SyncCrypto.encryptWire(key, SyncConstants.helloSync)}\n',
+        ),
+      );
       await socket.flush();
 
       // 3. Read the reply: either DENIED (clear) or a sealed ACCEPT.
-      final reply =
-          await reader.readLineWithTimeout(SyncConstants.socketTimeout);
+      final reply = await reader.readLineWithTimeout(
+        SyncConstants.socketTimeout,
+      );
       if (reply.trim() == SyncConstants.denied) {
         socket.destroy();
         throw const SyncTransportException('The code was not accepted.');
@@ -241,12 +258,15 @@ class SyncClient {
   /// [SyncConstants.payloadWaitTimeout] because a person is choosing on the
   /// other device. Returns the opaque payload string.
   Future<String> awaitPayload() async {
-    final wire =
-        await _reader.readLineWithTimeout(SyncConstants.payloadWaitTimeout);
+    final wire = await _reader.readLineWithTimeout(
+      SyncConstants.payloadWaitTimeout,
+    );
     try {
       return SyncCrypto.decryptWire(_sessionKey, wire);
     } catch (_) {
-      throw const SyncTransportException('The received data could not be read.');
+      throw const SyncTransportException(
+        'The received data could not be read.',
+      );
     }
   }
 

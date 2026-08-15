@@ -31,9 +31,7 @@ class SafPermissionDenied extends SafException {
 /// The URI no longer points at a reachable document — the file was moved,
 /// deleted, or the storage volume is gone.
 class SafUriStale extends SafException {
-  const SafUriStale([
-    super.message = 'This file is no longer available.',
-  ]);
+  const SafUriStale([super.message = 'This file is no longer available.']);
 }
 
 /// A read or write failed part-way (I/O error). The original file is untouched

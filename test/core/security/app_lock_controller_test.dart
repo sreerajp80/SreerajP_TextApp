@@ -39,18 +39,20 @@ void main() {
     return container;
   }
 
-  test('enable sets a PIN, returns a recovery code, and stays unlocked',
-      () async {
-    final store = await inMemoryKeyValueStore();
-    final c = containerWith(store);
-    final controller = c.read(appLockControllerProvider.notifier);
+  test(
+    'enable sets a PIN, returns a recovery code, and stays unlocked',
+    () async {
+      final store = await inMemoryKeyValueStore();
+      final c = containerWith(store);
+      final controller = c.read(appLockControllerProvider.notifier);
 
-    final recovery = await controller.enableWithNewPin('1234');
+      final recovery = await controller.enableWithNewPin('1234');
 
-    expect(recovery, isNotEmpty);
-    expect(c.read(securitySettingsProvider).appLockEnabled, isTrue);
-    expect(c.read(appLockControllerProvider).locked, isFalse);
-  });
+      expect(recovery, isNotEmpty);
+      expect(c.read(securitySettingsProvider).appLockEnabled, isTrue);
+      expect(c.read(appLockControllerProvider).locked, isFalse);
+    },
+  );
 
   test('unlock with the right PIN works; a wrong PIN is rejected', () async {
     final store = await inMemoryKeyValueStore();
@@ -101,36 +103,38 @@ void main() {
     expect(c.read(appLockControllerProvider).locked, isFalse);
   });
 
-  test('recovery code unlocks and forces a new PIN + a new recovery code',
-      () async {
-    final store = await inMemoryKeyValueStore();
-    final c = containerWith(store);
-    final controller = c.read(appLockControllerProvider.notifier);
+  test(
+    'recovery code unlocks and forces a new PIN + a new recovery code',
+    () async {
+      final store = await inMemoryKeyValueStore();
+      final c = containerWith(store);
+      final controller = c.read(appLockControllerProvider.notifier);
 
-    final firstRecovery = await controller.enableWithNewPin('1234');
-    controller.lock();
+      final firstRecovery = await controller.enableWithNewPin('1234');
+      controller.lock();
 
-    // Wrong recovery code is rejected.
-    expect(await controller.verifyRecoveryCode('WRONGCODE'), isFalse);
-    // Right recovery code is accepted (does not unlock yet).
-    expect(await controller.verifyRecoveryCode(firstRecovery), isTrue);
-    expect(c.read(appLockControllerProvider).locked, isTrue);
+      // Wrong recovery code is rejected.
+      expect(await controller.verifyRecoveryCode('WRONGCODE'), isFalse);
+      // Right recovery code is accepted (does not unlock yet).
+      expect(await controller.verifyRecoveryCode(firstRecovery), isTrue);
+      expect(c.read(appLockControllerProvider).locked, isTrue);
 
-    // Completing recovery sets a new PIN, unlocks, and rotates the recovery code.
-    final newRecovery = await controller.completeRecovery('5678');
-    expect(newRecovery, isNot(firstRecovery));
-    expect(c.read(appLockControllerProvider).locked, isFalse);
+      // Completing recovery sets a new PIN, unlocks, and rotates the recovery code.
+      final newRecovery = await controller.completeRecovery('5678');
+      expect(newRecovery, isNot(firstRecovery));
+      expect(c.read(appLockControllerProvider).locked, isFalse);
 
-    // The old PIN no longer works; the new one does.
-    controller.lock();
-    expect(await controller.unlockWithPin('1234'), isFalse);
-    expect(await controller.unlockWithPin('5678'), isTrue);
+      // The old PIN no longer works; the new one does.
+      controller.lock();
+      expect(await controller.unlockWithPin('1234'), isFalse);
+      expect(await controller.unlockWithPin('5678'), isTrue);
 
-    // The old recovery code no longer works; the new one does.
-    controller.lock();
-    expect(await controller.verifyRecoveryCode(firstRecovery), isFalse);
-    expect(await controller.verifyRecoveryCode(newRecovery), isTrue);
-  });
+      // The old recovery code no longer works; the new one does.
+      controller.lock();
+      expect(await controller.verifyRecoveryCode(firstRecovery), isFalse);
+      expect(await controller.verifyRecoveryCode(newRecovery), isTrue);
+    },
+  );
 
   test('changePin replaces the PIN but keeps the recovery code', () async {
     final store = await inMemoryKeyValueStore();

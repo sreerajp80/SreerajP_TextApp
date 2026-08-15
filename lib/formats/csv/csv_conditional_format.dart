@@ -1,5 +1,5 @@
-import 'csv_table.dart';
-import 'csv_types.dart';
+import 'package:text_data/formats/csv/csv_table.dart';
+import 'package:text_data/formats/csv/csv_types.dart';
 
 /// The test a conditional-formatting rule applies to a cell (roadmap §4.2.3).
 enum CsvCondition {
@@ -117,7 +117,10 @@ class CsvConditionalFormat {
   CsvConditionalFormat._(this.rules, this._duplicates);
 
   /// Prepares [rules] against [table].
-  factory CsvConditionalFormat.prepare(CsvTable table, List<CsvFormatRule> rules) {
+  factory CsvConditionalFormat.prepare(
+    CsvTable table,
+    List<CsvFormatRule> rules,
+  ) {
     final duplicates = <int, Set<String>>{};
     for (final rule in rules) {
       if (rule.condition != CsvCondition.isDuplicate) continue;

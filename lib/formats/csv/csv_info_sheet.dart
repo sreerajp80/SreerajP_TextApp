@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../txt/txt_encoding_labels.dart';
-import 'csv_dialect.dart';
-import 'csv_document_session.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/txt/txt_encoding_labels.dart';
+import 'package:text_data/formats/csv/csv_dialect.dart';
+import 'package:text_data/formats/csv/csv_document_session.dart';
 
 /// A bottom sheet showing the CSV file's metadata (task 7.6): row / column
 /// counts, delimiter, whether it has a header, encoding, line ending, size, and
 /// modified date.
-Future<void> showCsvInfoSheet(BuildContext context, CsvDocumentSession session) {
+Future<void> showCsvInfoSheet(
+  BuildContext context,
+  CsvDocumentSession session,
+) {
   return showModalBottomSheet<void>(
     context: context,
     showDragHandle: true,
@@ -21,8 +24,10 @@ Future<void> showCsvInfoSheet(BuildContext context, CsvDocumentSession session) 
         MapEntry(l10n.csvInfoRows, '${table.rowCount}'),
         MapEntry(l10n.csvInfoColumns, '${table.columnCount}'),
         MapEntry(l10n.csvInfoDelimiter, session.dialect.delimiter.label),
-        MapEntry(l10n.csvInfoHeaderRow,
-            session.dialect.hasHeader ? l10n.csvYes : l10n.csvNo),
+        MapEntry(
+          l10n.csvInfoHeaderRow,
+          session.dialect.hasHeader ? l10n.csvYes : l10n.csvNo,
+        ),
         MapEntry(l10n.csvInfoEncoding, session.encoding.label),
         MapEntry(l10n.csvInfoLineEnding, session.lineEnding.label),
         if (meta != null) ...[
@@ -40,8 +45,10 @@ Future<void> showCsvInfoSheet(BuildContext context, CsvDocumentSession session) 
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.csvInfoTitle,
-                  style: Theme.of(context).textTheme.titleMedium),
+              Text(
+                l10n.csvInfoTitle,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
               const SizedBox(height: 8),
               for (final row in rows)
                 Padding(
@@ -53,9 +60,7 @@ Future<void> showCsvInfoSheet(BuildContext context, CsvDocumentSession session) 
                         child: Text(
                           row.value,
                           textAlign: TextAlign.right,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
+                          style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                       ),

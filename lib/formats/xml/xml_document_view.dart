@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../../shell/tabs/document_tab.dart';
-import 'xml_document_session.dart';
-import 'xml_editor_surface.dart';
-import 'xml_pretty_view.dart';
-import 'xml_session_manager.dart';
-import 'xml_tree_view.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/formats/xml/xml_document_session.dart';
+import 'package:text_data/formats/xml/xml_editor_surface.dart';
+import 'package:text_data/formats/xml/xml_pretty_view.dart';
+import 'package:text_data/formats/xml/xml_session_manager.dart';
+import 'package:text_data/formats/xml/xml_tree_view.dart';
 
 /// The body shown inside an XML tab: it loads the document then shows the
 /// pretty / tree / raw / editor view — never a crash (CLAUDE.md §3.4).
@@ -40,7 +40,8 @@ class _XmlDocumentViewState extends ConsumerState<XmlDocumentView> {
             return const Center(child: CircularProgressIndicator());
           case XmlLoadStatus.failed:
             return _FailureView(
-              message: session.errorMessage ??
+              message:
+                  session.errorMessage ??
                   AppLocalizations.of(context).failCannotOpen,
               onRetry: _retry,
             );
@@ -108,7 +109,9 @@ class _TreeWithSearch extends StatelessWidget {
             onChanged: session.setTreeFilter,
           ),
         ),
-        Expanded(child: XmlTreeView(session: session, editing: editing)),
+        Expanded(
+          child: XmlTreeView(session: session, editing: editing),
+        ),
       ],
     );
   }
@@ -129,14 +132,18 @@ class _DraftBanner extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
       child: Row(
         children: [
-          Icon(Icons.history,
-              size: 18, color: theme.colorScheme.onTertiaryContainer),
+          Icon(
+            Icons.history,
+            size: 18,
+            color: theme.colorScheme.onTertiaryContainer,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               l10n.draftBannerText,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onTertiaryContainer),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onTertiaryContainer,
+              ),
             ),
           ),
           TextButton(
@@ -176,12 +183,15 @@ class _FailureView extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: 16),
             FilledButton.tonal(
-                onPressed: onRetry, child: Text(l10n.actionRetry)),
+              onPressed: onRetry,
+              child: Text(l10n.actionRetry),
+            ),
           ],
         ),
       ),

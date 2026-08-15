@@ -3,10 +3,10 @@ import 'dart:typed_data';
 
 import 'package:markdown/markdown.dart' as md;
 
-import 'docx_writer.dart';
-import 'export_target.dart';
-import 'format_exporter.dart';
-import 'pdf_writer.dart';
+import 'package:text_data/core/export/docx_writer.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/core/export/format_exporter.dart';
+import 'package:text_data/core/export/pdf_writer.dart';
 
 /// Export capability for Markdown documents (task 6.5).
 ///
@@ -21,22 +21,21 @@ class MarkdownExporter implements FormatExporter {
   final DocxWriter _docx;
 
   const MarkdownExporter({
-    PdfWriter pdf = const PdfWriter(),
-    DocxWriter docx = const DocxWriter(),
-  })  : _pdf = pdf,
-        _docx = docx;
+    this._pdf = const PdfWriter(),
+    this._docx = const DocxWriter(),
+  });
 
   @override
   String get formatId => 'md';
 
   @override
   Set<ExportTarget> get supportedTargets => const {
-        ExportTarget.html,
-        ExportTarget.pdf,
-        ExportTarget.docx,
-        ExportTarget.markdown,
-        ExportTarget.plainText,
-      };
+    ExportTarget.html,
+    ExportTarget.pdf,
+    ExportTarget.docx,
+    ExportTarget.markdown,
+    ExportTarget.plainText,
+  };
 
   @override
   Future<ExportResult> export(ExportTarget target, TextContent content) async {
@@ -62,7 +61,8 @@ class MarkdownExporter implements FormatExporter {
       case ExportTarget.json:
       case ExportTarget.xlsx:
         throw UnsupportedExportException(
-            'Markdown cannot export to ${target.label}.');
+          'Markdown cannot export to ${target.label}.',
+        );
     }
     return ExportResult(
       bytes: bytes,

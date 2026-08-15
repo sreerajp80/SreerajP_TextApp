@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
-import '../../core/theme/theme_controller.dart';
+import 'package:text_data/core/theme/theme_controller.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'csv_cell_editor.dart';
-import 'csv_conditional_format.dart';
-import 'csv_conditional_format_sheet.dart';
-import 'csv_document_session.dart';
-import 'csv_filter_sort.dart';
-import 'csv_formula_sheet.dart';
-import 'csv_types.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/csv/csv_cell_editor.dart';
+import 'package:text_data/formats/csv/csv_conditional_format.dart';
+import 'package:text_data/formats/csv/csv_conditional_format_sheet.dart';
+import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:text_data/formats/csv/csv_filter_sort.dart';
+import 'package:text_data/formats/csv/csv_formula_sheet.dart';
+import 'package:text_data/formats/csv/csv_types.dart';
 
 /// The data grid for a CSV document (tasks 7.2, 7.5).
 ///
@@ -41,9 +41,12 @@ class CsvGridState extends ConsumerState<CsvGrid> {
   static const double _baseHeaderHeight = 44;
   static const double _baseRowHeaderWidth = 56;
 
-  double get _rowHeight => _baseRowHeight * ref.read(themeControllerProvider).fontScale;
-  double get _headerHeight => _baseHeaderHeight * ref.read(themeControllerProvider).fontScale;
-  double get _rowHeaderWidth => _baseRowHeaderWidth * ref.read(themeControllerProvider).fontScale;
+  double get _rowHeight =>
+      _baseRowHeight * ref.read(themeControllerProvider).fontScale;
+  double get _headerHeight =>
+      _baseHeaderHeight * ref.read(themeControllerProvider).fontScale;
+  double get _rowHeaderWidth =>
+      _baseRowHeaderWidth * ref.read(themeControllerProvider).fontScale;
 
   @override
   void dispose() {
@@ -57,8 +60,10 @@ class CsvGridState extends ConsumerState<CsvGrid> {
   /// the toolbar's "jump to row".
   void jumpToDisplayRow(int displayIndex) {
     if (!_vertical.hasClients) return;
-    final offset = (displayIndex * _rowHeight)
-        .clamp(0.0, _vertical.position.maxScrollExtent);
+    final offset = (displayIndex * _rowHeight).clamp(
+      0.0,
+      _vertical.position.maxScrollExtent,
+    );
     _vertical.animateTo(
       offset,
       duration: const Duration(milliseconds: 250),
@@ -119,8 +124,9 @@ class CsvGridState extends ConsumerState<CsvGrid> {
         }
         return TableSpan(
           extent: FixedTableSpanExtent(index == 0 ? _headerHeight : _rowHeight),
-          backgroundDecoration:
-              color == null ? null : TableSpanDecoration(color: color),
+          backgroundDecoration: color == null
+              ? null
+              : TableSpanDecoration(color: color),
         );
       },
       cellBuilder: (context, vicinity) => _cell(
@@ -173,7 +179,7 @@ class CsvGridState extends ConsumerState<CsvGrid> {
       final originalRow = visibleRows[display];
       final selected = session.selectedRows.contains(originalRow);
       return TableViewCell(
-        child: Container(
+        child: DecoratedBox(
           decoration: BoxDecoration(
             border: border,
             color: selected
@@ -207,7 +213,9 @@ class CsvGridState extends ConsumerState<CsvGrid> {
         SortDirection.none => null,
       };
       // With a multi-level sort the level number matters as much as the arrow.
-      final level = session.sortSpecs.length > 1 ? session.sortLevelOf(col) : null;
+      final level = session.sortSpecs.length > 1
+          ? session.sortLevelOf(col)
+          : null;
       final calculated = session.columnFormula(col) != null;
       return TableViewCell(
         child: Container(
@@ -215,13 +223,17 @@ class CsvGridState extends ConsumerState<CsvGrid> {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: InkWell(
             onTap: () => session.sortBy(col),
-            onLongPress:
-                widget.editable ? () => _showColumnMenu(context, col) : null,
+            onLongPress: widget.editable
+                ? () => _showColumnMenu(context, col)
+                : null,
             child: Row(
               children: [
                 if (calculated) ...[
-                  Icon(Icons.functions,
-                      size: 13, color: theme.colorScheme.primary),
+                  Icon(
+                    Icons.functions,
+                    size: 13,
+                    color: theme.colorScheme.primary,
+                  ),
                   const SizedBox(width: 3),
                 ],
                 Expanded(
@@ -230,14 +242,18 @@ class CsvGridState extends ConsumerState<CsvGrid> {
                         ? session.table.header[col]
                         : '',
                     overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.labelMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    style: theme.textTheme.labelMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 if (level != null)
-                  Text('$level',
-                      style: theme.textTheme.labelSmall
-                          ?.copyWith(color: theme.colorScheme.primary)),
+                  Text(
+                    '$level',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
                 if (sortIcon != null) Icon(sortIcon, size: 14),
               ],
             ),
@@ -264,8 +280,9 @@ class CsvGridState extends ConsumerState<CsvGrid> {
         child: Container(
           decoration: BoxDecoration(
             border: border,
-            color:
-                highlight == null ? null : csvHighlightColor(context, highlight),
+            color: highlight == null
+                ? null
+                : csvHighlightColor(context, highlight),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           alignment: numeric ? Alignment.centerRight : Alignment.centerLeft,
@@ -323,9 +340,11 @@ class CsvGridState extends ConsumerState<CsvGrid> {
             ),
             ListTile(
               leading: const Icon(Icons.functions),
-              title: Text(session.columnFormula(col) == null
-                  ? l10n.csvSetFormula
-                  : l10n.csvEditFormula),
+              title: Text(
+                session.columnFormula(col) == null
+                    ? l10n.csvSetFormula
+                    : l10n.csvEditFormula,
+              ),
               onTap: () => Navigator.pop(context, 'formula'),
             ),
             ListTile(

@@ -35,16 +35,20 @@ class XlsxWriter {
   String _sheet(List<List<String>> rows) {
     final buffer = StringBuffer()
       ..write('<?xml version="1.0" encoding="UTF-8" standalone="yes"?>')
-      ..write('<worksheet xmlns="http://schemas.openxmlformats.org/'
-          'spreadsheetml/2006/main"><sheetData>');
+      ..write(
+        '<worksheet xmlns="http://schemas.openxmlformats.org/'
+        'spreadsheetml/2006/main"><sheetData>',
+      );
     for (var r = 0; r < rows.length; r++) {
       final rowNum = r + 1;
       buffer.write('<row r="$rowNum">');
       final cells = rows[r];
       for (var c = 0; c < cells.length; c++) {
         final ref = '${_columnLetters(c)}$rowNum';
-        buffer.write('<c r="$ref" t="inlineStr"><is><t xml:space="preserve">'
-            '${_escape(cells[c])}</t></is></c>');
+        buffer.write(
+          '<c r="$ref" t="inlineStr"><is><t xml:space="preserve">'
+          '${_escape(cells[c])}</t></is></c>',
+        );
       }
       buffer.write('</row>');
     }

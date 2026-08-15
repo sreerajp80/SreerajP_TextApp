@@ -7,24 +7,32 @@ import 'package:text_data/formats/csv/csv_table.dart';
 /// message, never a crash.
 void main() {
   CsvTable table() => CsvTable(
-        header: ['qty', 'price', 'note'],
-        rows: [
-          ['2', '10', 'a'],
-          ['3', '20', 'b'],
-          ['4', '30', ''],
-        ],
-        hasHeader: true,
-      );
+    header: ['qty', 'price', 'note'],
+    rows: [
+      ['2', '10', 'a'],
+      ['3', '20', 'b'],
+      ['4', '30', ''],
+    ],
+    hasHeader: true,
+  );
 
   num? valueOf(String formula, {int row = 0, int? selfColumn}) {
-    final result =
-        CsvFormula.evaluate(table(), formula, row, selfColumn: selfColumn);
+    final result = CsvFormula.evaluate(
+      table(),
+      formula,
+      row,
+      selfColumn: selfColumn,
+    );
     return result.value;
   }
 
   String? errorOf(String formula, {int row = 0, int? selfColumn}) {
-    return CsvFormula.evaluate(table(), formula, row, selfColumn: selfColumn)
-        .error;
+    return CsvFormula.evaluate(
+      table(),
+      formula,
+      row,
+      selfColumn: selfColumn,
+    ).error;
   }
 
   group('column letters', () {

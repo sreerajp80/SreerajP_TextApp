@@ -13,11 +13,11 @@ import '../support/test_support.dart';
 // A non-text file so the workspace shows the placeholder toolbar (with the lock
 // button) rather than the async TXT editor; this test targets the lock, not TXT.
 SafFile _file(String id) => SafFile(
-      uri: 'content://$id',
-      displayName: '$id.bin',
-      mimeType: 'application/octet-stream',
-      size: 10,
-    );
+  uri: 'content://$id',
+  displayName: '$id.bin',
+  mimeType: 'application/octet-stream',
+  size: 10,
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -39,8 +39,9 @@ void main() {
   });
 
   group('ReadOnlyLockButton (3.8)', () {
-    testWidgets('toggles the active tab lock and shows the banner',
-        (tester) async {
+    testWidgets('toggles the active tab lock and shows the banner', (
+      tester,
+    ) async {
       final kv = await inMemoryKeyValueStore();
       final container = ProviderContainer(
         overrides: [

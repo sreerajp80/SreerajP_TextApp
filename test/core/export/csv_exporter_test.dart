@@ -54,8 +54,10 @@ void main() {
     expect(names, contains('xl/worksheets/sheet1.xml'));
     expect(names, contains('xl/workbook.xml'));
     final sheet = utf8.decode(
-      archive.files.firstWhere((f) => f.name == 'xl/worksheets/sheet1.xml')
-          .content as List<int>,
+      archive.files
+              .firstWhere((f) => f.name == 'xl/worksheets/sheet1.xml')
+              .content
+          as List<int>,
     );
     expect(sheet, contains('Ada'));
   });

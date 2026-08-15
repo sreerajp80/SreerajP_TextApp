@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import '../storage/saf_exceptions.dart';
-import '../storage/saf_service.dart';
-import 'atomic_saver.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/core/editor/atomic_saver.dart';
 
 /// A [SaveTarget] that writes through the app's SAF file access.
 ///
@@ -20,16 +20,12 @@ class SafSaveTarget implements SaveTarget {
   final String _mimeType;
 
   SafSaveTarget({
-    required SafService saf,
-    required String uri,
-    required bool canOverwrite,
-    required Directory tempDir,
-    String mimeType = 'application/octet-stream',
-  })  : _saf = saf,
-        _uri = uri,
-        _canOverwrite = canOverwrite,
-        _tempDir = tempDir,
-        _mimeType = mimeType;
+    required this._saf,
+    required this._uri,
+    required this._canOverwrite,
+    required this._tempDir,
+    this._mimeType = 'application/octet-stream',
+  });
 
   @override
   bool get canOverwrite => _canOverwrite;
@@ -63,7 +59,10 @@ class SafSaveTarget implements SaveTarget {
   }
 
   @override
-  Future<SaveDestination> writeCopy(String suggestedName, Uint8List bytes) async {
+  Future<SaveDestination> writeCopy(
+    String suggestedName,
+    Uint8List bytes,
+  ) async {
     final file = await _saf.createDocument(
       suggestedName: suggestedName,
       bytes: bytes,

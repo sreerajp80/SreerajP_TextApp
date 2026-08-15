@@ -1,4 +1,4 @@
-import 'json_node.dart';
+import 'package:text_data/formats/json/json_node.dart';
 
 /// What one step of a built query does (roadmap §4.3.2).
 enum JsonStepKind {
@@ -28,23 +28,21 @@ class JsonQueryStep {
   /// The element position, for [JsonStepKind.position].
   final int index;
 
-  const JsonQueryStep.key(this.name)
-      : kind = JsonStepKind.key,
-        index = 0;
+  const JsonQueryStep.key(this.name) : kind = JsonStepKind.key, index = 0;
   const JsonQueryStep.index(this.index)
-      : kind = JsonStepKind.position,
-        name = '';
+    : kind = JsonStepKind.position,
+      name = '';
   const JsonQueryStep.allChildren()
-      : kind = JsonStepKind.allChildren,
-        name = '',
-        index = 0;
+    : kind = JsonStepKind.allChildren,
+      name = '',
+      index = 0;
   const JsonQueryStep.anyDepthKey(this.name)
-      : kind = JsonStepKind.anyDepthKey,
-        index = 0;
+    : kind = JsonStepKind.anyDepthKey,
+      index = 0;
   const JsonQueryStep.anyDepthAll()
-      : kind = JsonStepKind.anyDepthAll,
-        name = '',
-        index = 0;
+    : kind = JsonStepKind.anyDepthAll,
+      name = '',
+      index = 0;
 
   @override
   bool operator ==(Object other) =>
@@ -91,9 +89,11 @@ class JsonQueryBuilder {
     for (final step in steps) {
       switch (step.kind) {
         case JsonStepKind.key:
-          buffer.write(_isPlainIdentifier(step.name)
-              ? '.${step.name}'
-              : "['${step.name.replaceAll("'", r"\'")}']");
+          buffer.write(
+            _isPlainIdentifier(step.name)
+                ? '.${step.name}'
+                : "['${step.name.replaceAll("'", r"\'")}']",
+          );
           break;
         case JsonStepKind.position:
           buffer.write('[${step.index}]');
@@ -153,11 +153,13 @@ class JsonQueryBuilder {
           final key = member.key ?? '';
           if (!seenKeys.add(key)) continue;
           if (choices.length >= maxKeyChoices) break;
-          choices.add(JsonStepChoice(
-            step: JsonQueryStep.key(key),
-            label: key,
-            detail: _detail(member),
-          ));
+          choices.add(
+            JsonStepChoice(
+              step: JsonQueryStep.key(key),
+              label: key,
+              detail: _detail(member),
+            ),
+          );
         }
       } else if (node.kind == JsonKind.array) {
         sawArray = true;
@@ -172,11 +174,13 @@ class JsonQueryBuilder {
           ? array.children.length
           : maxIndexChoices;
       for (var i = 0; i < count; i++) {
-        choices.add(JsonStepChoice(
-          step: JsonQueryStep.index(i),
-          label: '[$i]',
-          detail: _detail(array.children[i]),
-        ));
+        choices.add(
+          JsonStepChoice(
+            step: JsonQueryStep.index(i),
+            label: '[$i]',
+            detail: _detail(array.children[i]),
+          ),
+        );
       }
     }
 
@@ -271,7 +275,8 @@ class JsonQueryBuilder {
     if (key.isEmpty) return false;
     for (var i = 0; i < key.length; i++) {
       final c = key.codeUnitAt(i);
-      final ok = (c >= 0x41 && c <= 0x5A) ||
+      final ok =
+          (c >= 0x41 && c <= 0x5A) ||
           (c >= 0x61 && c <= 0x7A) ||
           c == 0x5F ||
           c == 0x24 ||

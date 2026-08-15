@@ -1,16 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../formats/json/json_exporter.dart';
-import '../../formats/xml/xml_exporter.dart';
-import '../editor/editor_providers.dart';
-import '../export/csv_exporter.dart';
-import '../export/export_service.dart';
-import '../export/md_exporter.dart';
-import '../export/txt_exporter.dart';
-import '../print/print_service.dart';
-import '../share/share_service.dart';
-import '../tts/tts_service.dart';
-import '../zip/zip_service.dart';
+import 'package:text_data/formats/json/json_exporter.dart';
+import 'package:text_data/formats/xml/xml_exporter.dart';
+import 'package:text_data/core/editor/editor_providers.dart';
+import 'package:text_data/core/export/csv_exporter.dart';
+import 'package:text_data/core/export/export_service.dart';
+import 'package:text_data/core/export/md_exporter.dart';
+import 'package:text_data/core/export/txt_exporter.dart';
+import 'package:text_data/core/print/print_service.dart';
+import 'package:text_data/core/share/share_service.dart';
+import 'package:text_data/core/tts/tts_service.dart';
+import 'package:text_data/core/zip/zip_service.dart';
 
 /// Dependency-injection providers for the Phase 5 output & utility services.
 /// Mirrors `editor_providers.dart`: the services are pure/host-tested; these
@@ -28,8 +28,9 @@ final shareServiceProvider = Provider<ShareService>((ref) {
 });
 
 /// Print service (task 5.3).
-final printServiceProvider =
-    Provider<PrintService>((ref) => const PrintService(PrintingLauncher()));
+final printServiceProvider = Provider<PrintService>(
+  (ref) => const PrintService(PrintingLauncher()),
+);
 
 /// The single export/convert service (task 5.4) with the TXT exporter
 /// registered. Later phases add their own [FormatExporter]s here.
@@ -44,8 +45,9 @@ final exportServiceProvider = Provider<ExportService>(
 );
 
 /// Read-content-aloud module (task 5.5).
-final ttsServiceProvider =
-    Provider<TtsService>((ref) => TtsService(FlutterTtsEngine()));
+final ttsServiceProvider = Provider<TtsService>(
+  (ref) => TtsService(FlutterTtsEngine()),
+);
 
 /// Wraps the real `share_plus` launcher but resolves the temp dir lazily, so
 /// building the provider does not force an async wait until a share happens.

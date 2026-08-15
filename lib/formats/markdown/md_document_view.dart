@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import '../../shell/tabs/document_tab.dart';
-import 'md_document_session.dart';
-import 'md_front_matter.dart';
-import 'md_front_matter_form.dart';
-import 'md_live_preview.dart';
-import 'md_preview_view.dart';
-import 'md_session_manager.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/formats/markdown/md_document_session.dart';
+import 'package:text_data/formats/markdown/md_front_matter.dart';
+import 'package:text_data/formats/markdown/md_front_matter_form.dart';
+import 'package:text_data/formats/markdown/md_live_preview.dart';
+import 'package:text_data/formats/markdown/md_preview_view.dart';
+import 'package:text_data/formats/markdown/md_session_manager.dart';
 
 /// The body shown inside a Markdown tab: it loads the document then shows the
 /// rendered preview, the raw source, or the editor — never a crash
@@ -42,7 +42,8 @@ class _MdDocumentViewState extends ConsumerState<MdDocumentView> {
             return const Center(child: CircularProgressIndicator());
           case MdLoadStatus.failed:
             return _FailureView(
-              message: session.errorMessage ??
+              message:
+                  session.errorMessage ??
                   AppLocalizations.of(context).mdCannotOpenFile,
               onRetry: _retry,
             );
@@ -138,7 +139,8 @@ class _FrontMatterBanner extends StatelessWidget {
                       Text(
                         AppLocalizations.of(context).mdByAuthor(author),
                         style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSecondaryContainer),
+                          color: theme.colorScheme.onSecondaryContainer,
+                        ),
                       ),
                     if (tags.isNotEmpty)
                       Padding(
@@ -188,14 +190,18 @@ class _DraftBanner extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 4, 8, 4),
       child: Row(
         children: [
-          Icon(Icons.history,
-              size: 18, color: theme.colorScheme.onTertiaryContainer),
+          Icon(
+            Icons.history,
+            size: 18,
+            color: theme.colorScheme.onTertiaryContainer,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               l10n.mdDraftFound,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onTertiaryContainer),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onTertiaryContainer,
+              ),
             ),
           ),
           TextButton(
@@ -235,8 +241,9 @@ class _FailureView extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: 16),
             FilledButton.tonal(onPressed: onRetry, child: Text(l10n.mdRetry)),

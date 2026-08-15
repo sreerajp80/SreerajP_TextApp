@@ -1,6 +1,6 @@
 import 'package:markdown/markdown.dart' as md;
 
-import 'md_parse.dart';
+import 'package:text_data/formats/markdown/md_parse.dart';
 
 /// Word / character / line / heading / link counts for a Markdown document
 /// (task 6.5 metadata).
@@ -24,8 +24,13 @@ class MdStats {
     required this.links,
   });
 
-  static const MdStats empty =
-      MdStats(words: 0, characters: 0, lines: 0, headings: 0, links: 0);
+  static const MdStats empty = MdStats(
+    words: 0,
+    characters: 0,
+    lines: 0,
+    headings: 0,
+    links: 0,
+  );
 
   /// Counts stats for [source] (front matter already stripped by the caller).
   factory MdStats.of(String source) {

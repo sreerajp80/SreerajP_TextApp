@@ -24,7 +24,9 @@ class _Saf extends SafService {
   _Saf(this.bytes);
 
   @override
-  Future<Uint8List> readBytes(String uri) async => bytes;
+  // Copies, because a real SAF read hands back a buffer the caller owns and may
+  // zero-fill (see SafService.readBytes).
+  Future<Uint8List> readBytes(String uri) async => Uint8List.fromList(bytes);
 
   @override
   Future<bool> isWritable(String uri) async => true;
@@ -47,8 +49,10 @@ void main() {
       path: inMemoryDatabasePath,
       factory: databaseFactoryFfi,
     );
-    draftStore =
-        DraftStore(baseDir: tempDir, index: DraftsIndexRepository(database.db));
+    draftStore = DraftStore(
+      baseDir: tempDir,
+      index: DraftsIndexRepository(database.db),
+    );
   });
 
   tearDown(() async {
@@ -59,7 +63,7 @@ void main() {
   Future<CsvDocumentSession> newSession(String text) async {
     final saf = _Saf(Uint8List.fromList(text.codeUnits));
     return CsvDocumentSession(
-      tab: DocumentTab(
+      tab: const DocumentTab(
         id: 't',
         fingerprint: 'fp',
         uri: 'u',
@@ -80,10 +84,7 @@ void main() {
 
   /// Builds and loads a session, then pumps the grid. The load does real DB I/O,
   /// so it runs via [WidgetTester.runAsync] (outside the fake-async zone).
-  Future<CsvDocumentSession> pumpGrid(
-    WidgetTester tester,
-    String text,
-  ) async {
+  Future<CsvDocumentSession> pumpGrid(WidgetTester tester, String text) async {
     late CsvDocumentSession session;
     await tester.runAsync(() async {
       session = await newSession(text);
@@ -92,9 +93,7 @@ void main() {
     final store = await inMemoryKeyValueStore();
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [
-          keyValueStoreSyncProvider.overrideWithValue(store),
-        ],
+        overrides: [keyValueStoreSyncProvider.overrideWithValue(store)],
         child: localizedApp(
           home: Scaffold(
             body: SizedBox(

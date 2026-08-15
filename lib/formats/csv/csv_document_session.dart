@@ -4,25 +4,25 @@ import 'dart:typed_data';
 import 'package:flutter/widgets.dart';
 import 'package:re_editor/re_editor.dart';
 
-import '../../core/editor/atomic_saver.dart';
-import '../../core/editor/draft_store.dart';
-import '../../core/editor/encoding.dart';
-import '../../core/editor/external_change.dart';
-import '../../core/editor/saf_save_target.dart';
-import '../../core/export/export_target.dart';
-import '../../core/metadata/file_metadata.dart';
-import '../../core/storage/key_value_store.dart';
-import '../../core/storage/saf_exceptions.dart';
-import '../../core/storage/saf_service.dart';
-import '../../shell/tabs/document_tab.dart';
-import 'csv_conditional_format.dart';
-import 'csv_dialect.dart';
-import 'csv_filter_sort.dart';
-import 'csv_formula.dart';
-import 'csv_parse.dart';
-import 'csv_table.dart';
-import 'csv_table_undo.dart';
-import 'csv_types.dart';
+import 'package:text_data/core/editor/atomic_saver.dart';
+import 'package:text_data/core/editor/draft_store.dart';
+import 'package:text_data/core/editor/encoding.dart';
+import 'package:text_data/core/editor/external_change.dart';
+import 'package:text_data/core/editor/saf_save_target.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/core/metadata/file_metadata.dart';
+import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/formats/csv/csv_conditional_format.dart';
+import 'package:text_data/formats/csv/csv_dialect.dart';
+import 'package:text_data/formats/csv/csv_filter_sort.dart';
+import 'package:text_data/formats/csv/csv_formula.dart';
+import 'package:text_data/formats/csv/csv_parse.dart';
+import 'package:text_data/formats/csv/csv_table.dart';
+import 'package:text_data/formats/csv/csv_table_undo.dart';
+import 'package:text_data/formats/csv/csv_types.dart';
 
 /// Loading lifecycle of one open CSV document.
 enum CsvLoadStatus { loading, ready, failed }
@@ -54,6 +54,11 @@ class CsvDocumentSession extends ChangeNotifier with ExternalChangeMixin {
 
   final void Function(bool isDirty)? onDirtyChanged;
 
+  /// Called with the saved text right after a successful overwrite save, so the
+  /// shell can refresh the workspace search index (Feature 11). It must never
+  /// throw — the session ignores whatever it returns.
+  final void Function(String text)? onSaved;
+
   /// How often the auto-save draft is written. [Duration.zero] turns it off.
   final Duration autoSaveInterval;
 
@@ -63,24 +68,20 @@ class CsvDocumentSession extends ChangeNotifier with ExternalChangeMixin {
 
   CsvDocumentSession({
     required this.tab,
-    required SafService saf,
-    required TextCodecService codec,
-    required AtomicSaver saver,
-    required MetadataService metadata,
-    required KeyValueStore store,
+    required this._saf,
+    required this._codec,
+    required this._saver,
+    required this._metadata,
+    required this._store,
     required Future<DraftStore> draftStore,
     required Future<Directory> tempDir,
     this.onDirtyChanged,
+    this.onSaved,
     this.autoSaveInterval = const Duration(seconds: 5),
     this.defaultSaveEncoding,
     this.defaultSaveLineEnding,
-  })  : _saf = saf,
-        _codec = codec,
-        _saver = saver,
-        _metadata = metadata,
-        _store = store,
-        _draftStoreFuture = draftStore,
-        _tempDirFuture = tempDir;
+  }) : _draftStoreFuture = draftStore,
+       _tempDirFuture = tempDir;
 
   // --- state ---------------------------------------------------------------
 
@@ -359,7 +360,9 @@ class CsvDocumentSession extends ChangeNotifier with ExternalChangeMixin {
       final split = line.indexOf('=');
       if (split <= 0) continue;
       final column = int.tryParse(line.substring(0, split));
-      if (column == null || column < 0 || column >= _table.columnCount) continue;
+      if (column == null || column < 0 || column >= _table.columnCount) {
+        continue;
+      }
       _formulas[column] = line.substring(split + 1);
     }
     if (_formulas.isNotEmpty) _recomputeFormulas();
@@ -576,7 +579,10 @@ class CsvDocumentSession extends ChangeNotifier with ExternalChangeMixin {
   void _dropStaleColumnState() {
     final count = _table.columnCount;
     if (_sortSpecs.any((s) => s.column >= count)) {
-      _sortSpecs = [for (final s in _sortSpecs) if (s.column < count) s];
+      _sortSpecs = [
+        for (final s in _sortSpecs)
+          if (s.column < count) s,
+      ];
     }
     _formulas.removeWhere((column, _) => column >= count);
     if (_formatRules.any((r) => r.column != null && r.column! >= count)) {
@@ -611,8 +617,9 @@ class CsvDocumentSession extends ChangeNotifier with ExternalChangeMixin {
         // Coming from a multi-level sort, the first tap collapses to just this
         // column rather than continuing someone else's cycle.
         : SortDirection.ascending;
-    _sortSpecs =
-        next == SortDirection.none ? const [] : [CsvSortSpec(column, next)];
+    _sortSpecs = next == SortDirection.none
+        ? const []
+        : [CsvSortSpec(column, next)];
     _safeNotify();
   }
 
@@ -676,8 +683,12 @@ class CsvDocumentSession extends ChangeNotifier with ExternalChangeMixin {
       final column = entry.key;
       if (column < 0 || column >= _table.columnCount) continue;
       for (var row = 0; row < _table.rowCount; row++) {
-        final result =
-            CsvFormula.evaluate(_table, entry.value, row, selfColumn: column);
+        final result = CsvFormula.evaluate(
+          _table,
+          entry.value,
+          row,
+          selfColumn: column,
+        );
         final cells = _table.rows[row];
         if (column < cells.length) cells[column] = result.display;
       }
@@ -770,8 +781,10 @@ class CsvDocumentSession extends ChangeNotifier with ExternalChangeMixin {
   }
 
   /// Column types in column order, for alignment and the insights panel.
-  List<ColumnType> get columnTypes =>
-      [for (var c = 0; c < _table.columnCount; c++) inferColumnType(_table.column(c))];
+  List<ColumnType> get columnTypes => [
+    for (var c = 0; c < _table.columnCount; c++)
+      inferColumnType(_table.column(c)),
+  ];
 
   // --- dialect on save -----------------------------------------------------
 
@@ -854,6 +867,7 @@ class CsvDocumentSession extends ChangeNotifier with ExternalChangeMixin {
     _draftAvailable = false;
     // The file on disk is now ours again — never warn about our own write.
     await captureDiskBaseline();
+    onSaved?.call(text);
   }
 
   // --- drafts --------------------------------------------------------------
@@ -920,18 +934,37 @@ class CsvDocumentSession extends ChangeNotifier with ExternalChangeMixin {
     // A zero (or negative) interval disables crash-recovery auto-save — used by
     // widget tests so no periodic timer keeps `pumpAndSettle` from settling.
     if (autoSaveInterval <= Duration.zero) return;
-    _autoSaver = AutoSaver(
-      store: store,
-      fingerprint: tab.fingerprint,
-      getContent: () => currentText,
-    )
-      ..markSaved(_savedText)
-      ..start(autoSaveInterval);
+    _autoSaver =
+        AutoSaver(
+            store: store,
+            fingerprint: tab.fingerprint,
+            getContent: () => currentText,
+          )
+          ..markSaved(_savedText)
+          ..start(autoSaveInterval);
   }
 
   void _safeNotify() {
     if (_disposed) return;
     notifyListeners();
+  }
+
+  /// Drops this session's copies of the document from memory. See
+  /// `TxtDocumentSession.scrubInMemory` for what this can and cannot promise
+  /// (Feature 9).
+  ///
+  /// CSV holds no raw byte cache — it parses straight into [CsvTable] — so the
+  /// grid, the grid undo history, and the raw-mode text are what get dropped.
+  void scrubInMemory() {
+    _table = CsvTable.empty();
+    _undo.clear();
+    _savedText = '';
+    _formatCache = null;
+    try {
+      _code?.text = '';
+    } catch (_) {
+      // A dispose path must never throw; dropping the references is the point.
+    }
   }
 
   @override
@@ -940,6 +973,9 @@ class CsvDocumentSession extends ChangeNotifier with ExternalChangeMixin {
     persistPosition();
     _autoSaver?.stop();
     _code?.removeListener(_onCodeChanged);
+    // Scrub while the controller is alive but detached from our listener, so
+    // clearing it cannot re-enter the dirty-flag path.
+    scrubInMemory();
     _find?.dispose();
     _scroll?.dispose();
     _code?.dispose();

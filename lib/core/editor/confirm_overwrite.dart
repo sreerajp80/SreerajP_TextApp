@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'editor_settings_controller.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/core/editor/editor_settings_controller.dart';
 
 /// Asks the user to confirm overwriting the original file, but only when the
 /// "confirm before overwrite" editor setting is on (task 11.2).

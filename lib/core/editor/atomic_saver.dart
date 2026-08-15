@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'encoding.dart';
+import 'package:text_data/core/editor/encoding.dart';
 
 /// The verdict from a pre-save well-formedness check. Structured formats (JSON,
 /// XML) register a real gate in later phases; plain text uses the default
@@ -11,9 +11,7 @@ class GateResult {
   /// A user-safe reason shown when [ok] is false (never includes file contents).
   final String? message;
 
-  const GateResult.valid()
-      : ok = true,
-        message = null;
+  const GateResult.valid() : ok = true, message = null;
   const GateResult.invalid(this.message) : ok = false;
 }
 
@@ -129,10 +127,7 @@ class AtomicSaver {
       await target.writeOverwrite(bytes);
       return const SaveResult(SaveOutcome.saved);
     } catch (e) {
-      return SaveResult(
-        SaveOutcome.failed,
-        message: _safeError(e),
-      );
+      return SaveResult(SaveOutcome.failed, message: _safeError(e));
     }
   }
 

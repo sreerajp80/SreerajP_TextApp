@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'xml_document_session.dart';
-import 'xml_path.dart';
-import 'xml_query_builder.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/xml/xml_document_session.dart';
+import 'package:text_data/formats/xml/xml_path.dart';
+import 'package:text_data/formats/xml/xml_query_builder.dart';
 
 /// The visual XPath builder (roadmap §4.3.2) — the twin of the JSON one.
 ///
@@ -68,8 +68,10 @@ class _BuilderBodyState extends State<_BuilderBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.xmlQueryBuilderTitle,
-                  style: theme.textTheme.titleMedium),
+              Text(
+                l10n.xmlQueryBuilderTitle,
+                style: theme.textTheme.titleMedium,
+              ),
               const SizedBox(height: 8),
               Container(
                 width: double.infinity,
@@ -121,8 +123,9 @@ class _BuilderBodyState extends State<_BuilderBody> {
                     matches.isEmpty
                         ? l10n.jsonQueryNoMatches
                         : l10n.jsonQueryNothingDeeper,
-                    style: theme.textTheme.bodyMedium
-                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
               if (choices.isNotEmpty) ...[
@@ -143,8 +146,10 @@ class _BuilderBodyState extends State<_BuilderBody> {
               ],
               if (deepNames.isNotEmpty) ...[
                 const SizedBox(height: 20),
-                Text(l10n.jsonQueryAtAnyDepth,
-                    style: theme.textTheme.labelLarge),
+                Text(
+                  l10n.jsonQueryAtAnyDepth,
+                  style: theme.textTheme.labelLarge,
+                ),
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 8,
@@ -164,14 +169,17 @@ class _BuilderBodyState extends State<_BuilderBody> {
               ],
               if (matches.isNotEmpty) ...[
                 const SizedBox(height: 20),
-                Text(l10n.jsonQueryMatchesHeading,
-                    style: theme.textTheme.labelLarge),
+                Text(
+                  l10n.jsonQueryMatchesHeading,
+                  style: theme.textTheme.labelLarge,
+                ),
                 const SizedBox(height: 4),
                 for (final node in matches.take(20))
                   Text(
                     xmlPathOf(node),
-                    style: theme.textTheme.bodySmall
-                        ?.copyWith(fontFamily: 'monospace'),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      fontFamily: 'monospace',
+                    ),
                   ),
               ],
             ],

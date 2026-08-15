@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'md_document_session.dart';
-import 'md_front_matter.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/markdown/md_document_session.dart';
+import 'package:text_data/formats/markdown/md_front_matter.dart';
 
 /// The YAML front-matter form editor (roadmap §4.4.3).
 ///
@@ -25,7 +25,9 @@ Future<void> showMdFrontMatterForm(
     showDragHandle: true,
     isScrollControlled: true,
     builder: (context) => Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: DraggableScrollableSheet(
         expand: false,
         initialChildSize: 0.7,
@@ -132,8 +134,7 @@ class _FrontMatterFormState extends State<_FrontMatterForm> {
             child: Text(l10n.actionCancel),
           ),
           FilledButton(
-            onPressed: () =>
-                Navigator.of(context).pop(controller.text.trim()),
+            onPressed: () => Navigator.of(context).pop(controller.text.trim()),
             child: Text(l10n.mdFrontMatterAdd),
           ),
         ],
@@ -182,8 +183,9 @@ class _FrontMatterFormState extends State<_FrontMatterForm> {
               const SizedBox(height: 4),
               Text(
                 present ? l10n.mdFrontMatterHelp : l10n.mdFrontMatterNone,
-                style: theme.textTheme.bodySmall
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ],
           ),
@@ -283,9 +285,9 @@ class _FrontMatterFormState extends State<_FrontMatterForm> {
                   onDeleted: widget.readOnly
                       ? null
                       : () => setState(() {
-                            final next = List<String>.from(tags)..removeAt(i);
-                            _values['tags'] = next.join(', ');
-                          }),
+                          final next = List<String>.from(tags)..removeAt(i);
+                          _values['tags'] = next.join(', ');
+                        }),
                 ),
             ],
           ),

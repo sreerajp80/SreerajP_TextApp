@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../core/export/export_service.dart';
-import '../../core/export/export_target.dart';
-import '../../l10n/app_localizations.dart';
-import 'txt_document_session.dart';
-import 'txt_output_actions.dart';
+import 'package:text_data/core/export/export_service.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/txt/txt_document_session.dart';
+import 'package:text_data/formats/txt/txt_output_actions.dart';
 
 /// Lets the user pick an export target for a TXT document, runs the conversion,
 /// then offers to share or save the produced file (task 5.4).
@@ -61,8 +61,10 @@ class _ExportTargetList extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: Text(AppLocalizations.of(context).exportAsTitle,
-                style: Theme.of(context).textTheme.titleMedium),
+            child: Text(
+              AppLocalizations.of(context).exportAsTitle,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           for (final t in ordered)
             ListTile(
@@ -115,8 +117,10 @@ class _ExportDoneList extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: Text(l10n.exportCreated(name),
-                style: Theme.of(context).textTheme.titleMedium),
+            child: Text(
+              l10n.exportCreated(name),
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.share_outlined),

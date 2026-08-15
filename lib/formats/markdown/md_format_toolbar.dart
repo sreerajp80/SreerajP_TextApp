@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'md_document_session.dart';
-import 'md_source_edits.dart';
-import 'md_table_builder_dialog.dart';
-import 'md_table_source.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/markdown/md_document_session.dart';
+import 'package:text_data/formats/markdown/md_source_edits.dart';
+import 'package:text_data/formats/markdown/md_table_builder_dialog.dart';
+import 'package:text_data/formats/markdown/md_table_source.dart';
 
 /// The Markdown formatting toolbar shown in edit mode (task 6.4).
 ///
@@ -36,25 +36,52 @@ class MdFormatToolbar extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _btn(l10n.mdBold, Icons.format_bold,
-                () => _apply(MdSourceEdits.bold)),
-            _btn(l10n.mdItalic, Icons.format_italic,
-                () => _apply(MdSourceEdits.italic)),
-            _btn(l10n.mdStrikethrough, Icons.strikethrough_s,
-                () => _apply(MdSourceEdits.strikethrough)),
+            _btn(
+              l10n.mdBold,
+              Icons.format_bold,
+              () => _apply(MdSourceEdits.bold),
+            ),
+            _btn(
+              l10n.mdItalic,
+              Icons.format_italic,
+              () => _apply(MdSourceEdits.italic),
+            ),
+            _btn(
+              l10n.mdStrikethrough,
+              Icons.strikethrough_s,
+              () => _apply(MdSourceEdits.strikethrough),
+            ),
             _headingMenu(l10n),
-            _btn(l10n.mdBulletList, Icons.format_list_bulleted,
-                () => _apply(MdSourceEdits.bulletList)),
-            _btn(l10n.mdNumberedList, Icons.format_list_numbered,
-                () => _apply(MdSourceEdits.numberedList)),
-            _btn(l10n.mdTaskList, Icons.checklist,
-                () => _apply(MdSourceEdits.taskList)),
-            _btn(l10n.mdQuote, Icons.format_quote,
-                () => _apply(MdSourceEdits.blockquote)),
-            _btn(l10n.mdInlineCode, Icons.code,
-                () => _apply(MdSourceEdits.inlineCode)),
-            _btn(l10n.mdCodeBlock, Icons.data_object,
-                () => _apply(MdSourceEdits.codeBlock)),
+            _btn(
+              l10n.mdBulletList,
+              Icons.format_list_bulleted,
+              () => _apply(MdSourceEdits.bulletList),
+            ),
+            _btn(
+              l10n.mdNumberedList,
+              Icons.format_list_numbered,
+              () => _apply(MdSourceEdits.numberedList),
+            ),
+            _btn(
+              l10n.mdTaskList,
+              Icons.checklist,
+              () => _apply(MdSourceEdits.taskList),
+            ),
+            _btn(
+              l10n.mdQuote,
+              Icons.format_quote,
+              () => _apply(MdSourceEdits.blockquote),
+            ),
+            _btn(
+              l10n.mdInlineCode,
+              Icons.code,
+              () => _apply(MdSourceEdits.inlineCode),
+            ),
+            _btn(
+              l10n.mdCodeBlock,
+              Icons.data_object,
+              () => _apply(MdSourceEdits.codeBlock),
+            ),
             _btn(l10n.mdLink, Icons.link, () => _apply(MdSourceEdits.link)),
             // Roadmap §4.4.2: the table button opens the visual builder rather
             // than dropping a skeleton the user has to align by hand.
@@ -77,8 +104,9 @@ class MdFormatToolbar extends StatelessWidget {
     final (start, end) = session.selectionRange;
 
     final span = MdTableData.findTableAt(text, start);
-    final existing =
-        span == null ? null : MdTableData.parse(text.substring(span.start, span.end));
+    final existing = span == null
+        ? null
+        : MdTableData.parse(text.substring(span.start, span.end));
 
     final result = await showMdTableBuilder(context, initial: existing);
     if (result == null) return;
@@ -114,8 +142,9 @@ class MdFormatToolbar extends StatelessWidget {
     return PopupMenuButton<int>(
       tooltip: l10n.mdHeading,
       icon: const Icon(Icons.title),
-      onSelected: (level) =>
-          _apply((text, start, end) => MdSourceEdits.heading(text, start, end, level)),
+      onSelected: (level) => _apply(
+        (text, start, end) => MdSourceEdits.heading(text, start, end, level),
+      ),
       itemBuilder: (context) => [
         PopupMenuItem(value: 1, child: Text(l10n.mdHeading1)),
         PopupMenuItem(value: 2, child: Text(l10n.mdHeading2)),

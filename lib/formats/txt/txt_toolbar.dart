@@ -1,22 +1,30 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/editor/editor_providers.dart';
-import '../../core/output/output_providers.dart';
-import '../../core/storage/saf_service.dart';
-import '../../l10n/app_localizations.dart';
-import '../../shell/tabs/document_tab.dart';
-import '../../shell/tabs/read_only_lock_button.dart';
-import 'txt_document_session.dart';
-import 'txt_encoding_sheet.dart';
-import 'txt_export_sheet.dart';
-import 'txt_info_sheet.dart';
-import 'txt_links_sheet.dart';
-import 'txt_output_actions.dart';
-import 'txt_read_aloud_button.dart';
-import 'txt_save_options_sheet.dart';
-import 'txt_session_manager.dart';
-import 'txt_split_merge_actions.dart';
+import 'package:text_data/core/editor/column_selection_sheet.dart';
+import 'package:text_data/core/editor/editor_providers.dart';
+import 'package:text_data/core/privacy/ui/privacy_shield_sheet.dart';
+import 'package:text_data/sync/diff/diff_dialog_helper.dart';
+import 'package:text_data/airqr/ui/airqr_send_action.dart';
+import 'package:text_data/core/output/output_providers.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
+import 'package:text_data/core/vault/ui/vault_lock_dialog.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:text_data/shell/tabs/read_only_lock_button.dart';
+import 'package:text_data/formats/txt/txt_document_session.dart';
+import 'package:text_data/formats/txt/txt_encoding_sheet.dart';
+import 'package:text_data/formats/txt/txt_export_sheet.dart';
+import 'package:text_data/formats/txt/txt_info_sheet.dart';
+import 'package:text_data/formats/txt/txt_links_sheet.dart';
+import 'package:text_data/formats/txt/txt_output_actions.dart';
+import 'package:text_data/formats/txt/txt_read_aloud_button.dart';
+import 'package:text_data/formats/txt/txt_save_options_sheet.dart';
+import 'package:text_data/formats/txt/txt_session_manager.dart';
+import 'package:text_data/formats/txt/txt_split_merge_actions.dart';
 
 /// The action bar for an open TXT document (tasks 4.1–4.5): view/edit toggle,
 /// undo/redo, find, word-wrap, save, and an overflow menu with jump-to-line,
@@ -34,8 +42,7 @@ class TxtToolbar extends ConsumerWidget {
       listenable: session,
       builder: (context, _) {
         final ready = session.status == TxtLoadStatus.ready;
-        final editing =
-            session.viewMode == TabViewMode.edit && !tab.isReadOnly;
+        final editing = session.viewMode == TabViewMode.edit && !tab.isReadOnly;
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           reverse: true,
@@ -71,8 +78,9 @@ class TxtToolbar extends ConsumerWidget {
                 onPressed: ready ? session.openFind : null,
               ),
               IconButton(
-                tooltip:
-                    session.wordWrap ? l10n.txtWordWrapOn : l10n.txtWordWrapOff,
+                tooltip: session.wordWrap
+                    ? l10n.txtWordWrapOn
+                    : l10n.txtWordWrapOff,
                 isSelected: session.wordWrap,
                 icon: const Icon(Icons.wrap_text),
                 onPressed: ready ? session.toggleWordWrap : null,
@@ -81,8 +89,7 @@ class TxtToolbar extends ConsumerWidget {
                 key: const Key('txt-save-button'),
                 tooltip: l10n.actionSave,
                 icon: const Icon(Icons.save_outlined),
-                onPressed:
-                    ready ? () => saveTxtDirect(context, session) : null,
+                onPressed: ready ? () => saveTxtDirect(context, session) : null,
               ),
               if (ready) TxtReadAloudButton(session: session),
               _OverflowMenu(tab: tab, session: session, enabled: ready),
@@ -102,9 +109,14 @@ enum _MenuAction {
   encoding,
   info,
   replace,
+  columnEdit,
   split,
   merge,
   share,
+  privacyShield,
+  liveDiff,
+  sendByQr,
+  lockVault,
   shareZip,
   print,
   export,
@@ -144,7 +156,7 @@ class _OverflowMenu extends ConsumerWidget {
             title: Text(l10n.actionSaveAs),
           ),
         ),
-        if (editing)
+        if (editing) ...[
           PopupMenuItem(
             value: _MenuAction.replace,
             child: ListTile(
@@ -152,10 +164,20 @@ class _OverflowMenu extends ConsumerWidget {
               title: Text(l10n.actionFindReplace),
             ),
           ),
+          PopupMenuItem(
+            value: _MenuAction.columnEdit,
+            child: ListTile(
+              leading: const Icon(Icons.view_column_rounded),
+              title: Text(l10n.columnSelectionTitle),
+            ),
+          ),
+        ],
         PopupMenuItem(
           value: _MenuAction.links,
           child: ListTile(
-              leading: const Icon(Icons.link), title: Text(l10n.txtLinksTitle)),
+            leading: const Icon(Icons.link),
+            title: Text(l10n.txtLinksTitle),
+          ),
         ),
         PopupMenuItem(
           value: _MenuAction.encoding,
@@ -192,6 +214,34 @@ class _OverflowMenu extends ConsumerWidget {
           child: ListTile(
             leading: const Icon(Icons.share_outlined),
             title: Text(l10n.actionShare),
+          ),
+        ),
+        PopupMenuItem(
+          value: _MenuAction.privacyShield,
+          child: ListTile(
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: Text(l10n.privacyShieldAction),
+          ),
+        ),
+        const PopupMenuItem(
+          value: _MenuAction.liveDiff,
+          child: ListTile(
+            leading: Icon(Icons.difference_outlined),
+            title: Text('Live P2P Diff & Sync'),
+          ),
+        ),
+        PopupMenuItem(
+          value: _MenuAction.sendByQr,
+          child: ListTile(
+            leading: const Icon(Icons.qr_code_2),
+            title: Text(l10n.airqrSendByQr),
+          ),
+        ),
+        const PopupMenuItem(
+          value: _MenuAction.lockVault,
+          child: ListTile(
+            leading: Icon(Icons.shield_outlined),
+            title: Text('Lock in Biometric Vault'),
           ),
         ),
         PopupMenuItem(
@@ -234,6 +284,12 @@ class _OverflowMenu extends ConsumerWidget {
       case _MenuAction.replace:
         session.openReplace();
         break;
+      case _MenuAction.columnEdit:
+        final code = session.code;
+        if (code != null) {
+          await ColumnSelectionSheet.show(context: context, controller: code);
+        }
+        break;
       case _MenuAction.links:
         await showLinksSheet(context, session);
         break;
@@ -251,6 +307,58 @@ class _OverflowMenu extends ConsumerWidget {
         break;
       case _MenuAction.share:
         await _output(ref).shareFile(context, session);
+        break;
+      case _MenuAction.privacyShield:
+        final editing = session.viewMode == TabViewMode.edit && !tab.isReadOnly;
+        await PrivacyShieldSheet.show(
+          context,
+          text: session.textContent.text,
+          documentTitle: session.tab.displayName,
+          mimeType: session.tab.mimeType ?? 'text/plain',
+          onApplyToEditor: editing
+              ? (newText) {
+                  final code = session.code;
+                  if (code != null) {
+                    code.text = newText;
+                  }
+                }
+              : null,
+          shareService: ref.read(shareServiceProvider),
+          safService: ref.read(safServiceProvider),
+        );
+        break;
+      case _MenuAction.liveDiff:
+        final editing = session.viewMode == TabViewMode.edit && !tab.isReadOnly;
+        await LiveDiffLauncher.showDiffOptions(
+          context: context,
+          ref: ref,
+          tab: session.tab,
+          content: session.textContent.text,
+          onApplyToEditor: editing
+              ? (newText) {
+                  final code = session.code;
+                  if (code != null) {
+                    code.text = newText;
+                  }
+                }
+              : null,
+        );
+        break;
+      case _MenuAction.sendByQr:
+        await AirqrSendAction.sendDocument(
+          context: context,
+          name: session.tab.displayName,
+          mimeType: session.tab.mimeType ?? 'text/plain',
+          content: session.textContent.text,
+        );
+        break;
+      case _MenuAction.lockVault:
+        await showVaultLockDialog(
+          context: context,
+          ref: ref,
+          tab: session.tab,
+          content: session.textContent.text,
+        );
         break;
       case _MenuAction.shareZip:
         await _output(ref).shareAsZip(context, session);
@@ -270,18 +378,24 @@ class _OverflowMenu extends ConsumerWidget {
   }
 
   TxtSplitMergeActions _actions(WidgetRef ref) => TxtSplitMergeActions(
-        saf: ref.read(safServiceProvider),
-        codec: ref.read(textCodecServiceProvider),
-      );
+    saf: ref.read(safServiceProvider),
+    codec: ref.read(textCodecServiceProvider),
+  );
 
   TxtOutputActions _output(WidgetRef ref) => TxtOutputActions(
-        share: ref.read(shareServiceProvider),
-        zip: ref.read(zipServiceProvider),
-        print: ref.read(printServiceProvider),
-        export: ref.read(exportServiceProvider),
-        saf: ref.read(safServiceProvider),
-        codec: ref.read(textCodecServiceProvider),
-      );
+    share: ref.read(shareServiceProvider),
+    zip: ref.read(zipServiceProvider),
+    print: ref.read(printServiceProvider),
+    export: ref.read(exportServiceProvider),
+    saf: ref.read(safServiceProvider),
+    codec: ref.read(textCodecServiceProvider),
+    // Burns this tab when it was marked "burn after export" (Feature 9).
+    onOutputCompleted: () => unawaited(
+      ref
+          .read(ephemeralControllerProvider.notifier)
+          .notifyOutputCompleted(tab.id),
+    ),
+  );
 
   Future<void> _jumpToLine(BuildContext context) async {
     final controller = TextEditingController();
@@ -308,8 +422,9 @@ class _OverflowMenu extends ConsumerWidget {
               child: Text(l10n.actionCancel),
             ),
             FilledButton(
-              onPressed: () => Navigator.of(context)
-                  .pop(int.tryParse(controller.text.trim())),
+              onPressed: () => Navigator.of(
+                context,
+              ).pop(int.tryParse(controller.text.trim())),
               child: Text(l10n.actionGo),
             ),
           ],

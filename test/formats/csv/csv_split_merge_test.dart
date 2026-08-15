@@ -8,12 +8,12 @@ void main() {
   const dialect = CsvDialect(hasHeader: true, lineEnding: LineEndingStyle.lf);
 
   CsvTable table(int rows) => CsvTable(
-        header: ['id', 'name'],
-        rows: [
-          for (var i = 0; i < rows; i++) ['$i', 'row$i'],
-        ],
-        hasHeader: true,
-      );
+    header: ['id', 'name'],
+    rows: [
+      for (var i = 0; i < rows; i++) ['$i', 'row$i'],
+    ],
+    hasHeader: true,
+  );
 
   test('splitByRows repeats the header on every part', () {
     final parts = CsvSplitMerge.splitByRows(table(5), 2);

@@ -29,7 +29,10 @@ void main() {
 
     test('a fix that would still leave the file broken is not offered', () {
       // Escaping the ampersand alone does not mend the missing close tag.
-      expect(fixIds('<a>x & y'), isNot(contains(XmlQuickFixes.escapeAmpersands)));
+      expect(
+        fixIds('<a>x & y'),
+        isNot(contains(XmlQuickFixes.escapeAmpersands)),
+      );
     });
   });
 
@@ -41,8 +44,10 @@ void main() {
     });
 
     test('closes innermost first', () {
-      expect(XmlQuickFixes.closeUnclosedTags('<a><b><c>'),
-          '<a><b><c></c></b></a>');
+      expect(
+        XmlQuickFixes.closeUnclosedTags('<a><b><c>'),
+        '<a><b><c></c></b></a>',
+      );
     });
 
     test('leaves a balanced document alone', () {
@@ -96,8 +101,9 @@ void main() {
     });
 
     test('keeps the declaration outside the new root', () {
-      final fixed =
-          XmlQuickFixes.wrapInSingleRoot('<?xml version="1.0"?><a/><b/>');
+      final fixed = XmlQuickFixes.wrapInSingleRoot(
+        '<?xml version="1.0"?><a/><b/>',
+      );
       expect(fixed.startsWith('<?xml version="1.0"?>'), isTrue);
       expect(parses(fixed), isTrue);
     });
@@ -113,8 +119,9 @@ void main() {
 
   group('junk before the declaration', () {
     test('removes text sitting before the declaration', () {
-      final fixed =
-          XmlQuickFixes.trimJunkBeforeDeclaration('oops<?xml version="1.0"?><a/>');
+      final fixed = XmlQuickFixes.trimJunkBeforeDeclaration(
+        'oops<?xml version="1.0"?><a/>',
+      );
       expect(fixed, '<?xml version="1.0"?><a/>');
       expect(parses(fixed), isTrue);
     });

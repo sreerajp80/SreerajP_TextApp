@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'storage_models.dart';
+import 'package:text_data/core/storage/storage_models.dart';
 
 /// CRUD for per-file bookmarks (saved positions inside a file).
 class BookmarksRepository {
@@ -49,5 +49,9 @@ class BookmarksRepository {
       where: 'fingerprint = ?',
       whereArgs: [fingerprint],
     );
+  }
+
+  Future<void> clear() async {
+    await _db.delete('bookmarks');
   }
 }

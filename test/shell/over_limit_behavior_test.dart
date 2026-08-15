@@ -38,10 +38,7 @@ void main() {
     });
 
     test('returns null when every tab is unsaved', () {
-      final tabs = [
-        tab('a', 10, dirty: true),
-        tab('b', 20, dirty: true),
-      ];
+      final tabs = [tab('a', 10, dirty: true), tab('b', 20, dirty: true)];
       expect(pickLruClosable(tabs, 2), isNull);
     });
   });

@@ -12,7 +12,8 @@ class HtmlWriter {
   Uint8List fromText(String text, {String? title}) {
     final safeTitle = _escape(title ?? 'Document');
     final body = _escape(text);
-    final html = '''<!DOCTYPE html>
+    final html =
+        '''<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">

@@ -32,7 +32,10 @@ class RecordingSafService extends SafService {
   @override
   Future<Uint8List> readBytes(String uri) async {
     if (failRead) throw const SafUriStale();
-    return contents[uri] ?? Uint8List(0);
+    // A real SAF read hands back a fresh buffer the caller owns (see
+    // SafService.readBytes), so the fake copies instead of sharing its own.
+    final bytes = contents[uri];
+    return bytes == null ? Uint8List(0) : Uint8List.fromList(bytes);
   }
 
   @override
@@ -72,13 +75,13 @@ void main() {
   });
 
   DocumentTab tabFor(String uri, {String name = 'data.xml'}) => DocumentTab(
-        id: 'tab-1',
-        fingerprint: 'fp-1',
-        uri: uri,
-        displayName: name,
-        mimeType: 'application/xml',
-        lastActiveAt: 1,
-      );
+    id: 'tab-1',
+    fingerprint: 'fp-1',
+    uri: uri,
+    displayName: name,
+    mimeType: 'application/xml',
+    lastActiveAt: 1,
+  );
 
   Future<XmlDocumentSession> build(
     RecordingSafService saf, {
@@ -98,7 +101,9 @@ void main() {
 
   test('loads, decodes, and parses the document', () async {
     final saf = RecordingSafService(
-      contents: {'u': Uint8List.fromList('<root><a>1</a><b>2</b></root>'.codeUnits)},
+      contents: {
+        'u': Uint8List.fromList('<root><a>1</a><b>2</b></root>'.codeUnits),
+      },
       writableUris: {'u'},
     );
     final session = await build(saf);
@@ -176,24 +181,28 @@ void main() {
     session.dispose();
   });
 
-  test('read-only file cannot overwrite; save reports it needs a copy',
-      () async {
-    final saf = RecordingSafService(
-      contents: {'u': Uint8List.fromList('<root/>'.codeUnits)},
-      writableUris: const {},
-    );
-    final session = await build(saf);
-    await session.load();
+  test(
+    'read-only file cannot overwrite; save reports it needs a copy',
+    () async {
+      final saf = RecordingSafService(
+        contents: {'u': Uint8List.fromList('<root/>'.codeUnits)},
+        writableUris: const {},
+      );
+      final session = await build(saf);
+      await session.load();
 
-    expect(session.isWritable, isFalse);
-    final result = await session.save();
-    expect(result.outcome, SaveOutcome.readOnlyNeedsCopy);
-    session.dispose();
-  });
+      expect(session.isWritable, isFalse);
+      final result = await session.save();
+      expect(result.outcome, SaveOutcome.readOnlyNeedsCopy);
+      session.dispose();
+    },
+  );
 
   test('minify and format rewrite the buffer', () async {
     final saf = RecordingSafService(
-      contents: {'u': Uint8List.fromList('<root>\n  <a>1</a>\n</root>'.codeUnits)},
+      contents: {
+        'u': Uint8List.fromList('<root>\n  <a>1</a>\n</root>'.codeUnits),
+      },
       writableUris: {'u'},
     );
     final session = await build(saf);
@@ -240,7 +249,8 @@ void main() {
     final saf = RecordingSafService(
       contents: {
         'u': Uint8List.fromList(
-            '<root xmlns:x="urn:b"><x:a/></root>'.codeUnits)
+          '<root xmlns:x="urn:b"><x:a/></root>'.codeUnits,
+        ),
       },
       writableUris: {'u'},
     );

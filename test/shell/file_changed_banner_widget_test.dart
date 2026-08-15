@@ -47,7 +47,7 @@ class _FakeDocument extends ChangeNotifier implements ReloadableDocument {
   }
 }
 
-final _tab = DocumentTab(
+const _tab = DocumentTab(
   id: 'tab-1',
   fingerprint: '10-a',
   uri: 'content://a',
@@ -64,10 +64,7 @@ void main() {
       ProviderScope(
         child: localizedApp(
           home: Scaffold(
-            body: FileChangedBanner(
-              tab: _tab,
-              resolveDocument: (_, _) => doc,
-            ),
+            body: FileChangedBanner(tab: _tab, resolveDocument: (_, _) => doc),
           ),
         ),
       ),
@@ -94,8 +91,9 @@ void main() {
     expect(banner, findsOneWidget);
   });
 
-  testWidgets('reload on a clean tab loads the file straight away',
-      (tester) async {
+  testWidgets('reload on a clean tab loads the file straight away', (
+    tester,
+  ) async {
     final doc = _FakeDocument();
     await pumpBanner(tester, doc);
     doc.flagChange();
@@ -134,8 +132,9 @@ void main() {
     expect(banner, findsNothing);
   });
 
-  testWidgets('dismiss hides the warning and keeps the content',
-      (tester) async {
+  testWidgets('dismiss hides the warning and keeps the content', (
+    tester,
+  ) async {
     final doc = _FakeDocument();
     await pumpBanner(tester, doc);
     doc.flagChange();

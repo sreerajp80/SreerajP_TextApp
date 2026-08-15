@@ -1,7 +1,7 @@
 import 'package:csv/csv.dart';
 
-import 'csv_dialect.dart';
-import 'csv_table.dart';
+import 'package:text_data/formats/csv/csv_dialect.dart';
+import 'package:text_data/formats/csv/csv_table.dart';
 
 /// Parses CSV text into a [CsvTable] using a chosen [CsvDialect] (task 7.1).
 ///
@@ -50,8 +50,7 @@ class CsvParse {
     }
 
     // Rectangularize to the widest row.
-    final width =
-        matrix.map((r) => r.length).reduce((a, b) => a > b ? a : b);
+    final width = matrix.map((r) => r.length).reduce((a, b) => a > b ? a : b);
     for (final row in matrix) {
       if (row.length < width) {
         row.addAll(List.filled(width - row.length, ''));

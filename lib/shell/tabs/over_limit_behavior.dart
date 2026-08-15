@@ -1,4 +1,4 @@
-import 'document_tab.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
 
 /// What to do when the user opens a document past the tab cap (architecture.md
 /// §8.3, task 2.6).

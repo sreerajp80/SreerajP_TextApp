@@ -1,5 +1,5 @@
-import 'csv_table.dart';
-import 'csv_types.dart';
+import 'package:text_data/formats/csv/csv_table.dart';
+import 'package:text_data/formats/csv/csv_types.dart';
 
 /// The sort direction applied to a column header.
 enum SortDirection { none, ascending, descending }
@@ -25,7 +25,9 @@ class CsvSortSpec {
     final column = int.tryParse(parts[0]);
     final dirIndex = int.tryParse(parts[1]);
     if (column == null || column < 0) return null;
-    if (dirIndex == null || dirIndex < 0 || dirIndex >= SortDirection.values.length) {
+    if (dirIndex == null ||
+        dirIndex < 0 ||
+        dirIndex >= SortDirection.values.length) {
       return null;
     }
     return CsvSortSpec(column, SortDirection.values[dirIndex]);
@@ -137,13 +139,7 @@ class CsvFilterSort {
 
   /// Compares one column of two rows. In a numeric column a cell that does not
   /// read as a number (including an empty one) sorts after every real number.
-  static int _compareCell(
-    CsvTable table,
-    int a,
-    int b,
-    int col,
-    bool numeric,
-  ) {
+  static int _compareCell(CsvTable table, int a, int b, int col, bool numeric) {
     final va = table.cell(a, col);
     final vb = table.cell(b, col);
     if (numeric) {

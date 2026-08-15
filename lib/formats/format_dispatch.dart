@@ -1,8 +1,7 @@
-import '../shell/tabs/document_tab.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
 
-/// The formats the app can open. Only [txt] has a viewer in Phase 4; the others
-/// arrive in Phases 6–9 and fall back to a placeholder until then.
-enum DocumentFormat { txt, markdown, csv, json, xml, other }
+/// The formats the app can open.
+enum DocumentFormat { txt, markdown, csv, json, xml, vault, other }
 
 /// Picks a document's format from its name / MIME type, so the workspace can
 /// show the right viewer (arch §7). Detection is by extension first, then MIME —
@@ -12,6 +11,10 @@ DocumentFormat detectFormat(DocumentTab tab) {
   final dot = name.lastIndexOf('.');
   final ext = dot >= 0 ? name.substring(dot + 1) : '';
   final mime = tab.mimeType?.toLowerCase() ?? '';
+
+  if (ext == 'txvault' || name.endsWith('.txvault')) {
+    return DocumentFormat.vault;
+  }
 
   const txtExts = {'txt', 'text', 'log', 'ini', 'conf', 'cfg', 'properties'};
   if (txtExts.contains(ext) || mime == 'text/plain') return DocumentFormat.txt;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'csv_chart.dart';
-import 'csv_chart_data.dart';
-import 'csv_document_session.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/csv/csv_chart.dart';
+import 'package:text_data/formats/csv/csv_chart_data.dart';
+import 'package:text_data/formats/csv/csv_document_session.dart';
 
 /// The full-screen interactive chart for a CSV (roadmap §4.2.4).
 ///
@@ -48,8 +48,8 @@ class _CsvChartScreenState extends State<CsvChartScreen> {
   void initState() {
     super.initState();
     final numeric = CsvChartData.numericColumns(widget.session.table);
-    _valueColumn = widget.initialColumn != null &&
-            numeric.contains(widget.initialColumn)
+    _valueColumn =
+        widget.initialColumn != null && numeric.contains(widget.initialColumn)
         ? widget.initialColumn
         : (numeric.isNotEmpty ? numeric.first : null);
   }
@@ -98,8 +98,9 @@ class _CsvChartScreenState extends State<CsvChartScreen> {
                 child: Text(
                   l10n.csvChartNoNumericColumns,
                   textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyMedium
-                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ),
             )
@@ -155,8 +156,9 @@ class _CsvChartScreenState extends State<CsvChartScreen> {
                 _type == CsvChartType.pie
                     ? l10n.csvChartSkippedNegative(series.omitted)
                     : l10n.csvChartShowingFirst(series.points.length),
-                style: theme.textTheme.bodySmall
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
           const Divider(height: 16),
@@ -175,8 +177,10 @@ class _CsvChartScreenState extends State<CsvChartScreen> {
                     for (final c in numeric)
                       DropdownMenuItem(
                         value: c,
-                        child:
-                            Text(_columnName(c), overflow: TextOverflow.ellipsis),
+                        child: Text(
+                          _columnName(c),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                   ],
                   onChanged: (value) => setState(() => _valueColumn = value),
@@ -197,12 +201,17 @@ class _CsvChartScreenState extends State<CsvChartScreen> {
                     for (var c = 0; c < widget.session.table.columnCount; c++)
                       DropdownMenuItem(
                         value: c,
-                        child:
-                            Text(_columnName(c), overflow: TextOverflow.ellipsis),
+                        child: Text(
+                          _columnName(c),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                   ],
                   onChanged: (value) => setState(
-                      () => _labelColumn = value == null || value < 0 ? null : value),
+                    () => _labelColumn = value == null || value < 0
+                        ? null
+                        : value,
+                  ),
                 ),
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,

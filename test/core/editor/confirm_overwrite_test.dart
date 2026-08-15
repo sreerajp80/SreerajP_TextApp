@@ -8,10 +8,7 @@ import 'package:text_data/core/storage/key_value_store.dart';
 import '../../support/test_support.dart';
 
 void main() {
-  Future<bool?> runHelper(
-    WidgetTester tester,
-    KeyValueStore store,
-  ) async {
+  Future<bool?> runHelper(WidgetTester tester, KeyValueStore store) async {
     bool? result;
     await tester.pumpWidget(
       ProviderScope(
@@ -35,8 +32,9 @@ void main() {
     return result;
   }
 
-  testWidgets('returns true without a dialog when the setting is off',
-      (tester) async {
+  testWidgets('returns true without a dialog when the setting is off', (
+    tester,
+  ) async {
     final store = await inMemoryKeyValueStore();
     await store.setBool(EditorSettings.confirmOverwriteKey, false);
 

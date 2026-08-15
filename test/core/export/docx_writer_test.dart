@@ -17,11 +17,14 @@ void main() {
     test('emits the three core OOXML parts', () {
       final archive = ZipDecoder().decodeBytes(writer.fromText('hi'));
       final names = archive.files.map((f) => f.name).toSet();
-      expect(names, containsAll(<String>[
-        '[Content_Types].xml',
-        '_rels/.rels',
-        'word/document.xml',
-      ]));
+      expect(
+        names,
+        containsAll(<String>[
+          '[Content_Types].xml',
+          '_rels/.rels',
+          'word/document.xml',
+        ]),
+      );
     });
 
     test('one paragraph per line', () {

@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'storage_models.dart';
+import 'package:text_data/core/storage/storage_models.dart';
 
 /// CRUD for recently opened files, newest first.
 class RecentsRepository {
@@ -49,7 +49,11 @@ class RecentsRepository {
   }
 
   Future<void> remove(String fingerprint) async {
-    await _db.delete('recents', where: 'fingerprint = ?', whereArgs: [fingerprint]);
+    await _db.delete(
+      'recents',
+      where: 'fingerprint = ?',
+      whereArgs: [fingerprint],
+    );
   }
 
   /// Removes any rows that point at the same [uri] but carry a different

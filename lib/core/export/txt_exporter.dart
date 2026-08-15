@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'docx_writer.dart';
-import 'export_target.dart';
-import 'format_exporter.dart';
-import 'html_writer.dart';
-import 'pdf_writer.dart';
+import 'package:text_data/core/export/docx_writer.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/core/export/format_exporter.dart';
+import 'package:text_data/core/export/html_writer.dart';
+import 'package:text_data/core/export/pdf_writer.dart';
 
 /// Export capability for TXT documents (task 5.4).
 ///
@@ -18,24 +18,22 @@ class TxtExporter implements FormatExporter {
   final HtmlWriter _html;
 
   const TxtExporter({
-    PdfWriter pdf = const PdfWriter(),
-    DocxWriter docx = const DocxWriter(),
-    HtmlWriter html = const HtmlWriter(),
-  })  : _pdf = pdf,
-        _docx = docx,
-        _html = html;
+    this._pdf = const PdfWriter(),
+    this._docx = const DocxWriter(),
+    this._html = const HtmlWriter(),
+  });
 
   @override
   String get formatId => 'txt';
 
   @override
   Set<ExportTarget> get supportedTargets => const {
-        ExportTarget.pdf,
-        ExportTarget.docx,
-        ExportTarget.html,
-        ExportTarget.markdown,
-        ExportTarget.plainText,
-      };
+    ExportTarget.pdf,
+    ExportTarget.docx,
+    ExportTarget.html,
+    ExportTarget.markdown,
+    ExportTarget.plainText,
+  };
 
   @override
   Future<ExportResult> export(ExportTarget target, TextContent content) async {
@@ -58,7 +56,9 @@ class TxtExporter implements FormatExporter {
       case ExportTarget.yaml:
       case ExportTarget.json:
       case ExportTarget.xlsx:
-        throw UnsupportedExportException('TXT cannot export to ${target.label}.');
+        throw UnsupportedExportException(
+          'TXT cannot export to ${target.label}.',
+        );
     }
     return ExportResult(
       bytes: bytes,

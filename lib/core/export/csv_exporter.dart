@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import '../../formats/csv/csv_dialect.dart';
-import '../../formats/csv/csv_parse.dart';
-import '../../formats/csv/csv_table.dart';
-import 'export_target.dart';
-import 'format_exporter.dart';
-import 'pdf_writer.dart';
-import 'xlsx_writer.dart';
+import 'package:text_data/formats/csv/csv_dialect.dart';
+import 'package:text_data/formats/csv/csv_parse.dart';
+import 'package:text_data/formats/csv/csv_table.dart';
+import 'package:text_data/core/export/export_target.dart';
+import 'package:text_data/core/export/format_exporter.dart';
+import 'package:text_data/core/export/pdf_writer.dart';
+import 'package:text_data/core/export/xlsx_writer.dart';
 
 /// Export capability for CSV documents (task 7.6).
 ///
@@ -28,21 +28,20 @@ class CsvExporter implements FormatExporter {
   final XlsxWriter _xlsx;
 
   const CsvExporter({
-    PdfWriter pdf = const PdfWriter(),
-    XlsxWriter xlsx = const XlsxWriter(),
-  })  : _pdf = pdf,
-        _xlsx = xlsx;
+    this._pdf = const PdfWriter(),
+    this._xlsx = const XlsxWriter(),
+  });
 
   @override
   String get formatId => 'csv';
 
   @override
   Set<ExportTarget> get supportedTargets => const {
-        ExportTarget.pdf,
-        ExportTarget.json,
-        ExportTarget.html,
-        ExportTarget.xlsx,
-      };
+    ExportTarget.pdf,
+    ExportTarget.json,
+    ExportTarget.html,
+    ExportTarget.xlsx,
+  };
 
   @override
   Future<ExportResult> export(ExportTarget target, TextContent content) async {
@@ -79,7 +78,8 @@ class CsvExporter implements FormatExporter {
       case ExportTarget.csv:
       case ExportTarget.yaml:
         throw UnsupportedExportException(
-            'CSV cannot export to ${target.label}.');
+          'CSV cannot export to ${target.label}.',
+        );
     }
 
     return ExportResult(
@@ -122,11 +122,9 @@ class CsvExporter implements FormatExporter {
 
   String _toHtml(CsvTable table, String title) {
     final safeTitle = _escape(title);
-    final headCells =
-        table.header.map((h) => '<th>${_escape(h)}</th>').join();
+    final headCells = table.header.map((h) => '<th>${_escape(h)}</th>').join();
     final bodyRows = table.rows
-        .map((r) =>
-            '<tr>${r.map((c) => '<td>${_escape(c)}</td>').join()}</tr>')
+        .map((r) => '<tr>${r.map((c) => '<td>${_escape(c)}</td>').join()}</tr>')
         .join('\n');
     return '''<!DOCTYPE html>
 <html lang="en">

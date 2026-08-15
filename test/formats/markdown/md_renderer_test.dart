@@ -8,9 +8,7 @@ Future<void> _pump(WidgetTester tester, String source) async {
   await tester.pumpWidget(
     MaterialApp(
       home: Scaffold(
-        body: SingleChildScrollView(
-          child: MarkdownRenderer(nodes: nodes),
-        ),
+        body: SingleChildScrollView(child: MarkdownRenderer(nodes: nodes)),
       ),
     ),
   );
@@ -38,15 +36,17 @@ void main() {
     expect(find.byIcon(Icons.check_box_outline_blank), findsOneWidget);
   });
 
-  testWidgets('a mermaid block falls back to a plain code block',
-      (tester) async {
+  testWidgets('a mermaid block falls back to a plain code block', (
+    tester,
+  ) async {
     await _pump(tester, '```mermaid\ngraph TD\nA-->B\n```');
     // Rendered as code text, not a special mermaid widget.
     expect(find.textContaining('graph TD'), findsOneWidget);
   });
 
-  testWidgets('renders strikethrough and a link without crashing',
-      (tester) async {
+  testWidgets('renders strikethrough and a link without crashing', (
+    tester,
+  ) async {
     await _pump(tester, 'This is ~~gone~~ and a [link](https://x.com).');
     expect(find.textContaining('gone'), findsOneWidget);
     expect(find.textContaining('link'), findsOneWidget);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../core/editor/unsaved_changes.dart';
-import '../../l10n/app_localizations.dart';
+import 'package:text_data/core/editor/unsaved_changes.dart';
+import 'package:text_data/l10n/app_localizations.dart';
 
 /// Shows the Save / Save as a copy / Discard prompt for a document with unsaved
 /// edits and returns the chosen [UnsavedChangesAction] (architecture.md §6,
@@ -18,10 +18,8 @@ Future<UnsavedChangesAction> showUnsavedChangesDialog(
   final action = await showDialog<UnsavedChangesAction>(
     context: context,
     barrierDismissible: true,
-    builder: (context) => _UnsavedChangesDialog(
-      fileName: fileName,
-      canOverwrite: canOverwrite,
-    ),
+    builder: (context) =>
+        _UnsavedChangesDialog(fileName: fileName, canOverwrite: canOverwrite),
   );
   return action ?? UnsavedChangesAction.cancel;
 }

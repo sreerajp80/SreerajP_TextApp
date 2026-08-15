@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'tabs_controller.dart';
+import 'package:text_data/shell/tabs/tabs_controller.dart';
 
 /// A lock toggle for the active document (task 3.8).
 ///
@@ -47,13 +47,17 @@ class ReadOnlyBanner extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.lock_outline,
-              size: 16, color: theme.colorScheme.onSecondaryContainer),
+          Icon(
+            Icons.lock_outline,
+            size: 16,
+            color: theme.colorScheme.onSecondaryContainer,
+          ),
           const SizedBox(width: 8),
           Text(
             'Read-only — editing is locked',
-            style: theme.textTheme.bodySmall
-                ?.copyWith(color: theme.colorScheme.onSecondaryContainer),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSecondaryContainer,
+            ),
           ),
         ],
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/app_localizations.dart';
-import 'md_document_session.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/formats/markdown/md_document_session.dart';
 
 /// A bottom sheet listing the document's headings (task 6.3). Tapping an entry
 /// scrolls the rendered preview to that heading.
@@ -35,8 +35,10 @@ Future<void> showMdTocSheet(
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                child: Text(AppLocalizations.of(context).mdContents,
-                    style: Theme.of(context).textTheme.titleMedium),
+                child: Text(
+                  AppLocalizations.of(context).mdContents,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ),
               Flexible(
                 child: ListView(

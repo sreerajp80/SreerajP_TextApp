@@ -1,5 +1,5 @@
-import 'csv_dialect.dart';
-import 'csv_table.dart';
+import 'package:text_data/formats/csv/csv_dialect.dart';
+import 'package:text_data/formats/csv/csv_table.dart';
 
 /// Splits and merges CSV tables at the file level (task 7.6). Pure Dart,
 /// host-tested; `merge(splitByRows(t, n)) == t` for any table.
@@ -14,14 +14,16 @@ class CsvSplitMerge {
     final parts = <CsvTable>[];
     for (var start = 0; start < table.rows.length; start += rowsPerPart) {
       final end = (start + rowsPerPart).clamp(0, table.rows.length);
-      parts.add(CsvTable(
-        header: List<String>.from(table.header),
-        rows: table.rows
-            .sublist(start, end)
-            .map((r) => List<String>.from(r))
-            .toList(),
-        hasHeader: table.hasHeader,
-      ));
+      parts.add(
+        CsvTable(
+          header: List<String>.from(table.header),
+          rows: table.rows
+              .sublist(start, end)
+              .map((r) => List<String>.from(r))
+              .toList(),
+          hasHeader: table.hasHeader,
+        ),
+      );
     }
     return parts;
   }
@@ -39,10 +41,10 @@ class CsvSplitMerge {
     var current = <List<String>>[];
 
     CsvTable partOf(List<List<String>> rows) => CsvTable(
-          header: List<String>.from(table.header),
-          rows: rows.map((r) => List<String>.from(r)).toList(),
-          hasHeader: table.hasHeader,
-        );
+      header: List<String>.from(table.header),
+      rows: rows.map((r) => List<String>.from(r)).toList(),
+      hasHeader: table.hasHeader,
+    );
 
     for (final row in table.rows) {
       final trial = partOf([...current, row]);

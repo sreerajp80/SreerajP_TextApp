@@ -4,11 +4,11 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../core/storage/saf_exceptions.dart';
-import '../core/storage/saf_service.dart';
-import '../l10n/app_localizations.dart';
-import 'open_file_action.dart';
-import 'tabs/document_tab.dart';
+import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:text_data/core/storage/saf_service.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/shell/open_file_action.dart';
+import 'package:text_data/shell/tabs/document_tab.dart';
 
 /// A supported blank-document type and the safe starter file created for it.
 enum NewDocumentFormat {

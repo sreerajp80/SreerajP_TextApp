@@ -3,13 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../core/security/security_providers.dart';
-import '../../shell/settings/security_settings.dart';
-import '../../l10n/app_localizations.dart';
-import '../sync_provider.dart';
-import '../sync_share_prefs.dart';
-import 'share_chooser.dart';
-import 'sync_status_chip.dart';
+import 'package:text_data/core/security/security_providers.dart';
+import 'package:text_data/shell/settings/security_settings.dart';
+import 'package:text_data/l10n/app_localizations.dart';
+import 'package:text_data/sync/sync_provider.dart';
+import 'package:text_data/sync/sync_share_prefs.dart';
+import 'package:text_data/sync/ui/p2p_file_transfer_tab.dart';
+import 'package:text_data/sync/ui/p2p_live_diff_tab.dart';
+import 'package:text_data/sync/ui/share_chooser.dart';
+import 'package:text_data/sync/ui/sync_status_chip.dart';
 
 /// Host (send) screen with two tabs (arch §9.6):
 ///   1. Connection details — QR + IP / port / code as selectable text, a live
@@ -64,8 +66,9 @@ class _SyncHostScreenState extends ConsumerState<SyncHostScreen> {
           final controller = ref.watch(syncControllerProvider);
           if (!_started) {
             _started = true;
-            WidgetsBinding.instance
-                .addPostFrameCallback((_) => controller.startHost());
+            WidgetsBinding.instance.addPostFrameCallback(
+              (_) => controller.startHost(),
+            );
           }
           return ListenableBuilder(
             listenable: controller,
@@ -87,12 +90,16 @@ class _HostBody extends ConsumerWidget {
     final sharePrefs = ref.watch(syncSharePrefsProvider);
     final l10n = AppLocalizations.of(context);
     return DefaultTabController(
-      length: 2,
+      length: 4,
       child: Column(
         children: [
           TabBar(
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
             tabs: [
               Tab(text: l10n.syncTabConnection),
+              const Tab(text: 'Live Diff & Sync'),
+              const Tab(text: 'Document Transfer'),
               Tab(text: l10n.syncTabWhatToShare),
             ],
           ),
@@ -100,6 +107,8 @@ class _HostBody extends ConsumerWidget {
             child: TabBarView(
               children: [
                 _ConnectionTab(controller: controller),
+                P2pLiveDiffTab(controller: controller),
+                P2pFileTransferTab(controller: controller),
                 ShareChooser(
                   connected: controller.hostConnected,
                   sending: controller.isSending,
@@ -107,9 +116,9 @@ class _HostBody extends ConsumerWidget {
                   onFullSync: controller.pushFullSync,
                   onSelective: (categories, includeSettings) =>
                       controller.pushSelective(
-                    categories: categories,
-                    includeSettings: includeSettings,
-                  ),
+                        categories: categories,
+                        includeSettings: includeSettings,
+                      ),
                 ),
               ],
             ),
@@ -155,7 +164,8 @@ class _ConnectionTab extends StatelessWidget {
           Center(
             child: Semantics(
               image: true,
-              label: 'Pairing QR code. Scan it from the other device, or type '
+              label:
+                  'Pairing QR code. Scan it from the other device, or type '
                   'the code, address, and port shown below.',
               child: Container(
                 padding: const EdgeInsets.all(12),
@@ -219,10 +229,7 @@ class _DetailRow extends StatelessWidget {
             child: Text(label, style: theme.textTheme.labelLarge),
           ),
           Expanded(
-            child: SelectableText(
-              value,
-              style: theme.textTheme.bodyMedium,
-            ),
+            child: SelectableText(value, style: theme.textTheme.bodyMedium),
           ),
           IconButton(
             tooltip: AppLocalizations.of(context).actionCopy,
