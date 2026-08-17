@@ -17,9 +17,9 @@ library;
 
 import 'dart:typed_data';
 
-import 'package:text_data/airqr/airqr_codec.dart';
-import 'package:text_data/airqr/airqr_constants.dart';
-import 'package:text_data/airqr/airqr_payload.dart';
+import 'package:sreerajp_textapp/airqr/airqr_codec.dart';
+import 'package:sreerajp_textapp/airqr/airqr_constants.dart';
+import 'package:sreerajp_textapp/airqr/airqr_payload.dart';
 
 /// What happened to one offered scan.
 enum AirqrOfferOutcome {

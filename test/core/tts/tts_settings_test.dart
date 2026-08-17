@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/tts/tts_settings.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/tts/tts_settings.dart';
 
 import '../../support/test_support.dart';
 

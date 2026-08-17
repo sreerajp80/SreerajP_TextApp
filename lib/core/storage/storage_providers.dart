@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:text_data/core/storage/app_database.dart';
-import 'package:text_data/core/storage/bookmarks_repository.dart';
-import 'package:text_data/core/storage/drafts_index_repository.dart';
-import 'package:text_data/core/storage/favorites_repository.dart';
-import 'package:text_data/core/storage/recents_repository.dart';
+import 'package:sreerajp_textapp/core/storage/app_database.dart';
+import 'package:sreerajp_textapp/core/storage/bookmarks_repository.dart';
+import 'package:sreerajp_textapp/core/storage/drafts_index_repository.dart';
+import 'package:sreerajp_textapp/core/storage/favorites_repository.dart';
+import 'package:sreerajp_textapp/core/storage/recents_repository.dart';
 
 /// Opens the app database once and keeps it for the app's lifetime.
 ///

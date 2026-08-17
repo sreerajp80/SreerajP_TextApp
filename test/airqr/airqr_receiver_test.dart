@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:text_data/airqr/airqr_codec.dart';
-import 'package:text_data/airqr/airqr_constants.dart';
-import 'package:text_data/airqr/airqr_payload.dart';
-import 'package:text_data/airqr/airqr_receiver.dart';
-import 'package:text_data/airqr/airqr_sender.dart';
+import 'package:sreerajp_textapp/airqr/airqr_codec.dart';
+import 'package:sreerajp_textapp/airqr/airqr_constants.dart';
+import 'package:sreerajp_textapp/airqr/airqr_payload.dart';
+import 'package:sreerajp_textapp/airqr/airqr_receiver.dart';
+import 'package:sreerajp_textapp/airqr/airqr_sender.dart';
 
 AirqrPayload _payload(String content) => AirqrPayload.build(
   kind: AirqrConstants.kindDocument,

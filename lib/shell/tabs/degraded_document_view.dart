@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/editor/editor_providers.dart';
-import 'package:text_data/core/large_file/paged_text.dart';
-import 'package:text_data/core/theme/theme_controller.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/core/editor/editor_providers.dart';
+import 'package:sreerajp_textapp/core/large_file/paged_text.dart';
+import 'package:sreerajp_textapp/core/theme/theme_controller.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
 
 /// The body shown for a file that is too big for the normal editor (Phase 10,
 /// task 10.2). It opens the file **read-only**, one page at a time, with a clear

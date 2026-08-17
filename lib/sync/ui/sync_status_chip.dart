@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/sync/sync_transport.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/sync/sync_transport.dart';
 
 /// A live status chip for the host's connection state (arch §9.6).
 ///

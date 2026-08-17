@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/constants/app_constants.dart';
+import 'package:sreerajp_textapp/core/constants/app_constants.dart';
 
 /// Guards the persisted-key registry in `lib/core/constants/app_constants.dart`.
 ///

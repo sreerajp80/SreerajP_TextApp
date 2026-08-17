@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/formats/txt/txt_document_session.dart';
-import 'package:text_data/formats/txt/txt_editor_surface.dart';
-import 'package:text_data/formats/txt/txt_session_manager.dart';
+import 'package:sreerajp_textapp/core/editor/auto_save_failing_banner.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_document_session.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_editor_surface.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_session_manager.dart';
 
 /// The body shown inside a TXT tab: it loads the document and then shows the
 /// viewer/editor, a friendly failure screen, or a loading spinner — never a
@@ -64,6 +65,7 @@ class _ReadyView extends StatelessWidget {
     return Column(
       children: [
         if (session.binaryWarning) const _BinaryWarningBanner(),
+        if (session.autoSaveFailing) const AutoSaveFailingBanner(),
         if (session.draftAvailable) _DraftBanner(session: session),
         Expanded(
           child: TxtEditorSurface(session: session, readOnly: readOnly),

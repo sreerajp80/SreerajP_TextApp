@@ -1,5 +1,5 @@
-import 'package:text_data/formats/csv/csv_table.dart';
-import 'package:text_data/formats/csv/csv_types.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_table.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_types.dart';
 
 /// The outcome of evaluating one formula for one row (roadmap §4.2.2).
 ///

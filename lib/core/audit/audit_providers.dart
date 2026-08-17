@@ -3,11 +3,11 @@ library;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/audit/audit_models.dart';
-import 'package:text_data/core/audit/audit_repository.dart';
-import 'package:text_data/core/audit/audit_service.dart';
-import 'package:text_data/core/audit/audit_settings.dart';
-import 'package:text_data/core/storage/storage_providers.dart';
+import 'package:sreerajp_textapp/core/audit/audit_models.dart';
+import 'package:sreerajp_textapp/core/audit/audit_repository.dart';
+import 'package:sreerajp_textapp/core/audit/audit_service.dart';
+import 'package:sreerajp_textapp/core/audit/audit_settings.dart';
+import 'package:sreerajp_textapp/core/storage/storage_providers.dart';
 
 /// The low-level repository. Most callers should use [auditServiceProvider]
 /// instead.

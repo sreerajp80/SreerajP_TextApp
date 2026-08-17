@@ -2,16 +2,16 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/core/export/export_service.dart';
-import 'package:text_data/core/export/export_target.dart';
-import 'package:text_data/core/print/print_service.dart';
-import 'package:text_data/core/share/share_service.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/core/zip/zip_service.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/json/json_document_session.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/export/export_service.dart';
+import 'package:sreerajp_textapp/core/export/export_target.dart';
+import 'package:sreerajp_textapp/core/print/print_service.dart';
+import 'package:sreerajp_textapp/core/share/share_service.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/zip/zip_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/json/json_document_session.dart';
 
 /// UI actions for the shared output services on a JSON document: share, share as
 /// zip, print, and export/convert (task 8.6). Mirrors `MdOutputActions`; the

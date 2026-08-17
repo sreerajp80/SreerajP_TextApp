@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/tts/tts_service.dart';
-import 'package:text_data/core/tts/tts_state.dart';
+import 'package:sreerajp_textapp/core/tts/tts_service.dart';
+import 'package:sreerajp_textapp/core/tts/tts_state.dart';
 
 /// A controllable fake engine: [available] holds the set of installed language
 /// codes; an empty [installed] list means "no engine".

@@ -1,5 +1,17 @@
 # Feature Analysis, Novel Innovation & Product Roadmap — SreerajP TextApp (TextData)
 
+A look at where the app stands against similar apps, and the ordered list of what to
+build next. Read it when planning new work, not when checking how something works today.
+
+> **Which document owns what.** This file is about *future* work and comparisons. What
+> the app already does is listed in [features.md](features.md); the technical design is
+> in [architecture.md](architecture.md); the phase-by-phase build record is in
+> [implementation-plan.md](implementation-plan.md) and
+> [implementation-progress.md](implementation-progress.md). If a fact here disagrees
+> with one of those, the other document wins.
+
+---
+
 ## 1. Executive Summary & App Identity Analysis
 
 **TextData** (`SreerajP_TextApp`) is an offline-first, privacy-focused Android text and structured data editor built with Flutter (minSdk 26+). Unlike standard text viewers or cloud-dependent productivity apps, TextData focuses on zero-cloud operations, Storage Access Framework (SAF) scoped storage integrity, open-source compliance (banning commercial SDKs like Syncfusion), and serverless Peer-to-Peer (P2P) local Wi-Fi synchronization.

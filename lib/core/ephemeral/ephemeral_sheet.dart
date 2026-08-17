@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:text_data/core/ephemeral/ephemeral_models.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_models.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// Asks the user how a tab should self-destruct (Feature 9).
 ///

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:re_editor/re_editor.dart';
 
-import 'package:text_data/airqr/ui/airqr_send_action.dart';
-import 'package:text_data/core/editor/editor_selection_toolbar.dart';
-import 'package:text_data/core/theme/theme_controller.dart';
-import 'package:text_data/formats/csv/csv_document_session.dart';
-import 'package:text_data/formats/csv/csv_find_panel.dart';
+import 'package:sreerajp_textapp/airqr/ui/airqr_send_action.dart';
+import 'package:sreerajp_textapp/core/editor/editor_selection_toolbar.dart';
+import 'package:sreerajp_textapp/core/theme/theme_controller.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_session.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_find_panel.dart';
 
 /// The `re_editor` surface for the CSV **raw delimited text** (task 7.3, 7.5).
 ///

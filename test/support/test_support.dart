@@ -3,14 +3,14 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/preferences_store.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/core/storage/secure_store.dart';
-import 'package:text_data/core/storage/storage_models.dart';
-import 'package:text_data/shell/home/recents_controller.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/preferences_store.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/storage/secure_store.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/shell/home/recents_controller.dart';
 
 /// Builds an in-memory [KeyValueStore] for tests: real `shared_preferences`
 /// with mock initial values, plus an in-memory secure store.
@@ -53,6 +53,9 @@ class FakeSafService extends SafService {
   /// timestamp, like a provider that does not expose one.
   final Map<String, int> modifiedTimes;
 
+  /// URIs this fake reports as writable. Anything not listed is read-only.
+  final Set<String> writableUris;
+
   FakeSafService({
     this.accessibleUris = const {},
     Map<String, Uint8List> contents = const {},
@@ -60,6 +63,7 @@ class FakeSafService extends SafService {
     this.createResult,
     this.createError,
     Map<String, int> modifiedTimes = const {},
+    this.writableUris = const {},
   }) : contents = Map<String, Uint8List>.of(contents),
        modifiedTimes = Map<String, int>.of(modifiedTimes);
 
@@ -74,6 +78,11 @@ class FakeSafService extends SafService {
 
   @override
   Future<bool> isAccessible(String uri) async => accessibleUris.contains(uri);
+
+  // Without this the real implementation runs and waits on a platform channel
+  // that never answers in tests, which hangs any document load.
+  @override
+  Future<bool> isWritable(String uri) async => writableUris.contains(uri);
 
   @override
   Future<Uint8List> readBytes(String uri) async {

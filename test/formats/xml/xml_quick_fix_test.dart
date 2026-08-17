@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/xml/xml_quick_fix.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_quick_fix.dart';
 import 'package:xml/xml.dart';
 
 /// Guards the XML quick fixes (roadmap §4.3.3). A fix is only worth offering

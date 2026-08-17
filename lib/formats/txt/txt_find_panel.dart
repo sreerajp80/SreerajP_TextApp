@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:re_editor/re_editor.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// The find / replace bar shown at the top of the editor when the user opens
 /// search (task 4.2). `re_editor` supplies the [CodeFindController] with all the

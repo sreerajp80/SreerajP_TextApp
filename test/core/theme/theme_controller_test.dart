@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/theme/app_theme_mode.dart';
-import 'package:text_data/core/theme/theme_controller.dart';
-import 'package:text_data/core/theme/theme_settings.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/theme/app_theme_mode.dart';
+import 'package:sreerajp_textapp/core/theme/theme_controller.dart';
+import 'package:sreerajp_textapp/core/theme/theme_settings.dart';
 
 import '../../support/test_support.dart';
 

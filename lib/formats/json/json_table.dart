@@ -1,4 +1,4 @@
-import 'package:text_data/formats/json/json_node.dart';
+import 'package:sreerajp_textapp/formats/json/json_node.dart';
 
 /// Which way a [JsonTable] column is sorted.
 enum JsonSortDirection { none, ascending, descending }

@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/index/search_index_backfill.dart';
-import 'package:text_data/core/index/search_index_repository.dart';
-import 'package:text_data/core/index/search_index_service.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/core/storage/storage_providers.dart';
+import 'package:sreerajp_textapp/core/index/search_index_backfill.dart';
+import 'package:sreerajp_textapp/core/index/search_index_repository.dart';
+import 'package:sreerajp_textapp/core/index/search_index_service.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/storage/storage_providers.dart';
 
 /// Settings key for the workspace search index on/off switch.
 const String kWorkspaceIndexEnabledKey = 'workspace_index_enabled';

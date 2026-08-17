@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import 'package:text_data/airqr/airqr_constants.dart';
-import 'package:text_data/airqr/airqr_payload.dart';
-import 'package:text_data/airqr/ui/airqr_send_screen.dart';
-import 'package:text_data/airqr/ui/airqr_size_warning.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/airqr/airqr_constants.dart';
+import 'package:sreerajp_textapp/airqr/airqr_payload.dart';
+import 'package:sreerajp_textapp/airqr/ui/airqr_send_screen.dart';
+import 'package:sreerajp_textapp/airqr/ui/airqr_size_warning.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// Starts an optical transfer from whatever the user is looking at.
 ///

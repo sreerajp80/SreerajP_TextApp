@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/security/app_lock_gate.dart';
-import 'package:text_data/core/security/biometric_service.dart';
-import 'package:text_data/core/security/security_providers.dart';
-import 'package:text_data/core/security/window_security.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/security/app_lock_gate.dart';
+import 'package:sreerajp_textapp/core/security/biometric_service.dart';
+import 'package:sreerajp_textapp/core/security/security_providers.dart';
+import 'package:sreerajp_textapp/core/security/window_security.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
 
 import '../../support/test_support.dart';
 

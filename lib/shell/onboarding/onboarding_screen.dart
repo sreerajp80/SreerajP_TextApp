@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/onboarding/onboarding_controller.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/onboarding/onboarding_controller.dart';
 
 /// A short, skippable first-run intro (task 2.4).
 ///

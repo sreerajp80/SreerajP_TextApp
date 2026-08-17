@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:text_data/core/config/app_config.dart';
-import 'package:text_data/core/config/config_service.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/settings/sections/settings_widgets.dart';
+import 'package:sreerajp_textapp/core/config/app_config.dart';
+import 'package:sreerajp_textapp/core/config/config_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/settings_widgets.dart';
 
 /// About settings (task 11.7). Every value comes from `app_config.json` via
 /// [appConfigProvider] — editing the config changes this screen with no code
@@ -64,9 +64,9 @@ class AboutSection extends ConsumerWidget {
                   ? () => _open('mailto:${entry.value}', context)
                   : null,
             ),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(16, 24, 16, 16),
-          child: Center(child: Text('Made with ❤ from India')),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+          child: Center(child: Text(l10n.aboutMadeInIndia)),
         ),
       ],
     );

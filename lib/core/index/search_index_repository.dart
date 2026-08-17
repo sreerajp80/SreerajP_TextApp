@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'package:text_data/core/index/search_index_models.dart';
+import 'package:sreerajp_textapp/core/index/search_index_models.dart';
 
 /// Reads and writes the workspace-wide search index (Feature 11).
 ///

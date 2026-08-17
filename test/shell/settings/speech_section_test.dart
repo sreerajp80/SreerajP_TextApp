@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/output/output_providers.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/tts/tts_installer.dart';
-import 'package:text_data/core/tts/tts_service.dart';
-import 'package:text_data/core/tts/tts_settings.dart';
-import 'package:text_data/shell/settings/sections/speech_section.dart';
+import 'package:sreerajp_textapp/core/output/output_providers.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/tts/tts_installer.dart';
+import 'package:sreerajp_textapp/core/tts/tts_service.dart';
+import 'package:sreerajp_textapp/core/tts/tts_settings.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/speech_section.dart';
 
 import '../../support/test_support.dart';
 

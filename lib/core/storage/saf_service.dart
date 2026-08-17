@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
 
 /// A file the user picked through the system picker, with the info the app needs
 /// to list and re-open it. [uri] is the persisted SAF URI used as the fast path

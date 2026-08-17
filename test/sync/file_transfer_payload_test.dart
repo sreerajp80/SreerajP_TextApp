@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/sync/file_transfer_payload.dart';
-import 'package:text_data/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/file_transfer_payload.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
 
 void main() {
   group('FileTransferPayload', () {

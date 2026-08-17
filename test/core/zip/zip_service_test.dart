@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/zip/zip_service.dart';
+import 'package:sreerajp_textapp/core/zip/zip_service.dart';
 
 void main() {
   const zip = ZipService();

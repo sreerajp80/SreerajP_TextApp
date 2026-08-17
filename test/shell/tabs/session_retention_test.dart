@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/shell/tabs/session_retention.dart';
+import 'package:sreerajp_textapp/shell/tabs/session_retention.dart';
 
 void main() {
   group('pickReleasableSessions', () {

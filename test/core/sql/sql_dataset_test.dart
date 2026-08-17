@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:text_data/core/sql/sql_dataset.dart';
-import 'package:text_data/formats/csv/csv_sql_source.dart';
-import 'package:text_data/formats/csv/csv_table.dart';
-import 'package:text_data/formats/json/json_parser.dart';
-import 'package:text_data/formats/json/json_sql_source.dart';
-import 'package:text_data/formats/json/json_table.dart';
+import 'package:sreerajp_textapp/core/sql/sql_dataset.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_sql_source.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_table.dart';
+import 'package:sreerajp_textapp/formats/json/json_parser.dart';
+import 'package:sreerajp_textapp/formats/json/json_sql_source.dart';
+import 'package:sreerajp_textapp/formats/json/json_table.dart';
 
 /// Feature 4 — the format-neutral dataset the SQL engine loads.
 void main() {

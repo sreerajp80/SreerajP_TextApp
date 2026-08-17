@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/sync/diff/diff_models.dart';
-import 'package:text_data/sync/diff/diff_payload.dart';
-import 'package:text_data/sync/diff/live_diff_controller.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_models.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_payload.dart';
+import 'package:sreerajp_textapp/sync/diff/live_diff_controller.dart';
 
 void main() {
   group('LiveDiffController tests', () {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
 
 /// "Choose what to share" panel (arch §9.6, host tab 2).
 ///

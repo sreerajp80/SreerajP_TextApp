@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/sync/sync_constants.dart';
-import 'package:text_data/sync/sync_share_prefs.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/sync_share_prefs.dart';
 
 import '../support/test_support.dart';
 

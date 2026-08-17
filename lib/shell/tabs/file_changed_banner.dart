@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/editor/external_change.dart';
-import 'package:text_data/formats/csv/csv_session_manager.dart';
-import 'package:text_data/formats/format_dispatch.dart';
-import 'package:text_data/formats/json/json_session_manager.dart';
-import 'package:text_data/formats/markdown/md_session_manager.dart';
-import 'package:text_data/formats/txt/txt_session_manager.dart';
-import 'package:text_data/formats/xml/xml_session_manager.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/core/editor/external_change.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_session_manager.dart';
+import 'package:sreerajp_textapp/formats/format_dispatch.dart';
+import 'package:sreerajp_textapp/formats/json/json_session_manager.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_session_manager.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_session_manager.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_session_manager.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
 
 /// Warns that the file behind the active tab changed on disk, and offers to load
 /// the fresh content.

@@ -634,6 +634,14 @@ class AppLocalizationsMl extends AppLocalizations {
   }
 
   @override
+  String get editorExitEditAfterSave =>
+      'സേവ് ചെയ്ത ശേഷം എഡിറ്റ് മോഡിൽ നിന്ന് പുറത്തുകടക്കുക';
+
+  @override
+  String get editorExitEditAfterSaveSub =>
+      'സേവ് വിജയിക്കുമ്പോൾ കാഴ്ച മോഡിലേക്ക് മടങ്ങുക.';
+
+  @override
   String get filesTabsSectionTitle => 'ഫയലുകളും ടാബുകളും';
 
   @override
@@ -1233,6 +1241,13 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get txtEditMode => 'എഡിറ്റ് മോഡ്';
+
+  @override
+  String get editorExitEditMode => 'എഡിറ്റ് മോഡിൽ നിന്ന് പുറത്തുകടക്കുക';
+
+  @override
+  String get editorAutoSaveFailing =>
+      'ഓട്ടോ-സേവ് പ്രവർത്തിക്കുന്നില്ല. മാറ്റങ്ങൾ നിലനിർത്താൻ ഫയൽ സേവ് ചെയ്യുക.';
 
   @override
   String get txtWordWrapOn => 'വാക്ക് പൊതിയൽ: ഓൺ';
@@ -3420,4 +3435,139 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get liveDiffSaveMerged => 'യോജിപ്പിച്ച ഫയൽ സേവ് ചെയ്യുക';
+
+  @override
+  String vaultLockBody(String fileName) {
+    return 'AES-256-GCM ഹാർഡ്‌വെയർ കീ ഉപയോഗിച്ച് \"$fileName\" എൻക്രിപ്റ്റ് ചെയ്യുക.';
+  }
+
+  @override
+  String get vaultLockNote =>
+      'ഉണ്ടാകുന്ന .txvault ഫയൽ നിങ്ങളുടെ വിരലടയാളം അല്ലെങ്കിൽ ഉപകരണ ബയോമെട്രിക്സ് ഉപയോഗിച്ച് ഈ ആപ്പിന് മാത്രമേ തുറക്കാൻ കഴിയൂ.';
+
+  @override
+  String get vaultEncryptAndSave => 'എൻക്രിപ്റ്റ് ചെയ്ത് സേവ് ചെയ്യുക';
+
+  @override
+  String vaultSavedAs(String fileName) {
+    return 'എൻക്രിപ്റ്റ് ചെയ്ത വോൾട്ട് \"$fileName\" ആയി സേവ് ചെയ്തു';
+  }
+
+  @override
+  String get vaultSaveFailed =>
+      'എൻക്രിപ്റ്റ് ചെയ്ത വോൾട്ട് ഫയൽ സേവ് ചെയ്യാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String vaultBiometricReason(String fileName) {
+    return '$fileName ബയോമെട്രിക് വോൾട്ടിൽ പൂട്ടുക';
+  }
+
+  @override
+  String get aboutMadeInIndia => 'ഇന്ത്യയിൽ നിന്ന് ❤ യോടെ';
+
+  @override
+  String get diffStartLiveSync => 'മറുഭാഗവുമായി തത്സമയ P2P സമന്വയം തുടങ്ങുക';
+
+  @override
+  String get diffCompareLocalFile =>
+      'ഉപകരണത്തിലെ ഒരു ഫയലുമായി താരതമ്യം ചെയ്യുക';
+
+  @override
+  String get diffNoCsvData => 'താരതമ്യം ചെയ്യാൻ CSV വിവരങ്ങളില്ല.';
+
+  @override
+  String get diffNoDifferences => 'വ്യത്യാസങ്ങളൊന്നുമില്ല. രേഖകൾ ഒരുപോലെയാണ്.';
+
+  @override
+  String get diffAcceptMineSide => '← എന്റേത്';
+
+  @override
+  String get diffAcceptPeerSide => 'മറുഭാഗം →';
+
+  @override
+  String get diffAcceptBoth => 'രണ്ടും';
+
+  @override
+  String get liveDiffApplied => 'യോജിപ്പിച്ച മാറ്റങ്ങൾ തുറന്ന രേഖയിൽ ചേർത്തു.';
+
+  @override
+  String liveDiffSavedAs(String fileName) {
+    return 'യോജിപ്പിച്ച ഫയൽ \"$fileName\" ആയി സേവ് ചെയ്തു';
+  }
+
+  @override
+  String get liveDiffSaveFailed => 'യോജിപ്പിച്ച ഫയൽ സേവ് ചെയ്യാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String get liveDiffAutoMergeClean =>
+      'തർക്കമില്ലാത്ത മാറ്റങ്ങൾ ഓട്ടോ-മെർജ്ജ് ചെയ്യുക';
+
+  @override
+  String get p2pReadFileFailed => 'തിരഞ്ഞെടുത്ത ഫയൽ വായിക്കാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String get p2pReadTabFailed =>
+      'തുറന്ന ടാബിലെ ഉള്ളടക്കം വായിക്കാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String get p2pPickFromStorage => 'ഉപകരണത്തിൽ നിന്ന് തിരഞ്ഞെടുക്കുക';
+
+  @override
+  String syncClientSavedAs(String fileName) {
+    return 'ഫയൽ \"$fileName\" ആയി സേവ് ചെയ്തു';
+  }
+
+  @override
+  String get syncClientSaveFailed => 'ലഭിച്ച ഫയൽ സേവ് ചെയ്യാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String get syncClientPickLocalFile => 'ഉപകരണത്തിലെ ഫയൽ തിരഞ്ഞെടുക്കുക';
+
+  @override
+  String syncClientComparingWith(String fileName) {
+    return 'താരതമ്യം ചെയ്യുന്നത്: $fileName';
+  }
+
+  @override
+  String get columnReplaceLabel => 'കോളം ഭാഗം ഇതുകൊണ്ട് മാറ്റുക (നിർബന്ധമല്ല)';
+
+  @override
+  String get columnReplaceHint => 'നിലനിർത്താനോ ഒഴിവാക്കാനോ ശൂന്യമായി വിടുക';
+
+  @override
+  String get diffSheetTitle => 'തത്സമയ രേഖ താരതമ്യവും ഡെൽറ്റ സമന്വയവും';
+
+  @override
+  String diffSheetSubtitle(String fileName) {
+    return '\"$fileName\" വശങ്ങളിലായി താരതമ്യം ചെയ്ത് വേണ്ട മാറ്റങ്ങൾ മാത്രം ചേർക്കുക.';
+  }
+
+  @override
+  String get diffStartLiveSyncSubtitle =>
+      'താരതമ്യം ചെയ്യാനും ഒരുമിച്ച് തിരുത്താനും ലോക്കൽ Wi-Fi വഴി മറ്റൊരു ഉപകരണവുമായി ബന്ധിപ്പിക്കുക.';
+
+  @override
+  String get diffCompareLocalFileSubtitle =>
+      'ഉപകരണത്തിൽ നിന്ന് രണ്ടാമതൊരു രേഖ തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get diffReadChosenFileFailed =>
+      'താരതമ്യത്തിനായി തിരഞ്ഞെടുത്ത ഫയൽ വായിക്കാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String get diffCompareOpenTab =>
+      'അല്ലെങ്കിൽ തുറന്ന ടാബുമായി താരതമ്യം ചെയ്യുക:';
+
+  @override
+  String get diffReadTabFailed => 'താരതമ്യത്തിനായി ടാബ് വായിക്കാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String get syncClientSaving => 'സേവ് ചെയ്യുന്നു...';
+
+  @override
+  String get syncClientSaveToDevice => 'ഉപകരണത്തിൽ സേവ് ചെയ്യുക';
+
+  @override
+  String get syncClientMatchOpenTab =>
+      'അല്ലെങ്കിൽ തുറന്ന ഒരു ടാബുമായി ചേർക്കുക:';
 }

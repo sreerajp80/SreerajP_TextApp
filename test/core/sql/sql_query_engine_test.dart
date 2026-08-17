@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import 'package:text_data/core/sql/sql_dataset.dart';
-import 'package:text_data/core/sql/sql_presets.dart';
-import 'package:text_data/core/sql/sql_query_engine.dart';
-import 'package:text_data/core/sql/sql_result.dart';
+import 'package:sreerajp_textapp/core/sql/sql_dataset.dart';
+import 'package:sreerajp_textapp/core/sql/sql_presets.dart';
+import 'package:sreerajp_textapp/core/sql/sql_query_engine.dart';
+import 'package:sreerajp_textapp/core/sql/sql_result.dart';
 
 /// Feature 4 — the in-memory SQL engine, driven on the host through the FFI
 /// factory (no device needed), the same way the search index is tested.

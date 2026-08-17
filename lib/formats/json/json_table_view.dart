@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/json/json_document_session.dart';
-import 'package:text_data/formats/json/json_table.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/json/json_document_session.dart';
+import 'package:sreerajp_textapp/formats/json/json_table.dart';
 
 /// A JSON array shown as a read-only grid (roadmap §4.3.1).
 ///

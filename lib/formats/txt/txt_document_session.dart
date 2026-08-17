@@ -3,20 +3,20 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:re_editor/re_editor.dart';
 
-import 'package:text_data/core/editor/atomic_saver.dart';
-import 'package:text_data/core/editor/draft_store.dart';
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/core/editor/external_change.dart';
-import 'package:text_data/core/editor/saf_save_target.dart';
-import 'package:text_data/core/ephemeral/secure_wipe.dart';
-import 'package:text_data/core/export/export_target.dart';
-import 'package:text_data/core/metadata/file_metadata.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/formats/txt/txt_content_sniff.dart';
-import 'package:text_data/formats/txt/txt_stats.dart';
+import 'package:sreerajp_textapp/core/editor/atomic_saver.dart';
+import 'package:sreerajp_textapp/core/editor/draft_store.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/editor/external_change.dart';
+import 'package:sreerajp_textapp/core/editor/saf_save_target.dart';
+import 'package:sreerajp_textapp/core/ephemeral/secure_wipe.dart';
+import 'package:sreerajp_textapp/core/export/export_target.dart';
+import 'package:sreerajp_textapp/core/metadata/file_metadata.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_content_sniff.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_stats.dart';
 
 /// Loading lifecycle of one open TXT document.
 enum TxtLoadStatus { loading, ready, failed }
@@ -52,8 +52,10 @@ class TxtDocumentSession extends ChangeNotifier with ExternalChangeMixin {
   final void Function(String text)? onSaved;
 
   /// How often the auto-save draft is written while editing. [Duration.zero]
-  /// (or less) turns auto-save off (task 11.2).
-  final Duration autoSaveInterval;
+  /// (or less) turns auto-save off (task 11.2). Can change while the tab is open
+  /// — see [setAutoSaveInterval].
+  Duration get autoSaveInterval => _autoSaveInterval;
+  Duration _autoSaveInterval;
 
   /// Word-wrap state a freshly opened tab starts with (task 11.1).
   final bool initialWordWrap;
@@ -78,7 +80,7 @@ class TxtDocumentSession extends ChangeNotifier with ExternalChangeMixin {
     required Future<Directory> tempDir,
     this.onDirtyChanged,
     this.onSaved,
-    this.autoSaveInterval = const Duration(seconds: 5),
+    this._autoSaveInterval = const Duration(seconds: 5),
     this.initialWordWrap = true,
     this.defaultSaveEncoding,
     this.defaultSaveLineEnding,
@@ -125,6 +127,11 @@ class TxtDocumentSession extends ChangeNotifier with ExternalChangeMixin {
   @override
   bool get isDirty => _isDirty;
   bool get draftAvailable => _draftAvailable;
+
+  /// True when the auto-save draft could not be written. The editor shows a
+  /// warning so the user knows their work is not being protected right now; the
+  /// timer keeps retrying, so this clears itself when a write succeeds.
+  bool get autoSaveFailing => _autoSaver?.isFailing ?? false;
 
   // --- external change watch (see ExternalChangeMixin) ----------------------
 
@@ -485,7 +492,7 @@ class TxtDocumentSession extends ChangeNotifier with ExternalChangeMixin {
 
   void _startAutoSave() {
     // A zero/negative interval means auto-save is turned off in Settings.
-    if (autoSaveInterval <= Duration.zero) return;
+    if (_autoSaveInterval <= Duration.zero) return;
     final store = _draftStore;
     final code = _code;
     if (store == null || code == null) return;
@@ -494,9 +501,36 @@ class TxtDocumentSession extends ChangeNotifier with ExternalChangeMixin {
             store: store,
             fingerprint: tab.fingerprint,
             getContent: () => code.text,
+            onFailingChanged: (_) => _safeNotify(),
           )
           ..markSaved(_savedText)
-          ..start(autoSaveInterval);
+          ..start(_autoSaveInterval);
+  }
+
+  /// Writes the auto-save draft right now instead of waiting for the next tick.
+  ///
+  /// Called when the app leaves the foreground: Android can kill a paused app at
+  /// any moment, and without this the user loses everything typed since the last
+  /// tick even though the app got a clean warning it was going away
+  /// (CLAUDE.md §3.6). Does nothing when auto-save is switched off.
+  Future<void> flushDraft() async {
+    await _autoSaver?.tick();
+  }
+
+  /// Applies a new auto-save interval to a tab that is already open (task 11.2).
+  ///
+  /// Without this a changed setting would only reach tabs opened afterwards.
+  /// [Duration.zero] or less stops auto-save; a positive interval starts it,
+  /// even if it had been off.
+  void setAutoSaveInterval(Duration interval) {
+    if (interval == _autoSaveInterval) return;
+    _autoSaveInterval = interval;
+    _autoSaver?.stop();
+    _autoSaver = null;
+    // Only restart once the load finished — otherwise there is no controller to
+    // read text from, and load() starts it anyway.
+    if (_status == TxtLoadStatus.ready) _startAutoSave();
+    _safeNotify();
   }
 
   void _safeNotify() {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/txt/txt_encoding_labels.dart';
-import 'package:text_data/formats/json/json_document_session.dart';
-import 'package:text_data/formats/json/json_node.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_encoding_labels.dart';
+import 'package:sreerajp_textapp/formats/json/json_document_session.dart';
+import 'package:sreerajp_textapp/formats/json/json_node.dart';
 
 /// A bottom sheet showing the JSON file's insights and metadata (task 8.6):
 /// top-level type, item / key counts, depth, array sizes, a type breakdown, plus

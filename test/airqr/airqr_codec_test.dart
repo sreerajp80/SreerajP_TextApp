@@ -4,9 +4,9 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:text_data/airqr/airqr_codec.dart';
-import 'package:text_data/airqr/airqr_constants.dart';
-import 'package:text_data/airqr/airqr_payload.dart';
+import 'package:sreerajp_textapp/airqr/airqr_codec.dart';
+import 'package:sreerajp_textapp/airqr/airqr_constants.dart';
+import 'package:sreerajp_textapp/airqr/airqr_payload.dart';
 
 /// Encodes, then decodes straight back through the codec, as a receiver that
 /// caught every frame on the first pass would.

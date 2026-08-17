@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/csv/csv_document_session.dart';
-import 'package:text_data/formats/csv/csv_filter_sort.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_session.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_filter_sort.dart';
 
 /// A sheet to build a multi-level sort (roadmap §4.2.1), e.g. "Department
 /// ascending, then Salary descending".

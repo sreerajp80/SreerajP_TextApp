@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/index/index_providers.dart';
-import 'package:text_data/core/index/search_index_models.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/open_file_action.dart';
-import 'package:text_data/shell/search/search_hit_tile.dart';
-import 'package:text_data/shell/search/workspace_search_controller.dart';
+import 'package:sreerajp_textapp/core/index/index_providers.dart';
+import 'package:sreerajp_textapp/core/index/search_index_models.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/open_file_action.dart';
+import 'package:sreerajp_textapp/shell/search/search_hit_tile.dart';
+import 'package:sreerajp_textapp/shell/search/workspace_search_controller.dart';
 
 /// Searches every indexed file at once and opens the one the user picks
 /// (Feature 11).

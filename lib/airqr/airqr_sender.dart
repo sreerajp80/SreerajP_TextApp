@@ -15,7 +15,7 @@ library;
 
 import 'dart:math';
 
-import 'package:text_data/airqr/airqr_codec.dart';
+import 'package:sreerajp_textapp/airqr/airqr_codec.dart';
 
 /// Walks an [AirqrEncoded] set round and round, reshuffling each pass.
 class AirqrSender {

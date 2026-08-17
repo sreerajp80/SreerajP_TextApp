@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/txt/txt_link_warning_dialog.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_link_warning_dialog.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 void main() {
   group('TxtLinkDetector', () {

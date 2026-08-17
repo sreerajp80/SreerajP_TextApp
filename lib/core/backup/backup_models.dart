@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
-import 'package:text_data/core/backup/backup_constants.dart';
-import 'package:text_data/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/core/backup/backup_constants.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
 
 /// Metadata for one document file stored inside a backup archive.
 class BackupFileEntry {

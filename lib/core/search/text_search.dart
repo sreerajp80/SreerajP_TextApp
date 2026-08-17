@@ -1,4 +1,4 @@
-import 'package:text_data/core/search/search_options.dart';
+import 'package:sreerajp_textapp/core/search/search_options.dart';
 
 /// One match: the half-open character range `[start, end)` in the searched text.
 class SearchMatch {

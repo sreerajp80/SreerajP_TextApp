@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/markdown/md_table_builder_dialog.dart';
-import 'package:text_data/formats/markdown/md_table_source.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_table_builder_dialog.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_table_source.dart';
 
 import '../../support/test_support.dart';
 

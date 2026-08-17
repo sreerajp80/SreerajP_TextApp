@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:text_data/sync/sync_constants.dart';
-import 'package:text_data/sync/sync_crypto.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/sync_crypto.dart';
 
 /// Salted hashing for the app-lock PIN and recovery code, plus recovery-code
 /// generation. Pure and platform-free, so it is fully unit-testable (task 13.2).

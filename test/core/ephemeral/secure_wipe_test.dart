@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/ephemeral/secure_wipe.dart';
+import 'package:sreerajp_textapp/core/ephemeral/secure_wipe.dart';
 
 void main() {
   late Directory tempDir;

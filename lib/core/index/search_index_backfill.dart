@@ -1,9 +1,9 @@
-import 'package:text_data/core/index/search_index_service.dart';
-import 'package:text_data/core/storage/favorites_repository.dart';
-import 'package:text_data/core/storage/recents_repository.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/core/index/search_index_service.dart';
+import 'package:sreerajp_textapp/core/storage/favorites_repository.dart';
+import 'package:sreerajp_textapp/core/storage/recents_repository.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
 
 /// Fills the workspace search index with files the user already knows about but
 /// has not opened since the index was added (Feature 11).

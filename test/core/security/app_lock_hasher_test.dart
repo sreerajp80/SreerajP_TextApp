@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/security/app_lock_hasher.dart';
-import 'package:text_data/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/core/security/app_lock_hasher.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
 
 void main() {
   group('hash / verify', () {

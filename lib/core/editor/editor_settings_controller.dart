@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/editor/editor_settings.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/editor/editor_settings.dart';
 
 /// The one place the app changes and remembers editor behavior (task 11.2).
 ///
@@ -33,6 +33,9 @@ class EditorSettingsController extends Notifier<EditorSettings> {
       openReadOnlyByDefault:
           store.getBool(EditorSettings.readOnlyDefaultKey) ??
           EditorSettings.defaults.openReadOnlyByDefault,
+      exitEditAfterSave:
+          store.getBool(EditorSettings.exitEditAfterSaveKey) ??
+          EditorSettings.defaults.exitEditAfterSave,
     );
   }
 
@@ -59,6 +62,11 @@ class EditorSettingsController extends Notifier<EditorSettings> {
   void setOpenReadOnlyByDefault(bool value) {
     state = state.copyWith(openReadOnlyByDefault: value);
     _store.setBool(EditorSettings.readOnlyDefaultKey, value);
+  }
+
+  void setExitEditAfterSave(bool value) {
+    state = state.copyWith(exitEditAfterSave: value);
+    _store.setBool(EditorSettings.exitEditAfterSaveKey, value);
   }
 }
 

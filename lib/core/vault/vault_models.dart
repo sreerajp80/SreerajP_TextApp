@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:text_data/core/vault/vault_constants.dart';
+import 'package:sreerajp_textapp/core/vault/vault_constants.dart';
 
 /// The decrypted contents and metadata stored inside a `.txvault` envelope.
 @immutable

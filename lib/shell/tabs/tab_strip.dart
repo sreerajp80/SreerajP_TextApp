@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/ephemeral/ephemeral_badge.dart';
-import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
-import 'package:text_data/core/ephemeral/ephemeral_sheet.dart';
-import 'package:text_data/core/ephemeral/ephemeral_settings.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_badge.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_controller.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_sheet.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_settings.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
 
 /// The horizontal strip of open-document tabs (architecture.md §5).
 ///

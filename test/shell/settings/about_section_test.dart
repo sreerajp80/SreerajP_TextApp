@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/config/app_config.dart';
-import 'package:text_data/core/config/config_service.dart';
-import 'package:text_data/shell/settings/sections/about_section.dart';
+import 'package:sreerajp_textapp/core/config/app_config.dart';
+import 'package:sreerajp_textapp/core/config/config_service.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/about_section.dart';
 
 import '../../support/test_support.dart';
 

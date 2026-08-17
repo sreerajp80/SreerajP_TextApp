@@ -1,4 +1,4 @@
-import 'package:text_data/core/editor/undo_redo.dart';
+import 'package:sreerajp_textapp/core/editor/undo_redo.dart';
 
 /// A selected span of text, as caret offsets into the document. When [start]
 /// equals [end] it is a plain caret (no selection). Offsets are always

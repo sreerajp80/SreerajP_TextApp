@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:text_data/airqr/airqr_constants.dart';
-import 'package:text_data/airqr/airqr_payload.dart';
+import 'package:sreerajp_textapp/airqr/airqr_constants.dart';
+import 'package:sreerajp_textapp/airqr/airqr_payload.dart';
 
 void main() {
   group('build', () {

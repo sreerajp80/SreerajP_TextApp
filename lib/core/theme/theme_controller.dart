@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/theme/app_theme_mode.dart';
-import 'package:text_data/core/theme/theme_settings.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/theme/app_theme_mode.dart';
+import 'package:sreerajp_textapp/core/theme/theme_settings.dart';
 
 /// The one place the app changes and remembers its appearance
 /// (architecture.md §5). Wraps [ThemeSettings], hydrating from and saving to the

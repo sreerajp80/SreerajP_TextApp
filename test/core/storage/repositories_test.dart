@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:text_data/core/storage/app_database.dart';
-import 'package:text_data/core/storage/bookmarks_repository.dart';
-import 'package:text_data/core/storage/drafts_index_repository.dart';
-import 'package:text_data/core/storage/favorites_repository.dart';
-import 'package:text_data/core/storage/recents_repository.dart';
-import 'package:text_data/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/core/storage/app_database.dart';
+import 'package:sreerajp_textapp/core/storage/bookmarks_repository.dart';
+import 'package:sreerajp_textapp/core/storage/drafts_index_repository.dart';
+import 'package:sreerajp_textapp/core/storage/favorites_repository.dart';
+import 'package:sreerajp_textapp/core/storage/recents_repository.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
 
 void main() {
   // Run sqflite on the host with an in-memory database (no device needed).

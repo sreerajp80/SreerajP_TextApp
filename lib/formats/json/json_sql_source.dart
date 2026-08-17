@@ -1,5 +1,5 @@
-import 'package:text_data/core/sql/sql_dataset.dart';
-import 'package:text_data/formats/json/json_table.dart';
+import 'package:sreerajp_textapp/core/sql/sql_dataset.dart';
+import 'package:sreerajp_textapp/formats/json/json_table.dart';
 
 /// Turns a JSON array into a SQL table (Feature 4).
 ///

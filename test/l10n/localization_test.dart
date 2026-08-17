@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// Guards task 13.4: the localization delegate is wired and resolves English
 /// strings. A missing delegate or a broken ARB would fail these before release.

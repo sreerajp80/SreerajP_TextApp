@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/index/search_index_models.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/home/file_type_icon.dart';
+import 'package:sreerajp_textapp/core/index/search_index_models.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/home/file_type_icon.dart';
 
 /// One row in the workspace search results: the file, a snippet of the matching
 /// text with the match highlighted, and — when the file can no longer be opened

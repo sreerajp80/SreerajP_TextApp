@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/audit/audit_constants.dart';
-import 'package:text_data/core/audit/audit_hasher.dart';
+import 'package:sreerajp_textapp/core/audit/audit_constants.dart';
+import 'package:sreerajp_textapp/core/audit/audit_hasher.dart';
 
 void main() {
   group('AuditHasher', () {

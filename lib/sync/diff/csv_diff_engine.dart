@@ -1,8 +1,8 @@
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/formats/csv/csv_dialect.dart';
-import 'package:text_data/formats/csv/csv_parse.dart';
-import 'package:text_data/formats/csv/csv_table.dart';
-import 'package:text_data/sync/diff/diff_models.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_dialect.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_parse.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_table.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_models.dart';
 
 /// Pure Dart diff engine for tabular CSV data.
 class CsvDiffEngine {

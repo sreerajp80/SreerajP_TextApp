@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/theme/app_fonts.dart';
-import 'package:text_data/core/theme/theme_settings.dart';
+import 'package:sreerajp_textapp/core/theme/app_fonts.dart';
+import 'package:sreerajp_textapp/core/theme/theme_settings.dart';
 
 /// Builds the Material 3 [ThemeData] for each look from the app's appearance
 /// settings (architecture.md §5).

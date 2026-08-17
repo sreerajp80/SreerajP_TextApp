@@ -1,4 +1,4 @@
-import 'package:text_data/core/privacy/pii_type.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_type.dart';
 
 /// A single detected sensitive entity within a document.
 class PiiMatch {

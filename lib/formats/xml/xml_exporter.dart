@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:text_data/core/export/export_target.dart';
-import 'package:text_data/core/export/format_exporter.dart';
-import 'package:text_data/core/export/html_writer.dart';
-import 'package:text_data/core/export/pdf_writer.dart';
-import 'package:text_data/formats/xml/xml_convert.dart';
-import 'package:text_data/formats/xml/xml_parser.dart';
+import 'package:sreerajp_textapp/core/export/export_target.dart';
+import 'package:sreerajp_textapp/core/export/format_exporter.dart';
+import 'package:sreerajp_textapp/core/export/html_writer.dart';
+import 'package:sreerajp_textapp/core/export/pdf_writer.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_convert.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_parser.dart';
 
 /// Export capability for XML documents (task 9.6).
 ///

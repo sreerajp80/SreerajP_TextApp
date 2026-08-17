@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/settings/security_settings.dart';
-import 'package:text_data/core/security/app_lock_controller.dart';
-import 'package:text_data/core/security/app_lock_hasher.dart';
-import 'package:text_data/core/security/biometric_service.dart';
-import 'package:text_data/core/security/recovery_code_screen.dart';
-import 'package:text_data/core/security/set_pin_screen.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/settings/security_settings.dart';
+import 'package:sreerajp_textapp/core/security/app_lock_controller.dart';
+import 'package:sreerajp_textapp/core/security/app_lock_hasher.dart';
+import 'package:sreerajp_textapp/core/security/biometric_service.dart';
+import 'package:sreerajp_textapp/core/security/recovery_code_screen.dart';
+import 'package:sreerajp_textapp/core/security/set_pin_screen.dart';
 
 /// The unlock screen shown while the app is locked (task 13.2). Offers PIN
 /// entry, biometric unlock (if available), and a forgot-PIN recovery flow that

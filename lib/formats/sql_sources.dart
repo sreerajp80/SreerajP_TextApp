@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/sql/sql_dataset.dart';
-import 'package:text_data/core/sql/sql_source.dart';
-import 'package:text_data/formats/csv/csv_document_session.dart';
-import 'package:text_data/formats/csv/csv_session_manager.dart';
-import 'package:text_data/formats/csv/csv_sql_source.dart';
-import 'package:text_data/formats/format_dispatch.dart';
-import 'package:text_data/formats/json/json_document_session.dart';
-import 'package:text_data/formats/json/json_session_manager.dart';
-import 'package:text_data/formats/json/json_sql_source.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/core/sql/sql_dataset.dart';
+import 'package:sreerajp_textapp/core/sql/sql_source.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_session.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_session_manager.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_sql_source.dart';
+import 'package:sreerajp_textapp/formats/format_dispatch.dart';
+import 'package:sreerajp_textapp/formats/json/json_document_session.dart';
+import 'package:sreerajp_textapp/formats/json/json_session_manager.dart';
+import 'package:sreerajp_textapp/formats/json/json_sql_source.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
 
 /// How long to wait for a background tab's document to load before giving up.
 const Duration _loadTimeout = Duration(seconds: 20);

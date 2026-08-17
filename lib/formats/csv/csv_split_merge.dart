@@ -1,5 +1,5 @@
-import 'package:text_data/formats/csv/csv_dialect.dart';
-import 'package:text_data/formats/csv/csv_table.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_dialect.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_table.dart';
 
 /// Splits and merges CSV tables at the file level (task 7.6). Pure Dart,
 /// host-tested; `merge(splitByRows(t, n)) == t` for any table.

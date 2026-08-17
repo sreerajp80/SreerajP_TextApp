@@ -1,4 +1,4 @@
-import 'package:text_data/core/sql/sql_dataset.dart';
+import 'package:sreerajp_textapp/core/sql/sql_dataset.dart';
 
 /// An open document that can be loaded as a SQL table (Feature 4).
 ///

@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/security/app_lock_repository.dart';
-import 'package:text_data/core/security/biometric_service.dart';
-import 'package:text_data/core/security/window_security.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/security/app_lock_repository.dart';
+import 'package:sreerajp_textapp/core/security/biometric_service.dart';
+import 'package:sreerajp_textapp/core/security/window_security.dart';
 
 /// Screenshot-protection window flag. Real platform channel by default; tests
 /// override with a fake to assert `setSecure` calls.

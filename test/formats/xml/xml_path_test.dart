@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:xml/xml.dart';
-import 'package:text_data/formats/xml/xml_path.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_path.dart';
 
 void main() {
   const source = '''

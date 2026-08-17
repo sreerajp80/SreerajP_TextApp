@@ -28,9 +28,9 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 
-import 'package:text_data/airqr/airqr_constants.dart';
-import 'package:text_data/airqr/airqr_payload.dart';
-import 'package:text_data/sync/sync_crypto.dart';
+import 'package:sreerajp_textapp/airqr/airqr_constants.dart';
+import 'package:sreerajp_textapp/airqr/airqr_payload.dart';
+import 'package:sreerajp_textapp/sync/sync_crypto.dart';
 
 /// Thrown when a scanned string is not a usable frame. The message is user-safe
 /// — the receive screen shows it and keeps scanning.

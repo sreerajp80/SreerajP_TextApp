@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/formats/csv/csv_dialect.dart';
-import 'package:text_data/formats/csv/csv_table.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_dialect.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_table.dart';
 
 void main() {
   const dialect = CsvDialect(hasHeader: true, lineEnding: LineEndingStyle.lf);

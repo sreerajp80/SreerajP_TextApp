@@ -1,5 +1,19 @@
 # Features & Capabilities — TextData (`SreerajP_TextApp`)
 
+A reader-facing catalogue of everything the app can do today. Read it when you need to
+know whether a capability exists and what it covers.
+
+> **Which document owns what.** This file describes *features*. It is not the source of
+> truth for design or rules. The technical design lives in
+> [architecture.md](architecture.md), the folder layout in
+> [project_structure.md](project_structure.md), the security rules in
+> [security-rules.md](security-rules.md), and the product idea in
+> [textdata_idea.md](textdata_idea.md). Future work lives in
+> [feature_analysis_and_roadmap.md](feature_analysis_and_roadmap.md). If a fact here
+> disagrees with one of those, the other document wins.
+
+---
+
 ## 1. App Overview & Core Description
 
 **TextData** (`SreerajP_TextApp`) is an offline-first, zero-cloud, privacy-focused Android application built with Flutter (supporting Android 8.0+ / minSdk 26+ on phones and tablets in both portrait and landscape orientations). It is a full-featured reader, editor, parser, structure analyzer, chart generator, formula evaluator, query engine (JSONPath/XPath), schema validator with 1-tap quick fixes, structural diff tool, multi-format converter and exporter (PDF, HTML, DOCX, XLSX, ZIP, system print), bilingual (English/Malayalam) app with a matching text-to-speech reader, PIN/biometric app-lock, and a serverless peer-to-peer (P2P) sync engine for plain-text and structured-data files.
@@ -36,7 +50,7 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
 - **Atomic Safe Saving**: File writes utilize temporary intermediate shadow files (`AtomicSaver`) to guarantee original files are never corrupted during unexpected power loss, write interruptions, or app crashes.
 - **Multi-Document Tabbed Architecture**: Manages multiple open documents simultaneously in tabs with dynamic tab capacity (`TabCapPolicy`) based on available device RAM queried via `system_info2`.
 - **Non-Crashing Parser Fallbacks & Degraded Gates**: Implements error-tolerant parser fallbacks (`JsonWellFormedGate`, `XmlWellFormedGate`), degraded raw view modes, and 1-tap schema quick-fix helpers for malformed or corrupted documents.
-- **Serverless P2P LAN Sync**: Transfers documents, metadata, recents, and bookmarks directly between Android devices over local Wi-Fi with QR code scanning, 6-digit numeric PIN pairing, end-to-end AES-256-GCM encryption, and `FLAG_SECURE` window protection.
+- **Serverless P2P LAN Sync**: Transfers documents, metadata, recents, and bookmarks directly between Android devices over local Wi-Fi with QR code scanning, a long random pairing code (typed by hand when the camera is not used), end-to-end AES-256-GCM encryption, and `FLAG_SECURE` window protection.
 - **Hardware-Backed App Security**: Comprehensive PIN lock, recovery keys, native Android biometrics (`local_auth`), encrypted key storage (`flutter_secure_storage`), and screen recording / screenshot prevention (`WindowSecurity`).
 
 ---
@@ -44,7 +58,7 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
 ## 2. Exhaustive Feature Directory
 
 ### 2.1 Shared Multi-Format Editor Engine & Common Services
-- **Core Text Editor Surface**: Built on a customized, vendored `re_editor` engine (patched to set `enableSuggestions: false` preventing line duplication on keypresses; `flutter/flutter#31512`). Features responsive text entry, line numbers gutter, soft line wrapping toggle, and customizable tab indentation (2, 4, or 8 spaces).
+- **Core Text Editor Surface**: Built on a customized, vendored `re_editor` engine (patched to set `enableSuggestions: false` preventing line duplication on keypresses; `flutter/flutter#31512`). Features responsive text entry and a line-numbers gutter (always shown). Soft line wrapping is an app-wide switch in Settings › Appearance.
 - **Dynamic Zooming & Text Scaling**: Multi-touch pinch-to-zoom text scaling (`PinchToZoomArea`) and slider-based font size adjustment across all text editing surfaces.
 - **Undo / Redo Stack**: Comprehensive edit history preservation (`UndoRedoStack`) maintained per tab session.
 - **Advanced Find & Replace (`TextSearch` & `FindReplacePanel`)**:
@@ -75,13 +89,13 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
 - **All-Links Sheet (`TxtLinksSheet`)**: A dedicated bottom sheet lists every link found in the document (since the underlying text engine cannot make inline text tappable), letting the user open, copy, or cancel any of them through the same security warning dialog.
 - **Text-to-Speech (TTS) Read Aloud (`TtsService`)**:
   - Integrated speech synthesis engine supporting English (`en`) and Malayalam (`ml`) voice output.
-  - Controls for play, pause, stop, speech rate, pitch, and voice language selection.
-  - System TTS engine installer prompt (`TtsInstaller`) if no local speech engine is installed.
+  - A single play / stop toggle. There is no pause, and no in-app speech rate or pitch control — those stay with the device's own TTS engine settings.
+  - The two voices are turned on and off in Settings › Speech, which also checks whether the Malayalam voice is installed and offers a guided install (`TtsInstaller`) or a shortcut to the system TTS settings when no engine is available.
   - (See §2.1 — the same Read Aloud control is also available for Markdown, JSON, and XML documents.)
 - **File Tools (Splitting & Merging)**:
-  - **Split File**: Split large TXT files into chunks by line count, maximum file size (KB/MB), or custom search delimiters.
-  - **Merge Files**: Concatenate multiple TXT files into a unified document with customizable line separators.
-- **Text Statistics**: Real-time display of word count, character count (with and without spaces), line count, paragraph count, and average word length.
+  - **Split File**: Split large TXT files into chunks by line count or by maximum part size (KB/MB).
+  - **Merge Files**: Concatenate multiple TXT files into a unified document, joined with newlines.
+- **Text Statistics**: Real-time display of word count, character count, character count without line breaks, and line count.
 
 ---
 
@@ -102,7 +116,7 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
 - **YAML Frontmatter Inspector & Form (`MdFrontMatterForm`)**:
   - Parses and displays document frontmatter header metadata.
   - Interactive form editor for modifying standard fields (Title, Tags, Date, Author) while safely preserving un-recognized custom YAML key-value pairs.
-- **Heading-Based File Splitting (`MdSplitMerge`)**: Split Markdown documents into separate files based on H1 (`#`) or H2 (`##`) header sections.
+- **Heading-Based File Splitting (`MdSplitMerge`)**: Split Markdown documents into separate files at each top-level H1 (`#`) heading. Headings inside fenced code blocks are ignored, so a `#` in a shell snippet does not split the file.
 
 ---
 
@@ -112,7 +126,7 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
   - **Raw Text View**: Direct text buffer view with CSV dialect configuration.
 - **Grid Navigation & Frozen Panes**:
   - Freeze Header Row & Freeze First Column options for smooth scrolling through large tables.
-  - Auto-fit column width calculation and manual column width adjustments.
+  - Auto-fit column widths, sized from the header plus a sample of the rows. Widths are not hand-adjustable.
   - Column Visibility Drawer (`CsvColumnsSheet`): Toggle individual column visibility.
   - Inline Cell Editor (`CsvCellEditor`) with keyboard navigation.
   - **Grid-Level Undo/Redo**: The 2D grid keeps its own bounded snapshot undo/redo stack (separate from the raw-text editor's history), so cell, row, and column edits made in grid view can be undone independently.
@@ -134,12 +148,12 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
   - Chart types: **Bar Chart**, **Line Chart**, and **Pie Chart**.
   - Customizable value columns, category label columns, touch tooltips, and filter-aware rendering (charts active filtered row sets).
 - **Column Insights & Statistics (`CsvInsightsSheet`)**:
-  - Computes column-level metrics: Sum, Minimum, Maximum, Average, Median, Unique value count, and Missing cell count.
+  - Computes column-level metrics: inferred column type, filled cell count, empty cell count, unique value count, numeric cell count, and — for numeric columns — Minimum, Maximum, Sum, and Average. (No median.)
 - **Data Cleaning & Exporting**:
   - 1-tap Duplicate Row Detection and Removal.
   - Dialect auto-detection and manual overrides (Delimiter: `,`, `\t`, `;`, `|`; Quote char: `"`, `'`).
   - Custom column selection export sheet (`CsvExportSheet`).
-- **Split & Merge Tools**: Split CSV by row count or header grouping; merge multiple CSV files with automatic column header matching.
+- **Split & Merge Tools**: Split a CSV by row count or by maximum part size, with the header row repeated on every part so each part is a valid CSV on its own. Merge joins parts that already share the same columns — the header comes from the first part and the rest of the rows follow in order; it does not re-match or re-order mismatched columns.
 - **Embedded SQL Query Engine (`lib/core/sql/`)**: Runs real, read-only SQL — `SELECT`, `WHERE`, `GROUP BY`, aggregates, `ORDER BY`, `JOIN` — against the open document, entirely offline. Opened from the overflow menu.
   - **How it works**: the document is copied into a throwaway in-memory SQLite database. It uses the `sqflite` package the app already had, so the feature added no new dependency. The app's own database is never touched.
   - **Typed columns**: an all-numeric column (including `1,234` and `$1,299.00`) loads as a number, so `WHERE amount > 100` compares numerically. Blank cells load as `NULL`, never `0`, so `AVG` and `COUNT` stay honest. A blank or repeated header is repaired and the schema panel says what was renamed.
@@ -199,7 +213,7 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
     - Wraps multi-root XML structures in a synthetic `<root>` tag.
     - Strips invalid characters appearing before the `<?xml>` declaration.
   - Full **XSD schema validation** is shown in the UI as "coming soon" — it is not implemented yet, only well-formedness checking and the quick fixes above.
-- **Entity Resolution & Namespace Inspector**: Resolves standard XML entities (`&lt;`, `&gt;`, `&amp;`, `&quot;`, `&apos;`, numeric entities) and inspects namespace prefixes.
+- **Namespace Inspector**: The document info sheet lists every distinct namespace URI declared in the file. Standard XML entities (`&lt;`, `&gt;`, `&amp;`, `&quot;`, `&apos;`, and numeric entities) are resolved by the parser when the file is read — there is no separate entity browser.
 - **JSON Format Conversion (`XmlConvert`)**: 1-tap conversion of XML structures into equivalent JSON models.
 - **Repeated Tag Splitting & Merging**: Split XML documents by repeated element tags; concatenate XML fragments under a shared root tag.
 
@@ -214,16 +228,16 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
 - **Favorites & Pinned Files (`FavoritesRepository`)**: Pin frequently accessed files to the home dashboard.
 - **In-Document Bookmarks & Fingerprinting (`ContentFingerprint`)**: Add persistent bookmarks to specific lines/locations within documents. Bookmarks track content alterations and line shifts using SHA-256 content hashes.
 - **Workspace-Wide Full-Text Search (`SearchIndexService`)**: An offline SQLite FTS5 index over recent and favorite files. Files are indexed when opened and re-indexed after each successful save; a search screen on Home looks inside every indexed TXT, Markdown, CSV, JSON, and XML file at once, with format filter chips, highlighted snippets, and one tap to open the file as a tab. Oversized (≥ 50 MB) and binary files are skipped, each file is capped at 2 MB of stored text, and Settings › Files & Tabs can turn the index off, rebuild it, or clear it. Everything stays in the app's private database on the device.
-- **File Metadata Inspector (`FileMetadata`)**: Displays file path, URI, size, line count, character count, MIME type, encoding, and line ending style.
+- **File Metadata Inspector (`FileMetadata`)**: A per-document info sheet showing file name, size, last-modified time, detected encoding, and line ending style, plus counts for the format (for example words, characters, characters without line breaks, and lines for TXT; root element, element count, depth, common tags, and namespaces for XML). The raw SAF URI and MIME type are not shown.
 
 ---
 
 ### 2.8 Serverless Peer-to-Peer (P2P) Local LAN Sync Subsystem
 - **Zero-Cloud Local Wi-Fi Sync**: Directly transfers document files, metadata, recents, and bookmarks between two Android devices over a local Wi-Fi / LAN connection.
-- **QR Code & PIN Pairing**:
+- **QR Code Pairing**:
   - Host device renders a pairing QR code (`qr_flutter`).
   - Client device scans QR code using camera (`mobile_scanner`).
-  - Fallback 6-digit numeric pairing PIN for manual entry.
+  - Manual fallback: the client can type or paste the pairing code instead of scanning. The code is 64 characters drawn from a 31-character confusion-free alphabet (no `I`, `O`, `0`, or `1`) — roughly 317 bits of entropy, because it is the only thing standing between a peer and the session key. It is not a short numeric PIN.
   - **Screenshot & Capture Protection (`WindowSecurity`)**: Activates Android `FLAG_SECURE` on the host pairing screen to block screen recording or screenshots of pairing keys.
 - **End-to-End Encryption**: Encrypts all TCP socket communications using AES-256-GCM (`encrypt`) with keys derived via PBKDF2-HMAC-SHA256 (16-byte per-session random salt, 200,000 iterations via `pointycastle`).
 - **Selective Data Sync & Merge**: Choose specific documents or sync all app metadata using conflict-free add-only/fill-only merging strategies.
@@ -237,7 +251,7 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
   - Master PIN protection screen (`LockScreen`).
   - **Fingerprint & Face Unlock Integration (`BiometricService`)**: Native Android biometric authentication powered by `local_auth`.
   - Master Recovery Key System (`RecoveryCodeScreen`) to reset access if PIN is forgotten.
-  - Configurable auto-lock timeouts upon app backgrounding.
+  - Auto-lock when the app goes to the background (`AppLockGate`), so returning to it needs an unlock. There is no grace period or timeout to configure — it locks straight away.
 - **Hardware-Backed Key Storage (`SecureStore`)**: Encrypts security credentials, PIN hashes, and pairing keys using Android Keystore via `flutter_secure_storage`.
 - **Window Security (`FLAG_SECURE`)**: Blocks task switcher previews and screenshot capture on sensitive app screens.
 - **Self-Destructing Documents (`lib/core/ephemeral/`)**: Any open tab can be marked to self-destruct, either on a timer (15 minutes, 1 hour, 4 hours, 24 hours, or a typed number of minutes) or after its first successful export, share, or print. A countdown badge on the tab chip shows the time left. A file can also be opened straight into a self-destructing tab by long-pressing the "Open a file" button on Home.
@@ -274,13 +288,13 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
 ---
 
 ### 2.12 Comprehensive App Settings
-- **Appearance Settings (`AppearanceSection`)**: Theme mode selection, typography family picker, text scale factor slider.
-- **Editor Settings (`EditorSection`)**: Line numbers gutter toggle, soft line wrapping, tab width selector, auto-save interval configuration.
-- **Files & Tabs Settings (`FilesTabsSection`)**: Auto (RAM-aware) or fixed open-tab cap, over-limit behavior choice (auto-close least-recently-used vs. ask), restore-open-tabs-on-relaunch toggle, default encoding, default line endings (`LF`/`CRLF`).
-- **Speech Settings (`SpeechSection`)**: TTS voice engine selector, voice language (`en`/`ml`), speech rate, pitch, system TTS installer prompt.
-- **Sync Settings (`SyncSection`)**: P2P local LAN sync toggle, device display name, network port, pairing history management.
-- **Security Settings (`SecuritySection`)**: App Lock PIN configuration, biometric unlock toggle, auto-lock background timeout, recovery code generation.
-- **About & License Section (`AboutSection`)**: Application version, build number, developer details, open-source dependency licenses.
+- **Appearance Settings (`AppearanceSection`)**: Theme mode (System / Light / Dark / Sepia), app language, font size, Latin font family, a separate Malayalam font family, line spacing, and the app-wide soft word wrap toggle.
+- **Editor Settings (`EditorSection`)**: Default encoding for new saves (or preserve the file's own), default line ending (or preserve), confirm-before-overwrite toggle, open files read-only by default, leave edit mode after a save, and the auto-save interval (including "off").
+- **Files & Tabs Settings (`FilesTabsSection`)**: Auto (RAM-aware) or fixed open-tab cap, over-limit behavior choice (auto-close least-recently-used vs. ask), restore-open-tabs-on-relaunch toggle, and the workspace search index controls (on/off, indexed file count, rebuild, clear).
+- **Speech Settings (`SpeechSection`)**: English voice on/off, Malayalam voice on/off, a check of whether the Malayalam voice is installed with a guided install, and a shortcut to the system TTS settings when no engine is present. Rate and pitch are not configurable in-app.
+- **Sync Settings (`SyncSection`)**: The default categories to share (recents, favourites, bookmarks), a shortcut to the sync screen, and a shortcut to AirQR. The TCP port is picked by the host at run time and advertised in the pairing payload, so there is nothing to configure.
+- **Security Settings (`SecuritySection`)**: App Lock PIN set / change / turn off, biometric unlock toggle, screenshot and recents-preview blocking toggle, recovery code generation, and the self-destructing document defaults (default duration, burn-after-export, burn all open ephemeral tabs).
+- **About Section (`AboutSection`)**: Application name and description, version and build number, and the developer details from `assets/config/app_config.json` (author, email, a one-line licence note, tools used). There is no per-dependency licence list screen.
 - **Help & Documentation Section (`HelpSection`)**: Integrated FAQ, supported formats guide, user manual.
 
 ---
@@ -301,7 +315,7 @@ Unlike basic text viewers or cloud-dependent office suites, TextData operates **
 
 | Specifications / Layer | Details |
 | :--- | :--- |
-| **Product Version** | TextData v1.6.8+15 |
+| **Product Version** | TextData v1.9.0+21 |
 | **Framework & Engine** | Flutter 3.44.8+ / Dart 3.12.2+ |
 | **Target OS & Requirements** | Android 8.0+ (minSdk 26+), Phones & Tablets, Portrait & Landscape |
 | **Storage Architecture** | Storage Access Framework (SAF), SQLite (`sqflite`), Secure Storage (`flutter_secure_storage`) |

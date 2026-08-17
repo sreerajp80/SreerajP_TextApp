@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/csv/csv_chart.dart';
-import 'package:text_data/formats/csv/csv_chart_data.dart';
-import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_chart.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_chart_data.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_session.dart';
 
 /// The full-screen interactive chart for a CSV (roadmap §4.2.4).
 ///

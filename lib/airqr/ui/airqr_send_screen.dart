@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import 'package:text_data/airqr/airqr_constants.dart';
-import 'package:text_data/airqr/airqr_payload.dart';
-import 'package:text_data/airqr/airqr_provider.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/airqr/airqr_constants.dart';
+import 'package:sreerajp_textapp/airqr/airqr_payload.dart';
+import 'package:sreerajp_textapp/airqr/airqr_provider.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// Shows the animated QR stream for one payload.
 ///

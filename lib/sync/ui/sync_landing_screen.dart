@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/sync/ui/sync_client_screen.dart';
-import 'package:text_data/sync/ui/sync_host_screen.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/sync/ui/sync_client_screen.dart';
+import 'package:sreerajp_textapp/sync/ui/sync_host_screen.dart';
 
 /// Entry point for P2P LAN sync: pick Send (host) or Receive (client).
 ///

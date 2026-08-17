@@ -1,4 +1,4 @@
-import 'package:text_data/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
 
 /// The field separators a CSV file can use (task 7.1). Comma is the common case;
 /// semicolon is frequent in locales that use the comma as a decimal mark; tab

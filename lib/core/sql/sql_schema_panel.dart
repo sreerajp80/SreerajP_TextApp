@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/sql/sql_dataset.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/sql/sql_dataset.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// Shows the tables and columns the query engine holds (Feature 4).
 ///

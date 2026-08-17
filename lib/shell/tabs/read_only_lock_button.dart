@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
 
 /// A lock toggle for the active document (task 3.8).
 ///

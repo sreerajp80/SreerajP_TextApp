@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/markdown/md_source_edits.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_source_edits.dart';
 
 void main() {
   group('inline wraps', () {

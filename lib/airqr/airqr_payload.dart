@@ -14,7 +14,7 @@ library;
 
 import 'dart:convert';
 
-import 'package:text_data/airqr/airqr_constants.dart';
+import 'package:sreerajp_textapp/airqr/airqr_constants.dart';
 
 /// Thrown when an envelope is malformed or breaks a cap. The message is
 /// user-safe and carries no payload content.

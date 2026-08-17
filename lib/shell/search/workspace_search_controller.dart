@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/index/index_providers.dart';
-import 'package:text_data/core/index/search_index_models.dart';
-import 'package:text_data/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/index/index_providers.dart';
+import 'package:sreerajp_textapp/core/index/search_index_models.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
 
 /// What the workspace search screen is showing right now.
 class WorkspaceSearchState {

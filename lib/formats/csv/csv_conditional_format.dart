@@ -1,5 +1,5 @@
-import 'package:text_data/formats/csv/csv_table.dart';
-import 'package:text_data/formats/csv/csv_types.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_table.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_types.dart';
 
 /// The test a conditional-formatting rule applies to a cell (roadmap §4.2.3).
 enum CsvCondition {

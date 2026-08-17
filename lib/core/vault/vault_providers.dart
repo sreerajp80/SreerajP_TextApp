@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:text_data/core/security/security_providers.dart';
-import 'package:text_data/core/storage/secure_store.dart';
-import 'package:text_data/core/vault/vault_service.dart';
+import 'package:sreerajp_textapp/core/security/security_providers.dart';
+import 'package:sreerajp_textapp/core/storage/secure_store.dart';
+import 'package:sreerajp_textapp/core/vault/vault_service.dart';
 
 /// Provider for the [SecureStore] instance backed by hardware Keystore.
 final secureStoreProvider = Provider<SecureStore>(

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:text_data/core/sql/sql_guard.dart';
+import 'package:sreerajp_textapp/core/sql/sql_guard.dart';
 
 /// Feature 4 — the read-only gate in front of the query engine.
 ///

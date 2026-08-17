@@ -6,7 +6,7 @@ how the app is structured, which open-source packages to use, and how the hard p
 core, settings, sync, security) fit together.
 
 Read [CLAUDE.md](../CLAUDE.md) first for the project rules. See
-[TextData-Idea.md](TextData-Idea.md) for the full product idea.
+[textdata_idea.md](textdata_idea.md) for the full product idea.
 
 **Rule reminder:** every library named here is **open source**. No commercial or
 source-available SDKs (Syncfusion is banned).
@@ -719,3 +719,60 @@ still runs. Typed SQL is untrusted input like any opened file
   text (`{ 3 }`), so a query can select it but not look inside it.
 
 Nothing in this module logs the query text or any row (`CLAUDE.md` §8).
+
+---
+
+## 16. Logging (`lib/core/logging/`)
+
+The shared engineering standard (§14) asks every app for one named logger with a
+fixed level set and a written rule about what must never be logged. That is
+`AppLogger` in `lib/core/logging/app_logger.dart`.
+
+### 16.1 Why it looks like this
+
+- **No new package.** The standard leaves the implementation open. `AppLogger`
+  wraps `dart:developer`'s `log()`, so the app gains a logger without a new
+  dependency to licence-check or audit for hidden networking
+  (`CLAUDE.md` §11).
+- **Console only, never a file.** Nothing is written to disk. That means there
+  is no log file to leak, no export path, and no rotation to manage. The
+  rotation rules in the standard §14.4 only apply if file output is ever added.
+- **`print` and `debugPrint` are banned** in committed code. `avoid_print` is on
+  in `analysis_options.yaml`; `debugPrint` the analyzer cannot catch, so treat it
+  as banned by review. The one exception is the version-drift note inside
+  `ConfigService`, which is the shared guideline's own reference implementation.
+
+### 16.2 Levels
+
+`trace` · `debug` · `info` · `warning` · `error` · `fatal`, exactly the set in
+the standard §14.1.
+
+`AppLogger.init()` runs in `main()` before `runApp`. It reads
+`FLUTTER_APP_FLAVOR`: the `dev` flavor logs from `trace` up, every other build
+logs from `info` up. So `trace` and `debug` produce no output in a production
+build. If `init()` is never called, the logger stays at `info` — the safe
+default, so a missed call can never turn on verbose logging in a release.
+
+`error` and `fatal` must be given an `error` object, and a `stackTrace` wherever
+one is available.
+
+### 16.3 What must never be logged
+
+This app holds real secrets, so the rule is stricter than the standard's
+baseline. Never pass any of these to `AppLogger`, not even in a debug build:
+
+- PINs, recovery codes, pairing codes, or derived keys
+- Decrypted vault or document content, and any part of a user's file
+- SAF URIs, file paths, or file names that came from the user
+- LAN addresses, ports, or anything else identifying the user's network
+
+Log the operation and the error *type* instead. A parser exception message often
+quotes the file content that broke it, so the message itself is unsafe to log.
+
+### 16.4 Current adoption
+
+`AppLogger` is wired into `main()` and is the correct choice for any new
+diagnostic line. The existing code does not route its diagnostics through it yet
+— that sweep is tracked as follow-up work, not done. Until then, the honest
+statement is: the service exists and is ready, the codebase has not yet been
+migrated onto it.

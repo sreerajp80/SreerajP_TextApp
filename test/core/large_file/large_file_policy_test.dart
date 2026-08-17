@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/large_file/large_file_policy.dart';
+import 'package:sreerajp_textapp/core/large_file/large_file_policy.dart';
 
 void main() {
   const mb = 1024 * 1024;

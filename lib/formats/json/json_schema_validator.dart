@@ -1,4 +1,4 @@
-import 'package:text_data/formats/json/json_node.dart';
+import 'package:sreerajp_textapp/formats/json/json_node.dart';
 
 /// One schema violation: where it is and what is wrong (task 8.4).
 class JsonSchemaError {

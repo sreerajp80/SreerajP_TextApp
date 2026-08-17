@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
 
 /// Temporary body shown inside a tab until the real per-format viewer/editor
 /// lands (Phase 3 gives the editor core, Phase 4 the first TXT viewer).

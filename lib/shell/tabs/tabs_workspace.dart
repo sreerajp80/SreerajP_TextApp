@@ -3,38 +3,39 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/editor/atomic_saver.dart';
-import 'package:text_data/core/editor/pinch_to_zoom_area.dart';
-import 'package:text_data/core/editor/unsaved_changes.dart';
-import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
-import 'package:text_data/core/large_file/large_file_policy.dart';
-import 'package:text_data/core/vault/ui/vault_unlock_view.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/csv/csv_document_view.dart';
-import 'package:text_data/formats/csv/csv_session_manager.dart';
-import 'package:text_data/formats/csv/csv_toolbar.dart';
-import 'package:text_data/formats/format_dispatch.dart';
-import 'package:text_data/formats/json/json_document_view.dart';
-import 'package:text_data/formats/json/json_session_manager.dart';
-import 'package:text_data/formats/json/json_toolbar.dart';
-import 'package:text_data/formats/markdown/md_document_view.dart';
-import 'package:text_data/formats/markdown/md_session_manager.dart';
-import 'package:text_data/formats/markdown/md_toolbar.dart';
-import 'package:text_data/formats/txt/txt_document_view.dart';
-import 'package:text_data/formats/txt/txt_session_manager.dart';
-import 'package:text_data/formats/txt/txt_toolbar.dart';
-import 'package:text_data/formats/xml/xml_document_view.dart';
-import 'package:text_data/formats/xml/xml_session_manager.dart';
-import 'package:text_data/formats/xml/xml_toolbar.dart';
-import 'package:text_data/shell/tabs/degraded_document_view.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/file_changed_banner.dart';
-import 'package:text_data/shell/tabs/placeholder_document_view.dart';
-import 'package:text_data/shell/tabs/read_only_lock_button.dart';
-import 'package:text_data/shell/tabs/session_retention.dart';
-import 'package:text_data/shell/tabs/tab_strip.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
-import 'package:text_data/shell/tabs/unsaved_changes_dialog.dart';
+import 'package:sreerajp_textapp/core/editor/atomic_saver.dart';
+import 'package:sreerajp_textapp/core/editor/pinch_to_zoom_area.dart';
+import 'package:sreerajp_textapp/core/editor/unsaved_changes.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_controller.dart';
+import 'package:sreerajp_textapp/core/large_file/large_file_policy.dart';
+import 'package:sreerajp_textapp/core/vault/ui/vault_unlock_view.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_view.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_session_manager.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_toolbar.dart';
+import 'package:sreerajp_textapp/formats/format_dispatch.dart';
+import 'package:sreerajp_textapp/formats/json/json_document_view.dart';
+import 'package:sreerajp_textapp/formats/json/json_session_manager.dart';
+import 'package:sreerajp_textapp/formats/json/json_toolbar.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_document_view.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_session_manager.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_toolbar.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_document_view.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_session_manager.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_toolbar.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_document_view.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_session_manager.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_toolbar.dart';
+import 'package:sreerajp_textapp/shell/shell_providers.dart';
+import 'package:sreerajp_textapp/shell/tabs/degraded_document_view.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/file_changed_banner.dart';
+import 'package:sreerajp_textapp/shell/tabs/placeholder_document_view.dart';
+import 'package:sreerajp_textapp/shell/tabs/read_only_lock_button.dart';
+import 'package:sreerajp_textapp/shell/tabs/session_retention.dart';
+import 'package:sreerajp_textapp/shell/tabs/tab_strip.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/shell/tabs/unsaved_changes_dialog.dart';
 
 /// The open-documents workspace: the tab strip plus the active document body,
 /// with edge-bound left/right swipe to move between tabs (tasks 2.5, 2.7).
@@ -42,7 +43,7 @@ import 'package:text_data/shell/tabs/unsaved_changes_dialog.dart';
 /// The swipe is bound to thin **edge zones**, not the whole body, so on a
 /// format that scrolls horizontally (a wide CSV grid, later) the tab-switch
 /// gesture does not fight content scrolling (architecture.md §5).
-class TabsWorkspace extends ConsumerWidget {
+class TabsWorkspace extends ConsumerStatefulWidget {
   const TabsWorkspace({super.key});
 
   /// Width of the left/right edge zones that own the swipe gesture.
@@ -58,12 +59,46 @@ class TabsWorkspace extends ConsumerWidget {
   static const int _maxLoadedSessions = 3;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(tabsControllerProvider);
-    final controller = ref.read(tabsControllerProvider.notifier);
+  ConsumerState<TabsWorkspace> createState() => _TabsWorkspaceState();
+}
+
+class _TabsWorkspaceState extends ConsumerState<TabsWorkspace> {
+  /// Set when the workspace has just become empty, so the shell can leave the
+  /// Editor once the frame is done.
+  bool _leaveEditorWhenIdle = false;
+
+  bool _cleanUpScheduled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Sessions can outlive a rebuild of this screen (they live in the managers),
+    // so tidy up once on the way in too.
+    _scheduleCleanUp();
+  }
+
+  /// Runs the session clean-up **after** the current frame.
+  ///
+  /// Closing a tab disposes its document session, and with it the editor
+  /// controllers the screen is still holding on to. Doing that inside `build()`
+  /// pulls the ground out from under the widget being built — which threw, and a
+  /// release build paints a thrown build as a plain grey box. Waiting for the
+  /// frame to finish means the closed document is already off the screen.
+  void _scheduleCleanUp() {
+    if (_cleanUpScheduled) return;
+    _cleanUpScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _cleanUpScheduled = false;
+      if (!mounted) return;
+      _cleanUpAfterFrame();
+    });
+  }
+
+  void _cleanUpAfterFrame() {
+    final state = ref.read(tabsControllerProvider);
+    final openIds = state.tabs.map((t) => t.id).toSet();
 
     // Free the editor state (and auto-save timers) of any tab that has closed.
-    final openIds = state.tabs.map((t) => t.id).toSet();
     ref.read(txtSessionManagerProvider).retainOnly(openIds);
     ref.read(mdSessionManagerProvider).retainOnly(openIds);
     ref.read(jsonSessionManagerProvider).retainOnly(openIds);
@@ -83,58 +118,88 @@ class TabsWorkspace extends ConsumerWidget {
     // file when shown again.
     _releaseBackgroundSessions(ref, state);
 
+    // The last tab just closed: there is nothing to edit, so go back to Home
+    // instead of leaving the user on an empty screen.
+    if (_leaveEditorWhenIdle) {
+      _leaveEditorWhenIdle = false;
+      if (state.isEmpty &&
+          ref.read(shellDestinationProvider) == ShellDestination.editor) {
+        ref
+            .read(shellDestinationProvider.notifier)
+            .select(ShellDestination.home);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Every change to the tab set needs a clean-up pass; it runs after the
+    // frame, never during it.
+    ref.listen(tabsControllerProvider, (previous, next) {
+      if (previous != null && previous.tabs.isNotEmpty && next.tabs.isEmpty) {
+        _leaveEditorWhenIdle = true;
+      }
+      _scheduleCleanUp();
+    });
+
+    final state = ref.watch(tabsControllerProvider);
+    final controller = ref.read(tabsControllerProvider.notifier);
+
     if (state.isEmpty) {
       return const SafeArea(child: _NoOpenTabs());
     }
 
     final active = state.activeTab;
-    return SafeArea(
-      child: Column(
-        children: [
-          TabStrip(onRequestClose: (tab) => _confirmClose(context, ref, tab)),
-          if (active != null) _DocumentToolbar(tab: active),
-          if (active != null && active.isReadOnly) const ReadOnlyBanner(),
-          // Warns when another app changed the file behind this tab, and offers
-          // to load the fresh content. Shows nothing until that happens.
-          if (active != null) FileChangedBanner(tab: active),
-          Expanded(
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: active == null
-                      ? const SizedBox.shrink()
-                      : PinchToZoomArea(child: _DocumentBody(tab: active)),
-                ),
-                Positioned(
-                  key: const Key('tab-swipe-left-edge'),
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  width: edgeWidth,
-                  child: _EdgeSwipeZone(
-                    onFling: (v) => _onFling(controller, v),
+    return _EditModeBackGuard(
+      tab: active,
+      child: SafeArea(
+        child: Column(
+          children: [
+            TabStrip(onRequestClose: (tab) => _confirmClose(context, ref, tab)),
+            if (active != null) _DocumentToolbar(tab: active),
+            if (active != null && active.isReadOnly) const ReadOnlyBanner(),
+            // Warns when another app changed the file behind this tab, and offers
+            // to load the fresh content. Shows nothing until that happens.
+            if (active != null) FileChangedBanner(tab: active),
+            Expanded(
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: active == null
+                        ? const SizedBox.shrink()
+                        : PinchToZoomArea(child: _DocumentBody(tab: active)),
                   ),
-                ),
-                Positioned(
-                  key: const Key('tab-swipe-right-edge'),
-                  top: 0,
-                  bottom: 0,
-                  right: 0,
-                  width: edgeWidth,
-                  child: _EdgeSwipeZone(
-                    onFling: (v) => _onFling(controller, v),
+                  Positioned(
+                    key: const Key('tab-swipe-left-edge'),
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    width: TabsWorkspace.edgeWidth,
+                    child: _EdgeSwipeZone(
+                      onFling: (v) => _onFling(controller, v),
+                    ),
                   ),
-                ),
-              ],
+                  Positioned(
+                    key: const Key('tab-swipe-right-edge'),
+                    top: 0,
+                    bottom: 0,
+                    right: 0,
+                    width: TabsWorkspace.edgeWidth,
+                    child: _EdgeSwipeZone(
+                      onFling: (v) => _onFling(controller, v),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   /// Applies the retention policy: drops heavy state for clean, non-active,
-  /// least-recently-used sessions beyond [_maxLoadedSessions]. Dirty tabs and
+  /// least-recently-used sessions beyond [TabsWorkspace._maxLoadedSessions]. Dirty tabs and
   /// the active tab are never released (edits are never lost — CLAUDE.md §3.6).
   void _releaseBackgroundSessions(WidgetRef ref, TabsState state) {
     final txt = ref.read(txtSessionManagerProvider);
@@ -150,7 +215,7 @@ class TabsWorkspace extends ConsumerWidget {
       ...csv.liveIds,
       ...xml.liveIds,
     };
-    if (live.length <= _maxLoadedSessions) return;
+    if (live.length <= TabsWorkspace._maxLoadedSessions) return;
 
     final recency = [...state.tabs]
       ..sort((a, b) => b.lastActiveAt.compareTo(a.lastActiveAt));
@@ -159,7 +224,7 @@ class TabsWorkspace extends ConsumerWidget {
       recencyOrder: recency.map((t) => t.id).toList(growable: false),
       activeId: state.activeTab?.id,
       dirtyIds: state.tabs.where((t) => t.isDirty).map((t) => t.id).toSet(),
-      keepAlive: _maxLoadedSessions,
+      keepAlive: TabsWorkspace._maxLoadedSessions,
     );
 
     // A tab belongs to exactly one format, so releasing on every manager is
@@ -174,9 +239,9 @@ class TabsWorkspace extends ConsumerWidget {
   }
 
   void _onFling(TabsController controller, double velocity) {
-    if (velocity <= -_flingThreshold) {
+    if (velocity <= -TabsWorkspace._flingThreshold) {
       controller.next();
-    } else if (velocity >= _flingThreshold) {
+    } else if (velocity >= TabsWorkspace._flingThreshold) {
       controller.prev();
     }
   }
@@ -225,29 +290,64 @@ class TabsWorkspace extends ConsumerWidget {
 
   /// Resolves the format-specific document session for [tab] as a small
   /// save-capable interface, so the close guard works for any editable format.
-  _CloseSaver? _saverFor(WidgetRef ref, DocumentTab tab) {
+  static _TabSaver? _saverFor(WidgetRef ref, DocumentTab tab) {
     switch (detectFormat(tab)) {
       case DocumentFormat.txt:
         final s = ref.read(txtSessionManagerProvider).peek(tab.id);
-        return s == null ? null : _CloseSaver(s.save, s.saveAsCopy);
+        return s == null
+            ? null
+            : _TabSaver.of(
+                s.save,
+                s.saveAsCopy,
+                s.reloadFromDisk,
+                s.discardDraft,
+              );
       case DocumentFormat.markdown:
         final s = ref.read(mdSessionManagerProvider).peek(tab.id);
-        return s == null ? null : _CloseSaver(s.save, s.saveAsCopy);
+        return s == null
+            ? null
+            : _TabSaver.of(
+                s.save,
+                s.saveAsCopy,
+                s.reloadFromDisk,
+                s.discardDraft,
+              );
       case DocumentFormat.json:
         final s = ref.read(jsonSessionManagerProvider).peek(tab.id);
-        return s == null ? null : _CloseSaver(s.save, s.saveAsCopy);
+        return s == null
+            ? null
+            : _TabSaver.of(
+                s.save,
+                s.saveAsCopy,
+                s.reloadFromDisk,
+                s.discardDraft,
+              );
       case DocumentFormat.csv:
         final s = ref.read(csvSessionManagerProvider).peek(tab.id);
-        return s == null ? null : _CloseSaver(s.save, s.saveAsCopy);
+        return s == null
+            ? null
+            : _TabSaver.of(
+                s.save,
+                s.saveAsCopy,
+                s.reloadFromDisk,
+                s.discardDraft,
+              );
       case DocumentFormat.xml:
         final s = ref.read(xmlSessionManagerProvider).peek(tab.id);
-        return s == null ? null : _CloseSaver(s.save, s.saveAsCopy);
+        return s == null
+            ? null
+            : _TabSaver.of(
+                s.save,
+                s.saveAsCopy,
+                s.reloadFromDisk,
+                s.discardDraft,
+              );
       default:
         return null;
     }
   }
 
-  Future<SaveResult> _saveOnClose(_CloseSaver saver) async {
+  static Future<SaveResult> _saveOnClose(_TabSaver saver) async {
     final result = await saver.save();
     // A read-only overwrite falls back to a copy so the edits still land.
     if (result.outcome == SaveOutcome.readOnlyNeedsCopy) {
@@ -257,12 +357,129 @@ class TabsWorkspace extends ConsumerWidget {
   }
 }
 
-/// A minimal save interface shared by the format sessions, used by the tab-close
-/// guard so it does not need to know which format a tab holds.
-class _CloseSaver {
+/// Makes the Android back button leave **edit mode** before it leaves the
+/// screen.
+///
+/// Edit mode used to be a one-way door: the only way out was a toolbar toggle
+/// that people did not read as an exit. Back is the gesture everyone already
+/// reaches for, so it is wired to the same thing here.
+///
+/// A tab with unsaved edits goes through the very same prompt the tab-close
+/// guard uses, so leaving by back and leaving by close behave alike and no work
+/// is ever dropped without being asked about (CLAUDE.md §3.6). When the tab is
+/// not being edited this widget is transparent — back pops as it always did.
+///
+/// It listens to the active document's session so `canPop` is recomputed the
+/// moment the mode changes; without that the first back press after entering
+/// edit mode would still leave the screen.
+class _EditModeBackGuard extends ConsumerWidget {
+  final DocumentTab? tab;
+  final Widget child;
+
+  const _EditModeBackGuard({required this.tab, required this.child});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tab = this.tab;
+    if (tab == null) return child;
+    // An oversized file opens in the degraded, read-only view and never builds
+    // a heavy format session (Phase 10.2). It cannot be in edit mode, so do not
+    // build one here just to watch it.
+    if (LargeFilePolicy.isOversized(tab.size)) return child;
+    final listenable = tabSessionListenable(ref, tab);
+    if (listenable == null) return child;
+    return ListenableBuilder(
+      listenable: listenable,
+      builder: (context, _) {
+        final editing = isTabEditing(ref, tab);
+        return PopScope(
+          canPop: !editing,
+          onPopInvokedWithResult: (didPop, _) {
+            if (didPop) return;
+            unawaited(_leaveEditMode(context, ref, tab));
+          },
+          child: child,
+        );
+      },
+    );
+  }
+
+  /// Leaves edit mode, asking about unsaved edits first.
+  ///
+  /// Nothing here discards work on its own: "Discard" is an explicit choice, a
+  /// failed save keeps the user in edit mode with the reason shown, and Cancel
+  /// changes nothing.
+  Future<void> _leaveEditMode(
+    BuildContext context,
+    WidgetRef ref,
+    DocumentTab tab,
+  ) async {
+    if (!tab.isDirty) {
+      exitTabEditMode(ref, tab);
+      return;
+    }
+
+    final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalizations.of(context);
+    final saver = _TabsWorkspaceState._saverFor(ref, tab);
+    if (saver == null) {
+      // No live session to save from; the text cannot be at risk either.
+      exitTabEditMode(ref, tab);
+      return;
+    }
+
+    final action = await showUnsavedChangesDialog(
+      context,
+      fileName: tab.displayName,
+      canOverwrite: !tab.isReadOnly,
+    );
+    switch (action) {
+      case UnsavedChangesAction.cancel:
+        return; // stay in edit mode, nothing changed
+      case UnsavedChangesAction.discard:
+        // The tab stays open, so "discard" has to actually put the file's own
+        // content back — and drop the draft, or the banner would offer the
+        // thrown-away text again on the next open.
+        await saver.revert();
+        await saver.discardDraft();
+        exitTabEditMode(ref, tab);
+      case UnsavedChangesAction.save:
+      case UnsavedChangesAction.saveAsCopy:
+        final result = action == UnsavedChangesAction.save
+            ? await _TabsWorkspaceState._saveOnClose(saver)
+            : await saver.saveAsCopy();
+        if (result.succeeded) {
+          exitTabEditMode(ref, tab);
+          return;
+        }
+        if (result.outcome != SaveOutcome.cancelled) {
+          messenger.showSnackBar(
+            SnackBar(content: Text(result.message ?? l10n.tabCouldNotSave)),
+          );
+        }
+      // Anything other than a real save keeps the user in edit mode.
+    }
+  }
+}
+
+/// A minimal interface shared by the format sessions, used by the tab-close
+/// guard and the leave-edit-mode guard so neither needs to know which format a
+/// tab holds.
+///
+/// [revert] throws unsaved edits away by reloading the file from disk, and
+/// [discardDraft] drops the crash-recovery draft that went with them — together
+/// they are what "Discard" means for a tab that stays open.
+class _TabSaver {
   final Future<SaveResult> Function() save;
   final Future<SaveResult> Function() saveAsCopy;
-  const _CloseSaver(this.save, this.saveAsCopy);
+  final Future<bool> Function() revert;
+  final Future<void> Function() discardDraft;
+  const _TabSaver.of(
+    this.save,
+    this.saveAsCopy,
+    this.revert,
+    this.discardDraft,
+  );
 }
 
 /// The body for the active tab: the TXT viewer/editor for text files, the

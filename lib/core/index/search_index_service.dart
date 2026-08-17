@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/core/index/search_index_models.dart';
-import 'package:text_data/core/index/search_index_repository.dart';
-import 'package:text_data/core/large_file/large_file_policy.dart';
-import 'package:text_data/formats/txt/txt_content_sniff.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/index/search_index_models.dart';
+import 'package:sreerajp_textapp/core/index/search_index_repository.dart';
+import 'package:sreerajp_textapp/core/large_file/large_file_policy.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_content_sniff.dart';
 
 /// Why a file was not added to the workspace search index.
 enum IndexSkipReason {

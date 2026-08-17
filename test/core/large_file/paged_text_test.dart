@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/large_file/paged_text.dart';
+import 'package:sreerajp_textapp/core/large_file/paged_text.dart';
 
 void main() {
   group('PagedText', () {

@@ -6,7 +6,7 @@
 ## What changed
 
 - Added the Git submodule `https://github.com/sreerajp80/Flutter_Guidelines` at `docs/guidelines/`.
-- Updated [CLAUDE.md](file:///l:/Android/SreerajP_TextApp/CLAUDE.md) under the workflow rules section to refer developers to the guidelines manifest.
+- Updated [CLAUDE.md](../CLAUDE.md) under the workflow rules section to refer developers to the guidelines manifest.
 
 ## Why
 
@@ -16,4 +16,4 @@ To keep application development practices consistent across multiple apps by pul
 
 - Submodule is cloned and configured.
 - Guidelines documents are available at `docs/guidelines/`.
-- [CLAUDE.md](file:///l:/Android/SreerajP_TextApp/CLAUDE.md) links to [docs/GUIDELINES_MANIFEST.md](file:///l:/Android/SreerajP_TextApp/docs/GUIDELINES_MANIFEST.md).
+- [CLAUDE.md](../CLAUDE.md) links to [docs/GUIDELINES_MANIFEST.md](../docs/GUIDELINES_MANIFEST.md).

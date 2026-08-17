@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:text_data/core/index/search_index_service.dart';
+import 'package:sreerajp_textapp/core/index/search_index_service.dart';
 
 /// Small best-effort helpers the open, save, and recents flows call to keep the
 /// workspace search index up to date (Feature 11).

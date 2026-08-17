@@ -2,11 +2,12 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/sync/diff/live_diff_controller.dart';
-import 'package:text_data/sync/ui/widgets/csv_diff_view.dart';
-import 'package:text_data/sync/ui/widgets/text_diff_view.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/sync/diff/live_diff_controller.dart';
+import 'package:sreerajp_textapp/sync/ui/widgets/csv_diff_view.dart';
+import 'package:sreerajp_textapp/sync/ui/widgets/text_diff_view.dart';
 
 enum _ViewDisplayMode { sideBySide, unified, preview }
 
@@ -44,14 +45,15 @@ class _LiveDiffScreenState extends ConsumerState<LiveDiffScreen> {
   }
 
   Future<void> _saveMergedDocument() async {
+    final l10n = AppLocalizations.of(context);
     final merged = widget.controller.getMergedOutput();
 
     // If callback provided (e.g. from open tab), apply directly
     if (widget.onApplyToEditor != null) {
       widget.onApplyToEditor!(merged);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Applied merged changes to open document.'),
+        SnackBar(
+          content: Text(l10n.liveDiffApplied),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -74,7 +76,7 @@ class _LiveDiffScreenState extends ConsumerState<LiveDiffScreen> {
         setState(() => _isSaving = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Saved merged file as "${destFile.displayName}"'),
+            content: Text(l10n.liveDiffSavedAs(destFile.displayName)),
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -86,7 +88,7 @@ class _LiveDiffScreenState extends ConsumerState<LiveDiffScreen> {
         setState(() => _isSaving = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Could not save merged file.'),
+            content: Text(l10n.liveDiffSaveFailed),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -96,6 +98,7 @@ class _LiveDiffScreenState extends ConsumerState<LiveDiffScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
     return ListenableBuilder(
@@ -130,21 +133,21 @@ class _LiveDiffScreenState extends ConsumerState<LiveDiffScreen> {
             ),
             actions: [
               SegmentedButton<_ViewDisplayMode>(
-                segments: const [
+                segments: [
                   ButtonSegment(
                     value: _ViewDisplayMode.unified,
-                    icon: Icon(Icons.view_agenda_outlined, size: 16),
-                    tooltip: 'Unified Diff',
+                    icon: const Icon(Icons.view_agenda_outlined, size: 16),
+                    tooltip: l10n.liveDiffUnified,
                   ),
                   ButtonSegment(
                     value: _ViewDisplayMode.sideBySide,
-                    icon: Icon(Icons.view_column_outlined, size: 16),
-                    tooltip: 'Side-by-Side',
+                    icon: const Icon(Icons.view_column_outlined, size: 16),
+                    tooltip: l10n.liveDiffSideBySide,
                   ),
                   ButtonSegment(
                     value: _ViewDisplayMode.preview,
-                    icon: Icon(Icons.visibility_outlined, size: 16),
-                    tooltip: 'Merge Preview',
+                    icon: const Icon(Icons.visibility_outlined, size: 16),
+                    tooltip: l10n.liveDiffPreview,
                   ),
                 ],
                 selected: {_displayMode},
@@ -159,7 +162,7 @@ class _LiveDiffScreenState extends ConsumerState<LiveDiffScreen> {
               const SizedBox(width: 8),
               if (ctrl.mode != DiffSessionMode.standalone)
                 IconButton(
-                  tooltip: 'Push My Edits to Peer',
+                  tooltip: l10n.liveDiffPushToPeer,
                   icon: ctrl.isSending
                       ? const SizedBox(
                           width: 18,
@@ -176,25 +179,25 @@ class _LiveDiffScreenState extends ConsumerState<LiveDiffScreen> {
                   if (val == 'peer') ctrl.acceptAllPeer();
                 },
                 itemBuilder: (_) => [
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'auto',
                     child: ListTile(
-                      leading: Icon(Icons.auto_fix_high),
-                      title: Text('Auto-Merge Clean Changes'),
+                      leading: const Icon(Icons.auto_fix_high),
+                      title: Text(l10n.liveDiffAutoMergeClean),
                     ),
                   ),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'mine',
                     child: ListTile(
-                      leading: Icon(Icons.arrow_back),
-                      title: Text('Accept All Mine'),
+                      leading: const Icon(Icons.arrow_back),
+                      title: Text(l10n.liveDiffAcceptMine),
                     ),
                   ),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: 'peer',
                     child: ListTile(
-                      leading: Icon(Icons.arrow_forward),
-                      title: Text('Accept All Peer'),
+                      leading: const Icon(Icons.arrow_forward),
+                      title: Text(l10n.liveDiffAcceptPeer),
                     ),
                   ),
                 ],
@@ -273,7 +276,7 @@ class _LiveDiffScreenState extends ConsumerState<LiveDiffScreen> {
                 OutlinedButton.icon(
                   onPressed: ctrl.autoMergeNonConflicting,
                   icon: const Icon(Icons.auto_fix_high, size: 18),
-                  label: const Text('Auto-Merge'),
+                  label: Text(l10n.liveDiffAutoMerge),
                 ),
                 const SizedBox(width: 8),
                 Expanded(

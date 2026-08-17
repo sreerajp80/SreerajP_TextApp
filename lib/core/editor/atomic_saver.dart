@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:text_data/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
 
 /// The verdict from a pre-save well-formedness check. Structured formats (JSON,
 /// XML) register a real gate in later phases; plain text uses the default

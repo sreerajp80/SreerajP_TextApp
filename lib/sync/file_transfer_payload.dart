@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:text_data/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
 
 /// Thrown when a direct file transfer payload is malformed, too large, or invalid.
 class FileTransferException implements Exception {

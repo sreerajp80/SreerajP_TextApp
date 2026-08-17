@@ -1,4 +1,4 @@
-import 'package:text_data/core/sql/sql_dataset.dart';
+import 'package:sreerajp_textapp/core/sql/sql_dataset.dart';
 
 /// The kind of starter query, so the screen can label it in the user's language.
 enum SqlPresetKind { selectAll, countRows, groupCount, orderBy, join }

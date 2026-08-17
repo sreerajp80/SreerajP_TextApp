@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/sync/sync_crypto.dart';
-import 'package:text_data/sync/sync_transport.dart';
+import 'package:sreerajp_textapp/sync/sync_crypto.dart';
+import 'package:sreerajp_textapp/sync/sync_transport.dart';
 
 void main() {
   const loopback = '127.0.0.1';

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/editor/external_change.dart';
+import 'package:sreerajp_textapp/core/editor/external_change.dart';
 
 import '../../support/test_support.dart';
 

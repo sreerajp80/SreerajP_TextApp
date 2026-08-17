@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:text_data/sync/diff/diff_models.dart';
-import 'package:text_data/sync/diff/live_diff_controller.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_models.dart';
+import 'package:sreerajp_textapp/sync/diff/live_diff_controller.dart';
 
 /// Renders tabular CSV cell-by-cell and row-by-row diffs with interactive merge switches.
 class CsvDiffView extends StatelessWidget {
@@ -10,14 +11,15 @@ class CsvDiffView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final csvDiff = controller.csvDiff;
     final theme = Theme.of(context);
 
     if (csvDiff == null || csvDiff.rows.isEmpty) {
-      return const Center(
+      return Center(
         child: Padding(
-          padding: EdgeInsets.all(24),
-          child: Text('No CSV data to compare.'),
+          padding: const EdgeInsets.all(24),
+          child: Text(l10n.diffNoCsvData),
         ),
       );
     }
@@ -132,7 +134,9 @@ class _CsvRowCard extends StatelessWidget {
                     children: [
                       ChoiceChip(
                         visualDensity: VisualDensity.compact,
-                        label: const Text('← Mine'),
+                        label: Text(
+                          AppLocalizations.of(context).diffAcceptMineSide,
+                        ),
                         selected:
                             rowDiff.resolution == HunkResolution.acceptLocal,
                         onSelected: (_) => controller.resolveCsvRow(
@@ -142,7 +146,9 @@ class _CsvRowCard extends StatelessWidget {
                       ),
                       ChoiceChip(
                         visualDensity: VisualDensity.compact,
-                        label: const Text('Peer →'),
+                        label: Text(
+                          AppLocalizations.of(context).diffAcceptPeerSide,
+                        ),
                         selected:
                             rowDiff.resolution == HunkResolution.acceptRemote,
                         onSelected: (_) => controller.resolveCsvRow(

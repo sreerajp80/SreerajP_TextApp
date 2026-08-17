@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:xml/xml.dart';
-import 'package:text_data/formats/xml/xml_tree_edits.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_tree_edits.dart';
 
 void main() {
   const edits = XmlTreeEdits();

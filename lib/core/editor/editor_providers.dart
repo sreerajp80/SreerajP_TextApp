@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:text_data/core/metadata/file_metadata.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/core/editor/atomic_saver.dart';
-import 'package:text_data/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/metadata/file_metadata.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/editor/atomic_saver.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
 
 /// Dependency-injection providers for the shared editor services built in
 /// Phase 3. Phase 4 (TXT) is the first consumer; later format modules reuse the

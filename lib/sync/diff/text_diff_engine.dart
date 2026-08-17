@@ -1,4 +1,4 @@
-import 'package:text_data/sync/diff/diff_models.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_models.dart';
 
 /// Pure Dart diff engine implementing line-level Myers / LCS diffing and
 /// word-level inline highlighting.

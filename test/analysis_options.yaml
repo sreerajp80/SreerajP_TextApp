@@ -1,6 +1,6 @@
 # Analyzer settings for tests only. Inherits everything from the project root.
 #
-# Tests import app code with `package:text_data/...`, but shared test helpers
+# Tests import app code with `package:sreerajp_textapp/...`, but shared test helpers
 # (e.g. `test/support/test_support.dart`) live outside `lib/`, so they have no
 # package URI and must be imported relatively. That one rule is turned off here.
 include: ../analysis_options.yaml

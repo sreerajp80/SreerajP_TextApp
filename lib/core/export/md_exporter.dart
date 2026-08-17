@@ -3,10 +3,10 @@ import 'dart:typed_data';
 
 import 'package:markdown/markdown.dart' as md;
 
-import 'package:text_data/core/export/docx_writer.dart';
-import 'package:text_data/core/export/export_target.dart';
-import 'package:text_data/core/export/format_exporter.dart';
-import 'package:text_data/core/export/pdf_writer.dart';
+import 'package:sreerajp_textapp/core/export/docx_writer.dart';
+import 'package:sreerajp_textapp/core/export/export_target.dart';
+import 'package:sreerajp_textapp/core/export/format_exporter.dart';
+import 'package:sreerajp_textapp/core/export/pdf_writer.dart';
 
 /// Export capability for Markdown documents (task 6.5).
 ///

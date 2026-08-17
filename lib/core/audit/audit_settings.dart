@@ -6,7 +6,7 @@ library;
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
 
 /// Manages the audit-log enabled/disabled setting.
 class AuditSettings extends Notifier<bool> {

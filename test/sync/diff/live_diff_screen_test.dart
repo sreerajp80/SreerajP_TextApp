@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/sync/diff/live_diff_controller.dart';
-import 'package:text_data/sync/ui/live_diff_screen.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/sync/diff/live_diff_controller.dart';
+import 'package:sreerajp_textapp/sync/ui/live_diff_screen.dart';
 
 void main() {
   testWidgets(

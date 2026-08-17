@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/editor/external_change.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/file_changed_banner.dart';
+import 'package:sreerajp_textapp/core/editor/external_change.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/file_changed_banner.dart';
 
 import '../support/test_support.dart';
 

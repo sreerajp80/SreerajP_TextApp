@@ -12,13 +12,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-import 'package:text_data/core/audit/audit_constants.dart';
-import 'package:text_data/core/audit/audit_export.dart';
-import 'package:text_data/core/audit/audit_models.dart';
-import 'package:text_data/core/audit/audit_providers.dart';
-import 'package:text_data/core/config/config_service.dart';
-import 'package:text_data/core/storage/secure_store.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/audit/audit_constants.dart';
+import 'package:sreerajp_textapp/core/audit/audit_export.dart';
+import 'package:sreerajp_textapp/core/audit/audit_models.dart';
+import 'package:sreerajp_textapp/core/audit/audit_providers.dart';
+import 'package:sreerajp_textapp/core/config/config_service.dart';
+import 'package:sreerajp_textapp/core/storage/secure_store.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// The audit log screen, reached from Settings > Audit Log > View Audit Log.
 class AuditLogScreen extends ConsumerStatefulWidget {

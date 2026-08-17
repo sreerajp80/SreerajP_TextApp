@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:text_data/core/editor/atomic_saver.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/editor/draft_store.dart';
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/core/metadata/file_metadata.dart';
-import 'package:text_data/core/storage/app_database.dart';
-import 'package:text_data/core/storage/drafts_index_repository.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/formats/markdown/md_document_session.dart';
-import 'package:text_data/formats/markdown/md_live_preview.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/core/editor/atomic_saver.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/editor/draft_store.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/metadata/file_metadata.dart';
+import 'package:sreerajp_textapp/core/storage/app_database.dart';
+import 'package:sreerajp_textapp/core/storage/drafts_index_repository.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_document_session.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_live_preview.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
 
 import '../../support/test_support.dart';
 

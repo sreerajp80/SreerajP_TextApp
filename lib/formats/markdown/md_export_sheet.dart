@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/export/export_service.dart';
-import 'package:text_data/core/export/export_target.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/markdown/md_document_session.dart';
-import 'package:text_data/formats/markdown/md_output_actions.dart';
+import 'package:sreerajp_textapp/core/export/export_service.dart';
+import 'package:sreerajp_textapp/core/export/export_target.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_document_session.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_output_actions.dart';
 
 /// Lets the user pick an export target for a Markdown document, runs the
 /// conversion, then offers to share or save the produced file (task 6.5).

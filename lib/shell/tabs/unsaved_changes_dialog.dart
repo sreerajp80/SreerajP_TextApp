@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/editor/unsaved_changes.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/editor/unsaved_changes.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// Shows the Save / Save as a copy / Discard prompt for a document with unsaved
 /// edits and returns the chosen [UnsavedChangesAction] (architecture.md §6,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/export/export_service.dart';
-import 'package:text_data/core/export/export_target.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/xml/xml_document_session.dart';
-import 'package:text_data/formats/xml/xml_output_actions.dart';
+import 'package:sreerajp_textapp/core/export/export_service.dart';
+import 'package:sreerajp_textapp/core/export/export_target.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_document_session.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_output_actions.dart';
 
 /// Lets the user pick an export target for an XML document, runs the conversion,
 /// then offers to share or save the produced file (task 9.6).

@@ -4,27 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/editor/column_selection_sheet.dart';
-import 'package:text_data/core/editor/editor_providers.dart';
-import 'package:text_data/core/privacy/ui/privacy_shield_sheet.dart';
-import 'package:text_data/sync/diff/diff_dialog_helper.dart';
-import 'package:text_data/airqr/ui/airqr_send_action.dart';
-import 'package:text_data/core/output/output_providers.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/read_only_lock_button.dart';
-import 'package:text_data/formats/xml/xml_document_session.dart';
-import 'package:text_data/formats/xml/xml_export_sheet.dart';
-import 'package:text_data/formats/xml/xml_info_sheet.dart';
-import 'package:text_data/formats/xml/xml_output_actions.dart';
-import 'package:text_data/formats/xml/xml_query_builder_sheet.dart';
-import 'package:text_data/formats/xml/xml_read_aloud_button.dart';
-import 'package:text_data/formats/xml/xml_save_options_sheet.dart';
-import 'package:text_data/formats/xml/xml_session_manager.dart';
-import 'package:text_data/formats/xml/xml_split_merge_actions.dart';
-import 'package:text_data/formats/xml/xml_tools_sheets.dart';
+import 'package:sreerajp_textapp/core/editor/column_selection_sheet.dart';
+import 'package:sreerajp_textapp/core/editor/editor_providers.dart';
+import 'package:sreerajp_textapp/core/privacy/ui/privacy_shield_sheet.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_dialog_helper.dart';
+import 'package:sreerajp_textapp/airqr/ui/airqr_send_action.dart';
+import 'package:sreerajp_textapp/core/output/output_providers.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_controller.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/read_only_lock_button.dart';
+import 'package:sreerajp_textapp/formats/format_dispatch.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_document_session.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_export_sheet.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_info_sheet.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_output_actions.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_query_builder_sheet.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_read_aloud_button.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_save_options_sheet.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_session_manager.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_split_merge_actions.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_tools_sheets.dart';
 
 /// The action bar for an open XML document (tasks 9.1–9.6): the
 /// pretty/tree/raw/edit view controls, undo/redo, find, format/minify, validate,
@@ -79,10 +80,13 @@ class XmlToolbar extends ConsumerWidget {
               if (canEdit)
                 IconButton(
                   key: const Key('xml-edit-toggle'),
-                  tooltip: editing ? l10n.xmlStopEditing : l10n.xmlEditSource,
+                  tooltip: editing
+                      ? l10n.editorExitEditMode
+                      : l10n.xmlEditSource,
                   isSelected: editing,
                   icon: const Icon(Icons.edit_outlined),
-                  selectedIcon: const Icon(Icons.edit),
+                  // A filled pencil still reads as "edit"; this is the exit.
+                  selectedIcon: const Icon(Icons.edit_off_outlined),
                   onPressed: () => session.setMode(
                     editing ? XmlViewMode.pretty : XmlViewMode.edit,
                   ),
@@ -142,7 +146,13 @@ class XmlToolbar extends ConsumerWidget {
                 key: const Key('xml-save-button'),
                 tooltip: l10n.actionSave,
                 icon: const Icon(Icons.save_outlined),
-                onPressed: ready ? () => saveXmlDirect(context, session) : null,
+                onPressed: ready
+                    ? () async => exitEditModeAfterSave(
+                        ref,
+                        tab,
+                        saved: await saveXmlDirect(context, session),
+                      )
+                    : null,
               ),
               if (ready) XmlReadAloudButton(session: session),
               _OverflowMenu(tab: tab, session: session, enabled: ready),
@@ -308,11 +318,11 @@ class _OverflowMenu extends ConsumerWidget {
             title: Text(l10n.privacyShieldAction),
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: _MenuAction.liveDiff,
           child: ListTile(
-            leading: Icon(Icons.difference_outlined),
-            title: Text('Live P2P Diff & Sync'),
+            leading: const Icon(Icons.difference_outlined),
+            title: Text(l10n.liveDiffAction),
           ),
         ),
         PopupMenuItem(

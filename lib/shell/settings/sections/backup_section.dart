@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/backup/ui/backup_screen.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/settings/sections/settings_widgets.dart';
+import 'package:sreerajp_textapp/core/backup/ui/backup_screen.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/settings_widgets.dart';
 
 /// Backup & Restore settings section (Feature 12; ecosystem synergy).
 class BackupSection extends ConsumerWidget {

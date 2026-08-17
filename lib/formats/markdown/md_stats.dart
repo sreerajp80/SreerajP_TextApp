@@ -1,6 +1,6 @@
 import 'package:markdown/markdown.dart' as md;
 
-import 'package:text_data/formats/markdown/md_parse.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_parse.dart';
 
 /// Word / character / line / heading / link counts for a Markdown document
 /// (task 6.5 metadata).

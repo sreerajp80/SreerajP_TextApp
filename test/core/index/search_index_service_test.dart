@@ -3,16 +3,16 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:text_data/core/index/search_index_backfill.dart';
-import 'package:text_data/core/index/search_index_models.dart';
-import 'package:text_data/core/index/search_index_repository.dart';
-import 'package:text_data/core/index/search_index_service.dart';
-import 'package:text_data/core/storage/app_database.dart';
-import 'package:text_data/core/storage/favorites_repository.dart';
-import 'package:text_data/core/storage/recents_repository.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/core/index/search_index_backfill.dart';
+import 'package:sreerajp_textapp/core/index/search_index_models.dart';
+import 'package:sreerajp_textapp/core/index/search_index_repository.dart';
+import 'package:sreerajp_textapp/core/index/search_index_service.dart';
+import 'package:sreerajp_textapp/core/storage/app_database.dart';
+import 'package:sreerajp_textapp/core/storage/favorites_repository.dart';
+import 'package:sreerajp_textapp/core/storage/recents_repository.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
 
 /// A SAF stand-in that serves bytes from a map, so the backfill can be tested
 /// with no device and no real files.

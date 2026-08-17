@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/json/json_node.dart';
-import 'package:text_data/formats/json/json_parser.dart';
+import 'package:sreerajp_textapp/formats/json/json_node.dart';
+import 'package:sreerajp_textapp/formats/json/json_parser.dart';
 
 void main() {
   const parser = JsonParser();

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/over_limit_behavior.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/over_limit_behavior.dart';
 
 DocumentTab tab(String id, int lastActiveAt, {bool dirty = false}) =>
     DocumentTab(

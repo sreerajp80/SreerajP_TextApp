@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xml/xml.dart';
 
-import 'package:text_data/core/theme/theme_controller.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/xml/xml_document_session.dart';
+import 'package:sreerajp_textapp/core/theme/theme_controller.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_document_session.dart';
 
 /// The colour-coded, indented **pretty** view of an XML document (task 9.1).
 ///

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/sync/diff/diff_models.dart';
-import 'package:text_data/sync/diff/merge_engine.dart';
-import 'package:text_data/sync/diff/text_diff_engine.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_models.dart';
+import 'package:sreerajp_textapp/sync/diff/merge_engine.dart';
+import 'package:sreerajp_textapp/sync/diff/text_diff_engine.dart';
 
 void main() {
   const diffEngine = TextDiffEngine();

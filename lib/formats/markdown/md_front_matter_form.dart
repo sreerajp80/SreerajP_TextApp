@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/markdown/md_document_session.dart';
-import 'package:text_data/formats/markdown/md_front_matter.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_document_session.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_front_matter.dart';
 
 /// The YAML front-matter form editor (roadmap §4.4.3).
 ///

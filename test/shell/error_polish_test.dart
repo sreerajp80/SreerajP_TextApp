@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/theme/app_themes.dart';
-import 'package:text_data/core/theme/theme_settings.dart';
+import 'package:sreerajp_textapp/core/theme/app_themes.dart';
+import 'package:sreerajp_textapp/core/theme/theme_settings.dart';
 
 /// Guards task 13.5: notices are non-blocking. Every theme floats its snackbars
 /// so a message never covers the content or traps the user behind a modal bar.

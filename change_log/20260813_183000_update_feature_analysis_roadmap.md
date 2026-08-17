@@ -1,14 +1,14 @@
 # Change Log: Updated Feature Analysis & Roadmap from 18-App Ecosystem Audit
 
-**Plan Reference:** [plans/20260813_183000_update_feature_analysis_roadmap.md](file:///l:/Android/SreerajP_TextApp/plans/20260813_183000_update_feature_analysis_roadmap.md)
+**Plan Reference:** [plans/20260813_183000_update_feature_analysis_roadmap.md](../plans/20260813_183000_update_feature_analysis_roadmap.md)
 
 ## Summary of Changes
 
-Updated `docs/feature_analysis_and_roadmap.md` to synthesize key architecture patterns, reusable technologies, delivered deliverables, and future roadmap items derived from auditing all 18 applications in the developer's Flutter/Android ecosystem suite (`L:\Android\MyFlutterApps\myapps.md`).
+Updated `docs/feature_analysis_and_roadmap.md` to synthesize key architecture patterns, reusable technologies, delivered deliverables, and future roadmap items derived from auditing all 18 applications in the developer's Flutter/Android ecosystem suite (recorded in the ecosystem overview kept outside this repository).
 
 ### Modified Files
 
-#### [docs/feature_analysis_and_roadmap.md](file:///l:/Android/SreerajP_TextApp/docs/feature_analysis_and_roadmap.md)
+#### [docs/feature_analysis_and_roadmap.md](../docs/feature_analysis_and_roadmap.md)
 1. **Section 1 (Executive Summary & Ecosystem Synergy)**:
    - Expanded the list of ecosystem core technologies to include reusable patterns from all 18 apps (`SreerajP_PDFApp`, `sreerajp_todo`, `sreerajp_youtube_shortcut`, `SreerajPContactSphere`, `vault-files`, `SreerajP_Authenticator`, `SreerajP_CodeApp`, `SreerajP_Journal_Vault`, etc.).
    - Highlighted key reusable modules: PDF handling & Bouncy Castle signature checks, RFC 5545 RRULE recurrence engines, fl_chart visualizations, Keystore AES-256-GCM hardware security, and BLE/P2P transfer mechanics.

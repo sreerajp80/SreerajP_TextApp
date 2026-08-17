@@ -1,13 +1,13 @@
 import 'dart:typed_data';
 
-import 'package:text_data/core/backup/backup_bundle_service.dart';
-import 'package:text_data/core/backup/backup_crypto.dart';
-import 'package:text_data/core/backup/backup_models.dart';
-import 'package:text_data/core/storage/bookmarks_repository.dart';
-import 'package:text_data/core/storage/favorites_repository.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/recents_repository.dart';
-import 'package:text_data/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/core/backup/backup_bundle_service.dart';
+import 'package:sreerajp_textapp/core/backup/backup_crypto.dart';
+import 'package:sreerajp_textapp/core/backup/backup_models.dart';
+import 'package:sreerajp_textapp/core/storage/bookmarks_repository.dart';
+import 'package:sreerajp_textapp/core/storage/favorites_repository.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/recents_repository.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
 
 /// Orchestrates zero-knowledge encrypted backup creation and restoration.
 class BackupService {

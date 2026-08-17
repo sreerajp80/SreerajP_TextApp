@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/storage/device_memory.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/shell/tabs/placeholder_document_view.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
-import 'package:text_data/shell/tabs/tabs_workspace.dart';
+import 'package:sreerajp_textapp/core/storage/device_memory.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/shell/tabs/placeholder_document_view.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_workspace.dart';
 
 import '../support/test_support.dart';
 

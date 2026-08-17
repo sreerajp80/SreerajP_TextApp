@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/json/json_parser.dart';
-import 'package:text_data/formats/json/json_table.dart';
+import 'package:sreerajp_textapp/formats/json/json_parser.dart';
+import 'package:sreerajp_textapp/formats/json/json_table.dart';
 
 /// Guards the JSON array-to-table grid view (roadmap §4.3.1), including the
 /// failure paths: anything that is not a usable array gives an empty table

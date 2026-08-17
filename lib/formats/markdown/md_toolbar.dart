@@ -3,29 +3,30 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/editor/column_selection_sheet.dart';
-import 'package:text_data/core/editor/editor_providers.dart';
-import 'package:text_data/core/privacy/ui/privacy_shield_sheet.dart';
-import 'package:text_data/sync/diff/diff_dialog_helper.dart';
-import 'package:text_data/airqr/ui/airqr_send_action.dart';
-import 'package:text_data/core/output/output_providers.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
-import 'package:text_data/core/vault/ui/vault_lock_dialog.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/read_only_lock_button.dart';
-import 'package:text_data/formats/markdown/md_document_session.dart';
-import 'package:text_data/formats/markdown/md_export_sheet.dart';
-import 'package:text_data/formats/markdown/md_format_toolbar.dart';
-import 'package:text_data/formats/markdown/md_front_matter_form.dart';
-import 'package:text_data/formats/markdown/md_info_sheet.dart';
-import 'package:text_data/formats/markdown/md_output_actions.dart';
-import 'package:text_data/formats/markdown/md_read_aloud_button.dart';
-import 'package:text_data/formats/markdown/md_save_options_sheet.dart';
-import 'package:text_data/formats/markdown/md_session_manager.dart';
-import 'package:text_data/formats/markdown/md_split_merge_actions.dart';
-import 'package:text_data/formats/markdown/md_toc_sheet.dart';
+import 'package:sreerajp_textapp/core/editor/column_selection_sheet.dart';
+import 'package:sreerajp_textapp/core/editor/editor_providers.dart';
+import 'package:sreerajp_textapp/core/privacy/ui/privacy_shield_sheet.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_dialog_helper.dart';
+import 'package:sreerajp_textapp/airqr/ui/airqr_send_action.dart';
+import 'package:sreerajp_textapp/core/output/output_providers.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_controller.dart';
+import 'package:sreerajp_textapp/core/vault/ui/vault_lock_dialog.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/read_only_lock_button.dart';
+import 'package:sreerajp_textapp/formats/format_dispatch.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_document_session.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_export_sheet.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_format_toolbar.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_front_matter_form.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_info_sheet.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_output_actions.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_read_aloud_button.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_save_options_sheet.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_session_manager.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_split_merge_actions.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_toc_sheet.dart';
 
 /// The action bar for an open Markdown document (tasks 6.1–6.5): the
 /// rendered/raw/edit mode controls, the formatting toolbar (edit mode), find,
@@ -61,10 +62,12 @@ class MdToolbar extends ConsumerWidget {
                   if (canEdit)
                     IconButton(
                       key: const Key('md-edit-toggle'),
-                      tooltip: editing ? l10n.mdPreview : l10n.mdEdit,
+                      // While editing this is the way *out*, so it says so — an
+                      // eye here reads as "preview", not "stop editing".
+                      tooltip: editing ? l10n.editorExitEditMode : l10n.mdEdit,
                       isSelected: editing,
                       icon: const Icon(Icons.edit_outlined),
-                      selectedIcon: const Icon(Icons.visibility_outlined),
+                      selectedIcon: const Icon(Icons.edit_off_outlined),
                       onPressed: () => session.setMode(
                         editing ? MdMode.rendered : MdMode.edit,
                       ),
@@ -125,7 +128,11 @@ class MdToolbar extends ConsumerWidget {
                     tooltip: l10n.mdSave,
                     icon: const Icon(Icons.save_outlined),
                     onPressed: ready
-                        ? () => saveMdDirect(context, session)
+                        ? () async => exitEditModeAfterSave(
+                            ref,
+                            tab,
+                            saved: await saveMdDirect(context, session),
+                          )
                         : null,
                   ),
                   if (ready) MdReadAloudButton(session: session),
@@ -247,11 +254,11 @@ class _OverflowMenu extends ConsumerWidget {
             title: Text(l10n.privacyShieldAction),
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: _MenuAction.liveDiff,
           child: ListTile(
-            leading: Icon(Icons.difference_outlined),
-            title: Text('Live P2P Diff & Sync'),
+            leading: const Icon(Icons.difference_outlined),
+            title: Text(l10n.liveDiffAction),
           ),
         ),
         PopupMenuItem(
@@ -261,11 +268,11 @@ class _OverflowMenu extends ConsumerWidget {
             title: Text(l10n.airqrSendByQr),
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: _MenuAction.lockVault,
           child: ListTile(
-            leading: Icon(Icons.shield_outlined),
-            title: Text('Lock in Biometric Vault'),
+            leading: const Icon(Icons.shield_outlined),
+            title: Text(l10n.vaultLockAction),
           ),
         ),
         PopupMenuItem(

@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import 'package:text_data/core/sql/sql_dataset.dart';
-import 'package:text_data/core/sql/sql_query_screen.dart';
-import 'package:text_data/core/sql/sql_source.dart';
+import 'package:sreerajp_textapp/core/sql/sql_dataset.dart';
+import 'package:sreerajp_textapp/core/sql/sql_query_screen.dart';
+import 'package:sreerajp_textapp/core/sql/sql_source.dart';
 
 import '../../support/test_support.dart';
 

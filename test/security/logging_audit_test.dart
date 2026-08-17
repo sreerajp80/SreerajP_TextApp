@@ -18,6 +18,11 @@ void main() {
     // Guarded by `kDebugMode`; prints only the app version/build mismatch, no
     // secret material. See config_service.dart.
     'lib/core/config/config_service.dart': 'ConfigService: version/build',
+    // The one logging sink for the whole app. It writes only what a caller
+    // hands it, so it holds no secret of its own; the "never log" rule is
+    // enforced at the call sites and documented on the class. Console only —
+    // nothing reaches disk. See app_logger.dart and architecture.md §16.
+    'lib/core/logging/app_logger.dart': "'[\${level.label}] \$message'",
   };
 
   test('lib/ has no unreviewed logging calls', () {

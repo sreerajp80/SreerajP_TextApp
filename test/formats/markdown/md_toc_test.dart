@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/markdown/md_toc.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_toc.dart';
 
 void main() {
   test('builds entries with the right levels and text', () {

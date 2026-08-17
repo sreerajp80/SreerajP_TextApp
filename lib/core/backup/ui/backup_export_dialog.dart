@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/backup/backup_constants.dart';
-import 'package:text_data/core/backup/backup_models.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/backup/backup_constants.dart';
+import 'package:sreerajp_textapp/core/backup/backup_models.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// Dialog collecting options and password for creating a new `.txdata` backup archive.
 class BackupExportDialog extends StatefulWidget {

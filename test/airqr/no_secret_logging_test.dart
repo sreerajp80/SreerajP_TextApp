@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:text_data/airqr/airqr_codec.dart';
-import 'package:text_data/airqr/airqr_constants.dart';
-import 'package:text_data/airqr/airqr_payload.dart';
+import 'package:sreerajp_textapp/airqr/airqr_codec.dart';
+import 'package:sreerajp_textapp/airqr/airqr_constants.dart';
+import 'package:sreerajp_textapp/airqr/airqr_payload.dart';
 
 /// Guards security-rules: AirQR code must NEVER log the session code, the
 /// derived key, the salt, or any frame or payload content — not even in debug

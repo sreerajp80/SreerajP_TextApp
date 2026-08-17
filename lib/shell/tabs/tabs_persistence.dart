@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
 
 /// The open-tab set restored on the next launch (task 2.8).
 class RestoredTabs {

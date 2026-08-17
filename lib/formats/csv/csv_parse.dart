@@ -1,7 +1,7 @@
 import 'package:csv/csv.dart';
 
-import 'package:text_data/formats/csv/csv_dialect.dart';
-import 'package:text_data/formats/csv/csv_table.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_dialect.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_table.dart';
 
 /// Parses CSV text into a [CsvTable] using a chosen [CsvDialect] (task 7.1).
 ///

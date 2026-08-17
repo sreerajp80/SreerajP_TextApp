@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/markdown/md_document_session.dart';
-import 'package:text_data/formats/markdown/md_split_merge.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_document_session.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_split_merge.dart';
 
 /// UI actions for splitting a Markdown file by top-level heading and appending
 /// another Markdown file into this one (task 6.5). The heavy lifting is the pure

@@ -4,17 +4,17 @@ import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:text_data/core/editor/draft_store.dart';
-import 'package:text_data/core/ephemeral/ephemeral_wiper.dart';
-import 'package:text_data/core/index/search_index_repository.dart';
-import 'package:text_data/core/index/search_index_service.dart';
-import 'package:text_data/core/storage/app_database.dart';
-import 'package:text_data/core/storage/bookmarks_repository.dart';
-import 'package:text_data/core/storage/drafts_index_repository.dart';
-import 'package:text_data/core/storage/favorites_repository.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/recents_repository.dart';
-import 'package:text_data/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/core/editor/draft_store.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_wiper.dart';
+import 'package:sreerajp_textapp/core/index/search_index_repository.dart';
+import 'package:sreerajp_textapp/core/index/search_index_service.dart';
+import 'package:sreerajp_textapp/core/storage/app_database.dart';
+import 'package:sreerajp_textapp/core/storage/bookmarks_repository.dart';
+import 'package:sreerajp_textapp/core/storage/drafts_index_repository.dart';
+import 'package:sreerajp_textapp/core/storage/favorites_repository.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/recents_repository.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
 
 import '../../support/test_support.dart';
 

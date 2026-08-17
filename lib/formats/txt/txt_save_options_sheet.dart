@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/editor/atomic_saver.dart';
-import 'package:text_data/core/editor/confirm_overwrite.dart';
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/txt/txt_document_session.dart';
-import 'package:text_data/formats/txt/txt_encoding_labels.dart';
+import 'package:sreerajp_textapp/core/editor/atomic_saver.dart';
+import 'package:sreerajp_textapp/core/editor/confirm_overwrite.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_document_session.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_encoding_labels.dart';
 
 /// Runs a plain Save: overwrite the file, preserving its encoding + line ending
 /// (arch §6, CLAUDE.md §3.5), and report the outcome with a snackbar. A
@@ -14,18 +14,22 @@ import 'package:text_data/formats/txt/txt_encoding_labels.dart';
 /// This is what the toolbar Save button uses, so an ordinary save does not ask
 /// any questions. To change the encoding or line ending, or to save a copy, the
 /// user opens [showSaveOptionsSheet] via the "Save as…" menu.
-Future<void> saveTxtDirect(
+///
+/// Returns true when the file was actually written, so the caller can act on a
+/// finished save — the toolbar uses it to leave edit mode (task 11.2).
+Future<bool> saveTxtDirect(
   BuildContext context,
   TxtDocumentSession session,
 ) async {
   final messenger = ScaffoldMessenger.of(context);
   final l10n = AppLocalizations.of(context);
-  if (!await confirmOverwriteIfNeeded(context)) return;
+  if (!await confirmOverwriteIfNeeded(context)) return false;
   var result = await session.save();
   if (result.outcome == SaveOutcome.readOnlyNeedsCopy) {
     result = await session.saveAsCopy();
   }
   _reportSaveResult(messenger, l10n, result);
+  return result.succeeded;
 }
 
 /// Runs Save or Save-as-a-copy with a chance to pick the output encoding and

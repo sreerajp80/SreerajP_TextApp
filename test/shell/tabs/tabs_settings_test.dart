@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/editor/editor_settings.dart';
-import 'package:text_data/core/storage/device_memory.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
-import 'package:text_data/shell/tabs/tabs_persistence.dart';
+import 'package:sreerajp_textapp/core/editor/editor_settings.dart';
+import 'package:sreerajp_textapp/core/storage/device_memory.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_persistence.dart';
 
 import '../../support/test_support.dart';
 

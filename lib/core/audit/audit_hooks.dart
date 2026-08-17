@@ -7,8 +7,8 @@
 /// Riverpod ref they hold.
 library;
 
-import 'package:text_data/core/audit/audit_constants.dart';
-import 'package:text_data/core/audit/audit_service.dart';
+import 'package:sreerajp_textapp/core/audit/audit_constants.dart';
+import 'package:sreerajp_textapp/core/audit/audit_service.dart';
 
 /// Best-effort audit-log recording helpers.
 ///

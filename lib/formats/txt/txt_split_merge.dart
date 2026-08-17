@@ -1,4 +1,4 @@
-import 'package:text_data/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
 
 /// Splits and merges plain-text content (task 4.5).
 ///

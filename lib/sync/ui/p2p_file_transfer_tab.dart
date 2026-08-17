@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
-import 'package:text_data/sync/sync_provider.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/sync/sync_provider.dart';
 
 /// Tab in SyncHostScreen allowing the user to select and stream a full document file
 /// directly to the connected P2P client over local sockets.
@@ -25,6 +26,7 @@ class _P2pFileTransferTabState extends ConsumerState<P2pFileTransferTab> {
   int? _selectedSizeBytes;
 
   Future<void> _pickFileFromStorage() async {
+    final l10n = AppLocalizations.of(context);
     try {
       final saf = ref.read(safServiceProvider);
       final file = await saf.pickFile();
@@ -43,7 +45,7 @@ class _P2pFileTransferTabState extends ConsumerState<P2pFileTransferTab> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Could not read selected file.'),
+            content: Text(l10n.p2pReadFileFailed),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -52,6 +54,7 @@ class _P2pFileTransferTabState extends ConsumerState<P2pFileTransferTab> {
   }
 
   void _selectOpenTab(DocumentTab tab) async {
+    final l10n = AppLocalizations.of(context);
     try {
       final saf = ref.read(safServiceProvider);
       final bytes = await saf.readBytes(tab.uri);
@@ -67,7 +70,7 @@ class _P2pFileTransferTabState extends ConsumerState<P2pFileTransferTab> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Could not read open tab content.'),
+            content: Text(l10n.p2pReadTabFailed),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -91,6 +94,7 @@ class _P2pFileTransferTabState extends ConsumerState<P2pFileTransferTab> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final tabsState = ref.watch(tabsControllerProvider);
     final isConnected = widget.controller.hostConnected;
@@ -146,7 +150,7 @@ class _P2pFileTransferTabState extends ConsumerState<P2pFileTransferTab> {
         OutlinedButton.icon(
           onPressed: _pickFileFromStorage,
           icon: const Icon(Icons.folder_open),
-          label: const Text('Pick from Device Storage (SAF)'),
+          label: Text(l10n.p2pPickFromStorage),
         ),
         if (tabsState.tabs.isNotEmpty) ...[
           const SizedBox(height: 16),

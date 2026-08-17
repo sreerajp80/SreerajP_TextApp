@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/editor/editor_settings.dart';
-import 'package:text_data/core/editor/editor_settings_controller.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/settings/sections/settings_widgets.dart';
+import 'package:sreerajp_textapp/core/editor/editor_settings.dart';
+import 'package:sreerajp_textapp/core/editor/editor_settings_controller.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/settings_widgets.dart';
 
 /// Editor settings (task 11.2): default encoding / line ending on save,
 /// confirm-before-overwrite, auto-save interval, and open-read-only-by-default.
@@ -69,6 +69,13 @@ class EditorSection extends ConsumerWidget {
           subtitle: Text(l10n.editorOpenReadOnlySub),
           value: settings.openReadOnlyByDefault,
           onChanged: controller.setOpenReadOnlyByDefault,
+        ),
+        SwitchListTile(
+          key: const Key('editor-exit-edit-after-save'),
+          title: Text(l10n.editorExitEditAfterSave),
+          subtitle: Text(l10n.editorExitEditAfterSaveSub),
+          value: settings.exitEditAfterSave,
+          onChanged: controller.setExitEditAfterSave,
         ),
         SettingsSliderTile(
           label: l10n.editorAutoSaveLabel,

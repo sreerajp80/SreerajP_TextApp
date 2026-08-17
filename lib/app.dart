@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/locale/locale_controller.dart';
-import 'package:text_data/core/security/app_lock_gate.dart';
-import 'package:text_data/core/theme/app_theme_mode.dart';
-import 'package:text_data/core/theme/app_themes.dart';
-import 'package:text_data/core/theme/theme_controller.dart';
-import 'package:text_data/core/theme/theme_settings.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/app_shell.dart';
-import 'package:text_data/shell/onboarding/onboarding_controller.dart';
-import 'package:text_data/shell/onboarding/onboarding_screen.dart';
+import 'package:sreerajp_textapp/core/locale/locale_controller.dart';
+import 'package:sreerajp_textapp/core/security/app_lock_gate.dart';
+import 'package:sreerajp_textapp/core/theme/app_theme_mode.dart';
+import 'package:sreerajp_textapp/core/theme/app_themes.dart';
+import 'package:sreerajp_textapp/core/theme/theme_controller.dart';
+import 'package:sreerajp_textapp/core/theme/theme_settings.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/app_shell.dart';
+import 'package:sreerajp_textapp/shell/onboarding/onboarding_controller.dart';
+import 'package:sreerajp_textapp/shell/onboarding/onboarding_screen.dart';
 
 /// Root of the TextData app.
 ///

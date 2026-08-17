@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/markdown/md_split_merge.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_split_merge.dart';
 
 void main() {
   const sm = MdSplitMerge();

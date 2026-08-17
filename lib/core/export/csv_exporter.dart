@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:text_data/formats/csv/csv_dialect.dart';
-import 'package:text_data/formats/csv/csv_parse.dart';
-import 'package:text_data/formats/csv/csv_table.dart';
-import 'package:text_data/core/export/export_target.dart';
-import 'package:text_data/core/export/format_exporter.dart';
-import 'package:text_data/core/export/pdf_writer.dart';
-import 'package:text_data/core/export/xlsx_writer.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_dialect.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_parse.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_table.dart';
+import 'package:sreerajp_textapp/core/export/export_target.dart';
+import 'package:sreerajp_textapp/core/export/format_exporter.dart';
+import 'package:sreerajp_textapp/core/export/pdf_writer.dart';
+import 'package:sreerajp_textapp/core/export/xlsx_writer.dart';
 
 /// Export capability for CSV documents (task 7.6).
 ///

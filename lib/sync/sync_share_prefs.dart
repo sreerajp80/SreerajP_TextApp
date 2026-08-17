@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
 
 /// Which record categories are **pre-checked** when the user starts a share
 /// (task 11.5).

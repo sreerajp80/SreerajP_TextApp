@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/csv/csv_document_session.dart';
-import 'package:text_data/formats/csv/csv_parse.dart';
-import 'package:text_data/formats/csv/csv_split_merge.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_session.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_parse.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_split_merge.dart';
 
 /// UI actions for splitting a CSV by row count and appending another CSV
 /// (task 7.6). The heavy lifting is the pure [CsvSplitMerge]; these helpers

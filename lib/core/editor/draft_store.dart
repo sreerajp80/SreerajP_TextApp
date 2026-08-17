@@ -5,10 +5,10 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:text_data/core/ephemeral/secure_wipe.dart';
-import 'package:text_data/core/storage/drafts_index_repository.dart';
-import 'package:text_data/core/storage/storage_models.dart';
-import 'package:text_data/core/storage/storage_providers.dart';
+import 'package:sreerajp_textapp/core/ephemeral/secure_wipe.dart';
+import 'package:sreerajp_textapp/core/storage/drafts_index_repository.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/core/storage/storage_providers.dart';
 
 /// Persists in-progress edits so a crash or a killed process never loses work
 /// (architecture.md §6). Each draft is a small file in the app's **private**
@@ -133,23 +133,55 @@ class AutoSaver {
   final String _fingerprint;
   final String Function() _getContent;
 
+  /// Called when a tick starts failing, and again when one succeeds after a
+  /// failure, so the editor can tell the user their work is (or is again) being
+  /// protected. Never carries document text — only the fact of the failure.
+  final void Function(bool failing)? onFailingChanged;
+
   String? _lastSaved;
   Timer? _timer;
+  bool _failing = false;
 
   AutoSaver({
     required this._store,
     required this._fingerprint,
     required this._getContent,
+    this.onFailingChanged,
   });
+
+  /// True when the last attempted draft write failed. The timer keeps trying, so
+  /// this clears itself as soon as one succeeds.
+  bool get isFailing => _failing;
 
   /// Saves a draft only when the content changed since the last write, to avoid
   /// churning the disk. Returns true when it wrote.
+  ///
+  /// A failed write never throws out of here: the timer that drives this
+  /// discards the future, so a thrown error would become an unhandled async
+  /// error that nobody sees while the user keeps typing (CLAUDE.md §3.6).
+  /// Instead the failure is recorded, [_lastSaved] is left alone so the next
+  /// tick retries the same content, and [onFailingChanged] lets the editor show
+  /// a warning.
   Future<bool> tick() async {
     final content = _getContent();
     if (content == _lastSaved) return false;
-    await _store.save(_fingerprint, content);
+    try {
+      await _store.save(_fingerprint, content);
+    } catch (_) {
+      // The reason is deliberately not kept or logged: it can carry the draft's
+      // path, and a draft is document content (security-rules §logging).
+      _setFailing(true);
+      return false;
+    }
     _lastSaved = content;
+    _setFailing(false);
     return true;
+  }
+
+  void _setFailing(bool value) {
+    if (_failing == value) return;
+    _failing = value;
+    onFailingChanged?.call(value);
   }
 
   /// Starts periodic auto-save on [interval]. Call [stop] when the editor
@@ -165,9 +197,11 @@ class AutoSaver {
   }
 
   /// Marks the current content as clean (call right after a real save) so the
-  /// next tick does not immediately rewrite the same draft.
+  /// next tick does not immediately rewrite the same draft. A real save also
+  /// clears any earlier draft-write failure: the work is on disk now.
   void markSaved(String content) {
     _lastSaved = content;
+    _setFailing(false);
   }
 }
 

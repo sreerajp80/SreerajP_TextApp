@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/formats/xml/xml_document_session.dart';
-import 'package:text_data/formats/xml/xml_editor_surface.dart';
-import 'package:text_data/formats/xml/xml_pretty_view.dart';
-import 'package:text_data/formats/xml/xml_session_manager.dart';
-import 'package:text_data/formats/xml/xml_tree_view.dart';
+import 'package:sreerajp_textapp/core/editor/auto_save_failing_banner.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_document_session.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_editor_surface.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_pretty_view.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_session_manager.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_tree_view.dart';
 
 /// The body shown inside an XML tab: it loads the document then shows the
 /// pretty / tree / raw / editor view — never a crash (CLAUDE.md §3.4).
@@ -63,6 +64,7 @@ class _ReadyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        if (session.autoSaveFailing) const AutoSaveFailingBanner(),
         if (session.draftAvailable) _DraftBanner(session: session),
         Expanded(child: _body(context)),
       ],

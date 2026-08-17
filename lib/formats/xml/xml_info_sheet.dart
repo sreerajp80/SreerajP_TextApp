@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/txt/txt_encoding_labels.dart';
-import 'package:text_data/formats/xml/xml_document_session.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_encoding_labels.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_document_session.dart';
 
 /// A bottom sheet showing the XML file's insights and metadata (task 9.6):
 /// root element, element count, depth, most-common tags, namespaces, plus size,

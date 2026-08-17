@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/sync/diff/diff_payload.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_payload.dart';
 
 void main() {
   group('DiffSessionPayload serialization tests', () {

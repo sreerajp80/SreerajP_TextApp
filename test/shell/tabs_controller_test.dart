@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/storage/device_memory.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/over_limit_behavior.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
-import 'package:text_data/shell/tabs/tabs_persistence.dart';
+import 'package:sreerajp_textapp/core/storage/device_memory.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/over_limit_behavior.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_persistence.dart';
 
 import '../support/test_support.dart';
 
@@ -179,6 +179,57 @@ void main() {
     expect(container.read(tabsControllerProvider).tabs.length, 1);
     expect(tabs.closeTab(id, force: true), isTrue);
     expect(container.read(tabsControllerProvider).tabs, isEmpty);
+  });
+
+  test('closing the active tab activates its right-hand neighbour', () async {
+    final container = await makeContainer();
+    final tabs = container.read(tabsControllerProvider.notifier);
+    tabs.applyCap(5);
+    tabs.openFile(file('a'), '10-a');
+    tabs.openFile(file('b'), '20-b');
+    tabs.openFile(file('c'), '30-c');
+
+    final first = container.read(tabsControllerProvider).tabs.first;
+    tabs.setActive(first.id);
+    expect(tabs.closeTab(first.id), isTrue);
+
+    // The neighbour, not whichever tab happens to be last.
+    expect(
+      container.read(tabsControllerProvider).activeTab?.fingerprint,
+      '20-b',
+    );
+  });
+
+  test('closing the last tab in the row falls back to the left', () async {
+    final container = await makeContainer();
+    final tabs = container.read(tabsControllerProvider.notifier);
+    tabs.applyCap(5);
+    tabs.openFile(file('a'), '10-a');
+    tabs.openFile(file('b'), '20-b'); // active
+
+    final last = container.read(tabsControllerProvider).tabs.last;
+    expect(tabs.closeTab(last.id), isTrue);
+
+    expect(
+      container.read(tabsControllerProvider).activeTab?.fingerprint,
+      '10-a',
+    );
+  });
+
+  test('closing a background tab leaves the active one alone', () async {
+    final container = await makeContainer();
+    final tabs = container.read(tabsControllerProvider.notifier);
+    tabs.applyCap(5);
+    tabs.openFile(file('a'), '10-a');
+    tabs.openFile(file('b'), '20-b'); // active
+
+    final first = container.read(tabsControllerProvider).tabs.first;
+    expect(tabs.closeTab(first.id), isTrue);
+
+    expect(
+      container.read(tabsControllerProvider).activeTab?.fingerprint,
+      '20-b',
+    );
   });
 
   test('next/prev cycle through tabs', () async {

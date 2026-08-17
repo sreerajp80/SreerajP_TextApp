@@ -1,5 +1,5 @@
-import 'package:text_data/formats/csv/csv_table.dart';
-import 'package:text_data/formats/csv/csv_types.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_table.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_types.dart';
 
 /// The sort direction applied to a column header.
 enum SortDirection { none, ascending, descending }

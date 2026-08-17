@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/csv/csv_document_session.dart';
-import 'package:text_data/formats/csv/csv_formula.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_session.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_formula.dart';
 
 /// A sheet to set, change or clear the formula on a calculated column
 /// (roadmap §4.2.2).

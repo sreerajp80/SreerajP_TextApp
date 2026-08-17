@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/sync/bounded_line_reader.dart';
+import 'package:sreerajp_textapp/sync/bounded_line_reader.dart';
 
 void main() {
   test('reads newline-delimited lines and tolerates CRLF', () async {

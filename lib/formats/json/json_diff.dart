@@ -1,5 +1,5 @@
-import 'package:text_data/formats/json/json_node.dart';
-import 'package:text_data/formats/json/json_parser.dart';
+import 'package:sreerajp_textapp/formats/json/json_node.dart';
+import 'package:sreerajp_textapp/formats/json/json_parser.dart';
 
 /// The difference between two JSON documents (task 8.6): the paths that were
 /// added, removed, or changed going from the first document to the second.

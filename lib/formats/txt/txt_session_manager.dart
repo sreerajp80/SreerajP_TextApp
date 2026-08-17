@@ -2,22 +2,22 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/audit/audit_hooks.dart';
-import 'package:text_data/core/audit/audit_providers.dart';
-import 'package:text_data/core/audit/audit_settings.dart';
+import 'package:sreerajp_textapp/core/audit/audit_hooks.dart';
+import 'package:sreerajp_textapp/core/audit/audit_providers.dart';
+import 'package:sreerajp_textapp/core/audit/audit_settings.dart';
 
-import 'package:text_data/core/editor/draft_store.dart';
-import 'package:text_data/core/editor/editor_providers.dart';
-import 'package:text_data/core/editor/editor_settings_controller.dart';
-import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
-import 'package:text_data/core/index/index_hooks.dart';
-import 'package:text_data/core/index/index_providers.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/core/theme/theme_controller.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
-import 'package:text_data/formats/txt/txt_document_session.dart';
+import 'package:sreerajp_textapp/core/editor/draft_store.dart';
+import 'package:sreerajp_textapp/core/editor/editor_providers.dart';
+import 'package:sreerajp_textapp/core/editor/editor_settings_controller.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_controller.dart';
+import 'package:sreerajp_textapp/core/index/index_hooks.dart';
+import 'package:sreerajp_textapp/core/index/index_providers.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/theme/theme_controller.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_document_session.dart';
 
 /// Owns the live [TxtDocumentSession] for each open TXT tab.
 ///
@@ -70,6 +70,17 @@ class TxtSessionManager {
   /// Tab ids that currently hold a live (heavy) session. Used by the workspace
   /// to release background tabs' state when memory is tight (Phase 10.3).
   Iterable<String> get liveIds => _sessions.keys;
+
+  /// Pushes a changed auto-save interval into the tabs that are already open.
+  ///
+  /// Sessions read the interval once, when they are built, so without this a
+  /// changed Settings value would only reach tabs opened afterwards — turning
+  /// auto-save off would leave every open tab still writing drafts.
+  void applyAutoSaveInterval(Duration interval) {
+    for (final session in _sessions.values) {
+      session.setAutoSaveInterval(interval);
+    }
+  }
 
   /// Disposes and forgets the session for [tabId] (call when the tab closes).
   void release(String tabId) {
@@ -139,6 +150,11 @@ class TxtSessionManager {
 /// open sessions when the provider scope is torn down.
 final txtSessionManagerProvider = Provider<TxtSessionManager>((ref) {
   final manager = TxtSessionManager(ref);
+  // Keep open tabs in step with the auto-save interval in Settings (task 11.2).
+  ref.listen(editorSettingsProvider, (previous, next) {
+    if (previous?.autoSaveInterval == next.autoSaveInterval) return;
+    manager.applyAutoSaveInterval(next.autoSaveInterval);
+  });
   ref.onDispose(manager._disposeAll);
   return manager;
 });

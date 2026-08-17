@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// A single detected link in some text: the `http`/`https` URL and the character
 /// range `[start, end)` it occupies.

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'package:text_data/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
 
 /// What the shell needs from an open document to warn that the file changed on
 /// disk and to offer a reload.

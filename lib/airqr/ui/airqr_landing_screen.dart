@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/airqr/ui/airqr_receive_action.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/airqr/ui/airqr_receive_action.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// Entry point for optical air-gap transfer: explain what it is, then send or
 /// receive.

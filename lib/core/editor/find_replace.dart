@@ -1,5 +1,5 @@
-import 'package:text_data/core/search/search_options.dart';
-import 'package:text_data/core/search/text_search.dart';
+import 'package:sreerajp_textapp/core/search/search_options.dart';
+import 'package:sreerajp_textapp/core/search/text_search.dart';
 
 /// Where a find-&-replace applies: the half-open character range
 /// `[start, end)`. A `null` scope means the whole document. Format modules build

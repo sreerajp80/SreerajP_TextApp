@@ -10,12 +10,12 @@
 // writes settings strictly through the allow-list (security-rules).
 library;
 
-import 'package:text_data/core/storage/bookmarks_repository.dart';
-import 'package:text_data/core/storage/favorites_repository.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/recents_repository.dart';
-import 'package:text_data/core/storage/storage_models.dart';
-import 'package:text_data/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/core/storage/bookmarks_repository.dart';
+import 'package:sreerajp_textapp/core/storage/favorites_repository.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/recents_repository.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
 
 /// What the sync engine needs from the app's data layer.
 abstract class SyncDataAccess {

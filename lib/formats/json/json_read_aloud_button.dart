@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/output/output_providers.dart';
-import 'package:text_data/core/tts/tts_service.dart';
-import 'package:text_data/core/tts/tts_state.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/json/json_document_session.dart';
+import 'package:sreerajp_textapp/core/output/output_providers.dart';
+import 'package:sreerajp_textapp/core/tts/tts_service.dart';
+import 'package:sreerajp_textapp/core/tts/tts_state.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/json/json_document_session.dart';
 
 /// A "Read aloud" toggle for a JSON document (task 5.5, English).
 ///

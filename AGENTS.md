@@ -39,7 +39,7 @@ It carries the same rules as [CLAUDE.md](CLAUDE.md). If you change one, change b
 | [docs/dependencies.md](docs/dependencies.md) | Adding, removing, or upgrading any package |
 | [docs/release-signing.md](docs/release-signing.md) | Building a release, versioning, signing |
 | [docs/workflow-rules.md](docs/workflow-rules.md) | Starting or finishing any change |
-| [docs/TextData-Idea.md](docs/TextData-Idea.md) | Understanding the product idea and scope |
+| [docs/textdata_idea.md](docs/textdata_idea.md) | Understanding the product idea and scope |
 | [docs/GUIDELINES_MANIFEST.md](docs/GUIDELINES_MANIFEST.md) | The shared Flutter guidelines index (`docs/guidelines/` submodule) |
 
 If a doc is copied into this project's own `docs/`, the local copy wins over the shared
@@ -99,11 +99,11 @@ dart format lib test                   # format before committing (not third_par
 
 # Production release APK (split per ABI)
 flutter build apk --flavor prod --release \
-  --obfuscate --split-debug-info=build/symbols/android-prod-1.6.8/ --split-per-abi
+  --obfuscate --split-debug-info=build/symbols/android-prod-1.9.0/ --split-per-abi
 
 # Production Play Store bundle
 flutter build appbundle --flavor prod --release \
-  --obfuscate --split-debug-info=build/symbols/android-prod-1.6.8/
+  --obfuscate --split-debug-info=build/symbols/android-prod-1.9.0/
 ```
 
 This app defines flavors, so a bare `flutter run` fails — always pass `--flavor`.
@@ -152,6 +152,9 @@ The short version:
   reason in the manifest.
 - LAN sync is sealed with AES-256-GCM and a PBKDF2-derived key. Never weaken or bypass it.
 - Treat every opened file as untrusted input.
+- Use `AppLogger` (`lib/core/logging/`) for every diagnostic line. Never `print` or
+  `debugPrint` in committed code. See [docs/architecture.md](docs/architecture.md) §16
+  for the full list of what must never be logged.
 
 ---
 
@@ -159,7 +162,7 @@ The short version:
 
 - Files `snake_case.dart`; classes `PascalCase`; variables and methods `camelCase`;
   Riverpod providers `camelCase` + `Provider` suffix.
-- Use `package:text_data/...` imports, **not** relative imports.
+- Use `package:sreerajp_textapp/...` imports, **not** relative imports.
 - Prefer `const` constructors, `final` locals, and single quotes.
 - Comments explain **why**, not what. TODOs need an owner or clear follow-up.
 - Do not swallow exceptions. Show a user-safe message and keep the diagnostic context.

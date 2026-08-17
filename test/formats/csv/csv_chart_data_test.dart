@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/csv/csv_chart_data.dart';
-import 'package:text_data/formats/csv/csv_table.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_chart_data.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_table.dart';
 
 /// Guards the shaping rules behind the full-screen interactive charts
 /// (roadmap §4.2.4). The drawing itself is `fl_chart`'s job; only the data

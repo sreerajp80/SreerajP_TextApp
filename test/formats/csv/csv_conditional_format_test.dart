@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/csv/csv_conditional_format.dart';
-import 'package:text_data/formats/csv/csv_table.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_conditional_format.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_table.dart';
 
 /// Guards the conditional formatting rules (roadmap §4.2.3).
 void main() {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:text_data/sync/diff/diff_models.dart';
-import 'package:text_data/sync/diff/live_diff_controller.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_models.dart';
+import 'package:sreerajp_textapp/sync/diff/live_diff_controller.dart';
 
 /// Renders line-by-line text diff in Unified or Side-by-Side split modes.
 class TextDiffView extends StatelessWidget {
@@ -17,10 +18,10 @@ class TextDiffView extends StatelessWidget {
   Widget build(BuildContext context) {
     final textDiff = controller.textDiff;
     if (textDiff == null || textDiff.hunks.isEmpty) {
-      return const Center(
+      return Center(
         child: Padding(
-          padding: EdgeInsets.all(24),
-          child: Text('No differences found. Documents are identical.'),
+          padding: const EdgeInsets.all(24),
+          child: Text(AppLocalizations.of(context).diffNoDifferences),
         ),
       );
     }
@@ -164,26 +165,27 @@ class _HunkActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Wrap(
       spacing: 4,
       children: [
         ChoiceChip(
           visualDensity: VisualDensity.compact,
-          label: const Text('← Mine'),
+          label: Text(l10n.diffAcceptMineSide),
           selected: hunk.resolution == HunkResolution.acceptLocal,
           onSelected: (_) =>
               controller.resolveHunk(hunk.id, HunkResolution.acceptLocal),
         ),
         ChoiceChip(
           visualDensity: VisualDensity.compact,
-          label: const Text('Peer →'),
+          label: Text(l10n.diffAcceptPeerSide),
           selected: hunk.resolution == HunkResolution.acceptRemote,
           onSelected: (_) =>
               controller.resolveHunk(hunk.id, HunkResolution.acceptRemote),
         ),
         ChoiceChip(
           visualDensity: VisualDensity.compact,
-          label: const Text('Both'),
+          label: Text(l10n.diffAcceptBoth),
           selected: hunk.resolution == HunkResolution.acceptBoth,
           onSelected: (_) =>
               controller.resolveHunk(hunk.id, HunkResolution.acceptBoth),

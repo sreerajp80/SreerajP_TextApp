@@ -3,11 +3,11 @@
 **Status:** Proposed (Pending User Approval)
 
 ## Issue
-The roadmap document `docs/feature_analysis_and_roadmap.md` needs to be updated with comprehensive technical insights, reusable modules, ecosystem synergies, and roadmap refinements derived from the thorough audit of all 18 apps in the developer's Flutter/Android ecosystem suite (`L:\Android\MyFlutterApps\myapps.md`).
+The roadmap document `docs/feature_analysis_and_roadmap.md` needs to be updated with comprehensive technical insights, reusable modules, ecosystem synergies, and roadmap refinements derived from the thorough audit of all 18 apps in the developer's Flutter/Android ecosystem suite (recorded in the ecosystem overview kept outside this repository).
 
 ## Proposed Changes
 
-### [MODIFY] [docs/feature_analysis_and_roadmap.md](file:///l:/Android/SreerajP_TextApp/docs/feature_analysis_and_roadmap.md)
+### [MODIFY] [docs/feature_analysis_and_roadmap.md](../docs/feature_analysis_and_roadmap.md)
 Update the document with the following enhancements:
 
 1. **Section 1 (Executive Summary & Ecosystem Synergy)**:

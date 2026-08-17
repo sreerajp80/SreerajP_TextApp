@@ -22,7 +22,7 @@ SreerajP_TextApp/
 ├── assets/
 │   ├── branding/             # app icon master art
 │   └── config/               # app_config.json — About screen source of truth
-├── fonts/                    # bundled open-source fonts + licences
+├── fonts/                    # bundled open-source fonts + licences (see the note below)
 ├── third_party/              # vendored, patched packages (re_editor)
 ├── docs/                     # design docs (this folder)
 │   └── guidelines/           # shared Flutter guidelines (git submodule — read only)
@@ -31,6 +31,12 @@ SreerajP_TextApp/
 ├── lib/                      # app source
 └── test/                     # tests, mirroring lib/
 ```
+
+> **One accepted deviation.** The shared engineering standard §3.3 puts fonts at
+> `assets/fonts/`. This project keeps them at the root `fonts/` folder instead. Moving
+> them would rewrite every font path in `pubspec.yaml` and the bundled licence files for
+> no functional gain, so the deviation is deliberate. Everything else in the root layout
+> follows the standard.
 
 ---
 
@@ -72,6 +78,7 @@ Services must not know `BuildContext`, routes, or user-facing strings.
 | `index/` | Workspace-wide FTS5 search index: repository, service, startup backfill |
 | `large_file/` | Guards and streaming helpers for very large files |
 | `locale/` | Locale controller (English / Malayalam) |
+| `logging/` | `AppLogger` — the one logging entry point. Console only, level set by flavor. See [architecture.md](architecture.md) §16. |
 | `metadata/` | File metadata reading |
 | `output/` | Shared providers for the export / share / print actions |
 | `print/` | System print integration |
@@ -225,18 +232,27 @@ Secrets themselves never go in settings. They go to `SecureStore`
 
 ## 11. Large files and why
 
-The engineering standard asks for a split or a justification at around 500 lines. Six files
-are over it. Each is justified below rather than split, because each one does a single job
-and the sessions are central enough that restructuring them carries real regression risk.
+The engineering standard asks for a split or a justification at around 500 lines. Fifteen
+files are over it. Each is justified below rather than split, because each one does a single
+job and most are central enough that restructuring them carries real regression risk.
 
 | File | Lines | Why it is this size |
 | --- | --- | --- |
-| `lib/formats/csv/csv_document_session.dart` | 956 | The CSV session, plus sort hierarchy, filtering, calculated-column formulas, and conditional formatting. The clear outlier. |
-| `lib/formats/json/json_document_session.dart` | 764 | The JSON session, plus tree edits, query state, and schema-validation state |
+| `lib/formats/csv/csv_document_session.dart` | 1012 | The CSV session, plus sort hierarchy, filtering, calculated-column formulas, and conditional formatting. The clear outlier. |
+| `lib/core/editor/column_selection_sheet.dart` | 936 | One sheet holding every column-block operation: prefix/suffix, insert-at-column, numbering, replace, and their preset chips. |
+| `lib/formats/json/json_document_session.dart` | 817 | The JSON session, plus tree edits, query state, and schema-validation state |
+| `lib/sync/ui/sync_client_screen.dart` | 695 | The receive screen: connect form, QR scan, received-file view, and received-diff view in one flow |
+| `lib/formats/markdown/md_document_session.dart` | 684 | The Markdown session, plus split-view state, front matter, and the table of contents |
+| `lib/formats/xml/xml_document_session.dart` | 676 | The XML session, plus tree edits, XPath query state, and quick fixes |
 | `lib/formats/json/json_parser.dart` | 661 | A hand-written parser that reports precise positions for errors and quick fixes |
-| `lib/formats/markdown/md_document_session.dart` | 631 | The Markdown session, plus split-view state, front matter, and the table of contents |
-| `lib/formats/xml/xml_document_session.dart` | 623 | The XML session, plus tree edits, XPath query state, and quick fixes |
-| `lib/formats/txt/txt_document_session.dart` | 510 | The TXT session, plus encoding handling and link extraction |
+| `lib/shell/tabs/tabs_workspace.dart` | 617 | The tab frame: tab bar, format dispatch, lifecycle, and the unsaved-changes gate |
+| `lib/formats/csv/csv_toolbar.dart` | 586 | The CSV toolbar and its full overflow menu |
+| `lib/formats/txt/txt_document_session.dart` | 578 | The TXT session, plus encoding handling and link extraction |
+| `lib/formats/json/json_toolbar.dart` | 567 | The JSON toolbar and its full overflow menu |
+| `lib/core/privacy/ui/privacy_shield_sheet.dart` | 566 | The privacy shield sheet: detector results, per-type toggles, and the three transform modes |
+| `lib/core/sql/sql_query_screen.dart` | 561 | The SQL screen: editor, schema panel, results grid, and the limit notices |
+| `lib/formats/markdown/md_renderer.dart` | 538 | The Markdown render tree, covering every supported block and inline node |
+| `lib/sync/sync_provider.dart` | 531 | The sync state machine: pairing, transport wiring, merge, and import summary |
 
 **If one of these grows again, `csv_document_session.dart` is the one to split first.** The
 safe order is: add direct unit tests for its sort, filter, formula, and conditional-format

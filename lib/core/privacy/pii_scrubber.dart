@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 
-import 'package:text_data/core/privacy/pii_detection.dart';
-import 'package:text_data/core/privacy/pii_mask_mode.dart';
-import 'package:text_data/core/privacy/pii_type.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_detection.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_mask_mode.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_type.dart';
 
 /// The result of a scrubbing operation on text.
 class PiiScrubResult {

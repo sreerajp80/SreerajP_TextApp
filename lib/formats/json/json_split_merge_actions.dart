@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/json/json_document_session.dart';
-import 'package:text_data/formats/json/json_split_merge.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/json/json_document_session.dart';
+import 'package:sreerajp_textapp/formats/json/json_split_merge.dart';
 
 /// UI actions for splitting a top-level JSON array into parts and merging other
 /// JSON arrays into this one (task 8.6). The heavy lifting is the pure

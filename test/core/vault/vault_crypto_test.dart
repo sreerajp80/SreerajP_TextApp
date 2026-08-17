@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/security/biometric_service.dart';
-import 'package:text_data/core/storage/secure_store.dart';
-import 'package:text_data/core/vault/vault_constants.dart';
-import 'package:text_data/core/vault/vault_crypto.dart';
-import 'package:text_data/core/vault/vault_models.dart';
-import 'package:text_data/core/vault/vault_service.dart';
+import 'package:sreerajp_textapp/core/security/biometric_service.dart';
+import 'package:sreerajp_textapp/core/storage/secure_store.dart';
+import 'package:sreerajp_textapp/core/vault/vault_constants.dart';
+import 'package:sreerajp_textapp/core/vault/vault_crypto.dart';
+import 'package:sreerajp_textapp/core/vault/vault_models.dart';
+import 'package:sreerajp_textapp/core/vault/vault_service.dart';
 
 class FakeBiometricService implements BiometricService {
   bool available;

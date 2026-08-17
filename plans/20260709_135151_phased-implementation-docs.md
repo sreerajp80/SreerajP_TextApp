@@ -120,9 +120,9 @@ I will mention them in the docs' own intro. (No change to `CLAUDE.md` unless you
 
 ## Files to be changed
 
-- `l:\Android\SreerajP_TextApp\docs\implementation-plan.md` — new file (phased plan +
+- `docs/implementation-plan.md` — new file (phased plan +
   dependency diagram).
-- `l:\Android\SreerajP_TextApp\docs\implementation-progress.md` — new file (progress
+- `docs/implementation-progress.md` — new file (progress
   tracker).
 
 ## After implementing

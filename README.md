@@ -47,12 +47,56 @@ No broad storage permission is requested; file access is scoped-storage only.
 
 ## Build & run
 
+### Prerequisites
+
+- **Flutter 3.44.8 or higher** and **Dart 3.12.2 or higher** (`flutter --version`).
+- **Android SDK** with a platform of API 26 (Android 8.0) or higher, plus a device or
+  emulator on Android 8.0+.
+- Nothing else. The project uses **no code generation**, so there is no `build_runner`
+  step to run.
+
+### From a clean clone
+
 ```bash
+git clone <repository-url>
+cd SreerajP_TextApp
+git submodule update --init --recursive   # pulls docs/guidelines
 flutter pub get
-flutter run                 # debug on a connected device
-flutter test                # full unit/widget suite
-flutter build apk --release # release build (see signing below)
 ```
+
+### Everyday commands
+
+This project defines **build flavors**, so a bare `flutter run` or `flutter build apk`
+**fails**. Always pass `--flavor`.
+
+```bash
+flutter run --flavor dev            # daily development
+flutter run --flavor prod           # production build with debug tooling
+flutter test                        # full unit/widget suite
+flutter analyze                     # static analysis (must stay at zero issues)
+dart format lib test                # format before committing
+```
+
+### Release builds
+
+```bash
+# APK, split per ABI
+flutter build apk --flavor prod --release \
+  --obfuscate --split-debug-info=build/symbols/android-prod-1.9.0/ --split-per-abi
+
+# Play Store bundle
+flutter build appbundle --flavor prod --release \
+  --obfuscate --split-debug-info=build/symbols/android-prod-1.9.0/
+```
+
+Update the `--split-debug-info` version folder to match `pubspec.yaml` on each release.
+
+### Adding a database migration
+
+The SQLite schema lives in `lib/core/storage/app_database.dart`. Raise the schema
+version there and add the upgrade step in the same file — never edit an existing
+migration, because devices already ran it. The full rule and the current schema version
+are in [docs/architecture.md](docs/architecture.md).
 
 ### Release signing
 
@@ -64,12 +108,17 @@ for testing but is **not** a distributable release. To produce a real signed rel
 
 ## Project docs
 
-- [CLAUDE.md](CLAUDE.md) — project rules.
-- [docs/TextData-Idea.md](docs/TextData-Idea.md) — the product idea.
+- [CLAUDE.md](CLAUDE.md) / [AGENTS.md](AGENTS.md) — project rules for AI assistants.
+- [docs/textdata_idea.md](docs/textdata_idea.md) — the product idea.
 - [docs/architecture.md](docs/architecture.md) — technical design.
+- [docs/project_structure.md](docs/project_structure.md) — the file tree and where things go.
 - [docs/security-rules.md](docs/security-rules.md) — security rules.
+- [docs/dependencies.md](docs/dependencies.md) — approved and blocked packages.
+- [docs/workflow-rules.md](docs/workflow-rules.md) — plan → approve → log.
+- [docs/release-signing.md](docs/release-signing.md) — keystore and release steps.
 - [docs/implementation-plan.md](docs/implementation-plan.md) /
   [docs/implementation-progress.md](docs/implementation-progress.md) — build order and status.
+- [docs/GUIDELINES_MANIFEST.md](docs/GUIDELINES_MANIFEST.md) — the shared Flutter guidelines index.
 
 ## License
 

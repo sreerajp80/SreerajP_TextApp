@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
-import 'package:text_data/core/ephemeral/ephemeral_policy.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_controller.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_policy.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// The countdown badge on an ephemeral tab chip (Feature 9).
 ///

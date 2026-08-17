@@ -1,5 +1,5 @@
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
 
 /// The facts the app shows about an open file (architecture.md §6, §9 "About").
 ///

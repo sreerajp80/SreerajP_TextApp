@@ -12,9 +12,9 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 
-import 'package:text_data/core/audit/audit_service.dart';
-import 'package:text_data/core/storage/secure_store.dart';
-import 'package:text_data/sync/sync_crypto.dart';
+import 'package:sreerajp_textapp/core/audit/audit_service.dart';
+import 'package:sreerajp_textapp/core/storage/secure_store.dart';
+import 'package:sreerajp_textapp/sync/sync_crypto.dart';
 
 /// Builds the exportable audit certificate as a JSON string.
 class AuditExport {

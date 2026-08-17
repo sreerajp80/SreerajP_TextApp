@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
-import 'package:text_data/core/ephemeral/ephemeral_models.dart';
-import 'package:text_data/core/ephemeral/ephemeral_settings.dart';
-import 'package:text_data/core/security/app_lock_controller.dart';
-import 'package:text_data/core/security/recovery_code_screen.dart';
-import 'package:text_data/core/security/set_pin_screen.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/settings/security_settings.dart';
-import 'package:text_data/shell/settings/sections/settings_widgets.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_controller.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_models.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_settings.dart';
+import 'package:sreerajp_textapp/core/security/app_lock_controller.dart';
+import 'package:sreerajp_textapp/core/security/recovery_code_screen.dart';
+import 'package:sreerajp_textapp/core/security/set_pin_screen.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/settings/security_settings.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/settings_widgets.dart';
 
 /// Security settings (tasks 11.6 + 13.2). The toggles are now enforced:
 /// app-lock gates the app on launch/resume (PIN + optional biometric, with a

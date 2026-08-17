@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/json/json_parser.dart';
-import 'package:text_data/formats/json/json_path.dart';
-import 'package:text_data/formats/json/json_query_builder.dart';
+import 'package:sreerajp_textapp/formats/json/json_parser.dart';
+import 'package:sreerajp_textapp/formats/json/json_path.dart';
+import 'package:sreerajp_textapp/formats/json/json_query_builder.dart';
 
 /// Guards the visual JSONPath builder (roadmap §4.3.2). The point of the
 /// feature is that the built query is a real JSONPath the app's own evaluator

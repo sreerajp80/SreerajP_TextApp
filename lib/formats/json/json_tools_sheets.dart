@@ -3,16 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/json/json_diff.dart';
-import 'package:text_data/formats/json/json_document_session.dart';
-import 'package:text_data/formats/json/json_parser.dart';
-import 'package:text_data/formats/json/json_path.dart';
-import 'package:text_data/formats/json/json_quick_fix.dart';
-import 'package:text_data/formats/json/json_schema_validator.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/json/json_diff.dart';
+import 'package:sreerajp_textapp/formats/json/json_document_session.dart';
+import 'package:sreerajp_textapp/formats/json/json_parser.dart';
+import 'package:sreerajp_textapp/formats/json/json_path.dart';
+import 'package:sreerajp_textapp/formats/json/json_quick_fix.dart';
+import 'package:sreerajp_textapp/formats/json/json_schema_validator.dart';
 
 /// A bottom sheet to run a JSONPath query against the document and jump to /
 /// copy matches (task 8.3).

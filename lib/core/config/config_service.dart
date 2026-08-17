@@ -5,7 +5,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import 'package:text_data/core/config/app_config.dart';
+import 'package:sreerajp_textapp/core/config/app_config.dart';
 
 /// Loads the About config from the asset bundle and, optionally, cross-checks
 /// its version/build against the real package info (architecture.md §8.1).

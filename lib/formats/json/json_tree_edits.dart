@@ -1,5 +1,5 @@
-import 'package:text_data/formats/json/json_node.dart';
-import 'package:text_data/formats/json/json_parser.dart';
+import 'package:sreerajp_textapp/formats/json/json_node.dart';
+import 'package:sreerajp_textapp/formats/json/json_parser.dart';
 
 /// Pure text-span edits on a JSON source string (plan §3.3, task 8.5).
 ///

@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'package:text_data/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
 
 /// Index of in-progress drafts saved for crash recovery. The draft file itself
 /// is written by the editor's draft store in Phase 3; this table just points to

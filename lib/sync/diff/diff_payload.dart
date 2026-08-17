@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:text_data/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
 
 /// Thrown when a diff session payload is invalid or malformed.
 class DiffPayloadException implements Exception {

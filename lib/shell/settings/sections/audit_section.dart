@@ -7,12 +7,12 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/audit/audit_providers.dart';
-import 'package:text_data/core/audit/audit_settings.dart';
-import 'package:text_data/core/audit/ui/audit_badge.dart';
-import 'package:text_data/core/audit/ui/audit_log_screen.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/settings/sections/settings_widgets.dart';
+import 'package:sreerajp_textapp/core/audit/audit_providers.dart';
+import 'package:sreerajp_textapp/core/audit/audit_settings.dart';
+import 'package:sreerajp_textapp/core/audit/ui/audit_badge.dart';
+import 'package:sreerajp_textapp/core/audit/ui/audit_log_screen.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/settings_widgets.dart';
 
 /// The "Audit Log" section in Settings.
 class AuditSection extends ConsumerWidget {

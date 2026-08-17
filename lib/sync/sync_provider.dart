@@ -15,21 +15,21 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/audit/audit_hooks.dart';
-import 'package:text_data/core/audit/audit_providers.dart';
-import 'package:text_data/core/audit/audit_settings.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/storage_providers.dart';
-import 'package:text_data/core/theme/theme_controller.dart';
-import 'package:text_data/shell/home/recents_controller.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
-import 'package:text_data/sync/diff/diff_payload.dart';
-import 'package:text_data/sync/file_transfer_payload.dart';
-import 'package:text_data/sync/payload.dart';
-import 'package:text_data/sync/sync_constants.dart';
-import 'package:text_data/sync/sync_crypto.dart';
-import 'package:text_data/sync/sync_data_access.dart';
-import 'package:text_data/sync/sync_transport.dart';
+import 'package:sreerajp_textapp/core/audit/audit_hooks.dart';
+import 'package:sreerajp_textapp/core/audit/audit_providers.dart';
+import 'package:sreerajp_textapp/core/audit/audit_settings.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/storage_providers.dart';
+import 'package:sreerajp_textapp/core/theme/theme_controller.dart';
+import 'package:sreerajp_textapp/shell/home/recents_controller.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_payload.dart';
+import 'package:sreerajp_textapp/sync/file_transfer_payload.dart';
+import 'package:sreerajp_textapp/sync/payload.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/sync_crypto.dart';
+import 'package:sreerajp_textapp/sync/sync_data_access.dart';
+import 'package:sreerajp_textapp/sync/sync_transport.dart';
 
 /// Which side (if any) this device is currently acting as.
 enum SyncRole { idle, host, client }

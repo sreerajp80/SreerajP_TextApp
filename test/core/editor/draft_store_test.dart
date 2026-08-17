@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:text_data/core/editor/draft_store.dart';
-import 'package:text_data/core/storage/app_database.dart';
-import 'package:text_data/core/storage/drafts_index_repository.dart';
+import 'package:sreerajp_textapp/core/editor/draft_store.dart';
+import 'package:sreerajp_textapp/core/storage/app_database.dart';
+import 'package:sreerajp_textapp/core/storage/drafts_index_repository.dart';
 
 void main() {
   setUpAll(() => sqfliteFfiInit());
@@ -94,5 +94,72 @@ void main() {
       expect(await auto.tick(), isTrue); // changed → write
       expect(await store.load(fp), 'ab');
     });
+
+    // The timer that drives tick() throws the returned future away, so an error
+    // escaping here would be an unhandled async error nobody ever sees while the
+    // user keeps typing (CLAUDE.md §3.6).
+    test('a failing write is reported, not thrown or swallowed', () async {
+      final failing = _FailingDraftStore(store);
+      final failures = <bool>[];
+      final auto = AutoSaver(
+        store: failing,
+        fingerprint: '42-abc',
+        getContent: () => 'work in progress',
+        onFailingChanged: failures.add,
+      );
+
+      expect(await auto.tick(), isFalse); // did not write
+      expect(auto.isFailing, isTrue);
+      expect(failures, [true]); // the editor was told once
+    });
+
+    test('the next good tick clears the failure and writes', () async {
+      const fp = '42-abc';
+      final failing = _FailingDraftStore(store);
+      final failures = <bool>[];
+      var content = 'first';
+      final auto = AutoSaver(
+        store: failing,
+        fingerprint: fp,
+        getContent: () => content,
+        onFailingChanged: failures.add,
+      );
+
+      await auto.tick();
+      expect(auto.isFailing, isTrue);
+
+      // The disk recovers. The same content must still be written — a failed
+      // tick must not mark it as saved.
+      failing.fail = false;
+      expect(await auto.tick(), isTrue);
+      expect(await store.load(fp), 'first');
+      expect(auto.isFailing, isFalse);
+      expect(failures, [true, false]);
+
+      // And normal skipping still works afterwards.
+      expect(await auto.tick(), isFalse);
+      content = 'second';
+      expect(await auto.tick(), isTrue);
+      expect(await store.load(fp), 'second');
+    });
   });
+}
+
+/// A [DraftStore] whose writes fail on demand, standing in for a full disk or a
+/// broken drafts index.
+class _FailingDraftStore implements DraftStore {
+  final DraftStore _inner;
+  bool fail = true;
+
+  _FailingDraftStore(this._inner);
+
+  @override
+  Future<void> save(String fingerprint, String content) {
+    if (fail) throw const FileSystemException('no space left on device');
+    return _inner.save(fingerprint, content);
+  }
+
+  @override
+  noSuchMethod(Invocation invocation) =>
+      throw UnsupportedError('not needed by these tests');
 }

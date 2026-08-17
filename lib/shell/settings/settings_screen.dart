@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/settings/sections/about_section.dart';
-import 'package:text_data/shell/settings/sections/appearance_section.dart';
-import 'package:text_data/shell/settings/sections/audit_section.dart';
-import 'package:text_data/shell/settings/sections/backup_section.dart';
-import 'package:text_data/shell/settings/sections/editor_section.dart';
-import 'package:text_data/shell/settings/sections/files_tabs_section.dart';
-import 'package:text_data/shell/settings/sections/help_section.dart';
-import 'package:text_data/shell/settings/sections/security_section.dart';
-import 'package:text_data/shell/settings/sections/speech_section.dart';
-import 'package:text_data/shell/settings/sections/sync_section.dart';
-import 'package:text_data/shell/settings/settings_detail_screen.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/about_section.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/appearance_section.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/audit_section.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/backup_section.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/editor_section.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/files_tabs_section.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/help_section.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/security_section.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/speech_section.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/sync_section.dart';
+import 'package:sreerajp_textapp/shell/settings/settings_detail_screen.dart';
 
 /// The Settings screen (Phase 11; card layout).
 ///

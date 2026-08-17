@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/audit/audit_providers.dart';
-import 'package:text_data/core/editor/draft_store.dart';
-import 'package:text_data/core/ephemeral/ephemeral_models.dart';
-import 'package:text_data/core/ephemeral/ephemeral_policy.dart';
-import 'package:text_data/core/ephemeral/ephemeral_wiper.dart';
-import 'package:text_data/core/index/index_providers.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/storage_providers.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/core/audit/audit_providers.dart';
+import 'package:sreerajp_textapp/core/editor/draft_store.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_models.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_policy.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_wiper.dart';
+import 'package:sreerajp_textapp/core/index/index_providers.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/storage_providers.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
 
 /// Immutable snapshot of the ephemeral marks (Feature 9).
 class EphemeralState {

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/xml/xml_path.dart';
-import 'package:text_data/formats/xml/xml_query_builder.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_path.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_query_builder.dart';
 import 'package:xml/xml.dart';
 
 /// Guards the visual XPath builder (roadmap §4.3.2). As with the JSON twin, the

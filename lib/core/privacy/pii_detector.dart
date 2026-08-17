@@ -1,5 +1,5 @@
-import 'package:text_data/core/privacy/pii_detection.dart';
-import 'package:text_data/core/privacy/pii_type.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_detection.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_type.dart';
 
 /// Pure offline detection engine for identifying sensitive Personally
 /// Identifiable Information (PII), credentials, and secrets in text.

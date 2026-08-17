@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/theme/theme_controller.dart';
-import 'package:text_data/core/theme/theme_settings.dart';
+import 'package:sreerajp_textapp/core/theme/theme_controller.dart';
+import 'package:sreerajp_textapp/core/theme/theme_settings.dart';
 
 /// A widget that wraps any file viewer/editor surface and intercepts pinch/scale
 /// gestures to dynamically change the app-wide font size scale (CLAUDE.md §3).

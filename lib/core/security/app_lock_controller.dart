@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/audit/audit_constants.dart';
-import 'package:text_data/core/audit/audit_hooks.dart';
-import 'package:text_data/core/audit/audit_providers.dart';
-import 'package:text_data/core/audit/audit_settings.dart';
-import 'package:text_data/shell/settings/security_settings.dart';
-import 'package:text_data/core/security/app_lock_hasher.dart';
-import 'package:text_data/core/security/app_lock_repository.dart';
-import 'package:text_data/core/security/biometric_service.dart';
-import 'package:text_data/core/security/security_providers.dart';
+import 'package:sreerajp_textapp/core/audit/audit_constants.dart';
+import 'package:sreerajp_textapp/core/audit/audit_hooks.dart';
+import 'package:sreerajp_textapp/core/audit/audit_providers.dart';
+import 'package:sreerajp_textapp/core/audit/audit_settings.dart';
+import 'package:sreerajp_textapp/shell/settings/security_settings.dart';
+import 'package:sreerajp_textapp/core/security/app_lock_hasher.dart';
+import 'package:sreerajp_textapp/core/security/app_lock_repository.dart';
+import 'package:sreerajp_textapp/core/security/biometric_service.dart';
+import 'package:sreerajp_textapp/core/security/security_providers.dart';
 
 /// Runtime app-lock state for this app session (task 13.2).
 ///

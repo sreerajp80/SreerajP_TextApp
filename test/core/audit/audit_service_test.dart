@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:text_data/core/audit/audit_constants.dart';
-import 'package:text_data/core/audit/audit_repository.dart';
-import 'package:text_data/core/audit/audit_service.dart';
-import 'package:text_data/core/storage/app_database.dart';
+import 'package:sreerajp_textapp/core/audit/audit_constants.dart';
+import 'package:sreerajp_textapp/core/audit/audit_repository.dart';
+import 'package:sreerajp_textapp/core/audit/audit_service.dart';
+import 'package:sreerajp_textapp/core/storage/app_database.dart';
 
 void main() {
   setUpAll(() => sqfliteFfiInit());

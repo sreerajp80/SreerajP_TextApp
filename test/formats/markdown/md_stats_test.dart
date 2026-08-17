@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/markdown/md_stats.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_stats.dart';
 
 void main() {
   test('empty text is all zero', () {

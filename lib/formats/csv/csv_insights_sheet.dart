@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/csv/csv_chart.dart';
-import 'package:text_data/formats/csv/csv_chart_screen.dart';
-import 'package:text_data/formats/csv/csv_document_session.dart';
-import 'package:text_data/formats/csv/csv_insights.dart';
-import 'package:text_data/formats/csv/csv_types.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_chart.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_chart_screen.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_session.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_insights.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_types.dart';
 
 /// A bottom sheet with read-only data insights for the CSV (task 7.4): pick a
 /// column to see its type, count / empty / unique, numeric min / max / sum /

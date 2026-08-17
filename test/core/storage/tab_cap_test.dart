@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/storage/device_memory.dart';
-import 'package:text_data/core/storage/tab_cap.dart';
+import 'package:sreerajp_textapp/core/storage/device_memory.dart';
+import 'package:sreerajp_textapp/core/storage/tab_cap.dart';
 
 void main() {
   const gb = 1024 * 1024 * 1024;

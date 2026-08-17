@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/json/json_parser.dart';
-import 'package:text_data/formats/json/json_quick_fix.dart';
+import 'package:sreerajp_textapp/formats/json/json_parser.dart';
+import 'package:sreerajp_textapp/formats/json/json_quick_fix.dart';
 
 /// Guards the JSON quick fixes (roadmap §4.3.3). Every fix must leave text a
 /// person would recognise, and must never touch what is inside a string.

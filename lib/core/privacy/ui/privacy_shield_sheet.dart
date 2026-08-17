@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:text_data/core/privacy/pii_detection.dart';
-import 'package:text_data/core/privacy/pii_detector.dart';
-import 'package:text_data/core/privacy/pii_mask_mode.dart';
-import 'package:text_data/core/privacy/pii_scrubber.dart';
-import 'package:text_data/core/privacy/pii_type.dart';
-import 'package:text_data/core/share/share_service.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_detection.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_detector.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_mask_mode.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_scrubber.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_type.dart';
+import 'package:sreerajp_textapp/core/share/share_service.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// Modal bottom sheet for scanning documents for sensitive PII and secrets,
 /// selecting masking transformations, and either applying changes in-place or

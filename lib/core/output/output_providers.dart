@@ -1,16 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/formats/json/json_exporter.dart';
-import 'package:text_data/formats/xml/xml_exporter.dart';
-import 'package:text_data/core/editor/editor_providers.dart';
-import 'package:text_data/core/export/csv_exporter.dart';
-import 'package:text_data/core/export/export_service.dart';
-import 'package:text_data/core/export/md_exporter.dart';
-import 'package:text_data/core/export/txt_exporter.dart';
-import 'package:text_data/core/print/print_service.dart';
-import 'package:text_data/core/share/share_service.dart';
-import 'package:text_data/core/tts/tts_service.dart';
-import 'package:text_data/core/zip/zip_service.dart';
+import 'package:sreerajp_textapp/formats/json/json_exporter.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_exporter.dart';
+import 'package:sreerajp_textapp/core/editor/editor_providers.dart';
+import 'package:sreerajp_textapp/core/export/csv_exporter.dart';
+import 'package:sreerajp_textapp/core/export/export_service.dart';
+import 'package:sreerajp_textapp/core/export/md_exporter.dart';
+import 'package:sreerajp_textapp/core/export/txt_exporter.dart';
+import 'package:sreerajp_textapp/core/print/print_service.dart';
+import 'package:sreerajp_textapp/core/share/share_service.dart';
+import 'package:sreerajp_textapp/core/tts/tts_service.dart';
+import 'package:sreerajp_textapp/core/zip/zip_service.dart';
 
 /// Dependency-injection providers for the Phase 5 output & utility services.
 /// Mirrors `editor_providers.dart`: the services are pure/host-tested; these

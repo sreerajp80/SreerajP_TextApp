@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/privacy/pii_detector.dart';
-import 'package:text_data/core/privacy/pii_type.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_detector.dart';
+import 'package:sreerajp_textapp/core/privacy/pii_type.dart';
 
 void main() {
   const detector = PiiDetector();

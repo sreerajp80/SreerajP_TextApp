@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:text_data/core/privacy/ui/privacy_shield_sheet.dart';
-import 'package:text_data/core/share/share_service.dart';
+import 'package:sreerajp_textapp/core/privacy/ui/privacy_shield_sheet.dart';
+import 'package:sreerajp_textapp/core/share/share_service.dart';
 import '../../support/test_support.dart';
 
 class _FakeShareLauncher implements ShareLauncher {

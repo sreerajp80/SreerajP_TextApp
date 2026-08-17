@@ -1,4 +1,4 @@
-import 'package:text_data/core/theme/app_theme_mode.dart';
+import 'package:sreerajp_textapp/core/theme/app_theme_mode.dart';
 
 /// All appearance preferences, in one immutable value (architecture.md §5, §8.1).
 ///

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/config/app_config.dart';
-import 'package:text_data/core/config/config_service.dart';
+import 'package:sreerajp_textapp/core/config/app_config.dart';
+import 'package:sreerajp_textapp/core/config/config_service.dart';
 
 void main() {
   test('valid config parses to the expected values', () async {

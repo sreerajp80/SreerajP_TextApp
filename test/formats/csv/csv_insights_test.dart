@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/csv/csv_insights.dart';
-import 'package:text_data/formats/csv/csv_types.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_insights.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_types.dart';
 
 void main() {
   group('type inference', () {

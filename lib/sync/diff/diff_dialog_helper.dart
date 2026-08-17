@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
-import 'package:text_data/sync/diff/live_diff_controller.dart';
-import 'package:text_data/sync/ui/live_diff_screen.dart';
-import 'package:text_data/sync/ui/sync_host_screen.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/sync/diff/live_diff_controller.dart';
+import 'package:sreerajp_textapp/sync/ui/live_diff_screen.dart';
+import 'package:sreerajp_textapp/sync/ui/sync_host_screen.dart';
 
 /// Helper to launch Live Diff & Delta Sync from document toolbars and menus.
 class LiveDiffLauncher {
@@ -21,6 +22,7 @@ class LiveDiffLauncher {
     required String content,
     void Function(String mergedText)? onApplyToEditor,
   }) async {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final tabsState = ref.read(tabsControllerProvider);
     final otherTabs = tabsState.tabs.where((t) => t.id != tab.id).toList();
@@ -44,7 +46,7 @@ class LiveDiffLauncher {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'Live Document Diff & Delta Sync',
+                      l10n.diffSheetTitle,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -53,7 +55,7 @@ class LiveDiffLauncher {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  'Compare "${tab.displayName}" side-by-side and selectively merge edits.',
+                  l10n.diffSheetSubtitle(tab.displayName),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -62,10 +64,8 @@ class LiveDiffLauncher {
                 const Divider(),
                 ListTile(
                   leading: const Icon(Icons.wifi_tethering),
-                  title: const Text('Start P2P Live Sync with Peer'),
-                  subtitle: const Text(
-                    'Connect with another device over local Wi-Fi to diff & pair-edit.',
-                  ),
+                  title: Text(l10n.diffStartLiveSync),
+                  subtitle: Text(l10n.diffStartLiveSyncSubtitle),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
                     Navigator.of(ctx).pop();
@@ -76,10 +76,8 @@ class LiveDiffLauncher {
                 ),
                 ListTile(
                   leading: const Icon(Icons.folder_open),
-                  title: const Text('Compare with Local File (SAF)'),
-                  subtitle: const Text(
-                    'Pick a second document from device storage.',
-                  ),
+                  title: Text(l10n.diffCompareLocalFile),
+                  subtitle: Text(l10n.diffCompareLocalFileSubtitle),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () async {
                     Navigator.of(ctx).pop();
@@ -115,10 +113,8 @@ class LiveDiffLauncher {
                     } catch (_) {
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Could not read chosen file for diff.',
-                            ),
+                          SnackBar(
+                            content: Text(l10n.diffReadChosenFileFailed),
                           ),
                         );
                       }
@@ -128,7 +124,7 @@ class LiveDiffLauncher {
                 if (otherTabs.isNotEmpty) ...[
                   const SizedBox(height: 8),
                   Text(
-                    'Or Compare with Open Tab:',
+                    l10n.diffCompareOpenTab,
                     style: theme.textTheme.labelMedium?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -173,11 +169,7 @@ class LiveDiffLauncher {
                           } catch (_) {
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Could not read tab for comparison.',
-                                  ),
-                                ),
+                                SnackBar(content: Text(l10n.diffReadTabFailed)),
                               );
                             }
                           }

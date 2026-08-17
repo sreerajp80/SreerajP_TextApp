@@ -1220,6 +1220,18 @@ abstract class AppLocalizations {
   /// **'{seconds} s'**
   String editorAutoSaveValue(int seconds);
 
+  /// Editor: leave-edit-mode-after-saving toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave edit mode after saving'**
+  String get editorExitEditAfterSave;
+
+  /// Editor: leave-edit-mode-after-saving subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Go back to view mode when a save succeeds.'**
+  String get editorExitEditAfterSaveSub;
+
   /// Files & Tabs settings section header.
   ///
   /// In en, this message translates to:
@@ -2293,6 +2305,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit mode'**
   String get txtEditMode;
+
+  /// Editor toolbar: stop editing and go back to viewing.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit edit mode'**
+  String get editorExitEditMode;
+
+  /// Editor banner: the crash-recovery draft could not be written.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-save is not working. Save the file to keep your changes.'**
+  String get editorAutoSaveFailing;
 
   /// TXT toolbar: word wrap on.
   ///
@@ -6066,6 +6090,228 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save Merged Document'**
   String get liveDiffSaveMerged;
+
+  /// Body text of the vault lock dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypt \"{fileName}\" using AES-256-GCM hardware key encryption.'**
+  String vaultLockBody(String fileName);
+
+  /// Explanation shown under the vault lock dialog body.
+  ///
+  /// In en, this message translates to:
+  /// **'The resulting .txvault file can only be decrypted and read by this app using your fingerprint or device biometrics.'**
+  String get vaultLockNote;
+
+  /// Confirm button in the vault lock dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypt & Save'**
+  String get vaultEncryptAndSave;
+
+  /// Snack bar shown after the vault file is written.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted vault saved as \"{fileName}\"'**
+  String vaultSavedAs(String fileName);
+
+  /// Error snack bar when the vault file cannot be written.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save encrypted vault file.'**
+  String get vaultSaveFailed;
+
+  /// Reason shown in the system biometric prompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock {fileName} in Biometric Vault'**
+  String vaultBiometricReason(String fileName);
+
+  /// Footer line on the About screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Made with ❤ from India'**
+  String get aboutMadeInIndia;
+
+  /// Option to begin a live diff session with a peer device.
+  ///
+  /// In en, this message translates to:
+  /// **'Start P2P Live Sync with Peer'**
+  String get diffStartLiveSync;
+
+  /// Option to compare the open document with a file picked from storage.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare with Local File (SAF)'**
+  String get diffCompareLocalFile;
+
+  /// Empty state in the CSV diff view.
+  ///
+  /// In en, this message translates to:
+  /// **'No CSV data to compare.'**
+  String get diffNoCsvData;
+
+  /// Empty state in the text diff view.
+  ///
+  /// In en, this message translates to:
+  /// **'No differences found. Documents are identical.'**
+  String get diffNoDifferences;
+
+  /// Button to accept the local side of one diff block.
+  ///
+  /// In en, this message translates to:
+  /// **'← Mine'**
+  String get diffAcceptMineSide;
+
+  /// Button to accept the peer side of one diff block.
+  ///
+  /// In en, this message translates to:
+  /// **'Peer →'**
+  String get diffAcceptPeerSide;
+
+  /// Button to keep both sides of one diff block.
+  ///
+  /// In en, this message translates to:
+  /// **'Both'**
+  String get diffAcceptBoth;
+
+  /// Snack bar after the merged result is applied to the open tab.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied merged changes to open document.'**
+  String get liveDiffApplied;
+
+  /// Snack bar after the merged file is written.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved merged file as \"{fileName}\"'**
+  String liveDiffSavedAs(String fileName);
+
+  /// Error snack bar when the merged file cannot be written.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save merged file.'**
+  String get liveDiffSaveFailed;
+
+  /// Menu item to merge all non-conflicting blocks at once.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-Merge Clean Changes'**
+  String get liveDiffAutoMergeClean;
+
+  /// Error snack bar when a picked file cannot be read.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read selected file.'**
+  String get p2pReadFileFailed;
+
+  /// Error snack bar when the open tab content cannot be read.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read open tab content.'**
+  String get p2pReadTabFailed;
+
+  /// Button to choose a file through the system file picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick from Device Storage (SAF)'**
+  String get p2pPickFromStorage;
+
+  /// Snack bar after a received file is written.
+  ///
+  /// In en, this message translates to:
+  /// **'File saved as \"{fileName}\"'**
+  String syncClientSavedAs(String fileName);
+
+  /// Error snack bar when a received file cannot be written.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save received file.'**
+  String get syncClientSaveFailed;
+
+  /// Button to pick a local file to compare against.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick Local File (SAF)'**
+  String get syncClientPickLocalFile;
+
+  /// Chip showing which local file is being compared.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparing with: {fileName}'**
+  String syncClientComparingWith(String fileName);
+
+  /// Text field label in the column selection sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace column block with (optional)'**
+  String get columnReplaceLabel;
+
+  /// Text field hint in the column selection sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave empty to keep or delete'**
+  String get columnReplaceHint;
+
+  /// Title of the diff options bottom sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Document Diff & Delta Sync'**
+  String get diffSheetTitle;
+
+  /// Subtitle of the diff options bottom sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare \"{fileName}\" side-by-side and selectively merge edits.'**
+  String diffSheetSubtitle(String fileName);
+
+  /// Subtitle of the start-live-sync option.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect with another device over local Wi-Fi to diff & pair-edit.'**
+  String get diffStartLiveSyncSubtitle;
+
+  /// Subtitle of the compare-with-local-file option.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a second document from device storage.'**
+  String get diffCompareLocalFileSubtitle;
+
+  /// Error when the picked comparison file cannot be read.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read chosen file for diff.'**
+  String get diffReadChosenFileFailed;
+
+  /// Heading above the list of open tabs in the diff sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Or Compare with Open Tab:'**
+  String get diffCompareOpenTab;
+
+  /// Error when an open tab cannot be read for comparison.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read tab for comparison.'**
+  String get diffReadTabFailed;
+
+  /// Button label while a received file is being saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get syncClientSaving;
+
+  /// Button to save a received file through the system file picker.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Device (SAF)'**
+  String get syncClientSaveToDevice;
+
+  /// Heading above the open-tab list on the receive screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Or match with an open tab:'**
+  String get syncClientMatchOpenTab;
 }
 
 class _AppLocalizationsDelegate

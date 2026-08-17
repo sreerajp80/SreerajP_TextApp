@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/sync/payload.dart';
-import 'package:text_data/sync/sync_constants.dart';
-import 'package:text_data/sync/sync_provider.dart';
-import 'package:text_data/sync/sync_transport.dart';
-import 'package:text_data/sync/ui/share_chooser.dart';
-import 'package:text_data/sync/ui/sync_status_chip.dart';
-import 'package:text_data/sync/ui/sync_summary_view.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/sync/payload.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/sync_provider.dart';
+import 'package:sreerajp_textapp/sync/sync_transport.dart';
+import 'package:sreerajp_textapp/sync/ui/share_chooser.dart';
+import 'package:sreerajp_textapp/sync/ui/sync_status_chip.dart';
+import 'package:sreerajp_textapp/sync/ui/sync_summary_view.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
   localizationsDelegates: AppLocalizations.localizationsDelegates,

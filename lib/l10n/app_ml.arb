@@ -1,8 +1,6 @@
 {
   "@@locale": "ml",
-
   "appTitle": "TextData",
-
   "actionCancel": "റദ്ദാക്കുക",
   "actionSave": "സംരക്ഷിക്കുക",
   "actionOk": "ശരി",
@@ -33,21 +31,17 @@
   "actionRestore": "പുനഃസ്ഥാപിക്കുക",
   "actionDiscard": "ഉപേക്ഷിക്കുക",
   "actionRetry": "വീണ്ടും ശ്രമിക്കുക",
-
   "draftBannerText": "മുൻ സെഷനിലെ സംരക്ഷിക്കാത്ത മാറ്റങ്ങൾ കണ്ടെത്തി.",
   "failCantOpenTitle": "ഈ ഫയൽ തുറക്കാൻ കഴിയുന്നില്ല",
   "failCannotOpen": "ഈ ഫയൽ തുറക്കാൻ കഴിഞ്ഞില്ല.",
-
   "readAloud": "ഉറക്കെ വായിക്കുക",
   "readAloudStop": "വായന നിർത്തുക",
   "readAloudUnavailable": "ഉറക്കെ വായിക്കൽ ഇപ്പോൾ ലഭ്യമല്ല.",
-
   "actionSplit": "വിഭജിക്കുക",
   "actionNext": "അടുത്തത്",
   "splitStopped": "{total}-ൽ {done} ഭാഗങ്ങൾ സംരക്ഷിച്ചശേഷം നിർത്തി.",
   "splitSaved": "{count} ഭാഗങ്ങൾ സംരക്ഷിച്ചു.",
   "mergedReview": "{name} ലയിപ്പിച്ചു. അവലോകനം ചെയ്ത് സംരക്ഷിക്കുക.",
-
   "labelEncoding": "എൻകോഡിംഗ്",
   "labelLineEnding": "വരി അവസാനം",
   "labelDelimiter": "വേർതിരിക്കൽ അടയാളം",
@@ -56,7 +50,6 @@
   "infoSize": "വലുപ്പം",
   "infoModified": "പരിഷ്കരിച്ചത്",
   "infoTitle": "ഫയൽ വിവരം",
-
   "saveOptionsTitle": "സംരക്ഷണ ഓപ്ഷനുകൾ",
   "saveDone": "സംരക്ഷിച്ചു.",
   "saveCopyDone": "ഒരു പകർപ്പ് സംരക്ഷിച്ചു: {name}.",
@@ -64,7 +57,6 @@
   "saveCouldNot": "സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല.",
   "saveReadOnly": "ഈ ഫയൽ വായിക്കാൻ മാത്രമുള്ളതാണ്.",
   "saveFailed": "ഫയൽ സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല.",
-
   "exportSheetTitle": "കയറ്റുമതി",
   "exportAsTitle": "ഇങ്ങനെ കയറ്റുമതി ചെയ്യുക",
   "exportAllRows": "എല്ലാ വരികളും",
@@ -72,14 +64,12 @@
   "exportSelectedRows": "തിരഞ്ഞെടുത്തത്",
   "exportCreated": "{name} സൃഷ്ടിച്ചു",
   "exportSaveCopy": "ഒരു പകർപ്പ് സംരക്ഷിക്കുക",
-
   "outShareFileFailed": "ഫയൽ പങ്കിടാൻ കഴിഞ്ഞില്ല.",
   "outShareZipFailed": "സിപ്പ് പങ്കിടാൻ കഴിഞ്ഞില്ല.",
   "outPrintFailed": "ഫയൽ പ്രിന്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല.",
   "outExportFailed": "കയറ്റുമതി സൃഷ്ടിക്കാൻ കഴിഞ്ഞില്ല.",
   "outShareExportFailed": "കയറ്റുമതി പങ്കിടാൻ കഴിഞ്ഞില്ല.",
   "outSaved": "{name} സംരക്ഷിച്ചു.",
-
   "homeTitle": "സമീപകാല ഫയലുകൾ",
   "homeEmptyTitle": "സമീപകാല ഫയലുകളൊന്നുമില്ല",
   "homeClearAllTitle": "സമീപകാല ഫയലുകൾ മായ്ക്കണോ?",
@@ -90,18 +80,15 @@
   "homeClearAllTooltip": "എല്ലാം മായ്ക്കുക",
   "homeEmptyBody": "തുടങ്ങാൻ ഒരു വാചക അല്ലെങ്കിൽ ഡാറ്റ ഫയൽ തുറക്കുക. അടുത്ത തവണ അത് ഇവിടെ കാണിക്കും.",
   "homeLoadError": "സമീപകാല ഫയലുകൾ ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല",
-
   "navHome": "ഹോം",
   "navEditor": "എഡിറ്റർ",
   "navSettings": "ക്രമീകരണങ്ങൾ",
-
   "tabClose": "അടയ്ക്കുക",
   "tabCloseOthers": "മറ്റുള്ളവ അടയ്ക്കുക",
   "tabCloseAll": "എല്ലാം അടയ്ക്കുക",
   "tabNoDocuments": "തുറന്ന ഡോക്യുമെന്റുകളൊന്നുമില്ല",
   "tabOpenFromHome": "തുടങ്ങാൻ ഹോമിൽ നിന്ന് ഒരു ഫയൽ തുറക്കുക.",
   "tabCouldNotSave": "സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല; ടാബ് തുറന്നിരിക്കുന്നു.",
-
   "fileChangedBanner": "ഈ ഫയൽ ഡിസ്കിൽ മാറിയിട്ടുണ്ട്.",
   "fileChangedReload": "വീണ്ടും ലോഡ് ചെയ്യുക",
   "fileChangedDismiss": "അവഗണിക്കുക",
@@ -110,26 +97,21 @@
   "fileChangedConfirmBody": "\"{fileName}\"-ൽ സംരക്ഷിക്കാത്ത മാറ്റങ്ങളുണ്ട്. വീണ്ടും ലോഡ് ചെയ്താൽ ഡിസ്കിലുള്ള ഫയൽ വരും, ആ മാറ്റങ്ങൾ നഷ്ടപ്പെടും.",
   "fileChangedConfirmReload": "ലോഡ് ചെയ്ത് ഒഴിവാക്കുക",
   "fileChangedConfirmCancel": "റദ്ദാക്കുക",
-
   "unsavedTitle": "മാറ്റങ്ങൾ സംരക്ഷിക്കണോ?",
   "unsavedBody": "\"{fileName}\"-ൽ സംരക്ഷിക്കാത്ത മാറ്റങ്ങളുണ്ട്. നിങ്ങൾ എന്തു ചെയ്യാൻ ആഗ്രഹിക്കുന്നു?",
   "unsavedKeepEditing": "എഡിറ്റിംഗ് തുടരുക",
-
   "degradedPrevPage": "മുൻ പേജ്",
   "degradedNextPage": "അടുത്ത പേജ്",
   "degradedPageLabel": "പേജ്",
   "degradedOfCount": "{count}-ൽ",
   "degradedLargeBanner": "ഈ ഫയൽ വലുതാണ്. ഇത് വായിക്കാൻ മാത്രമുള്ള മോഡിൽ തുറന്നിരിക്കുന്നു; എഡിറ്റിംഗ് ഓഫാണ്.",
   "degradedTryAgain": "വീണ്ടും ശ്രമിക്കുക",
-
   "placeholderComingSoon": "ഈ ഫയൽ തരത്തിനുള്ള വ്യൂവർ പിന്നീടൊരു ഘട്ടത്തിൽ വരും.",
   "placeholderOpenedFile": "തുറന്ന ഫയൽ",
-
   "overwriteTitle": "ഫയൽ മാറ്റിയെഴുതണോ?",
   "overwriteBody": "ഇത് നിങ്ങളുടെ മാറ്റങ്ങൾ കൊണ്ട് യഥാർത്ഥ ഫയലിനെ പകരം വയ്ക്കുന്നു. ക്രമീകരണങ്ങൾ › എഡിറ്റർ എന്നതിൽ ഈ പരിശോധന ഓഫാക്കാം.",
   "overwriteConfirm": "മാറ്റിയെഴുതുക",
   "shellTabsSkipped": "{count, plural, =1{സംരക്ഷിച്ച 1 ടാബ് വീണ്ടും തുറക്കാൻ കഴിഞ്ഞില്ല (ഫയൽ നീക്കി, ഇല്ലാതാക്കി, അല്ലെങ്കിൽ പ്രവേശനം റദ്ദാക്കി).} other{സംരക്ഷിച്ച {count} ടാബുകൾ വീണ്ടും തുറക്കാൻ കഴിഞ്ഞില്ല (ഫയൽ നീക്കി, ഇല്ലാതാക്കി, അല്ലെങ്കിൽ പ്രവേശനം റദ്ദാക്കി).}}",
-
   "onboardingSkip": "ഒഴിവാക്കുക",
   "onboardingNext": "അടുത്തത്",
   "onboardingGetStarted": "തുടങ്ങുക",
@@ -139,7 +121,6 @@
   "onboarding2Body": "എല്ലാം ഓഫ്‌ലൈനിൽ പ്രവർത്തിക്കുന്നു. ഫയലുകൾ സിസ്റ്റം പിക്കർ വഴി മാത്രമേ തുറക്കൂ, അതിനാൽ ആപ്പ് സ്വയം നിങ്ങളുടെ സ്റ്റോറേജ് പരതില്ല.",
   "onboarding3Title": "ഉപകരണങ്ങൾക്കിടയിൽ പങ്കിടുക",
   "onboarding3Body": "ഒരേ വൈ-ഫൈയിലുള്ള രണ്ട് ഉപകരണങ്ങൾക്കിടയിൽ നിങ്ങളുടെ ആപ്പ് ഡാറ്റ നീക്കുക — സെർവറോ ഇന്റർനെറ്റോ ആവശ്യമില്ല.",
-
   "securitySectionTitle": "സുരക്ഷ",
   "securityCardSubtitle": "ആപ്പ് പ്രവേശനവും സ്വകാര്യ ഡാറ്റയും സംരക്ഷിക്കുക.",
   "securityAppLockTitle": "ആപ്പ് ലോക്ക്",
@@ -157,7 +138,6 @@
   "securityTurnOffBody": "ഇത് നിങ്ങളുടെ പിന്നും വീണ്ടെടുക്കൽ കോഡും നീക്കം ചെയ്യുന്നു. അൺലോക്ക് ചെയ്യാതെ ആപ്പ് തുറക്കും.",
   "securityTurnOff": "ഓഫാക്കുക",
   "securityPinChanged": "പിൻ മാറ്റി",
-
   "lockEnterPin": "നിങ്ങളുടെ പിൻ നൽകുക",
   "lockPinLabel": "പിൻ",
   "lockUnlock": "അൺലോക്ക് ചെയ്യുക",
@@ -170,21 +150,17 @@
   "lockSetNewPinTitle": "ഒരു പുതിയ പിൻ സജ്ജമാക്കുക",
   "lockSetNewPinSubtitle": "നിങ്ങളുടെ വീണ്ടെടുക്കൽ കോഡ് സ്വീകരിച്ചു. ഒരു പുതിയ പിൻ തിരഞ്ഞെടുക്കുക.",
   "lockBiometricReason": "TextData അൺലോക്ക് ചെയ്യുക",
-
   "setPinTitle": "ഒരു പിൻ സജ്ജമാക്കുക",
   "setPinSubtitle": "കുറഞ്ഞത് 4 അക്കങ്ങളുള്ള ഒരു പിൻ തിരഞ്ഞെടുക്കുക.",
   "setPinConfirmLabel": "പിൻ സ്ഥിരീകരിക്കുക",
   "setPinSave": "പിൻ സംരക്ഷിക്കുക",
   "setPinTooShort": "കുറഞ്ഞത് {min} അക്കങ്ങൾ ഉപയോഗിക്കുക.",
   "setPinMismatch": "രണ്ട് പിന്നുകളും പൊരുത്തപ്പെടുന്നില്ല.",
-
   "recoveryTitle": "നിങ്ങളുടെ വീണ്ടെടുക്കൽ കോഡ് സംരക്ഷിക്കുക",
   "recoveryBody": "നിങ്ങൾ പിൻ മറന്നാൽ, ഈ വീണ്ടെടുക്കൽ കോഡാണ് തിരികെ പ്രവേശിക്കാനുള്ള ഏക വഴി. ഇത് എഴുതി സുരക്ഷിതമായ സ്ഥലത്ത് സൂക്ഷിക്കുക. ഇത് ഒരിക്കൽ മാത്രമേ കാണിക്കൂ.",
   "recoveryCopied": "വീണ്ടെടുക്കൽ കോഡ് പകർത്തി",
   "recoverySaved": "ഞാൻ ഇത് സംരക്ഷിച്ചു",
-
   "settingsTitle": "ക്രമീകരണങ്ങൾ",
-
   "appearSectionTitle": "രൂപഭാവം",
   "appearCardSubtitle": "തീം, വാചക വലുപ്പം, ഫോണ്ട്, വരി അകലം.",
   "appearTheme": "തീം",
@@ -198,7 +174,6 @@
   "languageSystem": "സിസ്റ്റം",
   "languageEnglish": "ഇംഗ്ലീഷ്",
   "languageMalayalam": "മലയാളം",
-
   "editorSectionTitle": "എഡിറ്റർ",
   "editorCardSubtitle": "സംരക്ഷണം, വരി അവസാനങ്ങൾ, എഡിറ്റിംഗ് സ്ഥിരസ്ഥിതികൾ.",
   "editorDefaultEncoding": "സംരക്ഷിക്കുമ്പോൾ സ്ഥിര എൻകോഡിംഗ്",
@@ -212,7 +187,8 @@
   "editorAutoSaveLabel": "ഡ്രാഫ്റ്റ് ഓട്ടോ-സേവ് ചെയ്യുന്ന ഇടവേള",
   "editorAutoSaveOff": "ഓഫ്",
   "editorAutoSaveValue": "{seconds} സെ",
-
+  "editorExitEditAfterSave": "സേവ് ചെയ്ത ശേഷം എഡിറ്റ് മോഡിൽ നിന്ന് പുറത്തുകടക്കുക",
+  "editorExitEditAfterSaveSub": "സേവ് വിജയിക്കുമ്പോൾ കാഴ്ച മോഡിലേക്ക് മടങ്ങുക.",
   "filesTabsSectionTitle": "ഫയലുകളും ടാബുകളും",
   "filesTabsCardSubtitle": "ടാബ് പരിധികളും പുനഃസ്ഥാപന സ്വഭാവവും.",
   "filesAuto": "സ്വയമേവ",
@@ -224,7 +200,6 @@
   "filesWhenLimitReached": "പരിധി എത്തുമ്പോൾ",
   "filesRestoreOnRelaunch": "വീണ്ടും തുറക്കുമ്പോൾ ടാബുകൾ പുനഃസ്ഥാപിക്കുക",
   "filesRestoreSub": "ആപ്പ് വീണ്ടും ആരംഭിക്കുമ്പോൾ നിങ്ങൾ തുറന്നിരുന്ന ഫയലുകൾ വീണ്ടും തുറക്കുക.",
-
   "speechSectionTitle": "സംസാരം (ഉറക്കെ വായിക്കൽ)",
   "speechCardSubtitle": "ഭാഷകളും ടെക്സ്റ്റ്-ടു-സ്പീച്ച് ശബ്ദങ്ങളും.",
   "speechEnglish": "ഇംഗ്ലീഷ്",
@@ -239,13 +214,11 @@
   "speechCheckAgain": "വീണ്ടും പരിശോധിക്കുക",
   "speechNoEngine": "ഈ ഉപകരണത്തിൽ ടെക്സ്റ്റ്-ടു-സ്പീച്ച് എൻജിൻ ലഭ്യമല്ല.",
   "speechCouldNotOpen": "ശബ്ദ ഇൻസ്റ്റാൾ സ്ക്രീൻ തുറക്കാൻ കഴിഞ്ഞില്ല.",
-
   "syncSectionTitle": "സമന്വയം",
   "syncCardSubtitle": "ഉപകരണങ്ങൾക്കിടയിൽ എന്ത് പങ്കിടണമെന്ന് തിരഞ്ഞെടുക്കുക.",
   "syncDefaultCategories": "സ്ഥിരമായി പങ്കിടേണ്ട വിഭാഗങ്ങൾ. ഓരോ തവണ അയയ്ക്കുമ്പോഴും നിങ്ങൾക്ക് ഈ തിരഞ്ഞെടുപ്പ് മാറ്റാം.",
   "syncLocalNote": "സമന്വയം നിങ്ങളുടെ ലോക്കൽ നെറ്റ്‌വർക്കിൽ തന്നെ നിലനിൽക്കുന്നു. നിങ്ങളുടെ ഡിസ്‌പ്ലേ ക്രമീകരണങ്ങളും മുകളിലുള്ള വിഭാഗങ്ങളും മാത്രമേ പങ്കിടൂ — ഒരിക്കലും പാസ്‌വേഡുകൾ, കീകൾ, അല്ലെങ്കിൽ പെയറിംഗ് കോഡ് അല്ല.",
   "syncOpenSync": "സമന്വയം തുറക്കുക",
-
   "helpSectionTitle": "സഹായം",
   "helpCardSubtitle": "ആപ്പ് സവിശേഷതകൾ എങ്ങനെ പ്രവർത്തിക്കുന്നു എന്ന് അറിയുക.",
   "helpSearchFilterHint": "സഹായ വിഷയങ്ങൾ തിരയുക…",
@@ -286,7 +259,6 @@
   "helpBackupTitle": "ബാക്കപ്പ് & എക്സ്പോർട്ട്",
   "helpBackupSubtitle": "നിങ്ങളുടെ ഫയലുകളുടെ പകർപ്പുകൾ മറ്റ് ഫോർമാറ്റുകളിലോ ലൊക്കേഷനുകളിലോ സുരക്ഷിതമായി സൂക്ഷിക്കുക.",
   "helpBackupBody": "എക്സ്പോർട്ടും സേവ് എ കോപ്പിയും ഉപയോഗിച്ച് നിങ്ങളുടെ ഫയലുകളുടെ പകർപ്പുകൾ സുരക്ഷിതമായി സൂക്ഷിക്കുക. ഏതെങ്കിലും ഡോക്യുമെന്റ് തുറന്ന് \"എക്സ്പോർട്ട്\" കണ്ടെത്താൻ മെനു ടാപ്പ് ചെയ്യുക — ഇത് നിങ്ങളുടെ ഫയൽ PDF അല്ലെങ്കിൽ പ്ലെയിൻ ടെക്സ്റ്റ് പോലുള്ള മറ്റൊരു ഫോർമാറ്റിലേക്ക് മാറ്റുന്നു. യഥാർത്ഥ ഫയൽ മാറ്റാതെ പുതിയ ലൊക്കേഷനിൽ സംരക്ഷിക്കാൻ \"സേവ് എ കോപ്പി\" ഉപയോഗിക്കുക. അധിക സുരക്ഷയ്ക്ക്, പ്രധാനപ്പെട്ട ഫയലുകൾ പതിവായി എക്സ്പോർട്ട് ചെയ്ത് ക്ലൗഡ് ഫോൾഡർ, SD കാർഡ്, അല്ലെങ്കിൽ LAN സിങ്ക് അല്ലെങ്കിൽ QR പങ്കിടൽ വഴി മറ്റൊരു ഉപകരണം പോലുള്ള സുരക്ഷിതമായ സ്ഥലത്ത് പകർപ്പുകൾ സൂക്ഷിക്കുക.",
-
   "aboutSectionTitle": "കുറിച്ച്",
   "aboutCardSubtitle": "ആപ്പ് പതിപ്പ്, രചയിതാവ്, ലൈസൻസ് വിശദാംശങ്ങൾ.",
   "aboutLoading": "ആപ്പ് വിശദാംശങ്ങൾ ലോഡ് ചെയ്യുന്നു…",
@@ -300,7 +272,6 @@
   "aboutLinkSupport": "പിന്തുണ",
   "aboutLinkSource": "സോഴ്സ് കോഡ്",
   "linkCouldNotOpen": "ലിങ്ക് തുറക്കാൻ കഴിഞ്ഞില്ല.",
-
   "syncStatusWaiting": "ഒരു ഉപകരണത്തിനായി കാത്തിരിക്കുന്നു…",
   "syncStatusConnected": "ഉപകരണം കണക്റ്റ് ചെയ്തു",
   "syncStatusWrongCode": "തെറ്റായ കോഡ്",
@@ -347,7 +318,6 @@
   "syncChooseWhatToShare": "എന്ത് പങ്കിടണമെന്ന് തിരഞ്ഞെടുക്കുക",
   "syncWontOverride": "ഇത് മറ്റേ ഉപകരണത്തിൽ ഇതിനകം ഉള്ളതൊന്നും മാറ്റിയെഴുതില്ല; വൈരുദ്ധ്യമുണ്ടെങ്കിൽ മറ്റേ ഉപകരണം അതിന്റെ ഡാറ്റ നിലനിർത്തുന്നു.",
   "syncSendSelected": "തിരഞ്ഞെടുത്തവ അയയ്ക്കുക",
-
   "findFind": "കണ്ടെത്തുക",
   "findReplace": "മാറ്റുക",
   "findReplaceAll": "എല്ലാം മാറ്റുക",
@@ -359,7 +329,6 @@
   "findNextMatch": "അടുത്ത പൊരുത്തം",
   "findPreviousMatch": "മുൻ പൊരുത്തം",
   "findNoResults": "ഫലങ്ങളൊന്നുമില്ല",
-
   "txtFind": "കണ്ടെത്തുക",
   "txtReplace": "മാറ്റുക",
   "txtReplaceAll": "എല്ലാം മാറ്റുക",
@@ -399,12 +368,13 @@
   "txtSplitOnePart": "ഫയൽ ഒരു ഭാഗത്തിൽ ഒതുങ്ങാൻ മാത്രം ചെറുതാണ്.",
   "txtViewMode": "കാഴ്ച മോഡ്",
   "txtEditMode": "എഡിറ്റ് മോഡ്",
+  "editorExitEditMode": "എഡിറ്റ് മോഡിൽ നിന്ന് പുറത്തുകടക്കുക",
+  "editorAutoSaveFailing": "ഓട്ടോ-സേവ് പ്രവർത്തിക്കുന്നില്ല. മാറ്റങ്ങൾ നിലനിർത്താൻ ഫയൽ സേവ് ചെയ്യുക.",
   "txtWordWrapOn": "വാക്ക് പൊതിയൽ: ഓൺ",
   "txtWordWrapOff": "വാക്ക് പൊതിയൽ: ഓഫ്",
   "txtJumpToLine": "വരിയിലേക്ക് പോകുക",
   "txtLineNumber": "വരി നമ്പർ",
   "txtAppendFile": "ഒരു ഫയൽ ചേർക്കുക",
-
   "mdShowRendered": "റെൻഡർ ചെയ്തത്",
   "mdShowSource": "സോഴ്സ്",
   "mdEdit": "എഡിറ്റ്",
@@ -423,7 +393,6 @@
   "mdTableAlignLeft": "ഇടത്",
   "mdTableAlignCenter": "മധ്യം",
   "mdTableAlignRight": "വലത്",
-
   "mdFrontMatterTitle": "ഫ്രണ്ട് മാറ്റർ",
   "mdFrontMatterHelp": "താഴെയുള്ള ഫീൽഡുകൾ എഡിറ്റ് ചെയ്യുക. ഈ ഫോം കാണിക്കാത്തതെല്ലാം അതേപടി നിലനിർത്തും.",
   "mdFrontMatterNone": "ഈ ഫയലിൽ ഇതുവരെ ഫ്രണ്ട് മാറ്റർ ഇല്ല. ഒന്ന് ചേർക്കാൻ ഒരു ഫീൽഡ് പൂരിപ്പിക്കുക.",
@@ -433,7 +402,6 @@
   "mdFrontMatterAddTag": "ഒരു ടാഗ് ടൈപ്പ് ചെയ്ത് എന്റർ അമർത്തുക",
   "mdFrontMatterPickDate": "തീയതി തിരഞ്ഞെടുക്കുക",
   "mdFrontMatterApply": "മാറ്റങ്ങൾ പ്രയോഗിക്കുക",
-
   "mdLivePreviewOff": "ലൈവ് പ്രിവ്യൂ ഓഫ്",
   "mdSave": "സംരക്ഷിക്കുക",
   "mdUndo": "പഴയപടിയാക്കുക",
@@ -473,7 +441,6 @@
   "mdInfoAuthorField": "രചയിതാവ്",
   "mdInfoTags": "ടാഗുകൾ",
   "mdNoTopHeadings": "വിഭജിക്കാൻ മുകൾ തല തലക്കെട്ടുകളൊന്നുമില്ല.",
-
   "jsonReadAloud": "ഉറക്കെ വായിക്കുക",
   "jsonStopReading": "വായന നിർത്തുക",
   "jsonReadAloudUnavailable": "ഉറക്കെ വായിക്കൽ ലഭ്യമല്ല",
@@ -530,9 +497,7 @@
   "jsonMakeStrict": "കർശനമാക്കുക",
   "jsonTreeFilterHint": "കീ അല്ലെങ്കിൽ മൂല്യം അനുസരിച്ച് അരിക്കുക",
   "jsonReformatStrict": "സംരക്ഷിക്കുന്നതിന് മുമ്പ് കർശനമായ JSON ആയി പുനഃക്രമീകരിക്കുക",
-
   "mdByAuthor": "{author} എഴുതിയത്",
-
   "xmlTreeFilterHint": "ടാഗ്, ആട്രിബ്യൂട്ട്, അല്ലെങ്കിൽ വാചകം അനുസരിച്ച് അരിക്കുക",
   "xmlViewPretty": "ഭംഗിയായത്",
   "xmlViewTree": "ട്രീ",
@@ -599,13 +564,11 @@
   "xmlNotWellFormedWithLine": "നന്നായി രൂപപ്പെട്ടിട്ടില്ല (വരി {line}): {error}",
   "xmlNotWellFormedNoLine": "നന്നായി രൂപപ്പെട്ടിട്ടില്ല: {error}",
   "xmlXsdComing": "XSD സ്കീമ പരിശോധന പിന്നീടൊരു അപ്‌ഡേറ്റിൽ വരും.",
-
   "jsonViewAsTable": "പട്ടികയായി കാണുക",
   "jsonTableNothingToShow": "പട്ടികയായി കാണിക്കാൻ ഈ ഡോക്യുമെന്റിൽ റെക്കോർഡുകളുടെ അറേ ഇല്ല.",
   "jsonTableSummary": "{path} · {rows} വരികൾ · {columns} കോളങ്ങൾ",
   "jsonTableWholeDocument": "മുഴുവൻ ഡോക്യുമെന്റ്",
   "jsonTableCopied": "മൂല്യം പകർത്തി",
-
   "jsonQueryBuilderTitle": "ക്വറി ബിൽഡർ",
   "jsonQueryGoInto": "ഇതിലേക്ക് പോകുക",
   "jsonQueryAtAnyDepth": "ഏത് ആഴത്തിലും",
@@ -615,7 +578,6 @@
   "jsonQueryStepBack": "പിന്നോട്ട്",
   "jsonQueryStartOver": "പുതുതായി തുടങ്ങുക",
   "jsonQueryUse": "ഈ ക്വറി ഉപയോഗിക്കുക",
-
   "jsonQuickFixes": "പെട്ടെന്നുള്ള പരിഹാരങ്ങൾ",
   "jsonFixEverything": "എല്ലാം ശരിയാക്കുക",
   "jsonFixQuoteKeys": "കീകൾക്ക് ഉദ്ധരണി ചിഹ്നം ചേർക്കുക",
@@ -623,7 +585,6 @@
   "jsonFixTrailingCommas": "അധിക കോമകൾ നീക്കുക",
   "jsonFixRemoveComments": "കമന്റുകൾ നീക്കുക",
   "jsonFixPythonLiterals": "true, false, null ഉപയോഗിക്കുക",
-
   "xmlQueryBuilderTitle": "XPath ബിൽഡർ",
   "xmlFixCloseTags": "തുറന്ന ടാഗുകൾ അടയ്ക്കുക",
   "xmlFixEscapeAmpersands": "& ചിഹ്നങ്ങൾ എസ്കേപ്പ് ചെയ്യുക",
@@ -633,7 +594,6 @@
   "xmlProblemNearLine": "വരി {line}-ന് സമീപം ഒരു പ്രശ്നമുണ്ട്. ശരിയാക്കാൻ എഡിറ്റർ തുറക്കുക.",
   "xmlOpenEditorToFix": "XML ശരിയാക്കാൻ എഡിറ്റർ തുറക്കുക.",
   "openTooManyTabs": "വളരെയധികം ടാബുകൾ തുറന്നിരിക്കുന്നു. ആദ്യം ഒന്ന് അടച്ച ശേഷം വീണ്ടും തുറക്കുക.",
-
   "csvShowRawText": "അസംസ്കൃത വാചകം കാണിക്കുക",
   "csvShowTable": "പട്ടിക കാണിക്കുക",
   "csvFilterRows": "വരികൾ അരിക്കുക",
@@ -676,7 +636,6 @@
   "csvStatMax": "കൂടിയത്",
   "csvStatSum": "തുക",
   "csvStatAverage": "ശരാശരി",
-
   "csvSortLevels": "ക്രമീകരണ തലങ്ങൾ",
   "csvSortNoLevels": "ഇതുവരെ ക്രമീകരണമില്ല. ഒന്നിലധികം കോളങ്ങൾ പ്രകാരം ക്രമീകരിക്കാൻ ഒരു തലം ചേർക്കുക.",
   "csvSortAddLevel": "തലം ചേർക്കുക",
@@ -688,7 +647,6 @@
   "csvSortDescending": "Z → A",
   "csvSortMoveUp": "ഈ തലം മുകളിലേക്ക് നീക്കുക",
   "csvSortMoveDown": "ഈ തലം താഴേക്ക് നീക്കുക",
-
   "csvSetFormula": "ഫോർമുല സജ്ജമാക്കുക…",
   "csvEditFormula": "ഫോർമുല എഡിറ്റ് ചെയ്യുക…",
   "csvFormulaTitle": "\"{name}\"-നുള്ള ഫോർമുല",
@@ -698,7 +656,6 @@
   "csvFormulaPreview": "ആദ്യ വരികൾ",
   "csvFormulaApply": "പ്രയോഗിക്കുക",
   "csvFormulaRemove": "ഫോർമുല നീക്കം ചെയ്യുക",
-
   "csvHighlightRules": "ഹൈലൈറ്റ് നിയമങ്ങൾ",
   "csvNoHighlightRules": "ഇതുവരെ നിയമങ്ങളില്ല. സെല്ലുകൾ സ്വയമേവ നിറം നൽകാൻ ഒന്ന് ചേർക്കുക.",
   "csvAddHighlightRule": "നിയമം ചേർക്കുക",
@@ -717,7 +674,6 @@
   "csvHighlightYellow": "മഞ്ഞ",
   "csvHighlightGreen": "പച്ച",
   "csvHighlightBlue": "നീല",
-
   "csvChartTitle": "ചാർട്ട്",
   "csvOpenFullChart": "പൂർണ്ണ ചാർട്ട് തുറക്കുക",
   "csvChartBar": "ബാർ",
@@ -751,7 +707,6 @@
   "csvMoveUp": "മുകളിലേക്ക് നീക്കുക",
   "csvMoveDown": "താഴേക്ക് നീക്കുക",
   "csvDeleteRow": "വരി ഇല്ലാതാക്കുക",
-
   "airqrTitle": "എയർ-ഗ്യാപ് കൈമാറ്റം (QR)",
   "airqrIntro": "സ്ക്രീനും ക്യാമറയും മാത്രം ഉപയോഗിച്ച് ഒരു ഡോക്യുമെന്റോ കുറച്ച് ടെക്സ്റ്റോ മറ്റൊരു ഉപകരണത്തിലേക്ക് അയയ്ക്കുക. വൈ-ഫൈ, ബ്ലൂടൂത്ത്, ഇന്റർനെറ്റ് വഴി ഒന്നും അയയ്ക്കുന്നില്ല.",
   "airqrReceive": "സ്വീകരിക്കുക",
@@ -760,7 +715,6 @@
   "airqrHowToSendBody": "അയയ്ക്കേണ്ട ഡോക്യുമെന്റ് തുറന്ന്, അതിന്റെ മെനുവിൽ നിന്ന് \"QR വഴി അയയ്ക്കുക\" തിരഞ്ഞെടുക്കുക. ഒരു ഭാഗം മാത്രം അയയ്ക്കാൻ, ആദ്യം ടെക്സ്റ്റ് തിരഞ്ഞെടുക്കുക.",
   "airqrSpeedNoteTitle": "ഇത് മനഃപൂർവം സാവധാനമാണ്",
   "airqrSpeedNoteBody": "ക്യാമറ ലിങ്ക് സെക്കൻഡിൽ ഏകദേശം 15 KB മാത്രം കൊണ്ടുപോകുന്നു. ചെറിയ കുറിപ്പുകൾക്ക് കുറച്ച് സെക്കൻഡ് മതി; വലിയ ഫയലിന് മിനിറ്റുകൾ എടുക്കാം. വലിയ ഫയലുകൾക്ക് LAN സിങ്ക് ഉപയോഗിക്കുക.",
-
   "airqrSendTitle": "QR വഴി അയയ്ക്കുന്നു",
   "airqrSendByQr": "QR വഴി അയയ്ക്കുക",
   "airqrSendSelectionByQr": "തിരഞ്ഞെടുത്തത് QR വഴി അയയ്ക്കുക",
@@ -775,7 +729,6 @@
   "airqrSpeedHelp": "മറ്റേ ഉപകരണത്തിന് ഫ്രെയിമുകൾ നഷ്ടപ്പെടുന്നെങ്കിൽ ഇത് കുറയ്ക്കുക.",
   "airqrDensityLabel": "വിശദാംശം: ഫ്രെയിമിന് {bytes} ബൈറ്റ്",
   "airqrDensityHelp": "പഴയ ക്യാമറയിൽ എളുപ്പത്തിൽ സ്കാൻ ചെയ്യാൻ ഇത് കുറയ്ക്കുക. കൂടുതൽ ഫ്രെയിമുകൾ വേണ്ടിവരും.",
-
   "airqrReceiveTitle": "QR വഴി സ്വീകരിക്കുന്നു",
   "airqrScanSemantics": "ആനിമേറ്റഡ് QR കോഡ് സ്വീകരിക്കാനുള്ള ക്യാമറ വ്യൂഫൈൻഡർ",
   "airqrLookingForStream": "ഒരു കൈമാറ്റം തിരയുന്നു…",
@@ -797,7 +750,6 @@
   "airqrFailedGeneric": "കൈമാറ്റം പൂർത്തിയാക്കാൻ കഴിഞ്ഞില്ല.",
   "airqrSavedAs": "{name} ആയി സേവ് ചെയ്തു",
   "airqrInsertedIntoDocument": "തുറന്ന ഡോക്യുമെന്റിൽ ടെക്സ്റ്റ് ചേർത്തു",
-
   "airqrTooLargeTitle": "QR കൈമാറ്റത്തിന് വളരെ വലുതാണ്",
   "airqrTooLargeBody": "ഇത് {size} ആണ്, QR കൈമാറ്റത്തിന്റെ പരിധി {limit} ആണ്. ക്യാമറ വേഗതയിൽ ഇതിന് വളരെ അധികം സമയം എടുക്കും. പകരം LAN സിങ്ക് ഉപയോഗിക്കുക.",
   "airqrSlowTitle": "ഇതിന് കുറച്ച് സമയം എടുക്കും",
@@ -830,10 +782,8 @@
   "filesIndexRebuild": "തിരയൽ സൂചിക വീണ്ടും നിർമ്മിക്കുക",
   "filesIndexRebuilding": "തിരയൽ സൂചിക വീണ്ടും നിർമ്മിക്കുന്നു…",
   "filesIndexRebuilt": "{count, plural, =0{പുതുതായി ഒന്നും സൂചികയിൽ ചേർത്തില്ല} =1{1 ഫയൽ സൂചികയിൽ ചേർത്തു} other{{count} ഫയലുകൾ സൂചികയിൽ ചേർത്തു}}",
-
   "ephemeralBadgeTimerTooltip": "ഈ ടാബ് {time} കഴിഞ്ഞ് സ്വയം ഇല്ലാതാകും",
   "ephemeralBadgeOutputTooltip": "അടുത്ത കയറ്റുമതിക്കോ പങ്കിടലിനോ ശേഷം ഈ ടാബ് സ്വയം ഇല്ലാതാകും",
-
   "ephemeralSheetTitle": "ഈ ടാബ് സ്വയം ഇല്ലാതാകട്ടെ",
   "ephemeralSheetWhatIsWiped": "ഇല്ലാതാകുമ്പോൾ ആപ്പ് ഈ രേഖ മറക്കും: സ്വയം സേവ് ഡ്രാഫ്റ്റ്, സമീപകാല പട്ടികയിലെ വരി, പ്രിയപ്പെട്ടവ, ബുക്ക്‌മാർക്കുകൾ, വായന സ്ഥാനം, തിരയൽ സൂചികയിലെ അതിന്റെ വാചകം.",
   "ephemeralSheetFileKept": "നിങ്ങളുടെ ഫയൽ ഇല്ലാതാക്കില്ല. ആപ്പ് അതിനെക്കുറിച്ച് സൂക്ഷിക്കുന്നത് മാത്രമേ മായ്ക്കൂ.",
@@ -844,19 +794,16 @@
   "ephemeralSheetBurnAfterOutputHint": "ആദ്യത്തെ വിജയകരമായ കയറ്റുമതി, പങ്കിടൽ അല്ലെങ്കിൽ പ്രിന്റ് ടാബ് ഇല്ലാതാക്കും. റദ്ദാക്കിയതോ പരാജയപ്പെട്ടതോ ഇല്ലാതാക്കില്ല.",
   "ephemeralSheetNothingChosen": "ഒരു സമയം തിരഞ്ഞെടുക്കുക, അല്ലെങ്കിൽ കയറ്റുമതിക്കു ശേഷം ഇല്ലാതാക്കൽ ഓണാക്കുക, അല്ലെങ്കിൽ രണ്ടും.",
   "ephemeralSheetConfirm": "സ്വയം ഇല്ലാതാകുന്നതാക്കുക",
-
   "ephemeralDuration15Minutes": "15 മിനിറ്റ്",
   "ephemeralDuration1Hour": "1 മണിക്കൂർ",
   "ephemeralDuration4Hours": "4 മണിക്കൂർ",
   "ephemeralDuration24Hours": "24 മണിക്കൂർ",
   "ephemeralDurationCustom": "സ്വന്തം സമയം",
   "ephemeralDurationNone": "സമയപരിധി ഇല്ല",
-
   "tabMakeEphemeral": "സ്വയം ഇല്ലാതാകുന്നതാക്കുക…",
   "tabChangeEphemeral": "സ്വയം ഇല്ലാതാകൽ മാറ്റുക…",
   "tabCancelEphemeral": "ഈ ടാബ് നിലനിർത്തുക",
   "tabBurnNow": "ഇപ്പോൾ ഇല്ലാതാക്കുക",
-
   "ephemeralMarked": "{name} സ്വയം ഇല്ലാതാകും",
   "ephemeralCancelled": "{name} വീണ്ടും ഒരു സാധാരണ ടാബ് ആണ്",
   "ephemeralBurned": "{name} ഇല്ലാതാക്കി",
@@ -864,9 +811,7 @@
   "ephemeralBurnNowTitle": "ഈ ടാബ് ഇല്ലാതാക്കണോ?",
   "ephemeralBurnNowBody": "ടാബ് അടയ്ക്കും, ആപ്പ് ഈ രേഖ മറക്കും. സേവ് ചെയ്യാത്ത മാറ്റങ്ങൾ നഷ്ടപ്പെടും. നിങ്ങളുടെ ഫയൽ ഇല്ലാതാക്കില്ല.",
   "actionBurn": "ഇല്ലാതാക്കുക",
-
   "ephemeralOpenAsEphemeral": "സ്വയം ഇല്ലാതാകുന്ന ടാബായി തുറക്കുക…",
-
   "ephemeralSettingsTitle": "സ്വയം ഇല്ലാതാകുന്ന രേഖകൾ",
   "ephemeralSettingsDefaultDuration": "സ്ഥിര സമയപരിധി",
   "ephemeralSettingsBurnAfterOutput": "കയറ്റുമതിക്കു ശേഷം ഇല്ലാതാക്കൽ സ്ഥിരമായി തിരഞ്ഞെടുക്കുക",
@@ -875,14 +820,12 @@
   "ephemeralSettingsOpenCount": "{count, plural, =0{സ്വയം ഇല്ലാതാകുന്ന ടാബുകളൊന്നും തുറന്നിട്ടില്ല} =1{സ്വയം ഇല്ലാതാകുന്ന 1 ടാബ് തുറന്നിട്ടുണ്ട്} other{സ്വയം ഇല്ലാതാകുന്ന {count} ടാബുകൾ തുറന്നിട്ടുണ്ട്}}",
   "ephemeralSettingsBurnAllDone": "{count, plural, =0{ഇല്ലാതാക്കാൻ ഒന്നുമില്ല} =1{1 ടാബ് ഇല്ലാതാക്കി} other{{count} ടാബുകൾ ഇല്ലാതാക്കി}}",
   "ephemeralSettingsWipeNote": "ഇല്ലാതാക്കുമ്പോൾ ആപ്പ് സൂക്ഷിച്ച പകർപ്പിനെ പൂജ്യങ്ങൾ കൊണ്ട് മായ്ച്ചശേഷമാണ് നീക്കുന്നത്. ഫ്ലാഷ് സംഭരണത്തിൽ ഇത് ശക്തമായ ഒരു അധിക നടപടിയാണ്, ഉറപ്പല്ല — യഥാർത്ഥ സംരക്ഷണം Android-ന്റെ സ്വന്തം ആപ്പ് എൻക്രിപ്ഷനാണ്.",
-
   "sqlMenuAction": "SQL ചോദ്യം പ്രവർത്തിപ്പിക്കുക…",
   "sqlQueryTitle": "SQL ചോദ്യം",
   "sqlQueryHint": "SELECT * FROM data LIMIT 100",
   "sqlRunAction": "പ്രവർത്തിപ്പിക്കുക",
   "sqlRunning": "പ്രവർത്തിക്കുന്നു…",
   "sqlLoadingData": "വിവരങ്ങൾ ലോഡ് ചെയ്യുന്നു…",
-
   "sqlTablesHeading": "പട്ടികകൾ",
   "sqlTableSummary": "{rows} വരികൾ · {columns} നിരകൾ",
   "sqlColumnRenamed": "മുമ്പ് “{original}”",
@@ -894,14 +837,12 @@
   "sqlAddTableFailed": "{name} എന്നതിൽ പട്ടികയായി ലോഡ് ചെയ്യാൻ ഒന്നുമില്ല.",
   "sqlTableAdded": "{name} ഇപ്പോൾ {table} എന്ന പട്ടികയാണ്.",
   "sqlRemoveTable": "നീക്കുക",
-
   "sqlPresetsHeading": "തുടങ്ങാനുള്ള ചോദ്യങ്ങൾ",
   "sqlPresetSelectAll": "ആദ്യ വരികൾ കാണിക്കുക",
   "sqlPresetCountRows": "വരികൾ എണ്ണുക",
   "sqlPresetGroupCount": "ഗ്രൂപ്പ് ചെയ്ത് ആകെ കണക്കാക്കുക",
   "sqlPresetOrderBy": "വലിയ മൂല്യങ്ങൾ ആദ്യം",
   "sqlPresetJoin": "രണ്ട് പട്ടികകൾ ചേർക്കുക",
-
   "sqlResultSummary": "{rows} വരികൾ, {ms} മില്ലിസെക്കൻഡിൽ",
   "sqlResultTruncated": "ഫലത്തിലെ ആദ്യത്തെ {count} വരികൾ കാണിക്കുന്നു.",
   "sqlResultEmpty": "ചോദ്യം പ്രവർത്തിച്ചു, പക്ഷേ ഒരു വരിയും ചേർന്നില്ല.",
@@ -911,11 +852,9 @@
   "sqlSaveResult": "ഫലം CSV ഫയലായി സംരക്ഷിക്കുക…",
   "sqlSavedResult": "{name} സംരക്ഷിച്ചു",
   "sqlNoResultYet": "സംരക്ഷിക്കാൻ ഇതുവരെ ഫലമില്ല.",
-
   "sqlReloadData": "വിവരങ്ങൾ വീണ്ടും എടുക്കുക",
   "sqlReloadedData": "തുറന്ന രേഖകളിൽ നിന്ന് വിവരങ്ങൾ വീണ്ടും എടുത്തു.",
   "sqlSnapshotNote": "ഈ സ്ക്രീൻ തുറന്നപ്പോൾ എടുത്ത പകർപ്പിലാണ് ചോദ്യങ്ങൾ പ്രവർത്തിക്കുന്നത്. രേഖ തിരുത്തിയ ശേഷം വീണ്ടും എടുക്കുക.",
-
   "sqlNoData": "ഈ രേഖയിൽ പട്ടികയായി ചോദിക്കാവുന്ന ഒന്നുമില്ല.",
   "sqlLoadFailed": "ചോദ്യത്തിനായി വിവരങ്ങൾ ലോഡ് ചെയ്യാനായില്ല.",
   "sqlErrorEmpty": "ആദ്യം ഒരു ചോദ്യം എഴുതുക.",
@@ -923,7 +862,6 @@
   "sqlErrorMultiple": "ഒരു പ്രസ്താവന മാത്രം എഴുതുക.",
   "sqlErrorForbidden": "“{keyword}” അനുവദനീയമല്ല — ഈ സ്ക്രീൻ വിവരങ്ങൾ വായിക്കുക മാത്രമേ ചെയ്യൂ.",
   "sqlReadOnlyNote": "ഇത് നിങ്ങളുടെ വിവരങ്ങളുടെ വായന-മാത്രം പകർപ്പാണ്. ഒരു ചോദ്യത്തിനും നിങ്ങളുടെ ഫയൽ മാറ്റാനോ ഇല്ലാതാക്കാനോ കഴിയില്ല.",
-
   "auditSectionTitle": "ഓഡിറ്റ് ലോഗ്",
   "auditCardSubtitle": "പ്രവർത്തനങ്ങളുടെ SHA-256 ചെയിൻ ലോഗ്",
   "auditEnableTitle": "ഓഡിറ്റ് ലോഗ് രേഖപ്പെടുത്തുക",
@@ -950,7 +888,6 @@
   "auditChainVerifiedBanner": "മാറ്റമില്ലാത്ത ചെയിൻ ഉറപ്പാക്കി ({count} രേഖകൾ)",
   "auditChainCorruptedBanner": "#{index}-ാമത്തെ രേഖയിൽ ചെയിൻ തകരാറിലാണ്",
   "auditChainEmptyBanner": "പരിശോധിക്കാൻ ഓഡിറ്റ് രേഖകളൊന്നുമില്ല.",
-
   "backupSectionTitle": "ബാക്കപ്പും പുനഃസ്ഥാപനവും",
   "backupCardSubtitle": "എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പ് ഫയൽ (.txdata)",
   "backupSectionDescription": "നിങ്ങളുടെ ഫയലുകൾ, സമീപകാല ഫയലുകൾ, പ്രിയപ്പെട്ടവ, ബുക്ക്മാർക്കുകൾ, ക്രമീകരണങ്ങൾ എന്നിവ ഒറ്റ AES-256 .txdata ഫയലായി ബാക്കപ്പ് ചെയ്യുക അല്ലെങ്കിൽ പുനഃസ്ഥാപിക്കുക.",
@@ -1060,6 +997,42 @@
   "liveDiffUnified": "ഒരുമിച്ചു കാണുക",
   "liveDiffPreview": "പ്രിവ്യൂ",
   "liveDiffPushToPeer": "മറുഭാഗത്തേക്ക് അയക്കുക",
-  "liveDiffSaveMerged": "യോജിപ്പിച്ച ഫയൽ സേവ് ചെയ്യുക"
+  "liveDiffSaveMerged": "യോജിപ്പിച്ച ഫയൽ സേവ് ചെയ്യുക",
+  "vaultLockBody": "AES-256-GCM ഹാർഡ്‌വെയർ കീ ഉപയോഗിച്ച് \"{fileName}\" എൻക്രിപ്റ്റ് ചെയ്യുക.",
+  "vaultLockNote": "ഉണ്ടാകുന്ന .txvault ഫയൽ നിങ്ങളുടെ വിരലടയാളം അല്ലെങ്കിൽ ഉപകരണ ബയോമെട്രിക്സ് ഉപയോഗിച്ച് ഈ ആപ്പിന് മാത്രമേ തുറക്കാൻ കഴിയൂ.",
+  "vaultEncryptAndSave": "എൻക്രിപ്റ്റ് ചെയ്ത് സേവ് ചെയ്യുക",
+  "vaultSavedAs": "എൻക്രിപ്റ്റ് ചെയ്ത വോൾട്ട് \"{fileName}\" ആയി സേവ് ചെയ്തു",
+  "vaultSaveFailed": "എൻക്രിപ്റ്റ് ചെയ്ത വോൾട്ട് ഫയൽ സേവ് ചെയ്യാൻ കഴിഞ്ഞില്ല.",
+  "vaultBiometricReason": "{fileName} ബയോമെട്രിക് വോൾട്ടിൽ പൂട്ടുക",
+  "aboutMadeInIndia": "ഇന്ത്യയിൽ നിന്ന് ❤ യോടെ",
+  "diffStartLiveSync": "മറുഭാഗവുമായി തത്സമയ P2P സമന്വയം തുടങ്ങുക",
+  "diffCompareLocalFile": "ഉപകരണത്തിലെ ഒരു ഫയലുമായി താരതമ്യം ചെയ്യുക",
+  "diffNoCsvData": "താരതമ്യം ചെയ്യാൻ CSV വിവരങ്ങളില്ല.",
+  "diffNoDifferences": "വ്യത്യാസങ്ങളൊന്നുമില്ല. രേഖകൾ ഒരുപോലെയാണ്.",
+  "diffAcceptMineSide": "← എന്റേത്",
+  "diffAcceptPeerSide": "മറുഭാഗം →",
+  "diffAcceptBoth": "രണ്ടും",
+  "liveDiffApplied": "യോജിപ്പിച്ച മാറ്റങ്ങൾ തുറന്ന രേഖയിൽ ചേർത്തു.",
+  "liveDiffSavedAs": "യോജിപ്പിച്ച ഫയൽ \"{fileName}\" ആയി സേവ് ചെയ്തു",
+  "liveDiffSaveFailed": "യോജിപ്പിച്ച ഫയൽ സേവ് ചെയ്യാൻ കഴിഞ്ഞില്ല.",
+  "liveDiffAutoMergeClean": "തർക്കമില്ലാത്ത മാറ്റങ്ങൾ ഓട്ടോ-മെർജ്ജ് ചെയ്യുക",
+  "p2pReadFileFailed": "തിരഞ്ഞെടുത്ത ഫയൽ വായിക്കാൻ കഴിഞ്ഞില്ല.",
+  "p2pReadTabFailed": "തുറന്ന ടാബിലെ ഉള്ളടക്കം വായിക്കാൻ കഴിഞ്ഞില്ല.",
+  "p2pPickFromStorage": "ഉപകരണത്തിൽ നിന്ന് തിരഞ്ഞെടുക്കുക",
+  "syncClientSavedAs": "ഫയൽ \"{fileName}\" ആയി സേവ് ചെയ്തു",
+  "syncClientSaveFailed": "ലഭിച്ച ഫയൽ സേവ് ചെയ്യാൻ കഴിഞ്ഞില്ല.",
+  "syncClientPickLocalFile": "ഉപകരണത്തിലെ ഫയൽ തിരഞ്ഞെടുക്കുക",
+  "syncClientComparingWith": "താരതമ്യം ചെയ്യുന്നത്: {fileName}",
+  "columnReplaceLabel": "കോളം ഭാഗം ഇതുകൊണ്ട് മാറ്റുക (നിർബന്ധമല്ല)",
+  "columnReplaceHint": "നിലനിർത്താനോ ഒഴിവാക്കാനോ ശൂന്യമായി വിടുക",
+  "diffSheetTitle": "തത്സമയ രേഖ താരതമ്യവും ഡെൽറ്റ സമന്വയവും",
+  "diffSheetSubtitle": "\"{fileName}\" വശങ്ങളിലായി താരതമ്യം ചെയ്ത് വേണ്ട മാറ്റങ്ങൾ മാത്രം ചേർക്കുക.",
+  "diffStartLiveSyncSubtitle": "താരതമ്യം ചെയ്യാനും ഒരുമിച്ച് തിരുത്താനും ലോക്കൽ Wi-Fi വഴി മറ്റൊരു ഉപകരണവുമായി ബന്ധിപ്പിക്കുക.",
+  "diffCompareLocalFileSubtitle": "ഉപകരണത്തിൽ നിന്ന് രണ്ടാമതൊരു രേഖ തിരഞ്ഞെടുക്കുക.",
+  "diffReadChosenFileFailed": "താരതമ്യത്തിനായി തിരഞ്ഞെടുത്ത ഫയൽ വായിക്കാൻ കഴിഞ്ഞില്ല.",
+  "diffCompareOpenTab": "അല്ലെങ്കിൽ തുറന്ന ടാബുമായി താരതമ്യം ചെയ്യുക:",
+  "diffReadTabFailed": "താരതമ്യത്തിനായി ടാബ് വായിക്കാൻ കഴിഞ്ഞില്ല.",
+  "syncClientSaving": "സേവ് ചെയ്യുന്നു...",
+  "syncClientSaveToDevice": "ഉപകരണത്തിൽ സേവ് ചെയ്യുക",
+  "syncClientMatchOpenTab": "അല്ലെങ്കിൽ തുറന്ന ഒരു ടാബുമായി ചേർക്കുക:"
 }
-

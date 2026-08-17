@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/fingerprint/content_fingerprint.dart';
+import 'package:sreerajp_textapp/core/fingerprint/content_fingerprint.dart';
 
 void main() {
   group('ContentFingerprint', () {

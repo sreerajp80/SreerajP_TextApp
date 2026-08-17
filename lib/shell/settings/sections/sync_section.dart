@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/airqr/ui/airqr_landing_screen.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/sync/sync_constants.dart';
-import 'package:text_data/sync/sync_share_prefs.dart';
-import 'package:text_data/sync/ui/sync_landing_screen.dart';
-import 'package:text_data/shell/settings/sections/settings_widgets.dart';
+import 'package:sreerajp_textapp/airqr/ui/airqr_landing_screen.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/sync_share_prefs.dart';
+import 'package:sreerajp_textapp/sync/ui/sync_landing_screen.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/settings_widgets.dart';
 
 /// Sync settings (task 11.5). Lets the user choose which record categories are
 /// pre-checked when they share, opens the sync flow, and states plainly that no

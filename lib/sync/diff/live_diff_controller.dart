@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:text_data/sync/diff/csv_diff_engine.dart';
-import 'package:text_data/sync/diff/diff_models.dart';
-import 'package:text_data/sync/diff/diff_payload.dart';
-import 'package:text_data/sync/diff/merge_engine.dart';
-import 'package:text_data/sync/diff/text_diff_engine.dart';
+import 'package:sreerajp_textapp/sync/diff/csv_diff_engine.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_models.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_payload.dart';
+import 'package:sreerajp_textapp/sync/diff/merge_engine.dart';
+import 'package:sreerajp_textapp/sync/diff/text_diff_engine.dart';
 
 /// Connection mode for diff session.
 enum DiffSessionMode {

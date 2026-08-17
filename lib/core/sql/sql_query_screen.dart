@@ -6,18 +6,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:text_data/core/sql/sql_dataset.dart';
-import 'package:text_data/core/sql/sql_guard.dart';
-import 'package:text_data/core/sql/sql_presets.dart';
-import 'package:text_data/core/sql/sql_query_engine.dart';
-import 'package:text_data/core/sql/sql_result.dart';
-import 'package:text_data/core/sql/sql_result_grid.dart';
-import 'package:text_data/core/sql/sql_schema_panel.dart';
-import 'package:text_data/core/sql/sql_source.dart';
-import 'package:text_data/core/sql/sql_source_picker.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/sql/sql_dataset.dart';
+import 'package:sreerajp_textapp/core/sql/sql_guard.dart';
+import 'package:sreerajp_textapp/core/sql/sql_presets.dart';
+import 'package:sreerajp_textapp/core/sql/sql_query_engine.dart';
+import 'package:sreerajp_textapp/core/sql/sql_result.dart';
+import 'package:sreerajp_textapp/core/sql/sql_result_grid.dart';
+import 'package:sreerajp_textapp/core/sql/sql_schema_panel.dart';
+import 'package:sreerajp_textapp/core/sql/sql_source.dart';
+import 'package:sreerajp_textapp/core/sql/sql_source_picker.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// The SQL-on-data screen (Feature 4).
 ///

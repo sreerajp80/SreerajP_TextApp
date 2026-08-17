@@ -1,4 +1,4 @@
-import 'package:text_data/formats/json/json_node.dart';
+import 'package:sreerajp_textapp/formats/json/json_node.dart';
 
 /// What one step of a built query does (roadmap §4.3.2).
 enum JsonStepKind {

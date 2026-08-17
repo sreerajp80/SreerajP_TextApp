@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
-import 'package:text_data/sync/diff/live_diff_controller.dart';
-import 'package:text_data/sync/sync_provider.dart';
-import 'package:text_data/sync/ui/live_diff_screen.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/sync/diff/live_diff_controller.dart';
+import 'package:sreerajp_textapp/sync/sync_provider.dart';
+import 'package:sreerajp_textapp/sync/ui/live_diff_screen.dart';
 
 /// Tab in SyncHostScreen allowing the user to initiate a live diff & delta sync session.
 class P2pLiveDiffTab extends ConsumerStatefulWidget {
@@ -25,6 +26,7 @@ class _P2pLiveDiffTabState extends ConsumerState<P2pLiveDiffTab> {
   String? _selectedContent;
 
   Future<void> _pickFileFromStorage() async {
+    final l10n = AppLocalizations.of(context);
     try {
       final saf = ref.read(safServiceProvider);
       final file = await saf.pickFile();
@@ -42,7 +44,7 @@ class _P2pLiveDiffTabState extends ConsumerState<P2pLiveDiffTab> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Could not read selected file.'),
+            content: Text(l10n.p2pReadFileFailed),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -51,6 +53,7 @@ class _P2pLiveDiffTabState extends ConsumerState<P2pLiveDiffTab> {
   }
 
   void _selectOpenTab(DocumentTab tab) async {
+    final l10n = AppLocalizations.of(context);
     try {
       final saf = ref.read(safServiceProvider);
       final bytes = await saf.readBytes(tab.uri);
@@ -65,7 +68,7 @@ class _P2pLiveDiffTabState extends ConsumerState<P2pLiveDiffTab> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Could not read open tab content.'),
+            content: Text(l10n.p2pReadTabFailed),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -106,6 +109,7 @@ class _P2pLiveDiffTabState extends ConsumerState<P2pLiveDiffTab> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final tabsState = ref.watch(tabsControllerProvider);
     final isConnected = widget.controller.hostConnected;
@@ -161,7 +165,7 @@ class _P2pLiveDiffTabState extends ConsumerState<P2pLiveDiffTab> {
         OutlinedButton.icon(
           onPressed: _pickFileFromStorage,
           icon: const Icon(Icons.folder_open),
-          label: const Text('Pick from Device Storage (SAF)'),
+          label: Text(l10n.p2pPickFromStorage),
         ),
         if (tabsState.tabs.isNotEmpty) ...[
           const SizedBox(height: 16),

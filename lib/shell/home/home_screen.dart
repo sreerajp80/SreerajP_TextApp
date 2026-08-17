@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/ephemeral/ephemeral_settings.dart';
-import 'package:text_data/core/ephemeral/ephemeral_sheet.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/create_document_action.dart';
-import 'package:text_data/shell/open_file_action.dart';
-import 'package:text_data/shell/home/file_type_icon.dart';
-import 'package:text_data/shell/home/recents_controller.dart';
-import 'package:text_data/shell/search/workspace_search_screen.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_settings.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_sheet.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/create_document_action.dart';
+import 'package:sreerajp_textapp/shell/open_file_action.dart';
+import 'package:sreerajp_textapp/shell/home/file_type_icon.dart';
+import 'package:sreerajp_textapp/shell/home/recents_controller.dart';
+import 'package:sreerajp_textapp/shell/search/workspace_search_screen.dart';
 
 /// Home / Recent Files screen (task 2.3).
 ///

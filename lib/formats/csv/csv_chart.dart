@@ -1,8 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import 'package:text_data/formats/csv/csv_chart_data.dart';
-import 'package:text_data/formats/csv/csv_types.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_chart_data.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_types.dart';
 
 /// A simple bar chart for one CSV column (task 7.4), drawn with `fl_chart`
 /// (MIT). A numeric column plots each row's value (first [maxBars] rows); a

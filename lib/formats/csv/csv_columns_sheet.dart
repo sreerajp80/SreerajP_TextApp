@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_session.dart';
 
 /// A bottom sheet for table options (task 7.2): freeze header / first column,
 /// treat the first row as a header, and show / hide individual columns.

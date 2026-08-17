@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/editor/column_selection.dart';
+import 'package:sreerajp_textapp/core/editor/column_selection.dart';
 
 void main() {
   group('ColumnSelectionEngine', () {

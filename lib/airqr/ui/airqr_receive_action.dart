@@ -4,13 +4,13 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/airqr/airqr_payload.dart';
-import 'package:text_data/airqr/ui/airqr_receive_screen.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/open_file_action.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/airqr/airqr_payload.dart';
+import 'package:sreerajp_textapp/airqr/ui/airqr_receive_screen.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/open_file_action.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
 
 /// Opens the receive screen and saves whatever comes back.
 ///

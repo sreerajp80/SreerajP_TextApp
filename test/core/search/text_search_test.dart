@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/search/search_options.dart';
-import 'package:text_data/core/search/text_search.dart';
+import 'package:sreerajp_textapp/core/search/search_options.dart';
+import 'package:sreerajp_textapp/core/search/text_search.dart';
 
 void main() {
   const search = TextSearch();

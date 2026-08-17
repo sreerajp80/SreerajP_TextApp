@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/xml/xml_document_session.dart';
-import 'package:text_data/formats/xml/xml_path.dart';
-import 'package:text_data/formats/xml/xml_quick_fix.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_document_session.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_path.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_quick_fix.dart';
 
 /// A bottom sheet to run an XPath query against the document and copy the paths
 /// of matches (task 9.3).

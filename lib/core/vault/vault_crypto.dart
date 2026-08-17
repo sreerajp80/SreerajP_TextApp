@@ -3,8 +3,8 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:encrypt/encrypt.dart' as enc;
-import 'package:text_data/core/vault/vault_constants.dart';
-import 'package:text_data/core/vault/vault_models.dart';
+import 'package:sreerajp_textapp/core/vault/vault_constants.dart';
+import 'package:sreerajp_textapp/core/vault/vault_models.dart';
 
 /// Exception thrown when a `.txvault` file cannot be decrypted or is malformed.
 /// Never contains secret keys or plaintext.

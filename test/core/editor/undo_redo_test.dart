@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/editor/editor_controller.dart';
+import 'package:sreerajp_textapp/core/editor/editor_controller.dart';
 
 void main() {
   group('EditorController undo/redo', () {

@@ -6,7 +6,7 @@ part depends on*, and *how we know a task is done*.
 
 Read these first:
 - [CLAUDE.md](../CLAUDE.md) — project rules.
-- [TextData-Idea.md](TextData-Idea.md) — the product idea (the "what").
+- [textdata_idea.md](textdata_idea.md) — the product idea (the "what").
 - [architecture.md](architecture.md) — the technical design (the "how"). Section numbers
   below (e.g. "arch §6") point here.
 - [security-rules.md](security-rules.md) — security rules, read before any

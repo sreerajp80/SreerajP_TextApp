@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/formats/markdown/md_document_session.dart';
-import 'package:text_data/formats/markdown/md_editor_surface.dart';
-import 'package:text_data/formats/markdown/md_preview_view.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_document_session.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_editor_surface.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_preview_view.dart';
 
 /// The split-screen dual view: the Markdown source and the live rendered result
 /// side by side (roadmap §4.4.1).

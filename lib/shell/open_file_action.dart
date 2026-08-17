@@ -3,24 +3,24 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/audit/audit_hooks.dart';
-import 'package:text_data/core/audit/audit_providers.dart';
-import 'package:text_data/core/audit/audit_service.dart';
-import 'package:text_data/core/audit/audit_settings.dart';
-import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
-import 'package:text_data/core/ephemeral/ephemeral_models.dart';
-import 'package:text_data/core/fingerprint/content_fingerprint.dart';
-import 'package:text_data/core/index/index_hooks.dart';
-import 'package:text_data/core/index/index_providers.dart';
-import 'package:text_data/core/index/search_index_service.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/core/storage/storage_models.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/home/recents_controller.dart';
-import 'package:text_data/shell/shell_providers.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/core/audit/audit_hooks.dart';
+import 'package:sreerajp_textapp/core/audit/audit_providers.dart';
+import 'package:sreerajp_textapp/core/audit/audit_service.dart';
+import 'package:sreerajp_textapp/core/audit/audit_settings.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_controller.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_models.dart';
+import 'package:sreerajp_textapp/core/fingerprint/content_fingerprint.dart';
+import 'package:sreerajp_textapp/core/index/index_hooks.dart';
+import 'package:sreerajp_textapp/core/index/index_providers.dart';
+import 'package:sreerajp_textapp/core/index/search_index_service.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/home/recents_controller.dart';
+import 'package:sreerajp_textapp/shell/shell_providers.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
 
 /// The one path a file takes to become an open tab (used by the "Open a file"
 /// button and by tapping a recent). Coordinates SAF (Phase 1.1), the content

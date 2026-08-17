@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/storage/preferences_store.dart';
-import 'package:text_data/core/storage/secure_store.dart';
+import 'package:sreerajp_textapp/core/storage/preferences_store.dart';
+import 'package:sreerajp_textapp/core/storage/secure_store.dart';
 
 /// One place the rest of the app reads and writes simple settings.
 ///

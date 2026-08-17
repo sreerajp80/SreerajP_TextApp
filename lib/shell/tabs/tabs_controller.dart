@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/editor/editor_settings_controller.dart';
-import 'package:text_data/core/ephemeral/ephemeral_controller.dart';
-import 'package:text_data/core/storage/device_memory.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/over_limit_behavior.dart';
-import 'package:text_data/shell/tabs/tabs_persistence.dart';
+import 'package:sreerajp_textapp/core/editor/editor_settings_controller.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_controller.dart';
+import 'package:sreerajp_textapp/core/storage/device_memory.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/over_limit_behavior.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_persistence.dart';
 
 /// Result of trying to open a file into a tab.
 enum OpenOutcome {
@@ -332,7 +332,8 @@ class TabsController extends Notifier<TabsState> {
 
   void _removeTabs(Set<String> ids, {String? preferActive}) {
     if (ids.isEmpty) return;
-    final remaining = state.tabs
+    final before = state.tabs;
+    final remaining = before
         .where((t) => !ids.contains(t.id))
         .toList(growable: false);
 
@@ -341,11 +342,39 @@ class TabsController extends Notifier<TabsState> {
       if (preferActive != null && remaining.any((t) => t.id == preferActive)) {
         newActive = preferActive;
       } else {
-        newActive = remaining.isEmpty ? null : remaining.last.id;
+        newActive = _neighbourOf(newActive, before, ids);
       }
     }
     state = state.copyWith(tabs: remaining, activeId: newActive);
     _save();
+  }
+
+  /// The tab to show after the active one closes: the next tab to the right,
+  /// falling back to the one on the left when the closed tab was the last.
+  ///
+  /// Picking the *neighbour* is what the strip looks like it does — jumping to
+  /// whichever tab happens to be last would move the user somewhere they did not
+  /// ask to go. Returns null when nothing is left.
+  String? _neighbourOf(
+    String? closedId,
+    List<DocumentTab> before,
+    Set<String> removed,
+  ) {
+    final from = before.indexWhere((t) => t.id == closedId);
+    if (from < 0) {
+      // No active tab to start from (or it was never in the list).
+      for (final t in before.reversed) {
+        if (!removed.contains(t.id)) return t.id;
+      }
+      return null;
+    }
+    for (var i = from + 1; i < before.length; i++) {
+      if (!removed.contains(before[i].id)) return before[i].id;
+    }
+    for (var i = from - 1; i >= 0; i--) {
+      if (!removed.contains(before[i].id)) return before[i].id;
+    }
+    return null;
   }
 
   /// Restores the saved tab set (task 2.8). Skips URIs that are no longer

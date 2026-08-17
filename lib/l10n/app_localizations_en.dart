@@ -626,6 +626,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get editorExitEditAfterSave => 'Leave edit mode after saving';
+
+  @override
+  String get editorExitEditAfterSaveSub =>
+      'Go back to view mode when a save succeeds.';
+
+  @override
   String get filesTabsSectionTitle => 'Files & Tabs';
 
   @override
@@ -1217,6 +1224,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get txtEditMode => 'Edit mode';
+
+  @override
+  String get editorExitEditMode => 'Exit edit mode';
+
+  @override
+  String get editorAutoSaveFailing =>
+      'Auto-save is not working. Save the file to keep your changes.';
 
   @override
   String get txtWordWrapOn => 'Word wrap: on';
@@ -3396,4 +3410,133 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get liveDiffSaveMerged => 'Save Merged Document';
+
+  @override
+  String vaultLockBody(String fileName) {
+    return 'Encrypt \"$fileName\" using AES-256-GCM hardware key encryption.';
+  }
+
+  @override
+  String get vaultLockNote =>
+      'The resulting .txvault file can only be decrypted and read by this app using your fingerprint or device biometrics.';
+
+  @override
+  String get vaultEncryptAndSave => 'Encrypt & Save';
+
+  @override
+  String vaultSavedAs(String fileName) {
+    return 'Encrypted vault saved as \"$fileName\"';
+  }
+
+  @override
+  String get vaultSaveFailed => 'Could not save encrypted vault file.';
+
+  @override
+  String vaultBiometricReason(String fileName) {
+    return 'Lock $fileName in Biometric Vault';
+  }
+
+  @override
+  String get aboutMadeInIndia => 'Made with ❤ from India';
+
+  @override
+  String get diffStartLiveSync => 'Start P2P Live Sync with Peer';
+
+  @override
+  String get diffCompareLocalFile => 'Compare with Local File (SAF)';
+
+  @override
+  String get diffNoCsvData => 'No CSV data to compare.';
+
+  @override
+  String get diffNoDifferences =>
+      'No differences found. Documents are identical.';
+
+  @override
+  String get diffAcceptMineSide => '← Mine';
+
+  @override
+  String get diffAcceptPeerSide => 'Peer →';
+
+  @override
+  String get diffAcceptBoth => 'Both';
+
+  @override
+  String get liveDiffApplied => 'Applied merged changes to open document.';
+
+  @override
+  String liveDiffSavedAs(String fileName) {
+    return 'Saved merged file as \"$fileName\"';
+  }
+
+  @override
+  String get liveDiffSaveFailed => 'Could not save merged file.';
+
+  @override
+  String get liveDiffAutoMergeClean => 'Auto-Merge Clean Changes';
+
+  @override
+  String get p2pReadFileFailed => 'Could not read selected file.';
+
+  @override
+  String get p2pReadTabFailed => 'Could not read open tab content.';
+
+  @override
+  String get p2pPickFromStorage => 'Pick from Device Storage (SAF)';
+
+  @override
+  String syncClientSavedAs(String fileName) {
+    return 'File saved as \"$fileName\"';
+  }
+
+  @override
+  String get syncClientSaveFailed => 'Could not save received file.';
+
+  @override
+  String get syncClientPickLocalFile => 'Pick Local File (SAF)';
+
+  @override
+  String syncClientComparingWith(String fileName) {
+    return 'Comparing with: $fileName';
+  }
+
+  @override
+  String get columnReplaceLabel => 'Replace column block with (optional)';
+
+  @override
+  String get columnReplaceHint => 'Leave empty to keep or delete';
+
+  @override
+  String get diffSheetTitle => 'Live Document Diff & Delta Sync';
+
+  @override
+  String diffSheetSubtitle(String fileName) {
+    return 'Compare \"$fileName\" side-by-side and selectively merge edits.';
+  }
+
+  @override
+  String get diffStartLiveSyncSubtitle =>
+      'Connect with another device over local Wi-Fi to diff & pair-edit.';
+
+  @override
+  String get diffCompareLocalFileSubtitle =>
+      'Pick a second document from device storage.';
+
+  @override
+  String get diffReadChosenFileFailed => 'Could not read chosen file for diff.';
+
+  @override
+  String get diffCompareOpenTab => 'Or Compare with Open Tab:';
+
+  @override
+  String get diffReadTabFailed => 'Could not read tab for comparison.';
+
+  @override
+  String get syncClientSaving => 'Saving...';
+
+  @override
+  String get syncClientSaveToDevice => 'Save to Device (SAF)';
+
+  @override
+  String get syncClientMatchOpenTab => 'Or match with an open tab:';
 }

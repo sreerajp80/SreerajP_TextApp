@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'package:text_data/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
 
 /// CRUD for recently opened files, newest first.
 class RecentsRepository {

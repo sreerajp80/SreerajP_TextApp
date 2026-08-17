@@ -5,9 +5,9 @@
 /// can never break the operation it observes.
 library;
 
-import 'package:text_data/core/audit/audit_constants.dart';
-import 'package:text_data/core/audit/audit_models.dart';
-import 'package:text_data/core/audit/audit_repository.dart';
+import 'package:sreerajp_textapp/core/audit/audit_constants.dart';
+import 'package:sreerajp_textapp/core/audit/audit_models.dart';
+import 'package:sreerajp_textapp/core/audit/audit_repository.dart';
 
 /// Records events into the tamper-evident audit log.
 ///

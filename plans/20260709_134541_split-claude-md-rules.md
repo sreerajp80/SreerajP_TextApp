@@ -39,9 +39,9 @@ a relevant task. The pointer text will make that trigger clear (for example: "Re
 
 ## Files to be changed
 
-- `l:\Android\SreerajP_TextApp\CLAUDE.md` — trim Sections 4 and 7 to pointers; update Section 5.
-- `l:\Android\SreerajP_TextApp\docs\security-rules.md` — new file (moved Section 4 content).
-- `l:\Android\SreerajP_TextApp\docs\workflow-rules.md` — new file (moved Section 7 content).
+- `CLAUDE.md` — trim Sections 4 and 7 to pointers; update Section 5.
+- `docs/security-rules.md` — new file (moved Section 4 content).
+- `docs/workflow-rules.md` — new file (moved Section 7 content).
 
 ## After implementing
 

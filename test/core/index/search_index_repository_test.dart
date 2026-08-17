@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:text_data/core/index/search_index_models.dart';
-import 'package:text_data/core/index/search_index_repository.dart';
-import 'package:text_data/core/storage/app_database.dart';
+import 'package:sreerajp_textapp/core/index/search_index_models.dart';
+import 'package:sreerajp_textapp/core/index/search_index_repository.dart';
+import 'package:sreerajp_textapp/core/storage/app_database.dart';
 
 /// Builds a doc row for the tests.
 IndexedDoc doc(

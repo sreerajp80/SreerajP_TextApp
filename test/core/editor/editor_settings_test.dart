@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/editor/editor_settings.dart';
-import 'package:text_data/core/editor/editor_settings_controller.dart';
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/editor/editor_settings.dart';
+import 'package:sreerajp_textapp/core/editor/editor_settings_controller.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
 
 import '../../support/test_support.dart';
 
@@ -27,6 +27,9 @@ void main() {
     expect(settings.confirmOverwrite, isTrue);
     expect(settings.autoSaveSeconds, EditorSettings.defaultAutoSaveSeconds);
     expect(settings.openReadOnlyByDefault, isFalse);
+    // On by default: saving usually means "I am finished", and this is what
+    // gives people a way out of edit mode without hunting for a button.
+    expect(settings.exitEditAfterSave, isTrue);
   });
 
   test('resolve() maps defaults to concrete values, preserve -> null', () {
@@ -48,6 +51,7 @@ void main() {
     controller.setConfirmOverwrite(false);
     controller.setAutoSaveSeconds(30);
     controller.setOpenReadOnlyByDefault(true);
+    controller.setExitEditAfterSave(false);
 
     final s = container.read(editorSettingsProvider);
     expect(s.lineEndingDefault, LineEndingDefault.crlf);
@@ -55,12 +59,14 @@ void main() {
     expect(s.confirmOverwrite, isFalse);
     expect(s.autoSaveSeconds, 30);
     expect(s.openReadOnlyByDefault, isTrue);
+    expect(s.exitEditAfterSave, isFalse);
 
     // Persisted: a fresh controller re-hydrates the same values.
     final reread = containerWith(store).read(editorSettingsProvider);
     expect(reread.lineEndingDefault, LineEndingDefault.crlf);
     expect(reread.autoSaveSeconds, 30);
     expect(reread.openReadOnlyByDefault, isTrue);
+    expect(reread.exitEditAfterSave, isFalse);
   });
 
   test('auto-save interval reflects seconds; zero means off', () async {

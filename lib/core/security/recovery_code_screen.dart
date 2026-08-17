@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/core/security/app_lock_hasher.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/security/app_lock_hasher.dart';
 
 /// Shows a freshly generated recovery code **once** so the user can write it
 /// down. The app stores only a hash, so this is the only time the code is

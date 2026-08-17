@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/backup/backup_models.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/backup/backup_models.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// Simple dialog asking for the password to decrypt an imported `.txdata` archive.
 class BackupPasswordPromptDialog extends StatefulWidget {

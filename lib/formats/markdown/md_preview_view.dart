@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/theme/theme_controller.dart';
-import 'package:text_data/formats/markdown/md_document_session.dart';
-import 'package:text_data/formats/markdown/md_link_warning.dart';
-import 'package:text_data/formats/markdown/md_renderer.dart';
+import 'package:sreerajp_textapp/core/theme/theme_controller.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_document_session.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_link_warning.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_renderer.dart';
 
 /// The scrollable rendered Markdown surface (tasks 6.1–6.3).
 ///

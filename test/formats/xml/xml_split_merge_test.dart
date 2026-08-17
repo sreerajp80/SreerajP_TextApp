@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:xml/xml.dart';
-import 'package:text_data/formats/xml/xml_split_merge.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_split_merge.dart';
 
 void main() {
   const splitMerge = XmlSplitMerge();

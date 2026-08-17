@@ -1,6 +1,6 @@
-import 'package:text_data/formats/csv/csv_dialect.dart';
-import 'package:text_data/formats/csv/csv_table.dart';
-import 'package:text_data/sync/diff/diff_models.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_dialect.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_table.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_models.dart';
 
 /// Conflict resolution and merge engine for text and CSV documents.
 class MergeEngine {

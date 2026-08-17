@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
-import 'package:text_data/core/sql/sql_result.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/sql/sql_result.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// The result of a SQL query, shown as a scrollable read-only grid (Feature 4).
 ///

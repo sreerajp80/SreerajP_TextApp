@@ -1,5 +1,5 @@
-import 'package:text_data/formats/json/json_node.dart';
-import 'package:text_data/formats/json/json_parser.dart';
+import 'package:sreerajp_textapp/formats/json/json_node.dart';
+import 'package:sreerajp_textapp/formats/json/json_parser.dart';
 
 /// The path of a node in dotted form, e.g. `data.users[3].name` (task 8.2).
 ///

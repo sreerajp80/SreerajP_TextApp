@@ -17,11 +17,11 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/airqr/airqr_codec.dart';
-import 'package:text_data/airqr/airqr_constants.dart';
-import 'package:text_data/airqr/airqr_payload.dart';
-import 'package:text_data/airqr/airqr_receiver.dart';
-import 'package:text_data/airqr/airqr_sender.dart';
+import 'package:sreerajp_textapp/airqr/airqr_codec.dart';
+import 'package:sreerajp_textapp/airqr/airqr_constants.dart';
+import 'package:sreerajp_textapp/airqr/airqr_payload.dart';
+import 'package:sreerajp_textapp/airqr/airqr_receiver.dart';
+import 'package:sreerajp_textapp/airqr/airqr_sender.dart';
 
 /// Where a receive session has got to.
 enum AirqrReceivePhase {

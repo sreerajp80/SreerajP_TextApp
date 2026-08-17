@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// A small dialog to edit one cell or a header name (task 7.5). Returns the new
 /// value, or null if the user cancels.

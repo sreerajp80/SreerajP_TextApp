@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/sync/sync_constants.dart';
-import 'package:text_data/sync/sync_crypto.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/sync_crypto.dart';
 
 void main() {
   group('pairing code', () {

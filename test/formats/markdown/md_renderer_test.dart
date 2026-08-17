@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/markdown/md_parse.dart';
-import 'package:text_data/formats/markdown/md_renderer.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_parse.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_renderer.dart';
 
 Future<void> _pump(WidgetTester tester, String source) async {
   final nodes = MdParse.parseBlocks(source, withMath: true);

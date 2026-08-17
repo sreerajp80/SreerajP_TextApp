@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/output/output_providers.dart';
-import 'package:text_data/core/tts/tts_installer.dart';
-import 'package:text_data/core/tts/tts_settings.dart';
-import 'package:text_data/core/tts/tts_state.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/settings/sections/settings_widgets.dart';
+import 'package:sreerajp_textapp/core/output/output_providers.dart';
+import 'package:sreerajp_textapp/core/tts/tts_installer.dart';
+import 'package:sreerajp_textapp/core/tts/tts_settings.dart';
+import 'package:sreerajp_textapp/core/tts/tts_state.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/settings/sections/settings_widgets.dart';
 
 /// Speech (TTS) settings (task 11.4): English on/off and a Malayalam toggle with
 /// the guided-install / auto-disable flow. Never shows a dead button — when the

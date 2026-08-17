@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/markdown/md_front_matter.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_front_matter.dart';
 
 void main() {
   test('parses title, author, and inline tags', () {

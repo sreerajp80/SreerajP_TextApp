@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'package:encrypt/encrypt.dart' as enc;
 import 'package:pointycastle/export.dart' as pc;
 
-import 'package:text_data/core/backup/backup_constants.dart';
+import 'package:sreerajp_textapp/core/backup/backup_constants.dart';
 
 /// Exception thrown when a `.txdata` archive cannot be decrypted or is malformed.
 /// Never contains secret keys or plaintext.

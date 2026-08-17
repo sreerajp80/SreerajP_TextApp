@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/editor/atomic_saver.dart';
-import 'package:text_data/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/editor/atomic_saver.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
 
 /// A fake save target that keeps a "committed" copy so a test can prove the
 /// original is intact after an interrupted write.

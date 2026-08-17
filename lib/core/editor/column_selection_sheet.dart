@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:re_editor/re_editor.dart';
 
-import 'package:text_data/core/editor/column_selection.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/editor/column_selection.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// Available operation modes in the Column & Multi-Cursor edit sheet.
 enum ColumnSelectionMode { prefixSuffix, columnBlock, insertAtCol, numbering }
@@ -642,10 +642,10 @@ class _ColumnSelectionSheetState extends State<ColumnSelectionSheet> {
             const SizedBox(height: 12),
             TextField(
               controller: _replaceBlockController,
-              decoration: const InputDecoration(
-                labelText: 'Replace column block with (optional)',
-                hintText: 'Leave empty to keep or delete',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.columnReplaceLabel,
+                hintText: l10n.columnReplaceHint,
+                border: const OutlineInputBorder(),
                 isDense: true,
               ),
               onChanged: (_) => setState(() {}),

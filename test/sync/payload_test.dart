@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/sync/payload.dart';
-import 'package:text_data/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/payload.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
 
 void main() {
   group('build', () {

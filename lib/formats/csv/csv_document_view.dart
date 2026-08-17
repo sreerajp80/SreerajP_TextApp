@@ -1,12 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/formats/csv/csv_document_session.dart';
-import 'package:text_data/formats/csv/csv_grid.dart';
-import 'package:text_data/formats/csv/csv_raw_view.dart';
-import 'package:text_data/formats/csv/csv_session_manager.dart';
+import 'package:sreerajp_textapp/core/editor/auto_save_failing_banner.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_session.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_grid.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_raw_view.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_session_manager.dart';
 
 /// The body shown inside a CSV tab: it loads the document then shows the data
 /// grid or the raw delimited text — never a crash (CLAUDE.md §3.4).
@@ -22,7 +25,38 @@ class CsvDocumentView extends ConsumerStatefulWidget {
   ConsumerState<CsvDocumentView> createState() => _CsvDocumentViewState();
 }
 
-class _CsvDocumentViewState extends ConsumerState<CsvDocumentView> {
+class _CsvDocumentViewState extends ConsumerState<CsvDocumentView>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  /// The other formats do this from their editor surface; CSV has two surfaces
+  /// (the grid and the raw view), so the observer lives here instead and covers
+  /// both.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden) {
+      final session = ref.read(csvSessionManagerProvider).peek(widget.tab.id);
+      if (session == null) return;
+      session.persistPosition();
+      // Android can kill a paused app at any moment, and waiting for the next
+      // auto-save tick would lose everything typed since the last one
+      // (CLAUDE.md §3.6).
+      unawaited(session.flushDraft());
+    }
+  }
+
   void _retry() {
     ref.read(csvSessionManagerProvider).release(widget.tab.id);
     setState(() {});
@@ -63,6 +97,7 @@ class _ReadyView extends StatelessWidget {
     final editable = !tab.isReadOnly;
     return Column(
       children: [
+        if (session.autoSaveFailing) const AutoSaveFailingBanner(),
         if (session.draftAvailable) _DraftBanner(session: session),
         Expanded(
           child: switch (session.mode) {

@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/index/index_hooks.dart';
-import 'package:text_data/core/index/index_providers.dart';
-import 'package:text_data/core/storage/recents_repository.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/core/storage/storage_models.dart';
-import 'package:text_data/core/storage/storage_providers.dart';
+import 'package:sreerajp_textapp/core/index/index_hooks.dart';
+import 'package:sreerajp_textapp/core/index/index_providers.dart';
+import 'package:sreerajp_textapp/core/storage/recents_repository.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/core/storage/storage_providers.dart';
 
 /// A recent file plus whether its saved URI is still reachable. A stale entry
 /// (moved / deleted / permission revoked) is shown as unavailable with a remove

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/txt/txt_encoding_labels.dart';
-import 'package:text_data/formats/csv/csv_dialect.dart';
-import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_encoding_labels.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_dialect.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_session.dart';
 
 /// A bottom sheet showing the CSV file's metadata (task 7.6): row / column
 /// counts, delimiter, whether it has a header, encoding, line ending, size, and

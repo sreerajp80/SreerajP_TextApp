@@ -20,7 +20,7 @@ import 'dart:typed_data';
 import 'package:encrypt/encrypt.dart' as enc;
 import 'package:pointycastle/export.dart' as pc;
 
-import 'package:text_data/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
 
 /// Thrown when a wire message cannot be decrypted or is malformed. Carries no
 /// secret material — the message is user-safe.

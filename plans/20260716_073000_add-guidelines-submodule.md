@@ -21,7 +21,7 @@ The Flutter Guidelines submodule needs to be added to the project at `docs/guide
 
 ## Files to be Changed
 
-- [CLAUDE.md](file:///l:/Android/SreerajP_TextApp/CLAUDE.md)
+- [CLAUDE.md](../CLAUDE.md)
 - `.gitmodules` (created automatically by git)
 - `docs/guidelines` (git submodule pointer created automatically)
 

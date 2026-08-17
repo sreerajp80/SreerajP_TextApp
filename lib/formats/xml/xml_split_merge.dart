@@ -1,6 +1,6 @@
 import 'package:xml/xml.dart';
 
-import 'package:text_data/formats/xml/xml_parser.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_parser.dart';
 
 /// Thrown when split / merge cannot work on the given input. Carries a friendly
 /// message for the UI.

@@ -3,9 +3,9 @@ import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
 
-import 'package:text_data/core/backup/backup_constants.dart';
-import 'package:text_data/core/backup/backup_models.dart';
-import 'package:text_data/core/storage/storage_models.dart';
+import 'package:sreerajp_textapp/core/backup/backup_constants.dart';
+import 'package:sreerajp_textapp/core/backup/backup_models.dart';
+import 'package:sreerajp_textapp/core/storage/storage_models.dart';
 
 /// Packs and unpacks the unencrypted internal ZIP container within `.txdata` archives.
 class BackupBundleService {

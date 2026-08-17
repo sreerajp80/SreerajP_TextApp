@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/shell/home/home_screen.dart';
-import 'package:text_data/shell/home/recents_controller.dart';
-import 'package:text_data/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/shell/home/home_screen.dart';
+import 'package:sreerajp_textapp/shell/home/recents_controller.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
 
 import '../support/test_support.dart';
 

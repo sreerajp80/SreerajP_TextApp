@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/locale/app_locale.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/locale/app_locale.dart';
 
 /// The one place the app changes and remembers its language choice.
 ///

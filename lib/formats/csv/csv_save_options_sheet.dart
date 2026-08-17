@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/core/editor/atomic_saver.dart';
-import 'package:text_data/core/editor/confirm_overwrite.dart';
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/txt/txt_encoding_labels.dart';
-import 'package:text_data/formats/csv/csv_dialect.dart';
-import 'package:text_data/formats/csv/csv_document_session.dart';
+import 'package:sreerajp_textapp/core/editor/atomic_saver.dart';
+import 'package:sreerajp_textapp/core/editor/confirm_overwrite.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_encoding_labels.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_dialect.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_session.dart';
 
 /// Runs a plain Save: overwrite the file, preserving its delimiter, encoding +
 /// line ending, and report the outcome with a snackbar. A read-only file falls

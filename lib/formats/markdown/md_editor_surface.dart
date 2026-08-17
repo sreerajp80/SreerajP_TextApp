@@ -1,13 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:re_editor/re_editor.dart';
 
-import 'package:text_data/airqr/ui/airqr_send_action.dart';
-import 'package:text_data/core/editor/editor_selection_toolbar.dart';
-import 'package:text_data/core/theme/app_fonts.dart';
-import 'package:text_data/core/theme/theme_controller.dart';
-import 'package:text_data/formats/markdown/md_document_session.dart';
-import 'package:text_data/formats/markdown/md_find_panel.dart';
+import 'package:sreerajp_textapp/airqr/ui/airqr_send_action.dart';
+import 'package:sreerajp_textapp/core/editor/editor_selection_toolbar.dart';
+import 'package:sreerajp_textapp/core/theme/app_fonts.dart';
+import 'package:sreerajp_textapp/core/theme/theme_controller.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_document_session.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_find_panel.dart';
 
 /// The `re_editor` surface for the Markdown **raw source** — used both for the
 /// read-only raw view and the source editor (tasks 6.1, 6.4). It renders the
@@ -71,6 +73,10 @@ class _MdEditorSurfaceState extends ConsumerState<MdEditorSurface>
         state == AppLifecycleState.paused ||
         state == AppLifecycleState.hidden) {
       widget.session.persistPosition();
+      // Same reason, for the work itself: Android can kill a paused app at any
+      // moment, and waiting for the next auto-save tick would lose everything
+      // typed since the last one (CLAUDE.md §3.6).
+      unawaited(widget.session.flushDraft());
     }
   }
 

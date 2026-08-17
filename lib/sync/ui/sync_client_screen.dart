@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
-import 'package:text_data/sync/diff/diff_payload.dart';
-import 'package:text_data/sync/diff/live_diff_controller.dart';
-import 'package:text_data/sync/file_transfer_payload.dart';
-import 'package:text_data/sync/sync_provider.dart';
-import 'package:text_data/sync/ui/live_diff_screen.dart';
-import 'package:text_data/sync/ui/sync_summary_view.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_payload.dart';
+import 'package:sreerajp_textapp/sync/diff/live_diff_controller.dart';
+import 'package:sreerajp_textapp/sync/file_transfer_payload.dart';
+import 'package:sreerajp_textapp/sync/sync_provider.dart';
+import 'package:sreerajp_textapp/sync/ui/live_diff_screen.dart';
+import 'package:sreerajp_textapp/sync/ui/sync_summary_view.dart';
 
 /// Client (receive) screen (arch §9.6):
 ///   scan a QR or type the details → waiting → added / kept / applied summary.
@@ -269,6 +269,7 @@ class _ReceivedFileViewState extends ConsumerState<_ReceivedFileView> {
   String? _savedFileName;
 
   Future<void> _saveToStorage() async {
+    final l10n = AppLocalizations.of(context);
     setState(() => _isSaving = true);
     try {
       final saf = ref.read(safServiceProvider);
@@ -287,7 +288,7 @@ class _ReceivedFileViewState extends ConsumerState<_ReceivedFileView> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('File saved as "${destFile.displayName}"'),
+            content: Text(l10n.syncClientSavedAs(destFile.displayName)),
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -299,7 +300,7 @@ class _ReceivedFileViewState extends ConsumerState<_ReceivedFileView> {
         setState(() => _isSaving = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Could not save received file.'),
+            content: Text(l10n.syncClientSaveFailed),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -309,6 +310,7 @@ class _ReceivedFileViewState extends ConsumerState<_ReceivedFileView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final sizeKb = (widget.payload.fileSizeBytes / 1024).toStringAsFixed(1);
 
@@ -432,7 +434,9 @@ class _ReceivedFileViewState extends ConsumerState<_ReceivedFileView> {
                     ),
                   )
                 : const Icon(Icons.save_alt),
-            label: Text(_isSaving ? 'Saving...' : 'Save to Device (SAF)'),
+            label: Text(
+              _isSaving ? l10n.syncClientSaving : l10n.syncClientSaveToDevice,
+            ),
           )
         else
           Container(
@@ -459,7 +463,7 @@ class _ReceivedFileViewState extends ConsumerState<_ReceivedFileView> {
         const SizedBox(height: 12),
         OutlinedButton(
           onPressed: () => Navigator.of(context).maybePop(),
-          child: const Text('Close'),
+          child: Text(l10n.tabClose),
         ),
       ],
     );
@@ -486,6 +490,7 @@ class _ReceivedDiffSessionViewState
   String? _localContent;
 
   Future<void> _pickLocalFile() async {
+    final l10n = AppLocalizations.of(context);
     try {
       final saf = ref.read(safServiceProvider);
       final file = await saf.pickFile();
@@ -502,7 +507,7 @@ class _ReceivedDiffSessionViewState
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Could not read selected file.'),
+            content: Text(l10n.p2pReadFileFailed),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -511,6 +516,7 @@ class _ReceivedDiffSessionViewState
   }
 
   void _selectOpenTab(DocumentTab tab) async {
+    final l10n = AppLocalizations.of(context);
     try {
       final saf = ref.read(safServiceProvider);
       final bytes = await saf.readBytes(tab.uri);
@@ -524,7 +530,7 @@ class _ReceivedDiffSessionViewState
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Could not read open tab content.'),
+            content: Text(l10n.p2pReadTabFailed),
             backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
@@ -552,6 +558,7 @@ class _ReceivedDiffSessionViewState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final tabsState = ref.watch(tabsControllerProvider);
 
@@ -628,12 +635,12 @@ class _ReceivedDiffSessionViewState
                 OutlinedButton.icon(
                   onPressed: _pickLocalFile,
                   icon: const Icon(Icons.folder_open),
-                  label: const Text('Pick Local File (SAF)'),
+                  label: Text(l10n.syncClientPickLocalFile),
                 ),
                 if (tabsState.tabs.isNotEmpty) ...[
                   const SizedBox(height: 12),
                   Text(
-                    'Or match with an open tab:',
+                    l10n.syncClientMatchOpenTab,
                     style: theme.textTheme.labelSmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -656,7 +663,7 @@ class _ReceivedDiffSessionViewState
                   const SizedBox(height: 12),
                   Chip(
                     avatar: const Icon(Icons.check, size: 16),
-                    label: Text('Comparing with: $_localFileName'),
+                    label: Text(l10n.syncClientComparingWith(_localFileName!)),
                     onDeleted: () => setState(() {
                       _localFileName = null;
                       _localContent = null;
@@ -680,7 +687,7 @@ class _ReceivedDiffSessionViewState
         const SizedBox(height: 12),
         OutlinedButton(
           onPressed: () => Navigator.of(context).maybePop(),
-          child: const Text('Close'),
+          child: Text(l10n.tabClose),
         ),
       ],
     );

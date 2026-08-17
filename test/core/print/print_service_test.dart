@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/print/print_service.dart';
+import 'package:sreerajp_textapp/core/print/print_service.dart';
 
 class _FakeLauncher implements PrintLauncher {
   PrintJob? lastJob;

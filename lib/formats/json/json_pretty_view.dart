@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/theme/theme_controller.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/json/json_document_session.dart';
-import 'package:text_data/formats/json/json_node.dart';
-import 'package:text_data/formats/json/json_parser.dart';
+import 'package:sreerajp_textapp/core/theme/theme_controller.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/json/json_document_session.dart';
+import 'package:sreerajp_textapp/formats/json/json_node.dart';
+import 'package:sreerajp_textapp/formats/json/json_parser.dart';
 
 /// The colour-coded, indented **pretty** view of a JSON document (task 8.1).
 ///

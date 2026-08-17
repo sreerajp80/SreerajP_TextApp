@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/index/index_providers.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/home/home_screen.dart';
-import 'package:text_data/shell/settings/settings_screen.dart';
-import 'package:text_data/shell/shell_providers.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
-import 'package:text_data/shell/tabs/tabs_workspace.dart';
+import 'package:sreerajp_textapp/core/index/index_providers.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/home/home_screen.dart';
+import 'package:sreerajp_textapp/shell/settings/settings_screen.dart';
+import 'package:sreerajp_textapp/shell/shell_providers.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_workspace.dart';
 
 /// The adaptive frame the user lives in (task 2.2).
 ///

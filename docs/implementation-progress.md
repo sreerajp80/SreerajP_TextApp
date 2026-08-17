@@ -3,7 +3,7 @@
 **Purpose.** A living record of how far the build has got. It mirrors the phases and tasks
 in [implementation-plan.md](implementation-plan.md). Update it as work lands.
 
-Related docs: [CLAUDE.md](../CLAUDE.md), [TextData-Idea.md](TextData-Idea.md),
+Related docs: [CLAUDE.md](../CLAUDE.md), [textdata_idea.md](textdata_idea.md),
 [architecture.md](architecture.md), [security-rules.md](security-rules.md).
 
 ---

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/sync/diff/csv_diff_engine.dart';
-import 'package:text_data/sync/diff/diff_models.dart';
+import 'package:sreerajp_textapp/sync/diff/csv_diff_engine.dart';
+import 'package:sreerajp_textapp/sync/diff/diff_models.dart';
 
 void main() {
   const engine = CsvDiffEngine();

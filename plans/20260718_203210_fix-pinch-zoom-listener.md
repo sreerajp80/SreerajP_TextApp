@@ -27,7 +27,7 @@ gesture to the scrollable child.
 
 ## The method (copied from the PDF app)
 
-See `L:\Android\SreerajP_PDFApp\lib\features\viewer\presentation\widgets\pinch_zoom_wrapper.dart`.
+See the equivalent pinch-zoom wrapper in the sibling PDF app.
 Its approach:
 - A transparent `Listener` tracks each active pointer's position by id.
 - When two pointers are down, record the starting "span" (distance between the

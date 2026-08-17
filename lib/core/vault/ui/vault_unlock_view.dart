@@ -1,17 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/core/vault/vault_crypto.dart';
-import 'package:text_data/core/vault/vault_models.dart';
-import 'package:text_data/core/vault/vault_providers.dart';
-import 'package:text_data/formats/csv/csv_document_view.dart';
-import 'package:text_data/formats/format_dispatch.dart';
-import 'package:text_data/formats/json/json_document_view.dart';
-import 'package:text_data/formats/markdown/md_document_view.dart';
-import 'package:text_data/formats/txt/txt_document_view.dart';
-import 'package:text_data/formats/xml/xml_document_view.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/vault/vault_crypto.dart';
+import 'package:sreerajp_textapp/core/vault/vault_models.dart';
+import 'package:sreerajp_textapp/core/vault/vault_providers.dart';
+import 'package:sreerajp_textapp/formats/csv/csv_document_view.dart';
+import 'package:sreerajp_textapp/formats/format_dispatch.dart';
+import 'package:sreerajp_textapp/formats/json/json_document_view.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_document_view.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_document_view.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_document_view.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
 
 /// In-workspace unlock screen for `.txvault` encrypted files.
 /// Prompts for biometric authentication before loading and rendering the inner document.

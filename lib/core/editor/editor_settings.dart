@@ -1,4 +1,4 @@
-import 'package:text_data/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
 
 /// How the editor picks the **line ending** when it saves a file.
 ///
@@ -99,12 +99,20 @@ class EditorSettings {
   final int autoSaveSeconds;
   final bool openReadOnlyByDefault;
 
+  /// Whether a successful save also leaves edit mode and goes back to viewing.
+  ///
+  /// On by default: people who save are usually finished, and leaving edit mode
+  /// puts the keyboard and the editing tools away. Turn it off to keep typing
+  /// after a save.
+  final bool exitEditAfterSave;
+
   const EditorSettings({
     this.lineEndingDefault = LineEndingDefault.preserve,
     this.encodingDefault = EncodingDefault.preserve,
     this.confirmOverwrite = true,
     this.autoSaveSeconds = defaultAutoSaveSeconds,
     this.openReadOnlyByDefault = false,
+    this.exitEditAfterSave = true,
   });
 
   /// The default editor behavior before anything is saved, and the safe fallback
@@ -123,6 +131,7 @@ class EditorSettings {
   static const String confirmOverwriteKey = 'editor.confirm_overwrite';
   static const String autoSaveSecondsKey = 'editor.autosave_seconds';
   static const String readOnlyDefaultKey = 'editor.read_only_default';
+  static const String exitEditAfterSaveKey = 'editor.exit_edit_after_save';
 
   /// The auto-save interval as a [Duration]; `Duration.zero` means "off".
   Duration get autoSaveInterval => Duration(seconds: autoSaveSeconds);
@@ -135,6 +144,7 @@ class EditorSettings {
     bool? confirmOverwrite,
     int? autoSaveSeconds,
     bool? openReadOnlyByDefault,
+    bool? exitEditAfterSave,
   }) {
     return EditorSettings(
       lineEndingDefault: lineEndingDefault ?? this.lineEndingDefault,
@@ -143,6 +153,7 @@ class EditorSettings {
       autoSaveSeconds: _clampAutoSave(autoSaveSeconds ?? this.autoSaveSeconds),
       openReadOnlyByDefault:
           openReadOnlyByDefault ?? this.openReadOnlyByDefault,
+      exitEditAfterSave: exitEditAfterSave ?? this.exitEditAfterSave,
     );
   }
 
@@ -157,7 +168,8 @@ class EditorSettings {
       other.encodingDefault == encodingDefault &&
       other.confirmOverwrite == confirmOverwrite &&
       other.autoSaveSeconds == autoSaveSeconds &&
-      other.openReadOnlyByDefault == openReadOnlyByDefault;
+      other.openReadOnlyByDefault == openReadOnlyByDefault &&
+      other.exitEditAfterSave == exitEditAfterSave;
 
   @override
   int get hashCode => Object.hash(
@@ -166,5 +178,6 @@ class EditorSettings {
     confirmOverwrite,
     autoSaveSeconds,
     openReadOnlyByDefault,
+    exitEditAfterSave,
   );
 }

@@ -1,4 +1,4 @@
-import 'package:text_data/core/ephemeral/ephemeral_models.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_models.dart';
 
 /// The pure timing rules behind an ephemeral tab (Feature 9).
 ///

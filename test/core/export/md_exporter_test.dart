@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/export/export_target.dart';
-import 'package:text_data/core/export/md_exporter.dart';
+import 'package:sreerajp_textapp/core/export/export_target.dart';
+import 'package:sreerajp_textapp/core/export/md_exporter.dart';
 
 void main() {
   const exporter = MarkdownExporter();

@@ -1,10 +1,10 @@
-import 'package:text_data/core/audit/audit_service.dart';
-import 'package:text_data/core/editor/draft_store.dart';
-import 'package:text_data/core/index/search_index_service.dart';
-import 'package:text_data/core/storage/bookmarks_repository.dart';
-import 'package:text_data/core/storage/favorites_repository.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/recents_repository.dart';
+import 'package:sreerajp_textapp/core/audit/audit_service.dart';
+import 'package:sreerajp_textapp/core/editor/draft_store.dart';
+import 'package:sreerajp_textapp/core/index/search_index_service.dart';
+import 'package:sreerajp_textapp/core/storage/bookmarks_repository.dart';
+import 'package:sreerajp_textapp/core/storage/favorites_repository.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/recents_repository.dart';
 
 /// Removes every trace the app itself keeps of one document (Feature 9).
 ///

@@ -1,4 +1,4 @@
-import 'package:text_data/formats/json/json_node.dart';
+import 'package:sreerajp_textapp/formats/json/json_node.dart';
 
 /// The result of parsing a JSON document (task 8.4).
 ///

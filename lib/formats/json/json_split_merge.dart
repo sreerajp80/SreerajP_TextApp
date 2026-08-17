@@ -1,5 +1,5 @@
-import 'package:text_data/formats/json/json_node.dart';
-import 'package:text_data/formats/json/json_parser.dart';
+import 'package:sreerajp_textapp/formats/json/json_node.dart';
+import 'package:sreerajp_textapp/formats/json/json_parser.dart';
 
 /// Thrown when split / merge is asked to work on something that is not a
 /// top-level JSON array. Carries a friendly message for the UI.

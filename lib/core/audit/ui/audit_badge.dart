@@ -8,9 +8,9 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/audit/audit_models.dart';
-import 'package:text_data/core/audit/audit_providers.dart';
-import 'package:text_data/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/core/audit/audit_models.dart';
+import 'package:sreerajp_textapp/core/audit/audit_providers.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 
 /// Displays a compact chip reflecting the current chain verification status.
 class AuditBadge extends ConsumerWidget {

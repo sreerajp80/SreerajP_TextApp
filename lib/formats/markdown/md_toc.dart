@@ -1,6 +1,6 @@
 import 'package:markdown/markdown.dart' as md;
 
-import 'package:text_data/formats/markdown/md_parse.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_parse.dart';
 
 /// One heading in the table of contents (task 6.3).
 class MdHeading {

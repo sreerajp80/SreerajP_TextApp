@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:xml/xml.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/xml/xml_document_session.dart';
-import 'package:text_data/formats/xml/xml_path.dart';
-import 'package:text_data/formats/xml/xml_tree_edits.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_document_session.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_path.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_tree_edits.dart';
 
 /// The collapsible **element tree** view of an XML document (tasks 9.2, 9.5).
 ///

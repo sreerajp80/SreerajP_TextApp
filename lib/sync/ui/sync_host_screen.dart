@@ -3,15 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import 'package:text_data/core/security/security_providers.dart';
-import 'package:text_data/shell/settings/security_settings.dart';
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/sync/sync_provider.dart';
-import 'package:text_data/sync/sync_share_prefs.dart';
-import 'package:text_data/sync/ui/p2p_file_transfer_tab.dart';
-import 'package:text_data/sync/ui/p2p_live_diff_tab.dart';
-import 'package:text_data/sync/ui/share_chooser.dart';
-import 'package:text_data/sync/ui/sync_status_chip.dart';
+import 'package:sreerajp_textapp/core/security/security_providers.dart';
+import 'package:sreerajp_textapp/shell/settings/security_settings.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/sync/sync_provider.dart';
+import 'package:sreerajp_textapp/sync/sync_share_prefs.dart';
+import 'package:sreerajp_textapp/sync/ui/p2p_file_transfer_tab.dart';
+import 'package:sreerajp_textapp/sync/ui/p2p_live_diff_tab.dart';
+import 'package:sreerajp_textapp/sync/ui/share_chooser.dart';
+import 'package:sreerajp_textapp/sync/ui/sync_status_chip.dart';
 
 /// Host (send) screen with two tabs (arch §9.6):
 ///   1. Connection details — QR + IP / port / code as selectable text, a live

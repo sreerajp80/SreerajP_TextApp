@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/formats/txt/txt_document_session.dart';
-import 'package:text_data/formats/txt/txt_encoding_labels.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_document_session.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_encoding_labels.dart';
 
 /// A bottom sheet showing the file's stats and metadata (task 4.3): word /
 /// character / line counts plus size, dates, encoding, and line ending.

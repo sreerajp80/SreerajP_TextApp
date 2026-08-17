@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/core/metadata/file_metadata.dart';
-import 'package:text_data/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/metadata/file_metadata.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
 
 void main() {
   final service = MetadataService(SafService());

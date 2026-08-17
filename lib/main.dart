@@ -1,13 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/app.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/app.dart';
+import 'package:sreerajp_textapp/core/logging/app_logger.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
 
 Future<void> main() async {
   // The settings store is opened once here so the UI (theme, tabs, onboarding)
   // can read it synchronously from the first frame.
   WidgetsFlutterBinding.ensureInitialized();
+  // Logging is set up before anything else can want to log.
+  AppLogger.init();
   final store = await KeyValueStore.open();
 
   runApp(

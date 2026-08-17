@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/backup/backup_bundle_service.dart';
-import 'package:text_data/core/backup/backup_service.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/storage_providers.dart';
+import 'package:sreerajp_textapp/core/backup/backup_bundle_service.dart';
+import 'package:sreerajp_textapp/core/backup/backup_service.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/storage_providers.dart';
 
 /// Provider for the unencrypted bundle packaging service.
 final backupBundleServiceProvider = Provider<BackupBundleService>((ref) {

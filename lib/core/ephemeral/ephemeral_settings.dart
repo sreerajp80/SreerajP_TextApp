@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/core/ephemeral/ephemeral_models.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/ephemeral/ephemeral_models.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
 
 /// Remembers what the self-destruct sheet should offer first (Feature 9).
 ///

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:xml/xml.dart';
-import 'package:text_data/formats/xml/xml_parser.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_parser.dart';
 
 void main() {
   const parser = XmlDocumentParser();

@@ -1,8 +1,8 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'package:text_data/core/sql/sql_dataset.dart';
-import 'package:text_data/core/sql/sql_guard.dart';
-import 'package:text_data/core/sql/sql_result.dart';
+import 'package:sreerajp_textapp/core/sql/sql_dataset.dart';
+import 'package:sreerajp_textapp/core/sql/sql_guard.dart';
+import 'package:sreerajp_textapp/core/sql/sql_result.dart';
 
 /// Runs read-only SQL over open documents (Feature 4).
 ///

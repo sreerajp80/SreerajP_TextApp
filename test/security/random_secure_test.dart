@@ -2,8 +2,8 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/sync/sync_constants.dart';
-import 'package:text_data/sync/sync_crypto.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/sync_crypto.dart';
 
 /// Guards security-rules: "Use Random.secure() for all security-relevant
 /// randomness." A regression to a plain `Random()` (predictable) would silently

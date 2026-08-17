@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/markdown/md_table_source.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_table_source.dart';
 
 /// Guards the visual Markdown table builder's model (roadmap §4.4.2). The whole
 /// point of the feature is that the user never lines up `|` characters, so the

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/formats/txt/txt_content_sniff.dart';
+import 'package:sreerajp_textapp/formats/txt/txt_content_sniff.dart';
 
 void main() {
   Uint8List bytes(List<int> b) => Uint8List.fromList(b);

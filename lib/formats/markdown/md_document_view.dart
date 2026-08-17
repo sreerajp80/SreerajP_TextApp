@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:text_data/l10n/app_localizations.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/formats/markdown/md_document_session.dart';
-import 'package:text_data/formats/markdown/md_front_matter.dart';
-import 'package:text_data/formats/markdown/md_front_matter_form.dart';
-import 'package:text_data/formats/markdown/md_live_preview.dart';
-import 'package:text_data/formats/markdown/md_preview_view.dart';
-import 'package:text_data/formats/markdown/md_session_manager.dart';
+import 'package:sreerajp_textapp/core/editor/auto_save_failing_banner.dart';
+import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_document_session.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_front_matter.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_front_matter_form.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_live_preview.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_preview_view.dart';
+import 'package:sreerajp_textapp/formats/markdown/md_session_manager.dart';
 
 /// The body shown inside a Markdown tab: it loads the document then shows the
 /// rendered preview, the raw source, or the editor — never a crash
@@ -71,6 +72,7 @@ class _ReadyView extends StatelessWidget {
             session: session,
             readOnly: tab.isReadOnly,
           ),
+        if (session.autoSaveFailing) const AutoSaveFailingBanner(),
         if (session.draftAvailable) _DraftBanner(session: session),
         Expanded(child: _body(context)),
       ],

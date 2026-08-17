@@ -9,7 +9,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 
-import 'package:text_data/core/audit/audit_constants.dart';
+import 'package:sreerajp_textapp/core/audit/audit_constants.dart';
 
 /// Computes the tamper-evident hash for one audit-log entry.
 ///

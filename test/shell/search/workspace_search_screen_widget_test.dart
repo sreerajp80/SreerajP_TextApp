@@ -3,17 +3,17 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:text_data/core/index/index_providers.dart';
-import 'package:text_data/core/index/search_index_models.dart';
-import 'package:text_data/core/index/search_index_repository.dart';
-import 'package:text_data/core/index/search_index_service.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/shell/home/recents_controller.dart';
-import 'package:text_data/shell/search/workspace_search_controller.dart';
-import 'package:text_data/shell/search/workspace_search_screen.dart';
-import 'package:text_data/shell/shell_providers.dart';
-import 'package:text_data/shell/tabs/tabs_controller.dart';
+import 'package:sreerajp_textapp/core/index/index_providers.dart';
+import 'package:sreerajp_textapp/core/index/search_index_models.dart';
+import 'package:sreerajp_textapp/core/index/search_index_repository.dart';
+import 'package:sreerajp_textapp/core/index/search_index_service.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/shell/home/recents_controller.dart';
+import 'package:sreerajp_textapp/shell/search/workspace_search_controller.dart';
+import 'package:sreerajp_textapp/shell/search/workspace_search_screen.dart';
+import 'package:sreerajp_textapp/shell/shell_providers.dart';
+import 'package:sreerajp_textapp/shell/tabs/tabs_controller.dart';
 
 import '../../support/test_support.dart';
 

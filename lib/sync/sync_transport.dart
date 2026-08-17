@@ -22,9 +22,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:text_data/sync/bounded_line_reader.dart';
-import 'package:text_data/sync/sync_constants.dart';
-import 'package:text_data/sync/sync_crypto.dart';
+import 'package:sreerajp_textapp/sync/bounded_line_reader.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/sync_crypto.dart';
 
 /// Host-side phases surfaced to the UI/provider.
 enum HostPhase { listening, connected, denied, stopped, error }

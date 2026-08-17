@@ -9,7 +9,7 @@
 // logged.
 library;
 
-import 'package:text_data/sync/sync_constants.dart';
+import 'package:sreerajp_textapp/sync/sync_constants.dart';
 
 /// All fixed values the AirQR engine shares between sender and receiver.
 class AirqrConstants {

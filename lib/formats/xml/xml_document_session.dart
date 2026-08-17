@@ -5,22 +5,22 @@ import 'package:flutter/widgets.dart';
 import 'package:re_editor/re_editor.dart';
 import 'package:xml/xml.dart';
 
-import 'package:text_data/core/editor/atomic_saver.dart';
-import 'package:text_data/core/editor/draft_store.dart';
-import 'package:text_data/core/editor/encoding.dart';
-import 'package:text_data/core/editor/external_change.dart';
-import 'package:text_data/core/editor/saf_save_target.dart';
-import 'package:text_data/core/ephemeral/secure_wipe.dart';
-import 'package:text_data/core/export/export_target.dart';
-import 'package:text_data/core/metadata/file_metadata.dart';
-import 'package:text_data/core/storage/key_value_store.dart';
-import 'package:text_data/core/storage/saf_exceptions.dart';
-import 'package:text_data/core/storage/saf_service.dart';
-import 'package:text_data/shell/tabs/document_tab.dart';
-import 'package:text_data/formats/xml/xml_parser.dart';
-import 'package:text_data/formats/xml/xml_path.dart';
-import 'package:text_data/formats/xml/xml_stats.dart';
-import 'package:text_data/formats/xml/xml_well_formed_gate.dart';
+import 'package:sreerajp_textapp/core/editor/atomic_saver.dart';
+import 'package:sreerajp_textapp/core/editor/draft_store.dart';
+import 'package:sreerajp_textapp/core/editor/encoding.dart';
+import 'package:sreerajp_textapp/core/editor/external_change.dart';
+import 'package:sreerajp_textapp/core/editor/saf_save_target.dart';
+import 'package:sreerajp_textapp/core/ephemeral/secure_wipe.dart';
+import 'package:sreerajp_textapp/core/export/export_target.dart';
+import 'package:sreerajp_textapp/core/metadata/file_metadata.dart';
+import 'package:sreerajp_textapp/core/storage/key_value_store.dart';
+import 'package:sreerajp_textapp/core/storage/saf_exceptions.dart';
+import 'package:sreerajp_textapp/core/storage/saf_service.dart';
+import 'package:sreerajp_textapp/shell/tabs/document_tab.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_parser.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_path.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_stats.dart';
+import 'package:sreerajp_textapp/formats/xml/xml_well_formed_gate.dart';
 
 /// Loading lifecycle of one open XML document.
 enum XmlLoadStatus { loading, ready, failed }
@@ -83,7 +83,9 @@ class XmlDocumentSession extends ChangeNotifier with ExternalChangeMixin {
   final void Function(String text)? onSaved;
 
   /// How often the auto-save draft is written. [Duration.zero] turns it off.
-  final Duration autoSaveInterval;
+  /// Can change while the tab is open — see [setAutoSaveInterval].
+  Duration get autoSaveInterval => _autoSaveInterval;
+  Duration _autoSaveInterval;
 
   /// Fixed save encoding / line ending from Settings › Editor; null = preserve.
   final TextEncodingType? defaultSaveEncoding;
@@ -103,7 +105,7 @@ class XmlDocumentSession extends ChangeNotifier with ExternalChangeMixin {
     required Future<Directory> tempDir,
     this.onDirtyChanged,
     this.onSaved,
-    this.autoSaveInterval = const Duration(seconds: 5),
+    this._autoSaveInterval = const Duration(seconds: 5),
     this.defaultSaveEncoding,
     this.defaultSaveLineEnding,
   }) : _draftStoreFuture = draftStore,
@@ -156,6 +158,11 @@ class XmlDocumentSession extends ChangeNotifier with ExternalChangeMixin {
   bool get isDirty => _isDirty;
   bool get draftAvailable => _draftAvailable;
   bool get isEditing => _mode == XmlViewMode.edit;
+
+  /// True when the auto-save draft could not be written. The editor shows a
+  /// warning so the user knows their work is not being protected right now; the
+  /// timer keeps retrying, so this clears itself when a write succeeds.
+  bool get autoSaveFailing => _autoSaver?.isFailing ?? false;
 
   // --- external change watch (see ExternalChangeMixin) ----------------------
 
@@ -598,7 +605,7 @@ class XmlDocumentSession extends ChangeNotifier with ExternalChangeMixin {
   }
 
   void _startAutoSave() {
-    if (autoSaveInterval <= Duration.zero) return;
+    if (_autoSaveInterval <= Duration.zero) return;
     final store = _draftStore;
     final code = _code;
     if (store == null || code == null) return;
@@ -607,9 +614,30 @@ class XmlDocumentSession extends ChangeNotifier with ExternalChangeMixin {
             store: store,
             fingerprint: tab.fingerprint,
             getContent: () => code.text,
+            onFailingChanged: (_) => _safeNotify(),
           )
           ..markSaved(_savedText)
-          ..start(autoSaveInterval);
+          ..start(_autoSaveInterval);
+  }
+
+  /// Writes the auto-save draft right now instead of waiting for the next tick.
+  ///
+  /// Called when the app leaves the foreground: Android can kill a paused app at
+  /// any moment, and without this the user loses everything typed since the last
+  /// tick (CLAUDE.md §3.6). Does nothing when auto-save is switched off.
+  Future<void> flushDraft() async {
+    await _autoSaver?.tick();
+  }
+
+  /// Applies a new auto-save interval to a tab that is already open (task 11.2),
+  /// so a changed setting does not wait for the tab to be reopened.
+  void setAutoSaveInterval(Duration interval) {
+    if (interval == _autoSaveInterval) return;
+    _autoSaveInterval = interval;
+    _autoSaver?.stop();
+    _autoSaver = null;
+    if (_status == XmlLoadStatus.ready) _startAutoSave();
+    _safeNotify();
   }
 
   void _safeNotify() {
