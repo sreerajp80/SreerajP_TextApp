@@ -1034,5 +1034,21 @@
   "diffReadTabFailed": "താരതമ്യത്തിനായി ടാബ് വായിക്കാൻ കഴിഞ്ഞില്ല.",
   "syncClientSaving": "സേവ് ചെയ്യുന്നു...",
   "syncClientSaveToDevice": "ഉപകരണത്തിൽ സേവ് ചെയ്യുക",
-  "syncClientMatchOpenTab": "അല്ലെങ്കിൽ തുറന്ന ഒരു ടാബുമായി ചേർക്കുക:"
+  "syncClientMatchOpenTab": "അല്ലെങ്കിൽ തുറന്ന ഒരു ടാബുമായി ചേർക്കുക:",
+  "featuresSectionTitle": "സവിശേഷതകൾ",
+  "featuresCardSubtitle": "ശ്രീരാജ്പി ടെക്സ്റ്റ് ആപ്പിന്റെ എല്ലാ സവിശേഷതകളും അറിയുക",
+  "featuresHeaderTitle": "ശ്രീരാജ്പി ടെക്സ്റ്റ് ആപ്പ് സവിശേഷതകൾ",
+  "featuresHeaderSubtitle": "നിങ്ങൾക്കായി തയ്യാറാക്കിയ രേഖാ ഫോർമാറ്റുകൾ, എഡിറ്റർ ടൂളുകൾ, ഓഫ്‌ലൈൻ സമന്വയം, സ്വകാര്യതാ സുരക്ഷ എന്നിവ മനസ്സിലാക്കുക.",
+  "appearThemeSepiaInfo": "നീണ്ട വായനയ്ക്ക് അനുയോജ്യമായ മൃദുവായ വർണ്ണ ശൈലിയാണ് സെപിയ മോഡ്.",
+  "appearThemeSystemInfo": "സിസ്റ്റം മോഡ് ഉപകരണത്തിന്റെ ഡാർക്ക് മോഡ് ക്രമീകരണത്തിനനുസരിച്ച് സ്വയം മാറുന്നു.",
+  "appearEnglishFontSample": "The quick brown fox • 0123",
+  "appearMalayalamFontSample": "മലയാളം സുന്ദരമാണ്",
+  "helpSectionHeader": "സഹായ കേന്ദ്രവും ഗൈഡുകളും",
+  "helpSectionSubtitle": "ശ്രീരാജ്പി ടെക്സ്റ്റ് ആപ്പിന്റെ എല്ലാ ഫീച്ചറുകൾക്കുമുള്ള വിശദമായ സഹായക്കുറിപ്പുകൾ.",
+  "helpCategoryEditing": "രേഖകളും എഡിറ്റിംഗും",
+  "helpCategoryData": "ഡാറ്റാ വിശകലനവും SQL അന്വേഷണവും",
+  "helpCategoryPrivacy": "സ്വകാര്യതയും സുരക്ഷയും",
+  "helpCategorySync": "സമന്വയവും AirQR കൈമാറ്റവും",
+  "helpCategoryVoice": "ശബ്ദവും പ്രവേശനക്ഷമതയും",
+  "helpCategoryFaq": "പതിവ് ചോദ്യങ്ങളും പരിഹാരങ്ങളും"
 }

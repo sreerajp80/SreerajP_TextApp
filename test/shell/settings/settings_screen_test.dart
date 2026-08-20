@@ -50,7 +50,7 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('all nine settings cards render', (tester) async {
+  testWidgets('all settings cards render', (tester) async {
     final store = await inMemoryKeyValueStore();
     await pumpSettings(
       tester,
@@ -60,12 +60,14 @@ void main() {
 
     for (final header in const [
       'Appearance',
+      'Features',
       'Editor',
       'Files & Tabs',
       'Speech (read aloud)',
       'Sync',
       'Security',
       'Audit Log',
+      'Backup & Restore',
       'Help',
       'About',
     ]) {

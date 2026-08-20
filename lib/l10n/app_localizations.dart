@@ -6312,6 +6312,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Or match with an open tab:'**
   String get syncClientMatchOpenTab;
+
+  /// Title for the features catalog screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Features'**
+  String get featuresSectionTitle;
+
+  /// Subtitle for the features card on the settings menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore all capabilities of SreerajP Text App'**
+  String get featuresCardSubtitle;
+
+  /// Header title on the features catalog screen.
+  ///
+  /// In en, this message translates to:
+  /// **'SreerajP Text App Features'**
+  String get featuresHeaderTitle;
+
+  /// Header subtitle on the features catalog screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore every document format, powerful editor tool, offline sync, and privacy safeguard built for you.'**
+  String get featuresHeaderSubtitle;
+
+  /// Explanation of the sepia theme mode in appearance settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Sepia mode provides a warm, paper-like low-contrast look designed for comfortable long reading.'**
+  String get appearThemeSepiaInfo;
+
+  /// Explanation of the system theme mode in appearance settings.
+  ///
+  /// In en, this message translates to:
+  /// **'System mode automatically matches your device\'s system-wide dark mode setting.'**
+  String get appearThemeSystemInfo;
+
+  /// Sample text rendered for English font preview.
+  ///
+  /// In en, this message translates to:
+  /// **'The quick brown fox • 0123'**
+  String get appearEnglishFontSample;
+
+  /// Sample text rendered for Malayalam font preview.
+  ///
+  /// In en, this message translates to:
+  /// **'മലയാളം സുന്ദരമാണ്'**
+  String get appearMalayalamFontSample;
+
+  /// Header title on the help hub.
+  ///
+  /// In en, this message translates to:
+  /// **'Help Center & User Guides'**
+  String get helpSectionHeader;
+
+  /// Header subtitle on the help hub.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse in-depth guides and tips for all features of SreerajP Text App.'**
+  String get helpSectionSubtitle;
+
+  /// Help category for editor and document management.
+  ///
+  /// In en, this message translates to:
+  /// **'Editing & Documents'**
+  String get helpCategoryEditing;
+
+  /// Help category for SQL, JSONPath, and XML tools.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Querying & Analysis'**
+  String get helpCategoryData;
+
+  /// Help category for vault, lock, and audit features.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & Security'**
+  String get helpCategoryPrivacy;
+
+  /// Help category for LAN sync and AirQR.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync & AirQR Transfer'**
+  String get helpCategorySync;
+
+  /// Help category for TTS, speech, and themes.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice & Accessibility'**
+  String get helpCategoryVoice;
+
+  /// Help category for FAQs and troubleshooting.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequently Asked Questions'**
+  String get helpCategoryFaq;
 }
 
 class _AppLocalizationsDelegate

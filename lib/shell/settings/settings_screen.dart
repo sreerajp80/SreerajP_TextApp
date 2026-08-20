@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:sreerajp_textapp/l10n/app_localizations.dart';
+import 'package:sreerajp_textapp/shell/settings/features_screen.dart';
 import 'package:sreerajp_textapp/shell/settings/sections/about_section.dart';
 import 'package:sreerajp_textapp/shell/settings/sections/appearance_section.dart';
 import 'package:sreerajp_textapp/shell/settings/sections/audit_section.dart';
@@ -14,13 +15,12 @@ import 'package:sreerajp_textapp/shell/settings/sections/speech_section.dart';
 import 'package:sreerajp_textapp/shell/settings/sections/sync_section.dart';
 import 'package:sreerajp_textapp/shell/settings/settings_detail_screen.dart';
 
-/// The Settings screen (Phase 11; card layout).
+/// The Settings screen (card layout).
 ///
 /// Instead of one long scroll, the screen is a menu of cards — one per section
-/// (Appearance, Editor, Files & Tabs, Speech, Sync, Security, Help, About). Tapping a
-/// card opens that section on its own page ([SettingsDetailScreen]). The section
-/// widgets are unchanged; each is built with `showHeader: false` on its page
-/// because the app bar already shows the title.
+/// (Appearance, Features, Editor, Files & Tabs, Speech, Sync, Security, Audit,
+/// Backup, Help, About). Tapping a card opens that section on its own page
+/// ([SettingsDetailScreen]).
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -33,6 +33,13 @@ class SettingsScreen extends ConsumerWidget {
         title: l10n.appearSectionTitle,
         subtitle: l10n.appearCardSubtitle,
         builder: () => const AppearanceSection(showHeader: false),
+      ),
+      _SettingsCardData(
+        icon: Icons.stars_outlined,
+        title: l10n.featuresSectionTitle,
+        subtitle: l10n.featuresCardSubtitle,
+        builder: () => const FeaturesScreen(),
+        isFullScreen: true,
       ),
       _SettingsCardData(
         icon: Icons.edit_outlined,
@@ -95,12 +102,7 @@ class SettingsScreen extends ConsumerWidget {
       body: SafeArea(
         top: false,
         child: ListView(
-          padding: const EdgeInsets.only(
-            left: 12,
-            right: 12,
-            top: 8,
-            bottom: 24,
-          ),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
           children: [for (final card in cards) _SettingsCard(data: card)],
         ),
       ),
@@ -114,16 +116,18 @@ class _SettingsCardData {
   final String title;
   final String subtitle;
   final Widget Function() builder;
+  final bool isFullScreen;
 
   const _SettingsCardData({
     required this.icon,
     required this.title,
     required this.subtitle,
     required this.builder,
+    this.isFullScreen = false,
   });
 }
 
-/// A tappable card that opens its section on its own page.
+/// A styled card with a tinted icon badge that opens its section on its own page.
 class _SettingsCard extends StatelessWidget {
   final _SettingsCardData data;
 
@@ -132,17 +136,68 @@ class _SettingsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      child: ListTile(
-        leading: Icon(data.icon, color: theme.colorScheme.primary),
-        title: Text(data.title),
-        subtitle: Text(data.subtitle),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) =>
-                SettingsDetailScreen(title: data.title, child: data.builder()),
+    final accent = theme.colorScheme.primary;
+    final mutedText = theme.colorScheme.onSurfaceVariant;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Card(
+        margin: EdgeInsets.zero,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(
+            color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5),
+          ),
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(20),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => data.isFullScreen
+                  ? data.builder()
+                  : SettingsDetailScreen(
+                      title: data.title,
+                      child: data.builder(),
+                    ),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: accent.withValues(alpha: 0.14),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Icon(data.icon, color: accent, size: 24),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        data.title,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        data.subtitle,
+                        style: TextStyle(color: mutedText, fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(Icons.chevron_right, color: mutedText),
+              ],
+            ),
           ),
         ),
       ),

@@ -4693,5 +4693,69 @@
   "syncClientMatchOpenTab": "Or match with an open tab:",
   "@syncClientMatchOpenTab": {
     "description": "Heading above the open-tab list on the receive screen."
+  },
+  "featuresSectionTitle": "Features",
+  "@featuresSectionTitle": {
+    "description": "Title for the features catalog screen."
+  },
+  "featuresCardSubtitle": "Explore all capabilities of SreerajP Text App",
+  "@featuresCardSubtitle": {
+    "description": "Subtitle for the features card on the settings menu."
+  },
+  "featuresHeaderTitle": "SreerajP Text App Features",
+  "@featuresHeaderTitle": {
+    "description": "Header title on the features catalog screen."
+  },
+  "featuresHeaderSubtitle": "Explore every document format, powerful editor tool, offline sync, and privacy safeguard built for you.",
+  "@featuresHeaderSubtitle": {
+    "description": "Header subtitle on the features catalog screen."
+  },
+  "appearThemeSepiaInfo": "Sepia mode provides a warm, paper-like low-contrast look designed for comfortable long reading.",
+  "@appearThemeSepiaInfo": {
+    "description": "Explanation of the sepia theme mode in appearance settings."
+  },
+  "appearThemeSystemInfo": "System mode automatically matches your device's system-wide dark mode setting.",
+  "@appearThemeSystemInfo": {
+    "description": "Explanation of the system theme mode in appearance settings."
+  },
+  "appearEnglishFontSample": "The quick brown fox • 0123",
+  "@appearEnglishFontSample": {
+    "description": "Sample text rendered for English font preview."
+  },
+  "appearMalayalamFontSample": "മലയാളം സുന്ദരമാണ്",
+  "@appearMalayalamFontSample": {
+    "description": "Sample text rendered for Malayalam font preview."
+  },
+  "helpSectionHeader": "Help Center & User Guides",
+  "@helpSectionHeader": {
+    "description": "Header title on the help hub."
+  },
+  "helpSectionSubtitle": "Browse in-depth guides and tips for all features of SreerajP Text App.",
+  "@helpSectionSubtitle": {
+    "description": "Header subtitle on the help hub."
+  },
+  "helpCategoryEditing": "Editing & Documents",
+  "@helpCategoryEditing": {
+    "description": "Help category for editor and document management."
+  },
+  "helpCategoryData": "Data Querying & Analysis",
+  "@helpCategoryData": {
+    "description": "Help category for SQL, JSONPath, and XML tools."
+  },
+  "helpCategoryPrivacy": "Privacy & Security",
+  "@helpCategoryPrivacy": {
+    "description": "Help category for vault, lock, and audit features."
+  },
+  "helpCategorySync": "Sync & AirQR Transfer",
+  "@helpCategorySync": {
+    "description": "Help category for LAN sync and AirQR."
+  },
+  "helpCategoryVoice": "Voice & Accessibility",
+  "@helpCategoryVoice": {
+    "description": "Help category for TTS, speech, and themes."
+  },
+  "helpCategoryFaq": "Frequently Asked Questions",
+  "@helpCategoryFaq": {
+    "description": "Help category for FAQs and troubleshooting."
   }
 }

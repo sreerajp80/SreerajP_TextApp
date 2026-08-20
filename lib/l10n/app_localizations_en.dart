@@ -3539,4 +3539,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get syncClientMatchOpenTab => 'Or match with an open tab:';
+
+  @override
+  String get featuresSectionTitle => 'Features';
+
+  @override
+  String get featuresCardSubtitle =>
+      'Explore all capabilities of SreerajP Text App';
+
+  @override
+  String get featuresHeaderTitle => 'SreerajP Text App Features';
+
+  @override
+  String get featuresHeaderSubtitle =>
+      'Explore every document format, powerful editor tool, offline sync, and privacy safeguard built for you.';
+
+  @override
+  String get appearThemeSepiaInfo =>
+      'Sepia mode provides a warm, paper-like low-contrast look designed for comfortable long reading.';
+
+  @override
+  String get appearThemeSystemInfo =>
+      'System mode automatically matches your device\'s system-wide dark mode setting.';
+
+  @override
+  String get appearEnglishFontSample => 'The quick brown fox • 0123';
+
+  @override
+  String get appearMalayalamFontSample => 'മലയാളം സുന്ദരമാണ്';
+
+  @override
+  String get helpSectionHeader => 'Help Center & User Guides';
+
+  @override
+  String get helpSectionSubtitle =>
+      'Browse in-depth guides and tips for all features of SreerajP Text App.';
+
+  @override
+  String get helpCategoryEditing => 'Editing & Documents';
+
+  @override
+  String get helpCategoryData => 'Data Querying & Analysis';
+
+  @override
+  String get helpCategoryPrivacy => 'Privacy & Security';
+
+  @override
+  String get helpCategorySync => 'Sync & AirQR Transfer';
+
+  @override
+  String get helpCategoryVoice => 'Voice & Accessibility';
+
+  @override
+  String get helpCategoryFaq => 'Frequently Asked Questions';
 }

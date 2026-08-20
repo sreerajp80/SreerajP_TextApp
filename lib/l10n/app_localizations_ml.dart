@@ -3570,4 +3570,57 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get syncClientMatchOpenTab =>
       'അല്ലെങ്കിൽ തുറന്ന ഒരു ടാബുമായി ചേർക്കുക:';
+
+  @override
+  String get featuresSectionTitle => 'സവിശേഷതകൾ';
+
+  @override
+  String get featuresCardSubtitle =>
+      'ശ്രീരാജ്പി ടെക്സ്റ്റ് ആപ്പിന്റെ എല്ലാ സവിശേഷതകളും അറിയുക';
+
+  @override
+  String get featuresHeaderTitle => 'ശ്രീരാജ്പി ടെക്സ്റ്റ് ആപ്പ് സവിശേഷതകൾ';
+
+  @override
+  String get featuresHeaderSubtitle =>
+      'നിങ്ങൾക്കായി തയ്യാറാക്കിയ രേഖാ ഫോർമാറ്റുകൾ, എഡിറ്റർ ടൂളുകൾ, ഓഫ്‌ലൈൻ സമന്വയം, സ്വകാര്യതാ സുരക്ഷ എന്നിവ മനസ്സിലാക്കുക.';
+
+  @override
+  String get appearThemeSepiaInfo =>
+      'നീണ്ട വായനയ്ക്ക് അനുയോജ്യമായ മൃദുവായ വർണ്ണ ശൈലിയാണ് സെപിയ മോഡ്.';
+
+  @override
+  String get appearThemeSystemInfo =>
+      'സിസ്റ്റം മോഡ് ഉപകരണത്തിന്റെ ഡാർക്ക് മോഡ് ക്രമീകരണത്തിനനുസരിച്ച് സ്വയം മാറുന്നു.';
+
+  @override
+  String get appearEnglishFontSample => 'The quick brown fox • 0123';
+
+  @override
+  String get appearMalayalamFontSample => 'മലയാളം സുന്ദരമാണ്';
+
+  @override
+  String get helpSectionHeader => 'സഹായ കേന്ദ്രവും ഗൈഡുകളും';
+
+  @override
+  String get helpSectionSubtitle =>
+      'ശ്രീരാജ്പി ടെക്സ്റ്റ് ആപ്പിന്റെ എല്ലാ ഫീച്ചറുകൾക്കുമുള്ള വിശദമായ സഹായക്കുറിപ്പുകൾ.';
+
+  @override
+  String get helpCategoryEditing => 'രേഖകളും എഡിറ്റിംഗും';
+
+  @override
+  String get helpCategoryData => 'ഡാറ്റാ വിശകലനവും SQL അന്വേഷണവും';
+
+  @override
+  String get helpCategoryPrivacy => 'സ്വകാര്യതയും സുരക്ഷയും';
+
+  @override
+  String get helpCategorySync => 'സമന്വയവും AirQR കൈമാറ്റവും';
+
+  @override
+  String get helpCategoryVoice => 'ശബ്ദവും പ്രവേശനക്ഷമതയും';
+
+  @override
+  String get helpCategoryFaq => 'പതിവ് ചോദ്യങ്ങളും പരിഹാരങ്ങളും';
 }
