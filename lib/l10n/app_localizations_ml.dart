@@ -919,6 +919,9 @@ class AppLocalizationsMl extends AppLocalizations {
   }
 
   @override
+  String get aboutBuildDateLabel => 'ബിൽഡ് തീയതി';
+
+  @override
   String get aboutAuthor => 'രചയിതാവ്';
 
   @override

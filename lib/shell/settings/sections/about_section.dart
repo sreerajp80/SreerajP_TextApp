@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:sreerajp_textapp/core/config/app_config.dart';
 import 'package:sreerajp_textapp/core/config/config_service.dart';
+import 'package:sreerajp_textapp/core/constants/build_date.g.dart';
 import 'package:sreerajp_textapp/l10n/app_localizations.dart';
 import 'package:sreerajp_textapp/shell/settings/sections/settings_widgets.dart';
 
@@ -54,6 +55,10 @@ class AboutSection extends ConsumerWidget {
         ListTile(
           title: Text(l10n.aboutVersion),
           subtitle: Text(l10n.aboutVersionValue(c.version, c.build)),
+        ),
+        ListTile(
+          title: Text(l10n.aboutBuildDateLabel),
+          subtitle: const Text(kBuildDate),
         ),
         for (final entry in c.details.entries)
           if (entry.key.trim().isNotEmpty && entry.value.trim().isNotEmpty)

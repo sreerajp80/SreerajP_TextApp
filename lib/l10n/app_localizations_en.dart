@@ -903,6 +903,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get aboutBuildDateLabel => 'Build date';
+
+  @override
   String get aboutAuthor => 'Author';
 
   @override

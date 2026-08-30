@@ -1141,6 +1141,10 @@
       }
     }
   },
+  "aboutBuildDateLabel": "Build date",
+  "@aboutBuildDateLabel": {
+    "description": "About: build date label."
+  },
   "aboutAuthor": "Author",
   "@aboutAuthor": {
     "description": "About: author label."

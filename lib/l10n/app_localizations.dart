@@ -1688,6 +1688,12 @@ abstract class AppLocalizations {
   /// **'{version} (build {build})'**
   String aboutVersionValue(String version, String build);
 
+  /// About: build date label.
+  ///
+  /// In en, this message translates to:
+  /// **'Build date'**
+  String get aboutBuildDateLabel;
+
   /// About: author label.
   ///
   /// In en, this message translates to:

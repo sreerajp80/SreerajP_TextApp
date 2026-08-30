@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sreerajp_textapp/core/config/app_config.dart';
 import 'package:sreerajp_textapp/core/config/config_service.dart';
+import 'package:sreerajp_textapp/core/constants/build_date.g.dart';
 import 'package:sreerajp_textapp/shell/settings/sections/about_section.dart';
 
 import '../../support/test_support.dart';
@@ -42,6 +43,7 @@ void main() {
     expect(find.text('Example AI'), findsOneWidget);
     expect(find.text('IDE used'), findsOneWidget);
     expect(find.text('Example IDE'), findsOneWidget);
+    expect(find.text(kBuildDate), findsOneWidget);
     expect(find.text('Hidden label'), findsNothing);
     expect(find.text('Hidden value'), findsNothing);
     expect(

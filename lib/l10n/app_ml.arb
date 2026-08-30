@@ -265,6 +265,7 @@
   "aboutUnavailable": "ആപ്പ് വിശദാംശങ്ങൾ ലഭ്യമല്ല.",
   "aboutVersion": "പതിപ്പ്",
   "aboutVersionValue": "{version} (ബിൽഡ് {build})",
+  "aboutBuildDateLabel": "ബിൽഡ് തീയതി",
   "aboutAuthor": "രചയിതാവ്",
   "aboutContact": "ബന്ധപ്പെടുക",
   "aboutLicenses": "ലൈസൻസുകൾ",
